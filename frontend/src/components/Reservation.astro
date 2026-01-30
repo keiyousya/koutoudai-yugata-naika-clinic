@@ -745,10 +745,25 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
     const bookedMap = new Map<string, string[]>();
     results.forEach((r) => bookedMap.set(r.date, r.bookedTimes));
 
+    // 現在時刻 + 15分を計算
+    const now = new Date();
+    const cutoffTime = new Date(now.getTime() + 15 * 60 * 1000);
+    const cutoffHours = cutoffTime.getHours();
+    const cutoffMinutes = cutoffTime.getMinutes();
+
+    // 時間文字列を分に変換する関数
+    function timeToMinutes(timeStr: string): number {
+      const [h, m] = timeStr.split(":").map(Number);
+      return h * 60 + m;
+    }
+
+    const cutoffInMinutes = cutoffHours * 60 + cutoffMinutes;
+
     // セルを更新
     rows.forEach((row) => {
       const time = (row as HTMLElement).dataset.time!;
       const cells = row.querySelectorAll(".slot-cell");
+      const slotInMinutes = timeToMinutes(time);
 
       cells.forEach((cell, colIndex) => {
         const el = cell as HTMLElement;
@@ -756,7 +771,11 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
 
         const date = currentDates[colIndex];
         const booked = bookedMap.get(date) || [];
-        const isPast = date < todayStr;
+
+        // 過去判定: 日付が過去 OR (当日かつ時間枠が現在時刻+15分以内)
+        const isDatePast = date < todayStr;
+        const isTodayPastSlot = date === todayStr && slotInMinutes <= cutoffInMinutes;
+        const isPast = isDatePast || isTodayPastSlot;
 
         el.innerHTML = "";
         el.dataset.date = date;

@@ -5,12 +5,13 @@ const navItems = [
   { href: "#access", label: "アクセス" },
   { href: "#reservation", label: "ご予約" },
 ];
+const base = import.meta.env.BASE_URL;
 ---
 
 <header class="header">
   <div class="header-inner container">
-    <a href="/" class="logo">
-      <img src="/logo.png" alt="" class="logo-img" />
+    <a href={base} class="logo">
+      <img src={`${base}logo.png`} alt="" class="logo-img" />
       <span class="logo-main">勾当台夕方内科クリニック</span>
     </a>
     <nav class="nav">

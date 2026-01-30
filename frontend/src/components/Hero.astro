@@ -7,6 +7,10 @@
     <h1 class="hero-title">
       <span class="hero-title-main">勾当台夕方内科クリニック</span>
     </h1>
+    <div class="opening-notice">
+      <span class="opening-badge">開院準備中</span>
+      <span class="opening-date">2026年3月 開院予定</span>
+    </div>
     <p class="hero-description">
       水曜〜日曜、17:00〜21:00まで診療<br />
       勾当台公園駅から徒歩2分
@@ -86,7 +90,34 @@
   }
 
   .hero-title {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
+  }
+
+  .opening-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .opening-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .opening-date {
+    font-size: 1.1rem;
+    color: #d35400;
+    font-weight: 600;
+    letter-spacing: 0.05em;
   }
 
   .hero-title-main {
@@ -159,6 +190,20 @@
 
     .hero-description {
       font-size: 1rem;
+    }
+
+    .opening-notice {
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .opening-badge {
+      font-size: 0.8rem;
+      padding: 5px 12px;
+    }
+
+    .opening-date {
+      font-size: 0.95rem;
     }
 
     .badge {

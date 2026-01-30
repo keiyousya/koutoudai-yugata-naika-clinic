@@ -1,0 +1,190 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<section id="doctor" class="section doctor">
+  <div class="container">
+    <h2 class="section-title">院長紹介</h2>
+    <div class="doctor-content">
+      <div class="doctor-image">
+        <div class="image-placeholder">
+          <span>院長写真</span>
+        </div>
+      </div>
+      <div class="doctor-info">
+        <div class="doctor-name">
+          <span class="position">院長</span>
+          <h3>山田 太郎<span class="name-kana">やまだ たろう</span></h3>
+        </div>
+
+        <div class="doctor-career">
+          <h4>経歴</h4>
+          <ul>
+            <li>○○大学医学部 卒業</li>
+            <li>○○大学病院 内科 勤務</li>
+            <li>○○クリニック 勤務</li>
+            <li>20XX年 勾当台夕方内科クリニック 開院</li>
+          </ul>
+        </div>
+
+        <div class="doctor-qualifications">
+          <h4>資格・専門</h4>
+          <ul>
+            <li>日本内科学会 認定内科医</li>
+            <li>日本○○学会 専門医</li>
+          </ul>
+        </div>
+
+        <div class="doctor-message">
+          <h4>ご挨拶</h4>
+          <p>
+            当院は、仕事帰りの方々にも安心して受診いただけるよう、
+            夕方から夜間の診療に特化したクリニックです。
+          </p>
+          <p>
+            「ちょっと気になる症状があるけど、日中は仕事で病院に行けない」
+            そんな方々のお力になれれば幸いです。
+          </p>
+          <p>
+            些細なことでもお気軽にご相談ください。
+            皆様の健康をサポートできるよう、スタッフ一同努めてまいります。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .doctor {
+    background: white;
+  }
+
+  .doctor-content {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .doctor-image {
+    position: sticky;
+    top: 100px;
+  }
+
+  .image-placeholder {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background: linear-gradient(135deg, #e8f4f8, #d4e8ef);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4a90a4;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .doctor-image img {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .doctor-info {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .doctor-name {
+    border-bottom: 2px solid #e8f4f8;
+    padding-bottom: 20px;
+  }
+
+  .position {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: #4a90a4;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .doctor-name h3 {
+    font-size: 1.5rem;
+    color: #2c5f7c;
+  }
+
+  .name-kana {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #888;
+    margin-top: 4px;
+  }
+
+  .doctor-career h4,
+  .doctor-qualifications h4,
+  .doctor-message h4 {
+    font-size: 1rem;
+    color: #2c5f7c;
+    margin-bottom: 12px;
+    padding-left: 12px;
+    border-left: 3px solid #4a90a4;
+  }
+
+  .doctor-career ul,
+  .doctor-qualifications ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 16px;
+  }
+
+  .doctor-career li,
+  .doctor-qualifications li {
+    position: relative;
+    padding-left: 16px;
+    color: #555;
+    font-size: 0.95rem;
+  }
+
+  .doctor-career li::before,
+  .doctor-qualifications li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 6px;
+    height: 6px;
+    background: #4a90a4;
+    border-radius: 50%;
+  }
+
+  .doctor-message p {
+    color: #555;
+    line-height: 1.9;
+    margin-bottom: 12px;
+  }
+
+  .doctor-message p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .doctor-content {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .doctor-image {
+      position: static;
+      max-width: 240px;
+      margin: 0 auto;
+    }
+
+    .doctor-name h3 {
+      font-size: 1.3rem;
+    }
+  }
+</style>

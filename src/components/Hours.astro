@@ -1,0 +1,239 @@
+---
+const schedule = [
+  { day: "月", open: false },
+  { day: "火", open: false },
+  { day: "水", open: true },
+  { day: "木", open: true },
+  { day: "金", open: true },
+  { day: "土", open: true },
+  { day: "日", open: true },
+];
+---
+
+<section id="hours" class="section hours">
+  <div class="container">
+    <h2 class="section-title">診療時間</h2>
+    <div class="hours-content">
+      <div class="hours-main">
+        <p class="hours-time">
+          <span class="time-label">診療時間</span>
+          <span class="time-value">17:00 - 21:00</span>
+        </p>
+        <p class="hours-note">※最終受付は20:30までとなります</p>
+      </div>
+
+      <div class="schedule-table">
+        <div class="schedule-header">
+          <span>診療日カレンダー</span>
+        </div>
+        <div class="schedule-grid">
+          {
+            schedule.map((item) => (
+              <div class={`schedule-cell ${item.open ? "open" : "closed"}`}>
+                <span class="day">{item.day}</span>
+                <span class="status">{item.open ? "○" : "休"}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="hours-info">
+        <div class="info-item">
+          <span class="info-icon open">○</span>
+          <span>診療日（水〜日）</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon closed">休</span>
+          <span>休診日（月・火）</span>
+        </div>
+      </div>
+
+      <div class="hours-notice">
+        <p>
+          ※祝日の診療については、お知らせまたはお電話にてご確認ください。<br />
+          ※急な休診の場合は、当院ウェブサイトにてお知らせいたします。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hours {
+    background: linear-gradient(180deg, #f8fbfc, #fff);
+  }
+
+  .hours-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .hours-main {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 32px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .hours-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .time-label {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .time-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c5f7c;
+    letter-spacing: 0.05em;
+  }
+
+  .hours-note {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .schedule-table {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    margin-bottom: 24px;
+  }
+
+  .schedule-header {
+    background: #2c5f7c;
+    color: white;
+    padding: 16px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .schedule-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 8px;
+    border-right: 1px solid #eee;
+  }
+
+  .schedule-cell:last-child {
+    border-right: none;
+  }
+
+  .schedule-cell .day {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .schedule-cell .status {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .schedule-cell.open .status {
+    color: #4a90a4;
+  }
+
+  .schedule-cell.closed .status {
+    color: #ccc;
+  }
+
+  .schedule-cell.closed {
+    background: #f9f9f9;
+  }
+
+  .hours-info {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 24px;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .info-icon.open {
+    background: #e8f4f8;
+    color: #4a90a4;
+  }
+
+  .info-icon.closed {
+    background: #f5f5f5;
+    color: #999;
+  }
+
+  .hours-notice {
+    text-align: center;
+    padding: 20px;
+    background: #fff9e6;
+    border-radius: 12px;
+    border: 1px solid #ffe7a0;
+  }
+
+  .hours-notice p {
+    font-size: 0.85rem;
+    color: #8b7355;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 768px) {
+    .time-value {
+      font-size: 2rem;
+    }
+
+    .schedule-cell {
+      padding: 16px 4px;
+    }
+
+    .schedule-cell .day {
+      font-size: 0.8rem;
+    }
+
+    .schedule-cell .status {
+      font-size: 1rem;
+    }
+
+    .hours-info {
+      gap: 16px;
+      font-size: 0.85rem;
+    }
+
+    .hours-notice p {
+      font-size: 0.8rem;
+      text-align: left;
+    }
+  }
+</style>

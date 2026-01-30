@@ -1,0 +1,159 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-info">
+        <h3 class="footer-logo">勾当台夕方内科クリニック</h3>
+        <address class="footer-address">
+          〒980-0803<br />
+          宮城県仙台市青葉区国分町3丁目8-1<br />
+          勾当台ビル 401号室
+        </address>
+        <p class="footer-tel">
+          <a href="tel:022-XXX-XXXX">022-XXX-XXXX</a>
+        </p>
+      </div>
+
+      <div class="footer-hours">
+        <h4>診療時間</h4>
+        <p>17:00 - 21:00</p>
+        <p class="footer-days">水・木・金・土・日</p>
+        <p class="footer-closed">月・火 休診</p>
+      </div>
+
+      <div class="footer-nav">
+        <h4>メニュー</h4>
+        <ul>
+          <li><a href="#about">当院について</a></li>
+          <li><a href="#hours">診療時間</a></li>
+          <li><a href="#access">アクセス</a></li>
+          <li><a href="#reservation">ご予約</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="copyright">
+        &copy; {currentYear} 勾当台夕方内科クリニック All Rights Reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: #2c5f7c;
+    color: white;
+    padding: 60px 0 24px;
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-address {
+    font-style: normal;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    opacity: 0.9;
+    margin-bottom: 12px;
+  }
+
+  .footer-tel a {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: white;
+    transition: opacity 0.2s;
+  }
+
+  .footer-tel a:hover {
+    opacity: 0.8;
+  }
+
+  .footer-hours h4,
+  .footer-nav h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .footer-hours p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 4px;
+  }
+
+  .footer-days {
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+
+  .footer-closed {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+
+  .footer-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-nav a {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+  }
+
+  .footer-nav a:hover {
+    opacity: 1;
+  }
+
+  .footer-bottom {
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+  }
+
+  .copyright {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .footer {
+      padding: 48px 0 24px;
+    }
+
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      text-align: center;
+    }
+
+    .footer-hours h4,
+    .footer-nav h4 {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .footer-nav ul {
+      gap: 8px;
+    }
+  }
+</style>

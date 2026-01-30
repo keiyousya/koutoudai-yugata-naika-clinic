@@ -1,0 +1,337 @@
+---
+// 予約システムの設定
+// 将来のバックエンド連携に備えた構造
+interface ReservationConfig {
+  enabled: boolean;
+  apiEndpoint?: string;
+}
+
+const reservationConfig: ReservationConfig = {
+  enabled: false, // バックエンド構築後にtrueに変更
+  apiEndpoint: "/api/reservations", // 将来のAPIエンドポイント
+};
+---
+
+<section id="reservation" class="section reservation">
+  <div class="container">
+    <h2 class="section-title">ご予約・お問い合わせ</h2>
+    <div class="reservation-content">
+      {
+        reservationConfig.enabled ? (
+          <div class="reservation-form-wrapper" id="reservation-form">
+            {/* 将来のオンライン予約フォーム */}
+            <form class="reservation-form" data-api={reservationConfig.apiEndpoint}>
+              <div class="form-group">
+                <label for="name">お名前</label>
+                <input type="text" id="name" name="name" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">電話番号</label>
+                <input type="tel" id="phone" name="phone" required />
+              </div>
+              <div class="form-group">
+                <label for="email">メールアドレス</label>
+                <input type="email" id="email" name="email" />
+              </div>
+              <div class="form-group">
+                <label for="date">ご希望日</label>
+                <input type="date" id="date" name="date" required />
+              </div>
+              <div class="form-group">
+                <label for="time">ご希望時間帯</label>
+                <select id="time" name="time" required>
+                  <option value="">選択してください</option>
+                  <option value="17:00">17:00〜17:30</option>
+                  <option value="17:30">17:30〜18:00</option>
+                  <option value="18:00">18:00〜18:30</option>
+                  <option value="18:30">18:30〜19:00</option>
+                  <option value="19:00">19:00〜19:30</option>
+                  <option value="19:30">19:30〜20:00</option>
+                  <option value="20:00">20:00〜20:30</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="symptoms">症状・ご相談内容</label>
+                <textarea id="symptoms" name="symptoms" rows="4" />
+              </div>
+              <button type="submit" class="submit-btn">予約を送信する</button>
+            </form>
+          </div>
+        ) : (
+          <div class="reservation-info">
+            <div class="info-card phone-card">
+              <div class="card-icon">&#128222;</div>
+              <h3>お電話でのご予約</h3>
+              <a href="tel:022-XXX-XXXX" class="phone-number">022-XXX-XXXX</a>
+              <p class="phone-hours">受付時間: 17:00〜20:30（水〜日）</p>
+            </div>
+
+            <div class="info-card visit-card">
+              <div class="card-icon">&#127970;</div>
+              <h3>直接ご来院</h3>
+              <p>予約なしでもご来院いただけます。</p>
+              <p class="visit-note">※混雑状況によりお待ちいただく場合がございます</p>
+            </div>
+
+            <div class="coming-soon">
+              <p>
+                <span class="badge-soon">準備中</span>
+                オンライン予約システムは現在準備中です。<br />
+                サービス開始までしばらくお待ちください。
+              </p>
+            </div>
+          </div>
+        )
+      }
+
+      <div class="notice-box">
+        <h4>ご来院時のお願い</h4>
+        <ul>
+          <li>保険証をお持ちください</li>
+          <li>お薬手帳をお持ちの方はご持参ください</li>
+          <li>発熱や咳の症状がある方は、事前にお電話にてご相談ください</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reservation {
+    background: linear-gradient(180deg, #f8fbfc, #e8f4f8);
+  }
+
+  .reservation-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* 予約情報カード */
+  .reservation-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .info-card {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+  }
+
+  .info-card h3 {
+    font-size: 1.1rem;
+    color: #2c5f7c;
+    margin-bottom: 16px;
+  }
+
+  .phone-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4a90a4;
+    margin-bottom: 8px;
+    transition: color 0.2s;
+  }
+
+  .phone-number:hover {
+    color: #2c5f7c;
+  }
+
+  .phone-hours {
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .visit-card p {
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .visit-note {
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .coming-soon {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 24px;
+    background: white;
+    border-radius: 12px;
+    border: 2px dashed #d4e8ef;
+  }
+
+  .coming-soon p {
+    color: #666;
+    font-size: 0.95rem;
+  }
+
+  .badge-soon {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #4a90a4;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 20px;
+    margin-right: 8px;
+  }
+
+  /* 予約フォーム（将来用） */
+  .reservation-form-wrapper {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    margin-bottom: 32px;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #4a90a4;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #4a90a4, #3d7a8c);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(74, 144, 164, 0.4);
+  }
+
+  /* 注意事項 */
+  .notice-box {
+    background: white;
+    padding: 24px 32px;
+    border-radius: 12px;
+    border-left: 4px solid #4a90a4;
+  }
+
+  .notice-box h4 {
+    font-size: 1rem;
+    color: #2c5f7c;
+    margin-bottom: 16px;
+  }
+
+  .notice-box ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .notice-box li {
+    position: relative;
+    padding-left: 20px;
+    color: #555;
+    font-size: 0.95rem;
+  }
+
+  .notice-box li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #4a90a4;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .reservation-info {
+      grid-template-columns: 1fr;
+    }
+
+    .info-card {
+      padding: 24px;
+    }
+
+    .reservation-form-wrapper {
+      padding: 24px;
+    }
+
+    .notice-box {
+      padding: 20px 24px;
+    }
+  }
+</style>
+
+<script>
+  // 将来のバックエンド連携用スクリプト
+  const form = document.querySelector(".reservation-form") as HTMLFormElement;
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const apiEndpoint = form.dataset.api;
+      if (!apiEndpoint) return;
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch(apiEndpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          alert("予約を受け付けました。確認のご連絡をお待ちください。");
+          form.reset();
+        } else {
+          throw new Error("予約の送信に失敗しました");
+        }
+      } catch (error) {
+        alert("エラーが発生しました。お電話にてご予約ください。");
+        console.error(error);
+      }
+    });
+  }
+</script>

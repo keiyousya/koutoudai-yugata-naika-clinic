@@ -1,0 +1,222 @@
+---
+---
+
+<section id="access" class="section access">
+  <div class="container">
+    <h2 class="section-title">アクセス</h2>
+    <div class="access-content">
+      <div class="access-info">
+        <div class="clinic-name">
+          <h3>勾当台夕方内科クリニック</h3>
+        </div>
+
+        <dl class="info-list">
+          <div class="info-row">
+            <dt>住所</dt>
+            <dd>
+              〒980-0803<br />
+              宮城県仙台市青葉区国分町3丁目8-1<br />
+              勾当台ビル 401号室
+            </dd>
+          </div>
+          <div class="info-row">
+            <dt>最寄駅</dt>
+            <dd>
+              仙台市地下鉄南北線<br />
+              <strong>勾当台公園駅</strong> 徒歩2分
+            </dd>
+          </div>
+          <div class="info-row">
+            <dt>電話番号</dt>
+            <dd>
+              <a href="tel:022-XXX-XXXX" class="tel">022-XXX-XXXX</a>
+            </dd>
+          </div>
+        </dl>
+
+        <div class="directions">
+          <h4>ビルへの入り方</h4>
+          <ol class="directions-list">
+            <li>
+              <span class="step-num">1</span>
+              <span>勾当台ビルの看板がある入り口からお入りください</span>
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              <span>エレベーターで4階までお上がりください</span>
+            </li>
+            <li>
+              <span class="step-num">3</span>
+              <span>エレベーターを降りて、すぐ左手に当院の扉がございます</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="access-map">
+        <div class="map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3132.1!2d140.8689!3d38.2656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDE1JzU2LjIiTiAxNDDCsDUyJzA4LjAiRQ!5e0!3m2!1sja!2sjp!4v1600000000000!5m2!1sja!2sjp"
+            width="100%"
+            height="100%"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="勾当台夕方内科クリニックの地図"></iframe>
+        </div>
+        <a
+          href="https://maps.google.com/?q=宮城県仙台市青葉区国分町3丁目8-1"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="map-link"
+        >
+          Google マップで開く →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .access {
+    background: white;
+  }
+
+  .access-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .clinic-name h3 {
+    font-size: 1.3rem;
+    color: #2c5f7c;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e8f4f8;
+  }
+
+  .info-list {
+    margin-bottom: 32px;
+  }
+
+  .info-row {
+    display: flex;
+    padding: 16px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .info-row:last-child {
+    border-bottom: none;
+  }
+
+  .info-row dt {
+    width: 100px;
+    flex-shrink: 0;
+    font-weight: 500;
+    color: #4a90a4;
+    font-size: 0.9rem;
+  }
+
+  .info-row dd {
+    color: #444;
+    line-height: 1.8;
+  }
+
+  .info-row dd strong {
+    color: #2c5f7c;
+  }
+
+  .tel {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2c5f7c;
+  }
+
+  .tel:hover {
+    color: #4a90a4;
+  }
+
+  .directions {
+    background: #f8fbfc;
+    padding: 24px;
+    border-radius: 12px;
+  }
+
+  .directions h4 {
+    font-size: 1rem;
+    color: #2c5f7c;
+    margin-bottom: 16px;
+  }
+
+  .directions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .directions-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: #4a90a4;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .map-container {
+    width: 100%;
+    height: 350px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .map-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    color: #4a90a4;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .map-link:hover {
+    color: #2c5f7c;
+  }
+
+  @media (max-width: 768px) {
+    .access-content {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .info-row {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .info-row dt {
+      width: auto;
+    }
+
+    .map-container {
+      height: 280px;
+    }
+  }
+</style>

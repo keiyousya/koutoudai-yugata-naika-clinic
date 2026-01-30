@@ -1,0 +1,129 @@
+---
+---
+
+<section id="about" class="section about">
+  <div class="container">
+    <h2 class="section-title">当院について</h2>
+    <div class="about-content">
+      <div class="about-text">
+        <p class="about-lead">
+          お仕事帰りや夕方のお時間に、<br class="sp-only" />気軽に受診できるクリニックです。
+        </p>
+        <p class="about-description">
+          「日中は仕事で病院に行けない」「夜間救急に行くほどではないけれど診てほしい」<br />
+          そんな方々のために、夕方から夜にかけての時間帯に診療を行っています。<br />
+          風邪や体調不良、生活習慣病の相談など、内科全般に対応しております。
+        </p>
+        <ul class="about-features">
+          <li class="feature-item">
+            <span class="feature-icon">&#128337;</span>
+            <div>
+              <strong>夕方〜夜間診療</strong>
+              <p>17:00〜21:00まで診療。お仕事帰りにも立ち寄れます。</p>
+            </div>
+          </li>
+          <li class="feature-item">
+            <span class="feature-icon">&#128197;</span>
+            <div>
+              <strong>土日も診療</strong>
+              <p>平日だけでなく、土曜・日曜も診療を行っています。</p>
+            </div>
+          </li>
+          <li class="feature-item">
+            <span class="feature-icon">&#128652;</span>
+            <div>
+              <strong>駅から徒歩2分</strong>
+              <p>地下鉄南北線 勾当台公園駅から徒歩2分の好アクセス。</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    background: white;
+  }
+
+  .about-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .about-lead {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #2c5f7c;
+    text-align: center;
+    margin-bottom: 24px;
+    line-height: 1.8;
+  }
+
+  .about-description {
+    text-align: center;
+    color: #555;
+    margin-bottom: 48px;
+    line-height: 2;
+  }
+
+  .about-features {
+    display: grid;
+    gap: 24px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px;
+    background: #f8fbfc;
+    border-radius: 12px;
+    border-left: 4px solid #4a90a4;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .feature-item strong {
+    display: block;
+    font-size: 1.1rem;
+    color: #2c5f7c;
+    margin-bottom: 8px;
+  }
+
+  .feature-item p {
+    color: #666;
+    font-size: 0.95rem;
+  }
+
+  .sp-only {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .sp-only {
+      display: inline;
+    }
+
+    .about-lead {
+      font-size: 1.1rem;
+    }
+
+    .about-description {
+      font-size: 0.95rem;
+      text-align: left;
+    }
+
+    .feature-item {
+      padding: 20px;
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+    }
+  }
+</style>

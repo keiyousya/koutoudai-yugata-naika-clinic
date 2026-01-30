@@ -1,0 +1,174 @@
+---
+---
+
+<section class="hero">
+  <div class="hero-content container">
+    <p class="hero-catchphrase">仕事帰りに、安心の医療を。</p>
+    <h1 class="hero-title">
+      <span class="hero-title-main">勾当台夕方内科クリニック</span>
+    </h1>
+    <p class="hero-description">
+      水曜〜日曜、17:00〜21:00まで診療<br />
+      勾当台公園駅から徒歩2分
+    </p>
+    <div class="hero-badges">
+      <span class="badge">夕方専門診療</span>
+      <span class="badge">土日も診療</span>
+      <span class="badge">駅チカ</span>
+    </div>
+    <a href="#reservation" class="hero-cta">ご予約・お問い合わせ</a>
+  </div>
+  <div class="hero-bg"></div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: 70px;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      #e8f4f8 0%,
+      #d4e8ef 50%,
+      #c5dce6 100%
+    );
+    z-index: -2;
+  }
+
+  .hero-bg::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 80%;
+    height: 150%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(74, 144, 164, 0.15) 0%,
+      transparent 70%
+    );
+  }
+
+  .hero-bg::after {
+    content: "";
+    position: absolute;
+    bottom: -20%;
+    left: -20%;
+    width: 60%;
+    height: 80%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(107, 179, 201, 0.1) 0%,
+      transparent 70%
+    );
+  }
+
+  .hero-content {
+    text-align: center;
+    z-index: 1;
+  }
+
+  .hero-catchphrase {
+    font-size: 1.1rem;
+    color: #4a90a4;
+    margin-bottom: 16px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-title {
+    margin-bottom: 24px;
+  }
+
+  .hero-title-main {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c5f7c;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 32px;
+    line-height: 2;
+  }
+
+  .hero-badges {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background: white;
+    border: 1px solid #4a90a4;
+    color: #4a90a4;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 50px;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 16px 48px;
+    background: linear-gradient(135deg, #4a90a4, #3d7a8c);
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 50px;
+    box-shadow: 0 4px 20px rgba(74, 144, 164, 0.4);
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(74, 144, 164, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      min-height: calc(100vh - 20px);
+      padding: 100px 0 60px;
+    }
+
+    .hero-catchphrase {
+      font-size: 0.95rem;
+    }
+
+    .hero-title-main {
+      font-size: 1.75rem;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+    }
+
+    .badge {
+      font-size: 0.8rem;
+      padding: 6px 16px;
+    }
+
+    .hero-cta {
+      padding: 14px 36px;
+      font-size: 0.95rem;
+    }
+  }
+</style>

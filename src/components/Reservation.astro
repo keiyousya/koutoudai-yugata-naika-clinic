@@ -1,14 +1,8 @@
 ---
 // 予約システムの設定
-// 将来のバックエンド連携に備えた構造
-interface ReservationConfig {
-  enabled: boolean;
-  apiEndpoint?: string;
-}
-
-const reservationConfig: ReservationConfig = {
-  enabled: false, // バックエンド構築後にtrueに変更
-  apiEndpoint: "/api/reservations", // 将来のAPIエンドポイント
+const reservationConfig = {
+  enabled: true,
+  apiBaseUrl: "https://koutoudai-reservation-api.kit-tamtam.workers.dev",
 };
 ---
 
@@ -19,42 +13,50 @@ const reservationConfig: ReservationConfig = {
       {
         reservationConfig.enabled ? (
           <div class="reservation-form-wrapper" id="reservation-form">
-            {/* 将来のオンライン予約フォーム */}
-            <form class="reservation-form" data-api={reservationConfig.apiEndpoint}>
-              <div class="form-group">
-                <label for="name">お名前</label>
-                <input type="text" id="name" name="name" required />
-              </div>
-              <div class="form-group">
-                <label for="phone">電話番号</label>
-                <input type="tel" id="phone" name="phone" required />
+            <form class="reservation-form" data-api={reservationConfig.apiBaseUrl}>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">お名前 <span class="required">*</span></label>
+                  <input type="text" id="name" name="name" required placeholder="山田 太郎" />
+                </div>
+                <div class="form-group">
+                  <label for="phone">電話番号 <span class="required">*</span></label>
+                  <input type="tel" id="phone" name="phone" required placeholder="090-1234-5678" />
+                </div>
               </div>
               <div class="form-group">
                 <label for="email">メールアドレス</label>
-                <input type="email" id="email" name="email" />
+                <input type="email" id="email" name="email" placeholder="example@email.com" />
               </div>
-              <div class="form-group">
-                <label for="date">ご希望日</label>
-                <input type="date" id="date" name="date" required />
-              </div>
-              <div class="form-group">
-                <label for="time">ご希望時間帯</label>
-                <select id="time" name="time" required>
-                  <option value="">選択してください</option>
-                  <option value="17:00">17:00〜17:30</option>
-                  <option value="17:30">17:30〜18:00</option>
-                  <option value="18:00">18:00〜18:30</option>
-                  <option value="18:30">18:30〜19:00</option>
-                  <option value="19:00">19:00〜19:30</option>
-                  <option value="19:30">19:30〜20:00</option>
-                  <option value="20:00">20:00〜20:30</option>
-                </select>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="date">ご希望日 <span class="required">*</span></label>
+                  <input type="date" id="date" name="date" required />
+                </div>
+                <div class="form-group">
+                  <label for="time">ご希望時間 <span class="required">*</span></label>
+                  <select id="time" name="time" required>
+                    <option value="">選択してください</option>
+                    <option value="17:00">17:00〜</option>
+                    <option value="17:30">17:30〜</option>
+                    <option value="18:00">18:00〜</option>
+                    <option value="18:30">18:30〜</option>
+                    <option value="19:00">19:00〜</option>
+                    <option value="19:30">19:30〜</option>
+                    <option value="20:00">20:00〜</option>
+                    <option value="20:30">20:30〜</option>
+                  </select>
+                </div>
               </div>
               <div class="form-group">
                 <label for="symptoms">症状・ご相談内容</label>
-                <textarea id="symptoms" name="symptoms" rows="4" />
+                <textarea id="symptoms" name="symptoms" rows="4" placeholder="気になる症状やご相談内容をご記入ください" />
               </div>
-              <button type="submit" class="submit-btn">予約を送信する</button>
+              <button type="submit" class="submit-btn">
+                <span class="btn-text">予約を送信する</span>
+                <span class="btn-loading" style="display: none;">送信中...</span>
+              </button>
+              <p class="form-note">※ 予約確定後、クリニックよりご連絡いたします</p>
             </form>
           </div>
         ) : (
@@ -186,13 +188,19 @@ const reservationConfig: ReservationConfig = {
     margin-right: 8px;
   }
 
-  /* 予約フォーム（将来用） */
+  /* 予約フォーム */
   .reservation-form-wrapper {
     background: white;
     padding: 40px;
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     margin-bottom: 32px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
   }
 
   .form-group {
@@ -206,6 +214,10 @@ const reservationConfig: ReservationConfig = {
     color: #333;
   }
 
+  .required {
+    color: #e74c3c;
+  }
+
   .form-group input,
   .form-group select,
   .form-group textarea {
@@ -215,7 +227,12 @@ const reservationConfig: ReservationConfig = {
     border-radius: 8px;
     font-size: 1rem;
     font-family: inherit;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #aaa;
   }
 
   .form-group input:focus,
@@ -223,6 +240,7 @@ const reservationConfig: ReservationConfig = {
   .form-group textarea:focus {
     outline: none;
     border-color: #4a90a4;
+    box-shadow: 0 0 0 3px rgba(74, 144, 164, 0.1);
   }
 
   .submit-btn {
@@ -235,14 +253,24 @@ const reservationConfig: ReservationConfig = {
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
-    transition:
-      transform 0.2s,
-      box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
 
-  .submit-btn:hover {
+  .submit-btn:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 4px 20px rgba(74, 144, 164, 0.4);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .form-note {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.85rem;
+    color: #888;
   }
 
   /* 注意事項 */
@@ -293,6 +321,11 @@ const reservationConfig: ReservationConfig = {
       padding: 24px;
     }
 
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
     .notice-box {
       padding: 20px 24px;
     }
@@ -300,21 +333,73 @@ const reservationConfig: ReservationConfig = {
 </style>
 
 <script>
-  // 将来のバックエンド連携用スクリプト
   const form = document.querySelector(".reservation-form") as HTMLFormElement;
+  const dateInput = document.getElementById("date") as HTMLInputElement;
+  const timeSelect = document.getElementById("time") as HTMLSelectElement;
 
+  // 日付の最小値を今日に設定
+  if (dateInput) {
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.min = today;
+  }
+
+  // 日付変更時に空き状況を取得
+  if (dateInput && timeSelect) {
+    dateInput.addEventListener("change", async () => {
+      const date = dateInput.value;
+      if (!date) return;
+
+      const apiBase = form?.dataset.api;
+      if (!apiBase) return;
+
+      try {
+        const res = await fetch(`${apiBase}/api/availability/${date}`);
+        if (res.ok) {
+          const data = await res.json();
+          updateTimeSlots(data.availableSlots, data.bookedTimes);
+        }
+      } catch (e) {
+        console.error("空き状況の取得に失敗しました", e);
+      }
+    });
+  }
+
+  function updateTimeSlots(available: string[], booked: string[]) {
+    const options = timeSelect.querySelectorAll("option");
+    options.forEach((opt) => {
+      if (opt.value === "") return;
+      if (booked.includes(opt.value)) {
+        opt.disabled = true;
+        opt.textContent = `${opt.value}〜（予約済み）`;
+      } else {
+        opt.disabled = false;
+        opt.textContent = `${opt.value}〜`;
+      }
+    });
+  }
+
+  // フォーム送信
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const apiEndpoint = form.dataset.api;
-      if (!apiEndpoint) return;
+      const apiBase = form.dataset.api;
+      if (!apiBase) return;
+
+      const submitBtn = form.querySelector(".submit-btn") as HTMLButtonElement;
+      const btnText = submitBtn.querySelector(".btn-text") as HTMLElement;
+      const btnLoading = submitBtn.querySelector(".btn-loading") as HTMLElement;
+
+      // ローディング状態
+      submitBtn.disabled = true;
+      btnText.style.display = "none";
+      btnLoading.style.display = "inline";
 
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
       try {
-        const response = await fetch(apiEndpoint, {
+        const response = await fetch(`${apiBase}/api/reservations`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -322,15 +407,21 @@ const reservationConfig: ReservationConfig = {
           body: JSON.stringify(data),
         });
 
+        const result = await response.json();
+
         if (response.ok) {
-          alert("予約を受け付けました。確認のご連絡をお待ちください。");
+          alert("予約を受け付けました。クリニックからの確認連絡をお待ちください。");
           form.reset();
         } else {
-          throw new Error("予約の送信に失敗しました");
+          alert(result.error || "予約の送信に失敗しました");
         }
       } catch (error) {
         alert("エラーが発生しました。お電話にてご予約ください。");
         console.error(error);
+      } finally {
+        submitBtn.disabled = false;
+        btnText.style.display = "inline";
+        btnLoading.style.display = "none";
       }
     });
   }

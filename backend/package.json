@@ -1,0 +1,19 @@
+{
+  "name": "koutoudai-reservation-api",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:setup": "node scripts/setup-db.js"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.17.0",
+    "hono": "^4.11.7"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.61.1"
+  }
+}

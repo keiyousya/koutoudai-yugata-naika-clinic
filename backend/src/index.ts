@@ -13,10 +13,13 @@ const app = new Hono<{ Bindings: Bindings }>();
 app.use(
   "/api/*",
   cors({
-    origin: [
-      "http://localhost:4321",
-      "https://keiyousya.github.io",
-    ],
+    origin: (origin) => {
+      // ローカル開発を許可
+      if (origin?.startsWith("http://localhost:")) return origin;
+      // 本番を許可
+      if (origin === "https://keiyousya.github.io") return origin;
+      return null;
+    },
     allowMethods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
@@ -48,10 +51,10 @@ app.post("/api/reservations", async (c) => {
   const db = getDb(c.env);
   const body = await c.req.json();
 
-  const { name, phone, email, date, time, symptoms } = body;
+  const { name, name_kana, phone, email, gender, birthdate, visit_type, date, time, symptoms } = body;
 
   // バリデーション
-  if (!name || !phone || !date || !time) {
+  if (!name || !name_kana || !phone || !gender || !birthdate || !visit_type || !date || !time) {
     return c.json({ error: "必須項目が不足しています" }, 400);
   }
 
@@ -67,9 +70,9 @@ app.post("/api/reservations", async (c) => {
 
   // 予約登録
   const result = await db.execute({
-    sql: `INSERT INTO reservations (name, phone, email, date, time, symptoms, status, created_at)
-          VALUES (?, ?, ?, ?, ?, ?, 'pending', datetime('now'))`,
-    args: [name, phone, email || null, date, time, symptoms || null],
+    sql: `INSERT INTO reservations (name, name_kana, phone, email, gender, birthdate, visit_type, date, time, symptoms, status, created_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'not_visited', datetime('now'))`,
+    args: [name, name_kana, phone, email || null, gender, birthdate, visit_type, date, time, symptoms || null],
   });
 
   return c.json(
@@ -106,7 +109,15 @@ app.put("/api/reservations/:id", async (c) => {
   const body = await c.req.json();
   const { status } = body;
 
-  if (!["pending", "confirmed", "cancelled"].includes(status)) {
+  const validStatuses = [
+    "not_visited",  // 未来院
+    "checked_in",   // 受付済
+    "in_consultation", // 診察中
+    "consultation_done", // 診察終了
+    "paid",         // 会計済
+    "cancelled",    // キャンセル
+  ];
+  if (!validStatuses.includes(status)) {
     return c.json({ error: "無効なステータスです" }, 400);
   }
 
@@ -144,16 +155,12 @@ app.get("/api/availability/:date", async (c) => {
 
   const bookedTimes = result.rows.map((row) => row.time);
 
-  // 全時間枠
+  // 全時間枠（15分単位）
   const allSlots = [
-    "17:00",
-    "17:30",
-    "18:00",
-    "18:30",
-    "19:00",
-    "19:30",
-    "20:00",
-    "20:30",
+    "17:00", "17:15", "17:30", "17:45",
+    "18:00", "18:15", "18:30", "18:45",
+    "19:00", "19:15", "19:30", "19:45",
+    "20:00", "20:15", "20:30", "20:45",
   ];
 
   // 空き時間を計算

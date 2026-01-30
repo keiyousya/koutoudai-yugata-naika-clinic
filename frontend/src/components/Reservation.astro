@@ -1,0 +1,941 @@
+---
+// 予約システムの設定
+const reservationConfig = {
+  enabled: true,
+  apiBaseUrl: import.meta.env.PUBLIC_API_URL || "https://koutoudai-reservation-api.kit-tamtam.workers.dev",
+};
+
+// 診療時間枠（15分単位）
+const timeSlots = [
+  "17:00", "17:15", "17:30", "17:45",
+  "18:00", "18:15", "18:30", "18:45",
+  "19:00", "19:15", "19:30", "19:45",
+  "20:00", "20:15", "20:30", "20:45",
+];
+
+// 生年月日のデフォルト値（40年前）
+const defaultBirthYear = new Date().getFullYear() - 40;
+const defaultBirthdate = `${defaultBirthYear}-01-01`;
+---
+
+<section id="reservation" class="section reservation">
+  <div class="container">
+    <h2 class="section-title">ご予約・お問い合わせ</h2>
+    <div class="reservation-content">
+      {
+        reservationConfig.enabled ? (
+          <div class="reservation-form-wrapper" id="reservation-form">
+            <form class="reservation-form" data-api={reservationConfig.apiBaseUrl}>
+              {/* 氏名 */}
+              <div class="form-section">
+                <h3 class="form-section-title">お名前</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="last_name">姓 <span class="required">*</span></label>
+                    <input type="text" id="last_name" name="last_name" required placeholder="山田" />
+                  </div>
+                  <div class="form-group">
+                    <label for="first_name">名 <span class="required">*</span></label>
+                    <input type="text" id="first_name" name="first_name" required placeholder="太郎" />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="last_name_kana">セイ <span class="required">*</span></label>
+                    <input type="text" id="last_name_kana" name="last_name_kana" required placeholder="ヤマダ" />
+                  </div>
+                  <div class="form-group">
+                    <label for="first_name_kana">メイ <span class="required">*</span></label>
+                    <input type="text" id="first_name_kana" name="first_name_kana" required placeholder="タロウ" />
+                  </div>
+                </div>
+              </div>
+
+              {/* 基本情報 */}
+              <div class="form-section">
+                <h3 class="form-section-title">基本情報</h3>
+                <div class="form-row form-row-3">
+                  <div class="form-group">
+                    <label for="gender">性別 <span class="required">*</span></label>
+                    <select id="gender" name="gender" required>
+                      <option value="">選択</option>
+                      <option value="male">男性</option>
+                      <option value="female">女性</option>
+                      <option value="other">その他</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="birthdate">生年月日 <span class="required">*</span></label>
+                    <input type="date" id="birthdate" name="birthdate" required value={defaultBirthdate} />
+                  </div>
+                  <div class="form-group">
+                    <label for="visit_type">受診種別 <span class="required">*</span></label>
+                    <select id="visit_type" name="visit_type" required>
+                      <option value="first" selected>初診</option>
+                      <option value="return">再診</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* 連絡先 */}
+              <div class="form-section">
+                <h3 class="form-section-title">連絡先</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="phone">電話番号 <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required placeholder="090-1234-5678" />
+                  </div>
+                  <div class="form-group">
+                    <label for="email">メールアドレス</label>
+                    <input type="email" id="email" name="email" placeholder="example@email.com" />
+                  </div>
+                </div>
+              </div>
+
+              {/* 予約日時選択（テーブル形式） */}
+              <div class="form-section">
+                <h3 class="form-section-title">ご希望日時 <span class="required">*</span></h3>
+                <p class="form-hint">○をクリックして予約日時を選択してください</p>
+
+                <div class="week-navigation">
+                  <button type="button" class="week-nav-btn" id="prev-week" disabled>
+                    ← 前週
+                  </button>
+                  <span class="week-label" id="week-label">読み込み中...</span>
+                  <button type="button" class="week-nav-btn" id="next-week">
+                    次週 →
+                  </button>
+                </div>
+
+                <div class="availability-table-wrapper">
+                  <table class="availability-table" id="availability-table">
+                    <thead>
+                      <tr>
+                        <th class="time-header">時間</th>
+                        {/* 5日分のヘッダー（水木金土日）- JSで動的に更新 */}
+                        <th class="date-header" data-col="0"></th>
+                        <th class="date-header" data-col="1"></th>
+                        <th class="date-header" data-col="2"></th>
+                        <th class="date-header" data-col="3"></th>
+                        <th class="date-header" data-col="4"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {timeSlots.map((time) => (
+                        <tr data-time={time}>
+                          <td class="time-cell">{time}〜</td>
+                          <td class="slot-cell" data-col="0"><span class="slot-loading">...</span></td>
+                          <td class="slot-cell" data-col="1"><span class="slot-loading">...</span></td>
+                          <td class="slot-cell" data-col="2"><span class="slot-loading">...</span></td>
+                          <td class="slot-cell" data-col="3"><span class="slot-loading">...</span></td>
+                          <td class="slot-cell" data-col="4"><span class="slot-loading">...</span></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <input type="hidden" id="selected_date" name="date" required />
+                <input type="hidden" id="selected_time" name="time" required />
+                <div class="selected-datetime" id="selected-datetime">
+                  <span class="selected-label">選択中：</span>
+                  <span class="selected-value empty" id="selected-value">未選択</span>
+                </div>
+              </div>
+
+              {/* 症状 */}
+              <div class="form-section">
+                <h3 class="form-section-title">症状・ご相談内容</h3>
+                <div class="form-group">
+                  <textarea id="symptoms" name="symptoms" rows="4" placeholder="気になる症状やご相談内容をご記入ください" />
+                </div>
+              </div>
+
+              <button type="submit" class="submit-btn" disabled>
+                <span class="btn-text">予約を送信する</span>
+                <span class="btn-loading" style="display: none;">送信中...</span>
+              </button>
+              <p class="form-note">※ 予約確定後、クリニックよりご連絡いたします</p>
+            </form>
+          </div>
+        ) : (
+          <div class="reservation-info">
+            <div class="info-card phone-card">
+              <div class="card-icon">&#128222;</div>
+              <h3>お電話でのご予約</h3>
+              <a href="tel:022-XXX-XXXX" class="phone-number">022-XXX-XXXX</a>
+              <p class="phone-hours">受付時間: 17:00〜20:30（水〜日）</p>
+            </div>
+            <div class="info-card visit-card">
+              <div class="card-icon">&#127970;</div>
+              <h3>直接ご来院</h3>
+              <p>予約なしでもご来院いただけます。</p>
+              <p class="visit-note">※混雑状況によりお待ちいただく場合がございます</p>
+            </div>
+          </div>
+        )
+      }
+
+      <div class="notice-box">
+        <h4>ご来院時のお願い</h4>
+        <ul>
+          <li>保険証をお持ちください</li>
+          <li>お薬手帳をお持ちの方はご持参ください</li>
+          <li>発熱や咳の症状がある方は、事前にお電話にてご相談ください</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reservation {
+    background: linear-gradient(180deg, #f8fbfc, #e8f4f8);
+  }
+
+  .reservation-content {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* 予約フォーム */
+  .reservation-form-wrapper {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    margin-bottom: 32px;
+  }
+
+  .form-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 24px;
+  }
+
+  .form-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c5f7c;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .form-section-title .required {
+    color: #e74c3c;
+    font-size: 0.85rem;
+  }
+
+  .form-hint {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 12px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-row-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #333;
+  }
+
+  .required {
+    color: #e74c3c;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #aaa;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #4a90a4;
+    box-shadow: 0 0 0 3px rgba(74, 144, 164, 0.1);
+  }
+
+  /* 週ナビゲーション */
+  .week-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 8px 0;
+  }
+
+  .week-nav-btn {
+    padding: 8px 16px;
+    background: #f5f9fa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .week-nav-btn:hover:not(:disabled) {
+    background: #e8f4f8;
+    border-color: #4a90a4;
+  }
+
+  .week-nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .week-label {
+    font-weight: 500;
+    color: #2c5f7c;
+  }
+
+  /* 空き状況テーブル */
+  .availability-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+  }
+
+  .availability-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 400px;
+  }
+
+  .availability-table th,
+  .availability-table td {
+    padding: 8px 6px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+  }
+
+  .availability-table thead {
+    background: #f5f9fa;
+  }
+
+  .time-header {
+    width: 65px;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.85rem;
+  }
+
+  .date-header {
+    font-weight: 500;
+    min-width: 55px;
+  }
+
+  .date-month {
+    display: block;
+    font-size: 0.9rem;
+    color: #333;
+  }
+
+  .date-day {
+    display: block;
+    font-size: 0.75rem;
+    color: #666;
+  }
+
+  .date-day.weekend {
+    color: #e74c3c;
+  }
+
+  .date-header.past {
+    opacity: 0.5;
+  }
+
+  .time-cell {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333;
+    background: #f5f9fa;
+  }
+
+  .slot-cell {
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 1rem;
+    padding: 6px 4px;
+  }
+
+  .slot-cell.available {
+    color: #4a90a4;
+    font-weight: bold;
+  }
+
+  .slot-cell.available:hover {
+    background: #e8f4f8;
+  }
+
+  .slot-cell.booked,
+  .slot-cell.past {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .slot-cell.selected {
+    background: #4a90a4;
+    color: white;
+  }
+
+  .slot-loading {
+    color: #aaa;
+    font-size: 0.75rem;
+  }
+
+  .selected-datetime {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #f5f9fa;
+    border-radius: 8px;
+  }
+
+  .selected-label {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .selected-value {
+    font-weight: 600;
+    color: #2c5f7c;
+  }
+
+  .selected-value.empty {
+    color: #999;
+    font-weight: normal;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #4a90a4, #3d7a8c);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(74, 144, 164, 0.4);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .form-note {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  /* 予約情報カード（フォーム無効時） */
+  .reservation-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .info-card {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+  }
+
+  .info-card h3 {
+    font-size: 1.1rem;
+    color: #2c5f7c;
+    margin-bottom: 16px;
+  }
+
+  .phone-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4a90a4;
+    margin-bottom: 8px;
+    transition: color 0.2s;
+  }
+
+  .phone-number:hover {
+    color: #2c5f7c;
+  }
+
+  .phone-hours {
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .visit-card p {
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .visit-note {
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  /* 注意事項 */
+  .notice-box {
+    background: white;
+    padding: 24px 32px;
+    border-radius: 12px;
+    border-left: 4px solid #4a90a4;
+  }
+
+  .notice-box h4 {
+    font-size: 1rem;
+    color: #2c5f7c;
+    margin-bottom: 16px;
+  }
+
+  .notice-box ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .notice-box li {
+    position: relative;
+    padding-left: 20px;
+    color: #555;
+    font-size: 0.95rem;
+  }
+
+  .notice-box li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #4a90a4;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .reservation-form-wrapper {
+      padding: 24px 16px;
+    }
+
+    .form-row,
+    .form-row-3 {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .reservation-info {
+      grid-template-columns: 1fr;
+    }
+
+    .info-card {
+      padding: 24px;
+    }
+
+    .notice-box {
+      padding: 20px 24px;
+    }
+
+    .week-navigation {
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .week-label {
+      order: -1;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector(".reservation-form") as HTMLFormElement;
+  const availabilityTable = document.getElementById("availability-table") as HTMLTableElement;
+  const selectedDateInput = document.getElementById("selected_date") as HTMLInputElement;
+  const selectedTimeInput = document.getElementById("selected_time") as HTMLInputElement;
+  const selectedValueEl = document.getElementById("selected-value") as HTMLElement;
+  const submitBtn = form?.querySelector(".submit-btn") as HTMLButtonElement;
+  const prevWeekBtn = document.getElementById("prev-week") as HTMLButtonElement;
+  const nextWeekBtn = document.getElementById("next-week") as HTMLButtonElement;
+  const weekLabel = document.getElementById("week-label") as HTMLElement;
+
+  const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
+  // 診療日: 水(3), 木(4), 金(5), 土(6), 日(0)
+  const clinicDays = [3, 4, 5, 6, 0]; // 水木金土日の順
+
+  let currentWeekOffset = 0;
+  let currentDates: string[] = [];
+
+  // 今日の日付（時刻なし）
+  function getTodayString(): string {
+    return new Date().toISOString().split("T")[0];
+  }
+
+  // 指定週の診療日を取得（水木金土日の順）
+  function getClinicDatesForWeek(weekOffset: number): string[] {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // 今週の水曜日を基準にする
+    const currentDay = today.getDay();
+    // 水曜日(3)との差分を計算
+    let daysToWednesday = 3 - currentDay;
+    if (daysToWednesday < 0 && weekOffset === 0) {
+      // 今週の水曜日が過ぎている場合、まだ残りの診療日があるか確認
+      // 水木金土日のいずれかが今日以降ならその週を表示
+    }
+
+    // 基準となる水曜日を計算
+    const baseWednesday = new Date(today);
+    baseWednesday.setDate(today.getDate() + daysToWednesday + (weekOffset * 7));
+
+    const dates: string[] = [];
+
+    // 水木金土日の順で日付を追加
+    for (let i = 0; i < 5; i++) {
+      const d = new Date(baseWednesday);
+      if (i < 4) {
+        // 水(+0), 木(+1), 金(+2), 土(+3)
+        d.setDate(baseWednesday.getDate() + i);
+      } else {
+        // 日曜日は土曜日の翌日
+        d.setDate(baseWednesday.getDate() + 4);
+      }
+      dates.push(d.toISOString().split("T")[0]);
+    }
+
+    return dates;
+  }
+
+  // 週ラベルを更新
+  function updateWeekLabel(dates: string[]) {
+    if (dates.length === 0) return;
+    const first = new Date(dates[0]);
+    const last = new Date(dates[dates.length - 1]);
+    const firstMonth = first.getMonth() + 1;
+    const firstDay = first.getDate();
+    const lastMonth = last.getMonth() + 1;
+    const lastDay = last.getDate();
+
+    if (firstMonth === lastMonth) {
+      weekLabel.textContent = `${firstMonth}/${firstDay} 〜 ${lastDay}`;
+    } else {
+      weekLabel.textContent = `${firstMonth}/${firstDay} 〜 ${lastMonth}/${lastDay}`;
+    }
+  }
+
+  // テーブルヘッダーを更新
+  function updateTableHeaders(dates: string[]) {
+    const headers = availabilityTable.querySelectorAll("th.date-header");
+    const todayStr = getTodayString();
+
+    headers.forEach((th, index) => {
+      const el = th as HTMLElement;
+      if (index < dates.length) {
+        const date = dates[index];
+        const d = new Date(date);
+        const month = d.getMonth() + 1;
+        const day = d.getDate();
+        const dayName = dayNames[d.getDay()];
+        const isWeekend = d.getDay() === 0 || d.getDay() === 6;
+        const isPast = date < todayStr;
+
+        el.innerHTML = `
+          <span class="date-month">${month}/${day}</span>
+          <span class="date-day ${isWeekend ? 'weekend' : ''}">(${dayName})</span>
+        `;
+        el.dataset.date = date;
+        el.classList.toggle("past", isPast);
+      }
+    });
+  }
+
+  // 空き状況を取得して表示
+  async function loadAvailability() {
+    const apiBase = form?.dataset.api;
+    if (!apiBase) return;
+
+    currentDates = getClinicDatesForWeek(currentWeekOffset);
+    updateTableHeaders(currentDates);
+    updateWeekLabel(currentDates);
+
+    const todayStr = getTodayString();
+
+    // 全セルをローディング状態に
+    const rows = availabilityTable.querySelectorAll("tbody tr");
+    rows.forEach((row) => {
+      const cells = row.querySelectorAll(".slot-cell");
+      cells.forEach((cell) => {
+        (cell as HTMLElement).innerHTML = '<span class="slot-loading">...</span>';
+        cell.className = "slot-cell";
+      });
+    });
+
+    // 各日付の空き状況を並列で取得
+    const results = await Promise.all(
+      currentDates.map(async (date) => {
+        try {
+          const res = await fetch(`${apiBase}/api/availability/${date}`);
+          if (res.ok) {
+            const data = await res.json();
+            return { date, bookedTimes: data.bookedTimes as string[] };
+          }
+        } catch (e) {
+          console.error(`Failed to fetch availability for ${date}`, e);
+        }
+        return { date, bookedTimes: [] };
+      })
+    );
+
+    // 結果をマップに
+    const bookedMap = new Map<string, string[]>();
+    results.forEach((r) => bookedMap.set(r.date, r.bookedTimes));
+
+    // セルを更新
+    rows.forEach((row) => {
+      const time = (row as HTMLElement).dataset.time!;
+      const cells = row.querySelectorAll(".slot-cell");
+
+      cells.forEach((cell, colIndex) => {
+        const el = cell as HTMLElement;
+        if (colIndex >= currentDates.length) return;
+
+        const date = currentDates[colIndex];
+        const booked = bookedMap.get(date) || [];
+        const isPast = date < todayStr;
+
+        el.innerHTML = "";
+        el.dataset.date = date;
+        el.dataset.time = time;
+
+        if (isPast) {
+          el.textContent = "×";
+          el.classList.add("past");
+          el.classList.remove("available", "booked");
+        } else if (booked.includes(time)) {
+          el.textContent = "×";
+          el.classList.add("booked");
+          el.classList.remove("available", "past");
+        } else {
+          el.textContent = "○";
+          el.classList.add("available");
+          el.classList.remove("booked", "past");
+        }
+      });
+    });
+
+    // 選択状態を復元
+    if (selectedDateInput.value && selectedTimeInput.value) {
+      const selectedCell = availabilityTable.querySelector(
+        `.slot-cell[data-date="${selectedDateInput.value}"][data-time="${selectedTimeInput.value}"]`
+      );
+      if (selectedCell && selectedCell.classList.contains("available")) {
+        selectedCell.classList.add("selected");
+      }
+    }
+  }
+
+  // セル選択
+  function setupCellSelection() {
+    availabilityTable.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const cell = target.closest(".slot-cell") as HTMLElement;
+      if (!cell) return;
+      if (cell.classList.contains("booked") || cell.classList.contains("past")) return;
+      if (!cell.classList.contains("available")) return;
+
+      // 既存の選択を解除
+      availabilityTable.querySelectorAll(".slot-cell.selected").forEach((c) => {
+        c.classList.remove("selected");
+      });
+
+      // 新規選択
+      cell.classList.add("selected");
+      const date = cell.dataset.date!;
+      const time = cell.dataset.time!;
+
+      selectedDateInput.value = date;
+      selectedTimeInput.value = time;
+
+      // 表示を更新
+      const d = new Date(date);
+      const formatted = `${d.getMonth() + 1}/${d.getDate()}(${dayNames[d.getDay()]}) ${time}〜`;
+      selectedValueEl.textContent = formatted;
+      selectedValueEl.classList.remove("empty");
+
+      // 送信ボタンを有効化
+      updateSubmitButton();
+    });
+  }
+
+  // 週ナビゲーション
+  function setupWeekNavigation() {
+    prevWeekBtn.addEventListener("click", () => {
+      if (currentWeekOffset > 0) {
+        currentWeekOffset--;
+        loadAvailability();
+        updateNavButtons();
+      }
+    });
+
+    nextWeekBtn.addEventListener("click", () => {
+      currentWeekOffset++;
+      loadAvailability();
+      updateNavButtons();
+    });
+  }
+
+  function updateNavButtons() {
+    prevWeekBtn.disabled = currentWeekOffset === 0;
+    // 4週間先まで表示可能
+    nextWeekBtn.disabled = currentWeekOffset >= 4;
+  }
+
+  // 送信ボタンの状態を更新
+  function updateSubmitButton() {
+    if (!submitBtn) return;
+    const hasDateTime = selectedDateInput.value && selectedTimeInput.value;
+    submitBtn.disabled = !hasDateTime;
+  }
+
+  // 初期化
+  if (form && availabilityTable) {
+    loadAvailability();
+    setupCellSelection();
+    setupWeekNavigation();
+    updateNavButtons();
+
+    // 生年月日の最大値を今日に設定
+    const birthdateInput = document.getElementById("birthdate") as HTMLInputElement;
+    if (birthdateInput) {
+      birthdateInput.max = new Date().toISOString().split("T")[0];
+    }
+  }
+
+  // フォーム送信
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const apiBase = form.dataset.api;
+      if (!apiBase) return;
+
+      const btnText = submitBtn.querySelector(".btn-text") as HTMLElement;
+      const btnLoading = submitBtn.querySelector(".btn-loading") as HTMLElement;
+
+      // ローディング状態
+      submitBtn.disabled = true;
+      btnText.style.display = "none";
+      btnLoading.style.display = "inline";
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // 氏名を結合
+      const fullName = `${data.last_name} ${data.first_name}`;
+      const fullNameKana = `${data.last_name_kana} ${data.first_name_kana}`;
+
+      const payload = {
+        name: fullName,
+        name_kana: fullNameKana,
+        phone: data.phone,
+        email: data.email || null,
+        gender: data.gender,
+        birthdate: data.birthdate,
+        visit_type: data.visit_type,
+        date: data.date,
+        time: data.time,
+        symptoms: data.symptoms || null,
+      };
+
+      try {
+        const response = await fetch(`${apiBase}/api/reservations`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert("予約を受け付けました。クリニックからの確認連絡をお待ちください。");
+          form.reset();
+          // 受診種別のデフォルトを初診に戻す
+          const visitTypeSelect = document.getElementById("visit_type") as HTMLSelectElement;
+          if (visitTypeSelect) visitTypeSelect.value = "first";
+
+          selectedDateInput.value = "";
+          selectedTimeInput.value = "";
+          selectedValueEl.textContent = "未選択";
+          selectedValueEl.classList.add("empty");
+          availabilityTable.querySelectorAll(".slot-cell.selected").forEach((c) => c.classList.remove("selected"));
+          loadAvailability();
+        } else {
+          alert(result.error || "予約の送信に失敗しました");
+        }
+      } catch (error) {
+        alert("エラーが発生しました。お電話にてご予約ください。");
+        console.error(error);
+      } finally {
+        submitBtn.disabled = false;
+        btnText.style.display = "inline";
+        btnLoading.style.display = "none";
+        updateSubmitButton();
+      }
+    });
+  }
+</script>

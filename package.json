@@ -1,14 +1,15 @@
 {
   "name": "koutoudai-yugata-naika-clinic",
-  "type": "module",
-  "version": "1.0.0",
+  "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "dev:admin": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter admin dev\"",
+    "build": "pnpm --filter frontend build",
+    "deploy:api": "pnpm --filter backend deploy"
   },
-  "dependencies": {
-    "astro": "^5.17.1"
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }

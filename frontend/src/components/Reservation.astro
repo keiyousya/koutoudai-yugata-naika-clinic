@@ -620,9 +620,17 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
   let currentWeekOffset = 0;
   let currentDates: string[] = [];
 
-  // 今日の日付（時刻なし）
+  // ローカル日付をYYYY-MM-DD形式で取得
+  function toLocalDateString(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  // 今日の日付（ローカル時刻基準）
   function getTodayString(): string {
-    return new Date().toISOString().split("T")[0];
+    return toLocalDateString(new Date());
   }
 
   // 指定週の診療日を取得（水木金土日の順）
@@ -634,9 +642,11 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
     const currentDay = today.getDay();
     // 水曜日(3)との差分を計算
     let daysToWednesday = 3 - currentDay;
-    if (daysToWednesday < 0 && weekOffset === 0) {
-      // 今週の水曜日が過ぎている場合、まだ残りの診療日があるか確認
-      // 水木金土日のいずれかが今日以降ならその週を表示
+    // 日曜日(0)の場合は前週の水曜日になるので、次の水曜日を基準にしない
+    // 月曜(1)、火曜(2)の場合も同様に今週の水曜日へ
+    if (daysToWednesday < -4) {
+      // 日曜日の場合、次の水曜日へ
+      daysToWednesday += 7;
     }
 
     // 基準となる水曜日を計算
@@ -655,7 +665,7 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
         // 日曜日は土曜日の翌日
         d.setDate(baseWednesday.getDate() + 4);
       }
-      dates.push(d.toISOString().split("T")[0]);
+      dates.push(toLocalDateString(d));
     }
 
     return dates;

@@ -118,7 +118,19 @@ const navItems = [
     width: 24px;
     height: 2px;
     background: #2c5f7c;
-    transition: 0.2s;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .menu-toggle.active .menu-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .menu-toggle.active .menu-bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle.active .menu-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
   }
 
   @media (max-width: 768px) {
@@ -135,17 +147,22 @@ const navItems = [
     }
 
     .nav {
-      display: none;
       position: absolute;
       top: 70px;
       left: 0;
       right: 0;
       background: white;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transform: translateY(-20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s;
     }
 
     .nav.active {
-      display: block;
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
     }
 
     .nav-list {
@@ -174,11 +191,13 @@ const navItems = [
   const nav = document.querySelector(".nav");
 
   menuToggle?.addEventListener("click", () => {
+    menuToggle.classList.toggle("active");
     nav?.classList.toggle("active");
   });
 
   document.querySelectorAll(".nav-link").forEach((link) => {
     link.addEventListener("click", () => {
+      menuToggle?.classList.remove("active");
       nav?.classList.remove("active");
     });
   });

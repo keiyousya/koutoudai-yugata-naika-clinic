@@ -5,7 +5,7 @@
   <div class="hero-content container">
     <p class="hero-catchphrase">仕事帰りに、安心の医療を。</p>
     <h1 class="hero-title">
-      <span class="hero-title-main">勾当台夕方内科クリニック</span>
+      <span class="hero-title-main">勾当台夕方<br class="sp-br" />内科クリニック</span>
     </h1>
     <div class="opening-notice">
       <span class="opening-badge">開院準備中</span>
@@ -129,6 +129,10 @@
     line-height: 1.3;
   }
 
+  .sp-br {
+    display: none;
+  }
+
   .hero-description {
     font-size: 1.1rem;
     color: #555;
@@ -214,6 +218,12 @@
     .hero-cta {
       padding: 14px 36px;
       font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .sp-br {
+      display: inline;
     }
   }
 </style>

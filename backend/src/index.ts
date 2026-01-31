@@ -16,7 +16,9 @@ app.use(
     origin: (origin) => {
       // ローカル開発を許可
       if (origin?.startsWith("http://localhost:")) return origin;
-      // 本番を許可
+      // 本番を許可（カスタムドメイン）
+      if (origin === "https://koutoudai-yugata-naika.clinic") return origin;
+      // 本番を許可（GitHub Pages）
       if (origin === "https://keiyousya.github.io") return origin;
       return null;
     },

@@ -55,8 +55,25 @@ const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1分
 const RATE_LIMIT_MAX_REQUESTS = 10; // 1分あたり10リクエスト
 
+// 古いエントリをクリーンアップ
+function cleanupRateLimitMap() {
+  const now = Date.now();
+  // サイズが大きくなったらクリーンアップ
+  if (rateLimitMap.size > 100) {
+    for (const [ip, record] of rateLimitMap.entries()) {
+      if (now > record.resetAt) {
+        rateLimitMap.delete(ip);
+      }
+    }
+  }
+}
+
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
+
+  // リクエストごとにクリーンアップ判定
+  cleanupRateLimitMap();
+
   const record = rateLimitMap.get(ip);
 
   if (!record || now > record.resetAt) {
@@ -71,19 +88,6 @@ function checkRateLimit(ip: string): boolean {
   record.count++;
   return true;
 }
-
-// 古いエントリをクリーンアップ
-function cleanupRateLimitMap() {
-  const now = Date.now();
-  for (const [ip, record] of rateLimitMap.entries()) {
-    if (now > record.resetAt) {
-      rateLimitMap.delete(ip);
-    }
-  }
-}
-
-// 定期的にクリーンアップ（メモリリーク防止）
-setInterval(cleanupRateLimitMap, 5 * 60 * 1000);
 
 // ========================================
 // ミドルウェア

@@ -287,12 +287,11 @@
 </style>
 
 <script>
-  // Load interactive map on user interaction
   const mapPlaceholder = document.getElementById("mapPlaceholder");
   const mapIframe = document.getElementById("mapIframe") as HTMLIFrameElement;
 
   function loadInteractiveMap() {
-    if (mapIframe && mapPlaceholder) {
+    if (mapIframe && mapPlaceholder && !mapIframe.src) {
       const src = mapIframe.dataset.src;
       if (src) {
         mapIframe.src = src;
@@ -302,17 +301,17 @@
     }
   }
 
-  // Load map on click or touch
+  // クリックでも読み込み可能
   mapPlaceholder?.addEventListener("click", loadInteractiveMap);
 
-  // Also load when section comes into view (for better UX on slower devices)
+  // セクションが画面に入ったら自動で読み込み（遅延読み込み）
   const mapContainer = document.getElementById("mapContainer");
   if (mapContainer && "IntersectionObserver" in window) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Preload iframe when container is visible
+            loadInteractiveMap();
             observer.disconnect();
           }
         });
@@ -320,5 +319,8 @@
       { rootMargin: "100px" }
     );
     observer.observe(mapContainer);
+  } else {
+    // フォールバック
+    loadInteractiveMap();
   }
 </script>

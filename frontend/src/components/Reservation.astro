@@ -901,9 +901,8 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
     submitBtn.disabled = !hasDateTime;
   }
 
-  // 初期化
+  // 初期化 - IntersectionObserverで遅延読み込み
   if (form && availabilityTable) {
-    loadAvailability();
     setupCellSelection();
     setupWeekNavigation();
     updateNavButtons();
@@ -912,6 +911,28 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
     const birthdateInput = document.getElementById("birthdate") as HTMLInputElement;
     if (birthdateInput) {
       birthdateInput.max = new Date().toISOString().split("T")[0];
+    }
+
+    // セクションが表示されたときにAPI呼び出し（パフォーマンス改善）
+    let availabilityLoaded = false;
+    const reservationSection = document.getElementById("reservation");
+    if (reservationSection && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !availabilityLoaded) {
+              availabilityLoaded = true;
+              loadAvailability();
+              observer.disconnect();
+            }
+          });
+        },
+        { rootMargin: "200px" }
+      );
+      observer.observe(reservationSection);
+    } else {
+      // フォールバック: IntersectionObserver非対応ブラウザ
+      loadAvailability();
     }
   }
 

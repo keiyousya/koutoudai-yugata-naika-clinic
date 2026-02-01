@@ -301,26 +301,10 @@
     }
   }
 
-  // クリックでも読み込み可能
-  mapPlaceholder?.addEventListener("click", loadInteractiveMap);
-
-  // セクションが画面に入ったら自動で読み込み（遅延読み込み）
-  const mapContainer = document.getElementById("mapContainer");
-  if (mapContainer && "IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            loadInteractiveMap();
-            observer.disconnect();
-          }
-        });
-      },
-      { rootMargin: "100px" }
-    );
-    observer.observe(mapContainer);
+  // ページ読み込み後に地図を読み込む（初期描画を邪魔しない）
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(() => loadInteractiveMap());
   } else {
-    // フォールバック
-    loadInteractiveMap();
+    setTimeout(loadInteractiveMap, 100);
   }
 </script>

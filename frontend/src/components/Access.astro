@@ -54,14 +54,32 @@
       </div>
 
       <div class="access-map">
-        <div class="map-container">
+        <div class="map-container" id="mapContainer">
+          <!-- Static map placeholder - loads iframe on interaction -->
+          <div class="map-placeholder" id="mapPlaceholder">
+            <img
+              src="https://maps.googleapis.com/maps/api/staticmap?center=宮城県仙台市青葉区国分町3丁目8-1&zoom=17&size=600x400&scale=2&maptype=roadmap&markers=color:red%7C宮城県仙台市青葉区国分町3丁目8-1&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+              alt="勾当台夕方内科クリニックの地図"
+              width="600"
+              height="400"
+              loading="lazy"
+              class="map-static-image"
+            />
+            <button class="map-load-btn" type="button" aria-label="地図を読み込む">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>地図を操作する</span>
+            </button>
+          </div>
+          <!-- Interactive iframe - loaded on demand -->
           <iframe
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=宮城県仙台市青葉区国分町3丁目8-1&zoom=17"
+            id="mapIframe"
+            data-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=宮城県仙台市青葉区国分町3丁目8-1&zoom=17"
             width="100%"
             height="100%"
-            style="border:0;"
+            style="border:0; display:none;"
             allowfullscreen=""
-            loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
             title="勾当台夕方内科クリニックの地図"></iframe>
         </div>
@@ -185,6 +203,53 @@
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  .map-placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .map-static-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .map-load-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #2c5f7c;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .map-load-btn:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .map-load-btn svg {
+    color: #4a90a4;
+  }
+
+  .map-placeholder.hidden {
+    display: none;
   }
 
   .map-link {
@@ -220,3 +285,40 @@
     }
   }
 </style>
+
+<script>
+  // Load interactive map on user interaction
+  const mapPlaceholder = document.getElementById("mapPlaceholder");
+  const mapIframe = document.getElementById("mapIframe") as HTMLIFrameElement;
+
+  function loadInteractiveMap() {
+    if (mapIframe && mapPlaceholder) {
+      const src = mapIframe.dataset.src;
+      if (src) {
+        mapIframe.src = src;
+        mapIframe.style.display = "block";
+        mapPlaceholder.classList.add("hidden");
+      }
+    }
+  }
+
+  // Load map on click or touch
+  mapPlaceholder?.addEventListener("click", loadInteractiveMap);
+
+  // Also load when section comes into view (for better UX on slower devices)
+  const mapContainer = document.getElementById("mapContainer");
+  if (mapContainer && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Preload iframe when container is visible
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: "100px" }
+    );
+    observer.observe(mapContainer);
+  }
+</script>

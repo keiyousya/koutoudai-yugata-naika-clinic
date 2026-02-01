@@ -1,43 +1,97 @@
-# Astro Starter Kit: Minimal
+# 勾当台夕方内科クリニック
 
-```sh
-npm create astro@latest -- --template minimal
+勾当台夕方内科クリニックのホームページおよび予約システム
+
+## プロジェクト構成
+
+```
+.
+├── frontend/   # クリニックHP（Astro）
+├── backend/    # 予約API（Cloudflare Workers + Turso）
+└── admin/      # 管理画面（React + Vite）
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 技術スタック
 
-## 🚀 Project Structure
+| パッケージ | 技術 |
+|-----------|------|
+| frontend | Astro, TypeScript |
+| backend | Hono, Cloudflare Workers, Turso (SQLite) |
+| admin | React, Vite, TanStack Router, TailwindCSS |
 
-Inside of your Astro project, you'll see the following folders and files:
+## セットアップ
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+### 依存関係のインストール
+
+```bash
+pnpm install
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### 環境変数の設定
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+#### backend
 
-Any static assets, like images, can be placed in the `public/` directory.
+`backend/.dev.vars` を作成:
 
-## 🧞 Commands
+```
+TURSO_URL=libsql://your-db-url
+TURSO_AUTH_TOKEN=your-token
+ADMIN_API_KEY=your-admin-key
+```
 
-All commands are run from the root of the project, from a terminal:
+#### admin
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+`admin/.env.development` を作成:
 
-## 👀 Want to learn more?
+```
+VITE_API_URL=http://localhost:8789
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 開発
+
+### フロントエンド + バックエンド
+
+```bash
+pnpm dev
+```
+
+- フロントエンド: http://localhost:4321
+- バックエンドAPI: http://localhost:8789
+
+### 管理画面 + バックエンド
+
+```bash
+pnpm dev:admin
+```
+
+- 管理画面: http://localhost:5173
+- バックエンドAPI: http://localhost:8789
+
+### 個別起動
+
+```bash
+pnpm dev:frontend  # フロントエンドのみ
+pnpm dev:backend   # バックエンドのみ
+```
+
+## デプロイ
+
+### フロントエンド
+
+```bash
+pnpm build
+```
+
+`frontend/dist` に静的ファイルが生成されます。
+
+### バックエンドAPI
+
+```bash
+pnpm deploy:api
+```
+
+Cloudflare Workers にデプロイされます。
+
+## API ドキュメント
+
+詳細は [backend/README.md](./backend/README.md) を参照してください。

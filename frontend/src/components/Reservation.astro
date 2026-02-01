@@ -761,6 +761,13 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
     const cutoffHours = cutoffTime.getHours();
     const cutoffMinutes = cutoffTime.getMinutes();
 
+    // 1週間後の日付を計算
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
+    const oneWeekLaterDate = new Date(todayDate);
+    oneWeekLaterDate.setDate(todayDate.getDate() + 7);
+    const oneWeekLaterStr = toLocalDateString(oneWeekLaterDate);
+
     // 時間文字列を分に変換する関数
     function timeToMinutes(timeStr: string): number {
       const [h, m] = timeStr.split(":").map(Number);
@@ -785,7 +792,9 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
         // 過去判定: 日付が過去 OR (当日かつ時間枠が現在時刻+15分以内)
         const isDatePast = date < todayStr;
         const isTodayPastSlot = date === todayStr && slotInMinutes <= cutoffInMinutes;
-        const isPast = isDatePast || isTodayPastSlot;
+        // 1週間後を超える日付も選択不可
+        const isBeyondOneWeek = date > oneWeekLaterStr;
+        const isPast = isDatePast || isTodayPastSlot || isBeyondOneWeek;
 
         el.innerHTML = "";
         el.dataset.date = date;
@@ -870,8 +879,19 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
 
   function updateNavButtons() {
     prevWeekBtn.disabled = currentWeekOffset === 0;
-    // 4週間先まで表示可能
-    nextWeekBtn.disabled = currentWeekOffset >= 4;
+
+    // 1週間後までの予約制限
+    // 次週の最初の日（水曜日）が1週間後を超える場合は次週ボタンを無効化
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const oneWeekLater = new Date(today);
+    oneWeekLater.setDate(today.getDate() + 7);
+    const oneWeekLaterStr = toLocalDateString(oneWeekLater);
+
+    const nextWeekDates = getClinicDatesForWeek(currentWeekOffset + 1);
+    // 次週の最初の日が1週間後を超えていれば無効化
+    const nextWeekFirstDate = nextWeekDates[0];
+    nextWeekBtn.disabled = nextWeekFirstDate > oneWeekLaterStr;
   }
 
   // 送信ボタンの状態を更新

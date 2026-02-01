@@ -78,3 +78,28 @@ export async function deleteReservation(id: number): Promise<void> {
   });
   await handleResponse(res);
 }
+
+// 予約作成（管理者は1週間制限なし）
+export interface CreateReservationData {
+  name: string;
+  name_kana: string;
+  phone: string;
+  email?: string | null;
+  gender: "male" | "female" | "other";
+  birthdate: string;
+  visit_type: "first" | "return";
+  date: string;
+  time: string;
+  symptoms?: string | null;
+}
+
+export async function createReservation(
+  data: CreateReservationData
+): Promise<{ success: boolean; id: number }> {
+  const res = await fetch(`${API_BASE}/api/reservations`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  });
+  return handleResponse(res);
+}

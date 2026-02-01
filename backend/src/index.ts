@@ -168,12 +168,19 @@ app.get("/", (c) => {
   return c.json({ status: "ok", message: "勾当台夕方内科クリニック予約API" });
 });
 
-// 予約作成（公開）
+// 予約作成（公開 / 管理者はAPI Key認証で制限解除）
 app.post("/api/reservations", async (c) => {
-  // レートリミットチェック
-  const clientIP = getClientIP(c);
-  if (!checkRateLimit(clientIP)) {
-    return c.json({ error: "リクエストが多すぎます。しばらくしてから再度お試しください。" }, 429);
+  // 管理者認証チェック（APIキーがあれば制限を緩和）
+  const apiKey = c.req.header("X-Admin-API-Key");
+  const validApiKey = c.env.ADMIN_API_KEY;
+  const isAdmin = validApiKey && apiKey === validApiKey;
+
+  // 一般ユーザーの場合のみレートリミットチェック
+  if (!isAdmin) {
+    const clientIP = getClientIP(c);
+    if (!checkRateLimit(clientIP)) {
+      return c.json({ error: "リクエストが多すぎます。しばらくしてから再度お試しください。" }, 429);
+    }
   }
 
   const db = getDb(c.env);
@@ -193,12 +200,22 @@ app.post("/api/reservations", async (c) => {
     return c.json({ error: "無効な時間枠です" }, 400);
   }
 
-  // 日付の妥当性チェック（過去の日付は不可）
+  // 日付の妥当性チェック（過去の日付は不可、1週間後まで）
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const reservationDate = new Date(date);
+  reservationDate.setHours(0, 0, 0, 0);
   if (reservationDate < today) {
     return c.json({ error: "過去の日付は予約できません" }, 400);
+  }
+
+  // 1週間後までの予約制限（管理者は制限なし）
+  if (!isAdmin) {
+    const oneWeekLater = new Date(today);
+    oneWeekLater.setDate(today.getDate() + 7);
+    if (reservationDate > oneWeekLater) {
+      return c.json({ error: "予約は1週間先までとなっております" }, 400);
+    }
   }
 
   // 同じ日時に予約がないかチェック

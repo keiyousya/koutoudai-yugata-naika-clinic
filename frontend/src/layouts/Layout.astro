@@ -4,7 +4,52 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "勾当台夕方内科クリニック - 仙台市国分町の夕方診療専門クリニック" } = Astro.props;
+const { title, description = "勾当台夕方内科クリニック - 仙台市国分町の夕方診療専門クリニック。勾当台公園駅近く、夕方から夜の診療で仕事帰りでも通いやすい内科クリニックです。2026年3月開院予定。" } = Astro.props;
+
+const siteUrl = "https://koutoudai-yugata-naika.clinic";
+const ogImage = `${siteUrl}/og-image.png`;
+
+// 構造化データ（JSON-LD）
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "@id": siteUrl,
+  "name": "勾当台夕方内科クリニック",
+  "alternateName": "Koutoudai Yugata Naika Clinic",
+  "description": description,
+  "url": siteUrl,
+  "logo": `${siteUrl}/apple-touch-icon.png`,
+  "image": ogImage,
+  "medicalSpecialty": "InternalMedicine",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "仙台市",
+    "addressRegion": "宮城県",
+    "addressCountry": "JP",
+    "streetAddress": "青葉区国分町"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 38.2682,
+    "longitude": 140.8694
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "仙台市"
+  },
+  "priceRange": "保険診療",
+  "currenciesAccepted": "JPY",
+  "paymentAccepted": "健康保険",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "16:00",
+      "closes": "21:00"
+    }
+  ],
+  "sameAs": []
+};
 ---
 
 <!doctype html>
@@ -13,6 +58,31 @@ const { title, description = "勾当台夕方内科クリニック - 仙台市�
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={siteUrl} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="勾当台夕方内科クリニック" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={siteUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Additional SEO -->
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#2c5f7c" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -46,6 +116,9 @@ const { title, description = "勾当台夕方内科クリニック - 仙台市�
     </noscript>
 
     <title>{title}</title>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <!-- Critical CSS for above-the-fold content -->
     <style>

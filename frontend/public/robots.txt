@@ -1,0 +1,7 @@
+# https://koutoudai-yugata-naika.clinic robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://koutoudai-yugata-naika.clinic/sitemap-index.xml

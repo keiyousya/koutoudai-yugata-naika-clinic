@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>勾当台夕方内科クリニック</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 10mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      width: 297mm;
+      height: 210mm;
+      padding: 10mm;
+      background: white;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 6mm;
+      border-bottom: 3px solid #4a90a4;
+      margin-bottom: 6mm;
+    }
+
+    .logo {
+      width: 60px;
+      height: auto;
+    }
+
+    .clinic-name {
+      font-size: 24pt;
+      font-weight: 700;
+      color: #2c5f7c;
+      letter-spacing: 0.05em;
+    }
+
+    .content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5mm;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #d4e8ef;
+      padding: 5mm;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 3mm;
+    }
+
+    .card-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: #4a90a4;
+      color: white;
+      font-size: 12pt;
+      font-weight: 700;
+      border-radius: 50%;
+    }
+
+    .card-title {
+      font-size: 11pt;
+      font-weight: 500;
+      color: #666;
+    }
+
+    .card-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .name {
+      font-size: 24pt;
+      font-weight: 700;
+      color: #2c5f7c;
+      letter-spacing: 0.1em;
+    }
+
+    .card-wide {
+      grid-column: 1 / -1;
+    }
+
+    .schedule-wrapper {
+      width: 100%;
+    }
+
+    .time-display {
+      text-align: center;
+      margin-bottom: 4mm;
+    }
+
+    .time-label {
+      font-size: 9pt;
+      color: #666;
+      margin-bottom: 2px;
+    }
+
+    .time-value {
+      font-size: 26pt;
+      font-weight: 700;
+      color: #2c5f7c;
+      letter-spacing: 0.05em;
+    }
+
+    .schedule-table {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e8f4f8;
+    }
+
+    .schedule-header {
+      background: #2c5f7c;
+      color: white;
+      padding: 6px;
+      text-align: center;
+      font-weight: 500;
+      font-size: 10pt;
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    .schedule-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 6px;
+      border-right: 1px solid #eee;
+    }
+
+    .schedule-cell:last-child {
+      border-right: none;
+    }
+
+    .schedule-cell .day {
+      font-size: 10pt;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .schedule-cell .status {
+      font-size: 12pt;
+      font-weight: 700;
+    }
+
+    .schedule-cell.open .status {
+      color: #2d7a8c;
+    }
+
+    .schedule-cell.closed {
+      background: #f5f5f5;
+    }
+
+    .schedule-cell.closed .status {
+      color: #ccc;
+    }
+
+    .schedule-info {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 3mm;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 9pt;
+      color: #666;
+    }
+
+    .info-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 8pt;
+      font-weight: 700;
+    }
+
+    .info-icon.open {
+      background: #e8f4f8;
+      color: #2d7a8c;
+    }
+
+    .info-icon.closed {
+      background: #f5f5f5;
+      color: #999;
+    }
+
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background: white !important;
+      }
+      .card {
+        box-shadow: none !important;
+        border: 1px solid #d4e8ef !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="logo.png" alt="ロゴ" class="logo">
+      <h1 class="clinic-name">勾当台夕方内科クリニック</h1>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">1</span>
+          <span class="card-title">管理者の氏名</span>
+        </div>
+        <div class="card-content">
+          <span class="name">田村 慧人</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-number">2</span>
+          <span class="card-title">診療に従事する医師の氏名</span>
+        </div>
+        <div class="card-content">
+          <span class="name">田村 慧人</span>
+        </div>
+      </div>
+
+      <div class="card card-wide">
+        <div class="card-header">
+          <span class="card-number">3</span>
+          <span class="card-title">診療日及び診療時間</span>
+        </div>
+        <div class="card-content">
+          <div class="schedule-wrapper">
+            <div class="time-display">
+              <p class="time-label">診療時間</p>
+              <p class="time-value">17:00 - 21:00</p>
+            </div>
+            <div class="schedule-table">
+              <div class="schedule-header">診療日カレンダー</div>
+              <div class="schedule-grid">
+                <div class="schedule-cell closed">
+                  <span class="day">月</span>
+                  <span class="status">休</span>
+                </div>
+                <div class="schedule-cell closed">
+                  <span class="day">火</span>
+                  <span class="status">休</span>
+                </div>
+                <div class="schedule-cell open">
+                  <span class="day">水</span>
+                  <span class="status">○</span>
+                </div>
+                <div class="schedule-cell open">
+                  <span class="day">木</span>
+                  <span class="status">○</span>
+                </div>
+                <div class="schedule-cell open">
+                  <span class="day">金</span>
+                  <span class="status">○</span>
+                </div>
+                <div class="schedule-cell open">
+                  <span class="day">土</span>
+                  <span class="status">○</span>
+                </div>
+                <div class="schedule-cell open">
+                  <span class="day">日</span>
+                  <span class="status">○</span>
+                </div>
+              </div>
+            </div>
+            <div class="schedule-info">
+              <div class="info-item">
+                <span class="info-icon open">○</span>
+                <span>診療日（水〜日）</span>
+              </div>
+              <div class="info-item">
+                <span class="info-icon closed">休</span>
+                <span>休診日（月・火）</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

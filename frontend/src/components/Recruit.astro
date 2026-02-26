@@ -1,5 +1,83 @@
 ---
+const jobPostings = [
+  {
+    "@context": "https://schema.org/",
+    "@type": "JobPosting",
+    "title": "受付事務（オープニングスタッフ）",
+    "description": "2026年4月開院予定の勾当台夕方内科クリニックでオープニングスタッフを募集しています。夕方から夜間の診療をサポートしていただきます。週1日からOK。時給1,600円〜1,800円、交通費支給（月額20,000円上限）、昇給あり。",
+    "datePosted": "2026-02-26",
+    "validThrough": "2026-12-31",
+    "employmentType": "PART_TIME",
+    "hiringOrganization": {
+      "@type": "MedicalBusiness",
+      "name": "勾当台夕方内科クリニック",
+      "sameAs": "https://koutoudai-yugata-naika.clinic",
+      "logo": "https://koutoudai-yugata-naika.clinic/apple-touch-icon.png"
+    },
+    "jobLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "国分町3丁目8-1 勾当台ビル4階",
+        "addressLocality": "仙台市青葉区",
+        "addressRegion": "宮城県",
+        "postalCode": "980-0803",
+        "addressCountry": "JP"
+      }
+    },
+    "baseSalary": {
+      "@type": "MonetaryAmount",
+      "currency": "JPY",
+      "value": {
+        "@type": "QuantitativeValue",
+        "minValue": 1600,
+        "maxValue": 1800,
+        "unitText": "HOUR"
+      }
+    }
+  },
+  {
+    "@context": "https://schema.org/",
+    "@type": "JobPosting",
+    "title": "看護師（オープニングスタッフ）",
+    "description": "2026年4月開院予定の勾当台夕方内科クリニックでオープニングスタッフを募集しています。夕方から夜間の内科診療をサポートしていただきます。週1日からOK。時給2,200円〜2,500円、交通費支給（月額20,000円上限）、昇給あり。",
+    "datePosted": "2026-02-26",
+    "validThrough": "2026-12-31",
+    "employmentType": "PART_TIME",
+    "hiringOrganization": {
+      "@type": "MedicalBusiness",
+      "name": "勾当台夕方内科クリニック",
+      "sameAs": "https://koutoudai-yugata-naika.clinic",
+      "logo": "https://koutoudai-yugata-naika.clinic/apple-touch-icon.png"
+    },
+    "jobLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "国分町3丁目8-1 勾当台ビル4階",
+        "addressLocality": "仙台市青葉区",
+        "addressRegion": "宮城県",
+        "postalCode": "980-0803",
+        "addressCountry": "JP"
+      }
+    },
+    "baseSalary": {
+      "@type": "MonetaryAmount",
+      "currency": "JPY",
+      "value": {
+        "@type": "QuantitativeValue",
+        "minValue": 2200,
+        "maxValue": 2500,
+        "unitText": "HOUR"
+      }
+    }
+  }
+];
 ---
+
+{jobPostings.map((job) => (
+  <script type="application/ld+json" set:html={JSON.stringify(job)} />
+))}
 
 <section id="recruit" class="section recruit">
   <div class="container">
@@ -7,27 +85,40 @@
     <div class="recruit-content">
       <div class="recruit-info">
         <p class="recruit-lead">
-          勾当台夕方内科クリニックでは、<br class="sp-only" />一緒に働くスタッフを募集しています。
+          勾当台夕方内科クリニックでは、<br class="sp-only" />一緒に働くオープニングスタッフを募集しています。
         </p>
 
         <div class="job-list">
           <div class="job-item">
-            <h3>募集職種</h3>
-            <ul>
-              <li>医療事務</li>
-              <li>看護師</li>
+            <h3>看護師</h3>
+            <ul class="job-details">
+              <li><span class="label">時給</span><span class="value">2,200円〜2,500円</span></li>
+              <li><span class="label">勤務時間</span><span class="value">17:00〜21:00</span></li>
+              <li><span class="label">試用期間</span><span class="value">3ヶ月</span></li>
+              <li><span class="label">交通費</span><span class="value">実費支給（月額20,000円上限）</span></li>
+              <li><span class="label">昇給</span><span class="value">あり</span></li>
+              <li><span class="label">賞与</span><span class="value">なし</span></li>
             </ul>
           </div>
 
           <div class="job-item">
-            <h3>勤務時間</h3>
-            <p>16:30〜21:30（診療時間 17:00〜21:00）</p>
-            <p class="note">※週2日〜勤務可能な方</p>
+            <h3>受付事務</h3>
+            <ul class="job-details">
+              <li><span class="label">時給</span><span class="value">1,600円〜1,800円</span></li>
+              <li><span class="label">勤務時間</span><span class="value">17:00〜21:00</span></li>
+              <li><span class="label">試用期間</span><span class="value">3ヶ月</span></li>
+              <li><span class="label">交通費</span><span class="value">実費支給（月額20,000円上限）</span></li>
+              <li><span class="label">昇給</span><span class="value">あり</span></li>
+              <li><span class="label">賞与</span><span class="value">なし</span></li>
+            </ul>
           </div>
 
           <div class="job-item">
-            <h3>勤務地</h3>
-            <p>宮城県仙台市青葉区国分町3丁目8-1<br />勾当台ビル 4階</p>
+            <h3>共通事項</h3>
+            <ul class="job-details">
+              <li><span class="label">勤務日</span><span class="value">週1日〜OK</span></li>
+              <li><span class="label">勤務地</span><span class="value">宮城県仙台市青葉区国分町3丁目8-1<br />勾当台ビル 4階</span></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -60,8 +151,8 @@
             <label for="position">希望職種 <span class="required">*</span></label>
             <select id="position" name="position" required>
               <option value="">選択してください</option>
-              <option value="医療事務">医療事務</option>
               <option value="看護師">看護師</option>
+              <option value="受付事務">受付事務</option>
               <option value="その他">その他</option>
             </select>
           </div>
@@ -116,16 +207,29 @@
     margin-bottom: 12px;
   }
 
-  .job-item ul {
+  .job-details {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding-left: 20px;
-    list-style: disc;
+    gap: 10px;
   }
 
-  .job-item li {
+  .job-details li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
     color: #555;
+    line-height: 1.6;
+  }
+
+  .job-details .label {
+    flex-shrink: 0;
+    width: 70px;
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  .job-details .value {
+    flex: 1;
   }
 
   .job-item p {

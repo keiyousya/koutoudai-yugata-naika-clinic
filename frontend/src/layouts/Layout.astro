@@ -124,8 +124,8 @@ const structuredData = {
     <!-- Critical CSS for above-the-fold content -->
     <style>
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-      html{scroll-behavior:smooth}
-      body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,sans-serif;line-height:1.7;color:#333;background-color:#fafafa}
+      html{scroll-behavior:smooth;overflow-x:hidden}
+      body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,sans-serif;line-height:1.7;color:#333;background-color:#fafafa;overflow-x:hidden}
       a{color:inherit;text-decoration:none}
       img{max-width:100%;height:auto}
       ul{list-style:none}
@@ -163,6 +163,7 @@ const structuredData = {
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
@@ -170,6 +171,7 @@ const structuredData = {
     line-height: 1.7;
     color: #333;
     background-color: #fafafa;
+    overflow-x: hidden;
   }
 
   a {

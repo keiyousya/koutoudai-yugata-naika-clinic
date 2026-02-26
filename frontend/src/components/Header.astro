@@ -3,11 +3,12 @@ import { Image } from "astro:assets";
 import logoImage from "../assets/logo.png";
 
 const navItems = [
-  { href: "#about", label: "当院について" },
-  { href: "#doctor", label: "院長紹介" },
-  { href: "#hours", label: "診療時間" },
-  { href: "#access", label: "アクセス" },
-  // { href: "#reservation", label: "ご予約" },
+  { href: "/#about", label: "当院について" },
+  { href: "/#doctor", label: "院長紹介" },
+  { href: "/#hours", label: "診療時間" },
+  { href: "/#access", label: "アクセス" },
+  { href: "/#recruit", label: "採用情報" },
+  // { href: "/#reservation", label: "ご予約" },
 ];
 ---
 
@@ -53,8 +54,7 @@ const navItems = [
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    background: #fff;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
     z-index: 1000;
   }
@@ -80,7 +80,7 @@ const navItems = [
   .logo-main {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #2c5f7c;
+    color: #1e3a5f;
     letter-spacing: 0.05em;
   }
 
@@ -104,12 +104,12 @@ const navItems = [
     left: 0;
     width: 0;
     height: 2px;
-    background: #4a90a4;
+    background: #e67e22;
     transition: width 0.2s;
   }
 
   .nav-link:hover {
-    color: #2c5f7c;
+    color: #1e3a5f;
   }
 
   .nav-link:hover::after {
@@ -129,7 +129,7 @@ const navItems = [
   .menu-bar {
     width: 24px;
     height: 2px;
-    background: #2c5f7c;
+    background: #1e3a5f;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
 

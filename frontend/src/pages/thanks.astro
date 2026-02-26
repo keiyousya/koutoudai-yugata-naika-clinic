@@ -1,0 +1,93 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import TwilightBackground from "../components/TwilightBackground.astro";
+---
+
+<Layout title="送信完了 | 勾当台夕方内科クリニック">
+  <Header />
+  <main class="thanks-page">
+    <div class="thanks-content">
+      <div class="thanks-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <h1>送信が完了しました</h1>
+      <p>
+        ご応募いただきありがとうございます。<br />
+        内容を確認の上、担当者よりご連絡いたします。
+      </p>
+      <a href="/" class="back-btn">トップページに戻る</a>
+    </div>
+    <TwilightBackground />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .thanks-page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 20px 80px;
+    overflow: hidden;
+  }
+
+  .thanks-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    background: white;
+    padding: 60px 48px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
+  }
+
+  .thanks-icon {
+    color: #e67e22;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    color: #1e3a5f;
+    margin-bottom: 16px;
+  }
+
+  p {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+
+  .back-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .thanks-content {
+      padding: 40px 24px;
+    }
+
+    h1 {
+      font-size: 1.3rem;
+    }
+  }
+</style>

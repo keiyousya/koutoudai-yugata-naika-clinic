@@ -1,6 +1,5 @@
 ---
-import { Image } from "astro:assets";
-import logoImage from "../assets/logo.png";
+import logoSvg from "../assets/logo.svg?raw";
 
 const navItems = [
   { href: "/#about", label: "当院について" },
@@ -15,16 +14,7 @@ const navItems = [
 <header class="header">
   <div class="header-inner container">
     <a href="/" class="logo">
-      <Image
-        src={logoImage}
-        alt="勾当台夕方内科クリニック"
-        class="logo-img"
-        width={88}
-        height={88}
-        format="webp"
-        quality={80}
-        loading="eager"
-      />
+      <div class="logo-img" set:html={logoSvg} />
       <span class="logo-main">勾当台夕方内科クリニック</span>
     </a>
     <nav class="nav">
@@ -54,8 +44,7 @@ const navItems = [
     top: 0;
     left: 0;
     right: 0;
-    background: #fff;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.95);
     z-index: 1000;
   }
 
@@ -74,13 +63,19 @@ const navItems = [
 
   .logo-img {
     height: 44px;
-    width: auto;
+    width: 44px;
+    flex-shrink: 0;
+  }
+
+  .logo-img :global(svg) {
+    width: 100%;
+    height: 100%;
   }
 
   .logo-main {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #1e3a5f;
+    color: var(--color-navy);
     letter-spacing: 0.05em;
   }
 
@@ -92,7 +87,7 @@ const navItems = [
   .nav-link {
     font-size: 0.9rem;
     font-weight: 500;
-    color: #555;
+    color: var(--color-text-secondary);
     transition: color 0.2s;
     position: relative;
   }
@@ -104,12 +99,12 @@ const navItems = [
     left: 0;
     width: 0;
     height: 2px;
-    background: #e67e22;
+    background: var(--color-orange);
     transition: width 0.2s;
   }
 
   .nav-link:hover {
-    color: #1e3a5f;
+    color: var(--color-navy);
   }
 
   .nav-link:hover::after {
@@ -129,7 +124,7 @@ const navItems = [
   .menu-bar {
     width: 24px;
     height: 2px;
-    background: #1e3a5f;
+    background: var(--color-navy);
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
 
@@ -152,6 +147,7 @@ const navItems = [
 
     .logo-img {
       height: 36px;
+      width: 36px;
     }
 
     .logo-main {

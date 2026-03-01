@@ -130,7 +130,7 @@ const structuredData = {
       img{max-width:100%;height:auto}
       ul{list-style:none}
       .container{max-width:1100px;margin:0 auto;padding:0 20px}
-      .header{position:fixed;top:0;left:0;right:0;background:#fff;box-shadow:0 2px 20px rgba(0,0,0,.08);z-index:1000}
+      .header{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);z-index:1000}
       .header-inner{display:flex;align-items:center;justify-content:space-between;height:70px}
       .logo{display:flex;align-items:center;gap:12px}
       .logo-img{height:44px;width:auto}
@@ -138,7 +138,7 @@ const structuredData = {
       .nav-list{display:flex;gap:32px}
       .nav-link{font-size:.9rem;font-weight:500;color:#555}
       .menu-toggle{display:none}
-      .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding-top:70px}
+      .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding-top:70px;isolation:isolate}
       .hero-bg{position:absolute;inset:0;background:linear-gradient(180deg,#1e3a5f 0%,#2a4a6e 30%,#4a6a8a 50%,#d4886a 75%,#e8a87c 100%);z-index:-2}
       .hero-content{text-align:center;z-index:1}
       .hero-catchphrase{font-size:1.1rem;color:#fff;margin-bottom:16px;font-weight:500;letter-spacing:.1em;text-shadow:0 2px 10px rgba(0,0,0,.2)}
@@ -153,6 +153,28 @@ const structuredData = {
 </html>
 
 <style is:global>
+  :root {
+    /* Brand */
+    --color-navy: #1e3a5f;
+    --color-navy-light: #2a4a6e;
+    --color-navy-medium: #4a6a8a;
+    --color-orange: #e67e22;
+    --color-orange-dark: #d35400;
+
+    /* Text */
+    --color-text: #333;
+    --color-text-secondary: #555;
+    --color-text-muted: #666;
+
+    /* Background */
+    --color-bg: #fafafa;
+    --color-bg-warm: #faf6f2;
+    --color-bg-blue: #f0f4f8;
+
+    /* Border */
+    --color-border: #eee;
+  }
+
   *,
   *::before,
   *::after {
@@ -164,13 +186,14 @@ const structuredData = {
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    background-color: var(--color-navy);
   }
 
   body {
     font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
     line-height: 1.7;
-    color: #333;
-    background-color: #fafafa;
+    color: var(--color-text);
+    background-color: var(--color-bg);
     overflow-x: hidden;
   }
 
@@ -204,7 +227,7 @@ const structuredData = {
     font-weight: 700;
     text-align: center;
     margin-bottom: 48px;
-    color: #1e3a5f;
+    color: var(--color-navy);
   }
 
   .section-title::after {
@@ -212,7 +235,7 @@ const structuredData = {
     display: block;
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, #e67e22, #f5a855);
+    background: linear-gradient(90deg, var(--color-orange), #f5a855);
     margin: 16px auto 0;
     border-radius: 2px;
   }

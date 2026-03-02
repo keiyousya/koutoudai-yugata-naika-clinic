@@ -21,7 +21,7 @@
 
   .post {
     width: 1080px;
-    height: 1080px;
+    height: 1440px;
     position: relative;
     overflow: hidden;
     background: linear-gradient(175deg, #0f2440 0%, #1e3a5f 20%, #2a4a6e 40%, #4a6a8a 60%, #c47a5a 82%, #e8a87c 100%);
@@ -67,12 +67,17 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 60px 64px 56px;
+    justify-content: center;
+    padding: 60px 64px;
+    padding-bottom: 200px;
     color: #fff;
   }
 
-  /* Top: Logo + clinic name */
+  /* Top: Logo + clinic name - fixed at top */
   .logo-area {
+    position: absolute;
+    top: 60px;
+    left: 64px;
     display: flex;
     align-items: center;
     gap: 20px;
@@ -96,7 +101,7 @@
     flex-shrink: 0;
   }
   .main-title h1 {
-    font-size: 80px;
+    font-size: 120px;
     font-weight: 900;
     letter-spacing: 0.08em;
     line-height: 1.15;
@@ -133,12 +138,16 @@
   }
 
   /* Job cards */
+  /* Bottom section - fixed at bottom */
+  .bottom-section {
+    position: absolute;
+    bottom: 60px;
+    left: 64px;
+    right: 64px;
+  }
   .jobs {
     display: flex;
     gap: 24px;
-    margin-top: 40px;
-    flex: 1;
-    align-items: stretch;
   }
   .job-card {
     flex: 1;
@@ -146,13 +155,12 @@
     backdrop-filter: blur(16px);
     border: 1px solid rgba(255,255,255,0.25);
     border-radius: 20px;
-    padding: 36px 32px 32px;
+    padding: 36px 32px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 16px;
+    gap: 12px;
   }
   .job-card .job-title {
     font-size: 44px;
@@ -238,8 +246,7 @@
 
     <!-- Main title -->
     <div class="main-title">
-      <h1>オープニング<br><span>スタッフ募集</span></h1>
-      <div class="sub">17:00 〜 21:00 の夕方勤務</div>
+      <h1>新規開院<br><span>17〜21時</span><br>スタッフ募集</h1>
     </div>
 
     <!-- Feature tags -->
@@ -249,22 +256,22 @@
       <div class="feature-tag">Wワーク歓迎</div>
     </div>
 
-    <!-- Job cards -->
-    <div class="jobs">
-      <div class="job-card">
-        <div class="job-title">看護師</div>
-        <div class="wage-label">時給</div>
-        <div class="wage-amount">2,200〜2,500<small>円</small></div>
+    <!-- Bottom section: Job cards + CTA -->
+    <div class="bottom-section">
+      <div class="jobs">
+        <div class="job-card">
+          <div class="job-title">看護師</div>
+          <div class="wage-label">時給</div>
+          <div class="wage-amount">2,200〜2,500<small>円</small></div>
+        </div>
+        <div class="job-card">
+          <div class="job-title">受付事務</div>
+          <div class="wage-label">時給</div>
+          <div class="wage-amount">1,600〜1,800<small>円</small></div>
+        </div>
       </div>
-      <div class="job-card">
-        <div class="job-title">受付事務</div>
-        <div class="wage-label">時給</div>
-        <div class="wage-amount">1,600〜1,800<small>円</small></div>
-      </div>
+      <div class="bottom-text">詳しくはプロフィール欄からお問い合わせください</div>
     </div>
-
-    <!-- Bottom -->
-    <div class="bottom-text">詳しくはプロフィール欄からお問い合わせください</div>
   </div>
 </div>
 

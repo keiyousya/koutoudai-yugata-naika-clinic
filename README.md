@@ -1,23 +1,39 @@
 # 勾当台夕方内科クリニック
 
-勾当台夕方内科クリニックのホームページおよび予約システム
+勾当台夕方内科クリニックの業務全般を集約したモノレポ。ホームページ・予約システムから、経理・SNS・掲示物まで管理する。
 
 ## プロジェクト構成
 
 ```
 .
-├── frontend/   # クリニックHP（Astro）
-├── backend/    # 予約API（Cloudflare Workers + Turso）
-└── admin/      # 管理画面（React + Vite）
+├── frontend/    # クリニックHP（Astro）
+├── backend/     # 予約API（Cloudflare Workers + Turso）
+├── admin/       # 管理画面（React + Vite）
+├── finance/     # 初期費用・月額費用の見積書
+├── instagram/   # Instagram投稿用HTML
+├── line/        # LINEリッチメニュー用HTML
+├── notices/     # 院内掲示物
+├── slides/      # 面接用クリニック紹介スライド（Slidev）
+└── .github/     # CI/CD（GitHub Actions）
 ```
 
-## 技術スタック
+### アプリケーション
 
-| パッケージ | 技術 |
-|-----------|------|
-| frontend | Astro, TypeScript |
-| backend | Hono, Cloudflare Workers, Turso (SQLite) |
-| admin | React, Vite, TanStack Router, TailwindCSS |
+| パッケージ | 技術 | 概要 |
+|-----------|------|------|
+| frontend | Astro, TypeScript | クリニック公式HP（静的サイト） |
+| backend | Hono, Cloudflare Workers, Turso (SQLite) | 予約API |
+| admin | React, Vite, TanStack Router, TailwindCSS | 予約管理ダッシュボード |
+
+### 業務ドキュメント
+
+| ディレクトリ | 内容 |
+|-------------|------|
+| finance/ | 初期費用見積一覧（`estimate.html`）と各業者見積PDF |
+| instagram/ | 求人投稿画像HTML（`recruit.html`） |
+| line/ | LINEリッチメニュー画像HTML（`rich-menu.html`） |
+| notices/ | 院内掲示用の施設情報（`clinic-info.html`） |
+| slides/ | 面接用クリニック紹介スライド（Slidev） |
 
 ## セットアップ
 
@@ -76,22 +92,18 @@ pnpm dev:backend   # バックエンドのみ
 
 ## デプロイ
 
-### フロントエンド
+GitHub Actions（`.github/workflows/deploy.yml`）により、`main` ブランチへの push で自動デプロイされる。
+
+- **フロントエンド** → GitHub Pages
+- **バックエンドAPI** → Cloudflare Workers
+
+### 手動デプロイ
 
 ```bash
-pnpm build
+pnpm build        # フロントエンドビルド（frontend/dist に出力）
+pnpm deploy:api   # バックエンドをCloudflare Workersへデプロイ
 ```
-
-`frontend/dist` に静的ファイルが生成されます。
-
-### バックエンドAPI
-
-```bash
-pnpm deploy:api
-```
-
-Cloudflare Workers にデプロイされます。
 
 ## API ドキュメント
 
-詳細は [backend/README.md](./backend/README.md) を参照してください。
+詳細は [backend/README.md](./backend/README.md) を参照。

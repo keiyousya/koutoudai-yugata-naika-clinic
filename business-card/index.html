@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名刺 - 勾当台夕方内科クリニック</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ================================ */
+    /*        PRINT / PDF SETUP         */
+    /* ================================ */
+    @page {
+      size: 91mm 55mm;
+      margin: 0;
+    }
+
+    /* ================================ */
+    /*         SCREEN PREVIEW           */
+    /* ================================ */
+    body {
+      font-family: "Noto Sans JP", sans-serif;
+      background: #d0d0d0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 32px;
+      padding: 48px 20px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #999;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .print-guide {
+      background: #fff;
+      border-radius: 8px;
+      padding: 16px 24px;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.8;
+      max-width: 91mm;
+      text-align: left;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+
+    .print-guide strong {
+      color: #1e3a5f;
+    }
+
+    /* === Card page (each face = one page) === */
+    .page {
+      width: 91mm;
+      height: 55mm;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+      /* screen only */
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    }
+
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+        gap: 0;
+        min-height: auto;
+      }
+
+      .page-label,
+      .print-guide {
+        display: none;
+      }
+
+      .page {
+        box-shadow: none;
+        page-break-after: always;
+      }
+
+      .page:last-of-type {
+        page-break-after: auto;
+      }
+    }
+
+    /* ================================ */
+    /*       FRONT SIDE (Page 1)        */
+    /* ================================ */
+    .front {
+      display: flex;
+      flex-direction: column;
+      padding: 6mm 7mm 3.5mm;
+    }
+
+    .front::before {
+      content: '';
+      position: absolute;
+      top: -0.5mm;
+      left: -0.5mm;
+      right: -0.5mm;
+      height: 2.7mm;
+      background: linear-gradient(90deg, #1e3a5f 0%, #2a4a6e 25%, #4a6a8a 45%, #e8a87c 70%, #e67e22 100%);
+    }
+
+    .front::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5mm;
+      left: -0.5mm;
+      right: -0.5mm;
+      height: 1.2mm;
+      background: #1e3a5f;
+    }
+
+    .front-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5mm;
+      padding-bottom: 1.5mm;
+      margin-bottom: 4.5mm;
+      border-bottom: 0.3mm solid #e67e22;
+    }
+
+    .front-header-text {
+      flex: 1;
+    }
+
+    .front-logo {
+      width: 8mm;
+      height: 8mm;
+      flex-shrink: 0;
+      margin-top: -1mm;
+    }
+
+    .front-logo svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .front-clinic-name {
+      font-size: 3.4mm;
+      font-weight: 700;
+      color: #1e3a5f;
+      letter-spacing: 0.06em;
+      line-height: 1.3;
+    }
+
+    .front-clinic-name-en {
+      font-size: 1.6mm;
+      font-weight: 400;
+      color: #4a6a8a;
+      letter-spacing: 0.04em;
+      margin-top: 0.5mm;
+    }
+
+    .front-title {
+      font-size: 2.8mm;
+      font-weight: 500;
+      color: #4a6a8a;
+      letter-spacing: 0.15em;
+      margin-bottom: 2.5mm;
+    }
+
+    .front-name-row {
+      display: flex;
+      align-items: baseline;
+      gap: 2mm;
+      margin-bottom: 0.8mm;
+    }
+
+    .front-name {
+      font-size: 6mm;
+      font-weight: 300;
+      color: #1e3a5f;
+      letter-spacing: 0.18em;
+      line-height: 1;
+    }
+
+    .front-reading {
+      font-size: 2.8mm;
+      font-weight: 400;
+      color: #4a6a8a;
+      letter-spacing: 0.12em;
+    }
+
+    .front-contact {
+      margin-top: auto;
+      padding-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5mm;
+      font-size: 2.8mm;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    .front-contact-item {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5mm;
+    }
+
+    .front-contact-label {
+      font-size: 2.5mm;
+      font-weight: 700;
+      color: #1e3a5f;
+      min-width: 6mm;
+    }
+
+    /* ================================ */
+    /*        BACK SIDE (Page 2)        */
+    /* ================================ */
+    .back {
+      display: flex;
+      flex-direction: row;
+      padding: 5mm 5mm 3.5mm 6mm;
+      gap: 3mm;
+    }
+
+    .back::before {
+      content: '';
+      position: absolute;
+      top: -0.5mm;
+      left: -0.5mm;
+      right: -0.5mm;
+      height: 2.7mm;
+      background: linear-gradient(90deg, #1e3a5f 0%, #2a4a6e 25%, #4a6a8a 45%, #e8a87c 70%, #e67e22 100%);
+    }
+
+    .back::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5mm;
+      left: -0.5mm;
+      right: -0.5mm;
+      height: 1.2mm;
+      background: #1e3a5f;
+    }
+
+    /* Left column: info */
+    .back-info-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .back-clinic {
+      font-size: 3.2mm;
+      font-weight: 300;
+      color: #1e3a5f;
+      letter-spacing: 0.04em;
+      margin-bottom: 3mm;
+      line-height: 1.3;
+    }
+
+    .info-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5mm;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5mm;
+      line-height: 1.4;
+    }
+
+    .info-icon {
+      flex-shrink: 0;
+      width: 2.6mm;
+      height: 2.6mm;
+      color: #e67e22;
+      margin-top: 0.15mm;
+    }
+
+    .info-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .info-text {
+      font-size: 2.4mm;
+      color: #333;
+      line-height: 1.45;
+    }
+
+    /* Hours section */
+    .hours-section {
+      margin-top: 3mm;
+    }
+
+    .hours-title {
+      font-size: 2.2mm;
+      font-weight: 700;
+      color: #1e3a5f;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.2mm;
+    }
+
+    .hours-table {
+      border-collapse: collapse;
+      font-size: 2mm;
+    }
+
+    .hours-table th,
+    .hours-table td {
+      text-align: center;
+      padding: 0.4mm 1.5mm;
+      border: 0.15mm solid #ddd;
+    }
+
+    .hours-table th {
+      font-weight: 500;
+      color: #4a6a8a;
+      background: #f5f7fa;
+    }
+
+    .hours-table th.sun {
+      color: #e67e22;
+    }
+
+    .hours-table td {
+      font-weight: 700;
+      font-size: 2.2mm;
+    }
+
+    .hours-table td.on {
+      color: #1e3a5f;
+    }
+
+    .hours-table td.off {
+      color: #999;
+      font-weight: 400;
+    }
+
+    .hours-note {
+      font-size: 1.7mm;
+      color: #999;
+      margin-top: 0.6mm;
+    }
+
+    /* Right column: QR */
+    .back-qr-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5mm;
+      flex-shrink: 0;
+      width: 28mm;
+    }
+
+    .qr-box {
+      width: 26mm;
+      height: 26mm;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+
+    .qr-box img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .qr-label {
+      font-size: 2mm;
+      font-weight: 500;
+      color: #1e3a5f;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    .qr-domain {
+      font-size: 1.5mm;
+      color: #4a6a8a;
+      text-align: center;
+      word-break: break-all;
+      max-width: 25mm;
+      line-height: 1.3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Print instructions (screen only) -->
+  <div class="print-guide">
+    <strong>入稿用PDF作成手順：</strong><br>
+    1. Cmd+P（またはCtrl+P）で印刷ダイアログを開く<br>
+    2.「送信先」を<strong>「PDFに保存」</strong>に設定<br>
+    3. 余白を<strong>「なし」</strong>に設定<br>
+    4.「背景のグラフィック」に<strong>チェック</strong>を入れる<br>
+    5. 保存 → 入稿用PDFの完成
+  </div>
+
+  <!-- ===== PAGE 1: FRONT ===== -->
+  <p class="page-label">表面（Page 1）</p>
+  <div class="page front">
+    <div class="front-header">
+      <div class="front-header-text">
+        <div class="front-clinic-name">勾当台夕方内科クリニック</div>
+        <div class="front-clinic-name-en">Koutoudai Evening Internal Medicine Clinic</div>
+      </div>
+      <div class="front-logo">
+        <svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="71" y="946" width="875" height="12" fill="#84B7D7"/>
+          <path d="M552 86C569.03 86 585.832 86.9762 602.353 88.876C428.055 124.766 297 279.078 297 464C297 675.525 468.475 847 680 847C766.736 847 846.738 818.167 910.944 769.564C832.277 883.407 700.85 958 552 958C311.204 958 116 762.796 116 522C116 281.204 311.204 86 552 86Z" fill="url(#g1)"/>
+          <path d="M250.72 713.322L289.985 744H290V763.581L363.002 810.99L362.996 811H363V946H351V817.503L290 777.89V946H278V749.863L250.076 728.047L217 749.527V946H205V821.813L139 859.919V946H127V853H127.001L126.997 852.993L205 807.958V743H205.02L250.714 713.324L250.718 713.32L250.72 713.322Z" fill="#84B7D7"/>
+          <path d="M677 829H665V771H677V829ZM580 288.453L676.997 367H677V447H665V372.726L573.499 298.63L482 372.725V765H470V442.806L387 494.67V675H375V488H375.03L470 428.656V367H470.002L568 287.643V205H580V288.453Z" fill="#84B7D7"/>
+          <path d="M808 460C861.019 460 904 502.981 904 556C904 584.656 891.443 610.379 871.533 627.969L842.99 656.512L843.03 656.552L717.406 782.176L717.366 782.136L717.324 782.179L591.7 656.555L591.742 656.512L559.189 623.959L559.192 623.955C541.776 606.577 531 582.547 531 556C531 502.981 573.981 460 627 460C668.76 460 704.292 486.665 717.5 523.896C730.708 486.665 766.24 460 808 460Z" fill="#FBC96B"/>
+          <path d="M745 596H800V651H745V709H690V651H635V596H690V544H745V596Z" fill="white"/>
+          <path d="M351.003 817.456V878.273H351V909.005C329.562 897.848 309.169 884.961 290.003 870.53V777.843L351.003 817.456ZM278.003 749.816V861.164C255.76 843.172 235.321 823.037 217.003 801.072V749.48L250.079 728L278.003 749.816Z" fill="white" fill-opacity="0.5"/>
+          <defs>
+            <linearGradient id="g1" x1="610" y1="86" x2="575.5" y2="958" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#A3CEE2"/>
+              <stop offset="1" stop-color="#6390C8"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+    <div class="front-title">院 長</div>
+    <div class="front-name-row">
+      <div class="front-name">田村 慧人</div>
+      <div class="front-reading">たむら けいと</div>
+    </div>
+    <div class="front-contact">
+      <div class="front-contact-item">
+        <span class="front-contact-label">Phone</span> 070-8564-8516
+      </div>
+      <div class="front-contact-item">
+        <span class="front-contact-label">Mail</span> tamurakeito@koutoudai-yugata-naika.clinic
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 2: BACK ===== -->
+  <p class="page-label">裏面（Page 2）</p>
+  <div class="page back">
+    <div class="back-info-col">
+      <div>
+        <div class="back-clinic">勾当台夕方内科クリニック</div>
+        <div class="info-text">〒980-0803<br>仙台市青葉区国分町3-8-1 勾当台ビル4F</div>
+      </div>
+
+      <div class="hours-section">
+        <div class="hours-title">診療時間 17:00〜21:00</div>
+        <table class="hours-table">
+          <tr>
+            <th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th><th class="sun">日</th>
+          </tr>
+          <tr>
+            <td class="off">休</td><td class="off">休</td><td class="on">○</td><td class="on">○</td><td class="on">○</td><td class="on">○</td><td class="on">○</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="back-qr-col">
+      <div class="qr-box">
+        <img src="qr_code.svg" alt="QR Code">
+      </div>
+      <div class="qr-label">ホームページ</div>
+      <div class="qr-domain">koutoudai-yugata-naika.clinic</div>
+    </div>
+  </div>
+
+</body>
+</html>

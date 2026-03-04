@@ -7,12 +7,11 @@
     <div class="about-content">
       <div class="about-text">
         <p class="about-lead">
-          お仕事帰りや夕方のお時間に、<br class="sp-only" />気軽に受診できるクリニックです。
+          お仕事帰りや夕方のお時間に、<br class="sp-only" />無理なく通院を継続できるクリニックです。
         </p>
         <p class="about-description">
-          「日中は仕事で病院に行けない」「夜間救急に行くほどではないけれど診てほしい」<br />
-          そんな方々のために、夕方から夜にかけての時間帯に診療を行っています。<br />
-          風邪や体調不良、生活習慣病の相談など、内科全般に対応しております。
+          生活習慣病の継続的な管理から、急な発熱や体調不良への対応まで、<br />
+          夕方以降のかかりつけ医として、お気軽にご相談ください。
         </p>
         <ul class="about-features">
           <li class="feature-item">
@@ -54,6 +53,58 @@
             </div>
           </li>
         </ul>
+
+        <div class="medical-area">
+          <h3 class="medical-heading">診療内容</h3>
+          <p class="medical-note">
+            下記以外の症状もお気軽にご相談ください。必要に応じて専門医療機関へのご紹介も行います。
+          </p>
+          <div class="medical-columns">
+            <div class="medical-card">
+              <div class="medical-card-header">
+                <span class="medical-card-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                  </svg>
+                </span>
+                <h4 class="medical-card-title">慢性疾患のかかりつけ</h4>
+              </div>
+              <p class="medical-card-description">
+                夕方以降の時間帯で継続的に生活習慣病などの管理・治療を行います。
+              </p>
+              <ul class="condition-list">
+                <li class="condition-tag">高血圧</li>
+                <li class="condition-tag">糖尿病</li>
+                <li class="condition-tag">脂質異常症</li>
+                <li class="condition-tag">高尿酸血症・痛風</li>
+                <li class="condition-tag">貧血</li>
+                <li class="condition-tag">不眠</li>
+              </ul>
+            </div>
+
+            <div class="medical-card">
+              <div class="medical-card-header">
+                <span class="medical-card-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="2" x2="12" y2="22"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                  </svg>
+                </span>
+                <h4 class="medical-card-title">夜間の急な症状にも対応</h4>
+              </div>
+              <p class="medical-card-description">
+                夕方以降の急な発熱や体調不良に対応します。
+              </p>
+              <ul class="condition-list">
+                <li class="condition-tag">発熱・感冒症状</li>
+                <li class="condition-tag">咳・喉の痛み</li>
+                <li class="condition-tag">腹痛・下痢・嘔吐</li>
+                <li class="condition-tag">花粉症・アレルギー</li>
+                <li class="condition-tag">頻尿・排尿時痛</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -120,6 +171,91 @@
     font-size: 0.95rem;
   }
 
+  .medical-area {
+    margin-top: 56px;
+  }
+
+  .medical-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    text-align: center;
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .medical-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+
+  .medical-card {
+    background: var(--color-bg-blue);
+    border-radius: 14px;
+    padding: 28px 24px;
+    border-top: 3px solid var(--color-orange);
+  }
+
+  .medical-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .medical-card-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 10px;
+    color: var(--color-orange);
+  }
+
+  .medical-card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: 1.4;
+  }
+
+  .medical-card-description {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  .condition-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .condition-tag {
+    display: inline-block;
+    padding: 5px 14px;
+    background: white;
+    color: var(--color-navy);
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 50px;
+    border: 1px solid rgba(230, 126, 34, 0.18);
+  }
+
+  .medical-note {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
   .sp-only {
     display: none;
   }
@@ -145,6 +281,38 @@
     .feature-icon svg {
       width: 24px;
       height: 24px;
+    }
+
+    .medical-area {
+      margin-top: 40px;
+    }
+
+    .medical-heading {
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+    }
+
+    .medical-columns {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .medical-card {
+      padding: 24px 20px;
+    }
+
+    .medical-card-title {
+      font-size: 1rem;
+    }
+
+    .condition-tag {
+      font-size: 0.8rem;
+      padding: 4px 12px;
+    }
+
+    .medical-note {
+      text-align: left;
+      font-size: 0.85rem;
     }
   }
 </style>

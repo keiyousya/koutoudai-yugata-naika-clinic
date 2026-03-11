@@ -38,36 +38,6 @@ transition: slide-left
 
 ---
 
-# なぜ勾当台なのか
-
-<div style="display: flex; gap: 2em; align-items: flex-start;">
-<div style="flex: 1;">
-
-### 帰宅動線の中にある立地
-
-- **地下鉄南北線 勾当台公園駅** 徒歩2分
-- 市役所・区役所・県庁が集まるエリア
-- 本町・上杉・二日町・国分町・木町通・立町など、**商業地・住宅地が徒歩圏内**に密集
-- 周辺で働く人が**帰りに地下鉄へ向かう動線上**
-
-<br>
-
-### エリアの将来性
-
-勾当台公園は**令和10年の完成を目指して再整備中**。<br>
-今後さらに人が集まる街になることが見込まれています。
-
-</div>
-<div style="flex: 1;">
-
-<img src="/koutoudai-park.png" alt="勾当台公園 再整備イメージ" style="border-radius: 8px; width: 100%;" />
-<p class="text-muted" style="text-align: center; margin-top: 0.5em;">勾当台公園 再整備完成イメージ</p>
-
-</div>
-</div>
-
----
-
 # クリニックの規模・設備
 
 <div style="display: flex; gap: 2em; align-items: flex-start;">
@@ -88,8 +58,23 @@ transition: slide-left
 </div>
 <div style="flex: 1;">
 
-<img src="/interior.png" alt="内装図面" style="border-radius: 8px; width: 100%;" />
+<img src="/interior01.png" alt="内装図面" style="border-radius: 8px; width: 100%;" />
 
+</div>
+</div>
+
+---
+
+# 院内イメージ
+
+<div style="display: flex; gap: 1.5em; align-items: center; margin-top: 1em;">
+<div style="flex: 1; text-align: center;">
+<img src="/interior03.png" alt="待合室パース" style="border-radius: 8px; width: 100%;" />
+<p style="margin-top: 0.5em; font-size: 0.9em; color: #666;">待合室</p>
+</div>
+<div style="flex: 1; text-align: center;">
+<img src="/interior02.JPG" alt="診察室パース" style="border-radius: 8px; width: 100%;" />
+<p style="margin-top: 0.5em; font-size: 0.9em; color: #666;">診察室</p>
 </div>
 </div>
 
@@ -115,67 +100,3 @@ transition: slide-left
 <br>
 
 新規開院のクリニックを**立ち上げから一緒に経験できる**環境です。
-
----
-
-# 働き方の特徴
-
-<br>
-
-- **勤務時間** 17:00〜21:00（1日4時間）
-- **出勤日数** 週1日からOK（水〜日のうち希望日）
-- **Wワーク歓迎** 日中は別の仕事をしている方も働けます
-- **昼間は自由** 出勤日でも17時まではご自身の時間です
-
----
-
-# 診療時間・アクセス
-
-### 診療時間
-
-| 月 | 火 | 水 | 木 | 金 | 土 | 日 |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 休 | 休 | ○ | ○ | ○ | ○ | ○ |
-
-17:00〜21:00（最終受付 20:30）
-
-<br>
-
-### アクセス
-
-**宮城県仙台市青葉区国分町3丁目8-1 勾当台ビル 4階**
-
-地下鉄南北線 **勾当台公園駅** 徒歩2分
-
----
-
-# 募集職種・待遇
-
-<br>
-
-| | 看護師 | 受付事務 |
-|---|---|---|
-| **時給** | 2,200円〜2,500円 | 1,600円〜1,800円 |
-| **勤務時間** | 17:00〜21:00 | 17:00〜21:00 |
-| **勤務日** | 週1日〜OK | 週1日〜OK |
-| **試用期間** | 3ヶ月 | 3ヶ月 |
-
-<br>
-
-- **交通費** 実費支給（月額20,000円上限）
-- **昇給** あり
-- **雇用形態** パート
-
----
-layout: center
-class: end
----
-
-# ご清聴ありがとうございます
-
-<br>
-
-本日は面接にお越しいただきありがとうございます。
-<br>
-ご質問があればお気軽にどうぞ。
-

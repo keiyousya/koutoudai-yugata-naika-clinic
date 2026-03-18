@@ -35,42 +35,6 @@ const jobPostings = [
         "unitText": "HOUR"
       }
     }
-  },
-  {
-    "@context": "https://schema.org/",
-    "@type": "JobPosting",
-    "title": "看護師（オープニングスタッフ）",
-    "description": "2026年4月開院予定の勾当台夕方内科クリニックでオープニングスタッフを募集しています。夕方から夜間の内科診療をサポートしていただきます。週1日からOK。時給2,200円〜2,500円、交通費支給（月額20,000円上限）、昇給あり。",
-    "datePosted": "2026-02-26",
-    "validThrough": "2026-12-31",
-    "employmentType": "PART_TIME",
-    "hiringOrganization": {
-      "@type": "Organization",
-      "name": "勾当台夕方内科クリニック",
-      "sameAs": "https://koutoudai-yugata-naika.clinic",
-      "logo": "https://koutoudai-yugata-naika.clinic/apple-touch-icon.png"
-    },
-    "jobLocation": {
-      "@type": "Place",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "国分町3丁目8-1 勾当台ビル4階",
-        "addressLocality": "仙台市青葉区",
-        "addressRegion": "宮城県",
-        "postalCode": "980-0803",
-        "addressCountry": "JP"
-      }
-    },
-    "baseSalary": {
-      "@type": "MonetaryAmount",
-      "currency": "JPY",
-      "value": {
-        "@type": "QuantitativeValue",
-        "minValue": 2200,
-        "maxValue": 2500,
-        "unitText": "HOUR"
-      }
-    }
   }
 ];
 ---
@@ -89,16 +53,9 @@ const jobPostings = [
         </p>
 
         <div class="job-list">
-          <div class="job-item">
+          <div class="job-item closed">
             <h3>看護師</h3>
-            <ul class="job-details">
-              <li><span class="label">時給</span><span class="value">2,200円〜2,500円</span></li>
-              <li><span class="label">勤務時間</span><span class="value">17:00〜21:00</span></li>
-              <li><span class="label">試用期間</span><span class="value">3ヶ月</span></li>
-              <li><span class="label">交通費</span><span class="value">実費支給（月額20,000円上限）</span></li>
-              <li><span class="label">昇給</span><span class="value">あり</span></li>
-              <li><span class="label">賞与</span><span class="value">なし</span></li>
-            </ul>
+            <p class="closed-notice">現在、看護師の募集は締め切っております。<br />再度募集を行う場合は、こちらに掲載いたします。</p>
           </div>
 
           <div class="job-item">
@@ -151,9 +108,7 @@ const jobPostings = [
             <label for="position">希望職種 <span class="required">*</span></label>
             <select id="position" name="position" required>
               <option value="">選択してください</option>
-              <option value="看護師">看護師</option>
               <option value="受付事務">受付事務</option>
-              <option value="その他">その他</option>
             </select>
           </div>
 
@@ -199,6 +154,17 @@ const jobPostings = [
     background: white;
     border-radius: 12px;
     border-left: 4px solid var(--color-orange);
+  }
+
+  .job-item.closed {
+    border-left-color: #ccc;
+    opacity: 0.7;
+  }
+
+  .closed-notice {
+    font-size: 0.9rem;
+    color: #888;
+    line-height: 1.8;
   }
 
   .job-item h3 {

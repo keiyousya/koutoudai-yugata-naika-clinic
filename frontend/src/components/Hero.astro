@@ -12,20 +12,41 @@ import TwilightBackground from "./TwilightBackground.astro";
       <span class="opening-badge">開院準備中</span>
       <span class="opening-date">2026年4月 開院予定</span>
     </div>
-    <p class="hero-description">
-      水曜〜日曜、17:00〜21:00まで診療<br />
-      勾当台公園駅から徒歩2分
-    </p>
-    <div class="hero-badges">
-      <span class="badge">夕方診療</span>
-      <span class="badge">土日も診療</span>
-      <span class="badge">駅チカ</span>
+    <div class="hero-schedule">
+      <table class="hero-schedule-table">
+        <thead>
+          <tr>
+            <th class="schedule-label">診療時間</th>
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th class="weekend">土</th>
+            <th class="weekend">日</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="schedule-time">17:00 - 21:00</td>
+            <td class="closed">―</td>
+            <td class="closed">―</td>
+            <td class="open"><span class="dot"></span></td>
+            <td class="open"><span class="dot"></span></td>
+            <td class="open"><span class="dot"></span></td>
+            <td class="open"><span class="dot"></span></td>
+            <td class="open"><span class="dot"></span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="hero-schedule-note">【休診日】月曜日・火曜日・祝日</p>
     </div>
+    <p class="hero-access">勾当台公園駅から徒歩2分</p>
     <!-- <a href="#reservation" class="hero-cta">ご予約・お問い合わせ</a> -->
   </div>
   <a href="/#recruit" class="recruit-banner">
     <span class="recruit-label">スタッフ募集</span>
-    <span class="recruit-text">看護師・受付事務を募集しています</span>
+    <span class="recruit-text">受付事務を募集しています</span>
   </a>
   <TwilightBackground />
 </section>
@@ -38,7 +59,8 @@ import TwilightBackground from "./TwilightBackground.astro";
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding-top: 70px;
+    padding-top: 160px;
+    padding-bottom: 0;
     isolation: isolate;
   }
 
@@ -48,12 +70,12 @@ import TwilightBackground from "./TwilightBackground.astro";
   }
 
   .hero-catchphrase {
-    font-size: 1.1rem;
-    color: #fff;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 16px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
   }
 
   .hero-title {
@@ -71,99 +93,155 @@ import TwilightBackground from "./TwilightBackground.astro";
 
   .opening-badge {
     display: inline-block;
-    padding: 6px 16px;
-    background: linear-gradient(135deg, var(--color-orange), var(--color-orange-dark));
+    padding: 5px 14px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     color: white;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 4px;
-    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
   }
 
   .opening-date {
-    font-size: 1.1rem;
-    color: #f5c57a;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   }
 
   .hero-title-main {
     display: block;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: #fff;
-    letter-spacing: 0.08em;
-    line-height: 1.3;
-    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   }
 
   .sp-br {
     display: none;
   }
 
-  .hero-description {
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.95);
-    margin-bottom: 32px;
-    line-height: 2;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  .hero-schedule {
+    margin: 0 auto 20px;
+    max-width: 500px;
+    background: #2a4e78;
+    padding: 14px 14px 16px;
+    border-radius: 6px;
   }
 
-  .hero-badges {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
+  .hero-schedule-table {
+    width: 100%;
+    border-collapse: collapse;
   }
 
-  .badge {
-    display: inline-block;
-    padding: 8px 20px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid var(--color-orange);
+  /* ヘッダー行: 白背景（紺の内側にマージンを持つ） */
+  .hero-schedule-table thead tr {
+    background: white;
+  }
+
+  .hero-schedule-table th {
+    padding: 10px 0;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
     color: var(--color-navy);
-    font-size: 0.85rem;
+    vertical-align: middle;
+  }
+
+  .hero-schedule-table th.weekend {
+    color: #d03030;
+  }
+
+  .schedule-label {
+    width: 130px;
+    letter-spacing: 0.25em !important;
+  }
+
+  /* データ行: 紺背景・白文字 */
+  .hero-schedule-table td {
+    padding: 14px 0;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+  }
+
+  .schedule-time {
     font-weight: 700;
-    border-radius: 50px;
+    font-size: 1.05rem !important;
+    letter-spacing: 0.03em;
+    width: 130px;
+  }
+
+  .hero-schedule-table td.closed {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.1rem !important;
+    font-weight: 400;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: #e8a04c;
+    border-radius: 50%;
+  }
+
+  /* 休診日注記: 紺背景の中 */
+  .hero-schedule-note {
+    padding: 0 16px;
+    margin-top: 0;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .note-sub {
+    font-size: 0.65rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.5);
+    margin-left: 6px;
+  }
+
+  .hero-access {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 32px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   }
 
   .hero-cta {
     display: inline-block;
-    padding: 16px 48px;
-    background: linear-gradient(135deg, var(--color-orange), var(--color-orange-dark));
+    padding: 14px 40px;
+    background: var(--color-orange);
     color: white;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
-    border-radius: 50px;
-    box-shadow: 0 4px 20px rgba(230, 126, 34, 0.4);
-    transition:
-      transform 0.2s,
-      box-shadow 0.2s;
+    border-radius: 4px;
+    transition: opacity 0.2s;
+    letter-spacing: 0.03em;
   }
 
   .hero-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 30px rgba(230, 126, 34, 0.5);
+    opacity: 0.85;
   }
 
   @media (max-width: 768px) {
     .hero {
       min-height: calc(100vh - 20px);
-      padding: 100px 0 60px;
+      padding: 180px 0 60px;
     }
 
     .hero-catchphrase {
-      font-size: 0.95rem;
+      font-size: 0.85rem;
     }
 
     .hero-title-main {
-      font-size: 1.75rem;
-    }
-
-    .hero-description {
-      font-size: 1rem;
+      font-size: 1.6rem;
     }
 
     .opening-notice {
@@ -172,22 +250,63 @@ import TwilightBackground from "./TwilightBackground.astro";
     }
 
     .opening-badge {
-      font-size: 0.8rem;
-      padding: 5px 12px;
+      font-size: 0.75rem;
+      padding: 4px 10px;
     }
 
     .opening-date {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
-    .badge {
-      font-size: 0.8rem;
-      padding: 6px 16px;
+    .hero-schedule {
+      max-width: 100%;
+      padding: 10px 8px 12px;
+    }
+
+    .hero-schedule-table th {
+      padding: 7px 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-schedule-table td {
+      padding: 8px 0;
+    }
+
+    .schedule-label {
+      width: auto;
+      padding: 0 8px;
+      letter-spacing: 0.12em !important;
+    }
+
+    .schedule-time {
+      width: auto;
+      padding: 0 8px;
+      font-size: 0.72rem !important;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+    }
+
+    .hero-schedule-table td.closed {
+      font-size: 0.8rem !important;
+    }
+
+    .hero-schedule-note {
+      font-size: 0.6rem;
+      padding: 0 8px;
+    }
+
+    .hero-access {
+      font-size: 0.82rem;
     }
 
     .hero-cta {
-      padding: 14px 36px;
-      font-size: 0.95rem;
+      padding: 12px 32px;
+      font-size: 0.85rem;
     }
   }
 
@@ -199,59 +318,59 @@ import TwilightBackground from "./TwilightBackground.astro";
 
   .recruit-banner {
     position: absolute;
-    bottom: 40px;
+    bottom: 36px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 16px;
     width: fit-content;
     max-width: min(90%, 1100px);
-    padding: 20px 40px;
+    padding: 16px 32px;
     background: rgba(255, 255, 255, 0.95);
-    border: 2px solid var(--color-orange);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: opacity 0.2s;
   }
 
   .recruit-banner:hover {
-    transform: translateX(-50%) translateY(-3px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
   }
 
   .recruit-label {
     display: inline-block;
-    padding: 10px 20px;
-    background: linear-gradient(135deg, var(--color-orange), var(--color-orange-dark));
+    padding: 6px 14px;
+    background: var(--color-orange);
     color: white;
-    font-size: 1.2rem;
-    font-weight: 700;
-    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
   }
 
   .recruit-text {
     color: var(--color-navy);
-    font-size: 1.3rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
   }
 
   @media (max-width: 768px) {
     .recruit-banner {
       flex-direction: column;
-      gap: 10px;
-      padding: 14px 24px;
+      gap: 8px;
+      padding: 12px 20px;
       width: 90%;
     }
 
     .recruit-label {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
 
     .recruit-text {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
   }
 </style>

@@ -163,7 +163,7 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
             <div class="info-card phone-card">
               <div class="card-icon">&#128222;</div>
               <h3>お電話でのご予約</h3>
-              <a href="tel:022-XXX-XXXX" class="phone-number">022-XXX-XXXX</a>
+              <a href="tel:022-393-8689" class="phone-number">022-393-8689</a>
               <p class="phone-hours">受付時間: 17:00〜20:30（水〜日）</p>
             </div>
             <div class="info-card visit-card">
@@ -190,7 +190,7 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
 
 <style>
   .reservation {
-    background: linear-gradient(180deg, #f8fbfc, #e8f4f8);
+    background: var(--color-bg-blue);
   }
 
   .reservation-content {
@@ -201,10 +201,10 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
   /* 予約フォーム */
   .reservation-form-wrapper {
     background: white;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    margin-bottom: 32px;
+    padding: 36px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
+    margin-bottom: 28px;
   }
 
   .form-section {
@@ -271,23 +271,22 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
     width: 100%;
     padding: 10px 14px;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
     font-family: inherit;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s;
   }
 
   .form-group input::placeholder,
   .form-group textarea::placeholder {
-    color: #aaa;
+    color: #bbb;
   }
 
   .form-group input:focus,
   .form-group select:focus,
   .form-group textarea:focus {
     outline: none;
-    border-color: #4a90a4;
-    box-shadow: 0 0 0 3px rgba(74, 144, 164, 0.1);
+    border-color: var(--color-navy-medium);
   }
 
   /* 週ナビゲーション */
@@ -300,19 +299,18 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
   }
 
   .week-nav-btn {
-    padding: 8px 16px;
-    background: #f5f9fa;
+    padding: 6px 14px;
+    background: white;
     border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 0.9rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
     color: var(--color-text);
     cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
+    transition: border-color 0.2s;
   }
 
   .week-nav-btn:hover:not(:disabled) {
-    background: #e8f4f8;
-    border-color: #4a90a4;
+    border-color: var(--color-navy-medium);
   }
 
   .week-nav-btn:disabled {
@@ -330,7 +328,7 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
     overflow-x: auto;
     margin-bottom: 16px;
     border: 1px solid #e0e0e0;
-    border-radius: 8px;
+    border-radius: 4px;
   }
 
   .availability-table {
@@ -425,9 +423,9 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 16px;
+    padding: 10px 14px;
     background: #f5f9fa;
-    border-radius: 8px;
+    border-radius: 4px;
   }
 
   .selected-label {
@@ -447,20 +445,20 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
 
   .submit-btn {
     width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, #4a90a4, #3d7a8c);
+    padding: 14px;
+    background: var(--color-navy);
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: opacity 0.2s;
+    letter-spacing: 0.03em;
   }
 
   .submit-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(74, 144, 164, 0.4);
+    opacity: 0.85;
   }
 
   .submit-btn:disabled {
@@ -485,10 +483,10 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
 
   .info-card {
     background: white;
-    padding: 32px;
-    border-radius: 16px;
+    padding: 28px;
+    border-radius: 4px;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--color-border);
   }
 
   .card-icon {
@@ -533,9 +531,9 @@ const defaultBirthdate = `${defaultBirthYear}-01-01`;
   /* 注意事項 */
   .notice-box {
     background: white;
-    padding: 24px 32px;
-    border-radius: 12px;
-    border-left: 4px solid #4a90a4;
+    padding: 20px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
   }
 
   .notice-box h4 {

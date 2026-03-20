@@ -85,30 +85,16 @@ const navItems = [
   }
 
   .nav-link {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--color-text-secondary);
     transition: color 0.2s;
     position: relative;
-  }
-
-  .nav-link::after {
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--color-orange);
-    transition: width 0.2s;
+    letter-spacing: 0.02em;
   }
 
   .nav-link:hover {
     color: var(--color-navy);
-  }
-
-  .nav-link:hover::after {
-    width: 100%;
   }
 
   .menu-toggle {

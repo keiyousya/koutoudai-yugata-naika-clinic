@@ -126,7 +126,7 @@ const jobPostings = [
 
 <style>
   .recruit {
-    background: linear-gradient(180deg, #fff 0%, var(--color-bg-blue) 100%);
+    background: white;
   }
 
   .recruit-content {
@@ -137,9 +137,9 @@ const jobPostings = [
   }
 
   .recruit-lead {
-    font-size: 1.1rem;
-    color: var(--color-navy);
-    margin-bottom: 32px;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 28px;
     line-height: 1.8;
   }
 
@@ -151,26 +151,26 @@ const jobPostings = [
 
   .job-item {
     padding: 20px;
-    background: white;
-    border-radius: 12px;
-    border-left: 4px solid var(--color-orange);
+    background: var(--color-bg);
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
   }
 
   .job-item.closed {
-    border-left-color: #ccc;
-    opacity: 0.7;
+    opacity: 0.6;
   }
 
   .closed-notice {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #888;
-    line-height: 1.8;
+    line-height: 1.7;
   }
 
   .job-item h3 {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--color-navy);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+    font-weight: 600;
   }
 
   .job-details {
@@ -210,17 +210,18 @@ const jobPostings = [
   }
 
   .recruit-form-wrapper {
-    background: white;
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    background: var(--color-bg);
+    padding: 28px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
   }
 
   .recruit-form-wrapper h3 {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--color-navy);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     text-align: center;
+    font-weight: 600;
   }
 
   .recruit-form {
@@ -236,32 +237,32 @@ const jobPostings = [
   }
 
   .form-group label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--color-text);
   }
 
   .required {
-    color: var(--color-orange);
+    color: #c0392b;
   }
 
   .form-group input,
   .form-group select,
   .form-group textarea {
-    padding: 12px 16px;
+    padding: 10px 14px;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
     font-family: inherit;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    background: white;
+    transition: border-color 0.2s;
   }
 
   .form-group input:focus,
   .form-group select:focus,
   .form-group textarea:focus {
     outline: none;
-    border-color: var(--color-orange);
-    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+    border-color: var(--color-navy-medium);
   }
 
   .form-group textarea {
@@ -269,20 +270,20 @@ const jobPostings = [
   }
 
   .submit-btn {
-    padding: 16px 32px;
-    background: linear-gradient(135deg, var(--color-orange), var(--color-orange-dark));
+    padding: 14px 28px;
+    background: var(--color-navy);
     color: white;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-weight: 500;
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: opacity 0.2s;
+    letter-spacing: 0.03em;
   }
 
   .submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+    opacity: 0.85;
   }
 
   .sp-only {
@@ -300,12 +301,12 @@ const jobPostings = [
     }
 
     .recruit-lead {
-      font-size: 1rem;
+      font-size: 0.9rem;
       text-align: center;
     }
 
     .recruit-form-wrapper {
-      padding: 24px;
+      padding: 20px;
     }
   }
 </style>

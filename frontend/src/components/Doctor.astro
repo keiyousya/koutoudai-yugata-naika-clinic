@@ -55,7 +55,7 @@
 
 <style>
   .doctor {
-    background: linear-gradient(180deg, var(--color-bg-blue) 0%, #fff 100%);
+    background: var(--color-bg-blue);
   }
 
   .doctor-content {
@@ -73,43 +73,43 @@
   .image-placeholder {
     width: 100%;
     aspect-ratio: 3 / 4;
-    background: linear-gradient(135deg, var(--color-navy-light), var(--color-navy-medium));
-    border-radius: 16px;
+    background: var(--color-navy);
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1rem;
-    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 400;
   }
 
   .doctor-image img {
     width: 100%;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
   }
 
   .doctor-info {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 24px;
   }
 
   .doctor-name {
-    border-bottom: 2px solid #f0e6dc;
-    padding-bottom: 20px;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 16px;
   }
 
   .position {
     display: inline-block;
-    font-size: 0.85rem;
-    color: var(--color-orange);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
     font-weight: 500;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    letter-spacing: 0.06em;
   }
 
   .doctor-name h3 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: var(--color-navy);
   }
 
@@ -124,11 +124,12 @@
   .doctor-career h4,
   .doctor-qualifications h4,
   .doctor-message h4 {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--color-navy);
-    margin-bottom: 12px;
-    padding-left: 12px;
-    border-left: 3px solid var(--color-orange);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
+    letter-spacing: 0.03em;
   }
 
   .doctor-career ul,
@@ -144,7 +145,7 @@
     position: relative;
     padding-left: 16px;
     color: var(--color-text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.88rem;
   }
 
   .doctor-career li::before,
@@ -153,16 +154,17 @@
     position: absolute;
     left: 0;
     top: 10px;
-    width: 6px;
-    height: 6px;
-    background: var(--color-orange);
+    width: 4px;
+    height: 4px;
+    background: var(--color-navy-medium);
     border-radius: 50%;
   }
 
   .doctor-message p {
     color: var(--color-text-secondary);
-    line-height: 1.9;
-    margin-bottom: 12px;
+    line-height: 1.85;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
   }
 
   .doctor-message p:last-child {

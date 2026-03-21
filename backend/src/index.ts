@@ -109,6 +109,7 @@ app.use(
       return null;
     },
     allowMethods: ["GET", "POST", "PUT", "DELETE"],
+    allowHeaders: ["Content-Type", "X-Admin-API-Key", "X-Viewer-API-Key", "X-Card-UID"],
   })
 );
 

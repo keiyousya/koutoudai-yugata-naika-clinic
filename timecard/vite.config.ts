@@ -5,7 +5,7 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: "/koutoudai-yugata-naika-clinic/timecard/",
+  base: "/timecard/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

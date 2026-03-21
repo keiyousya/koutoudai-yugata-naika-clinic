@@ -100,25 +100,26 @@
   .access-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    gap: 56px;
     align-items: start;
   }
 
   .clinic-name h3 {
     font-size: 1.15rem;
     color: var(--color-navy);
-    margin-bottom: 20px;
-    padding-bottom: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
     border-bottom: 1px solid var(--color-border);
   }
 
   .info-list {
-    margin-bottom: 32px;
+    margin-bottom: 36px;
   }
 
   .info-row {
     display: flex;
-    padding: 16px 0;
+    align-items: baseline;
+    padding: 18px 0;
     border-bottom: 1px solid var(--color-border);
   }
 
@@ -131,7 +132,7 @@
     flex-shrink: 0;
     font-weight: 500;
     color: var(--color-text-muted);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 
   .info-row dd {
@@ -155,27 +156,27 @@
 
   .directions {
     background: var(--color-bg-warm);
-    padding: 20px;
+    padding: 24px;
     border-radius: 4px;
   }
 
   .directions h4 {
     font-size: 1rem;
     color: var(--color-navy);
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
 
   .directions-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
   }
 
   .directions-list li {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    font-size: 0.88rem;
+    gap: 12px;
+    font-size: 0.9rem;
     color: var(--color-text-secondary);
   }
 
@@ -183,14 +184,15 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: 1.6em;
+    height: 1.6em;
     background: var(--color-navy);
     color: white;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     font-weight: 500;
     border-radius: 50%;
     flex-shrink: 0;
+    margin-top: 0.15em;
   }
 
   .map-container {
@@ -239,7 +241,7 @@
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 3px;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 400;
     transition: background 0.2s;
   }
@@ -254,8 +256,8 @@
 
   .map-link {
     display: inline-block;
-    margin-top: 12px;
-    font-size: 0.85rem;
+    margin-top: 14px;
+    font-size: 0.9rem;
     color: var(--color-navy-medium);
     font-weight: 400;
     transition: color 0.2s;
@@ -268,7 +270,7 @@
   @media (max-width: 768px) {
     .access-content {
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 36px;
     }
 
     .info-row {

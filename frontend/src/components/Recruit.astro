@@ -63,17 +63,11 @@ const jobPostings = [
             <ul class="job-details">
               <li><span class="label">時給</span><span class="value">1,600円〜1,800円</span></li>
               <li><span class="label">勤務時間</span><span class="value">17:00〜21:00</span></li>
+              <li><span class="label">勤務日</span><span class="value">週1日〜OK</span></li>
               <li><span class="label">試用期間</span><span class="value">3ヶ月</span></li>
               <li><span class="label">交通費</span><span class="value">実費支給（月額20,000円上限）</span></li>
               <li><span class="label">昇給</span><span class="value">あり</span></li>
               <li><span class="label">賞与</span><span class="value">なし</span></li>
-            </ul>
-          </div>
-
-          <div class="job-item">
-            <h3>共通事項</h3>
-            <ul class="job-details">
-              <li><span class="label">勤務日</span><span class="value">週1日〜OK</span></li>
               <li><span class="label">勤務地</span><span class="value">宮城県仙台市青葉区国分町3丁目8-1<br />勾当台ビル 4階</span></li>
             </ul>
           </div>
@@ -132,57 +126,58 @@ const jobPostings = [
   .recruit-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    gap: 56px;
     align-items: start;
   }
 
   .recruit-lead {
     font-size: 0.95rem;
     color: var(--color-text-secondary);
-    margin-bottom: 28px;
+    margin-bottom: 32px;
     line-height: 1.8;
   }
 
   .job-list {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 28px;
   }
 
   .job-item {
-    padding: 20px;
+    padding: 24px;
     background: var(--color-bg);
     border-radius: 4px;
     border: 1px solid var(--color-border);
   }
 
   .job-item.closed {
-    opacity: 0.6;
+    background: #f5f5f5;
+    opacity: 0.5;
   }
 
   .closed-notice {
-    font-size: 0.85rem;
-    color: #888;
+    font-size: 0.9rem;
+    color: #666;
     line-height: 1.7;
   }
 
   .job-item h3 {
     font-size: 0.95rem;
     color: var(--color-navy);
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     font-weight: 600;
   }
 
   .job-details {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
 
   .job-details li {
     display: flex;
-    align-items: flex-start;
-    gap: 12px;
+    align-items: baseline;
+    gap: 14px;
     color: var(--color-text-secondary);
     line-height: 1.6;
   }
@@ -190,8 +185,8 @@ const jobPostings = [
   .job-details .label {
     flex-shrink: 0;
     width: 70px;
-    font-size: 0.85rem;
-    color: #888;
+    font-size: 0.9rem;
+    color: #666;
   }
 
   .job-details .value {
@@ -204,14 +199,14 @@ const jobPostings = [
   }
 
   .job-item .note {
-    font-size: 0.85rem;
-    color: #888;
+    font-size: 0.9rem;
+    color: #666;
     margin-top: 8px;
   }
 
   .recruit-form-wrapper {
     background: var(--color-bg);
-    padding: 28px;
+    padding: 32px;
     border-radius: 4px;
     border: 1px solid var(--color-border);
   }
@@ -219,7 +214,7 @@ const jobPostings = [
   .recruit-form-wrapper h3 {
     font-size: 1rem;
     color: var(--color-navy);
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     text-align: center;
     font-weight: 600;
   }
@@ -227,7 +222,7 @@ const jobPostings = [
   .recruit-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
   }
 
   .form-group {
@@ -237,7 +232,7 @@ const jobPostings = [
   }
 
   .form-group label {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--color-text);
   }
@@ -249,7 +244,7 @@ const jobPostings = [
   .form-group input,
   .form-group select,
   .form-group textarea {
-    padding: 10px 14px;
+    padding: 12px 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 0.95rem;
@@ -270,7 +265,7 @@ const jobPostings = [
   }
 
   .submit-btn {
-    padding: 14px 28px;
+    padding: 16px 32px;
     background: var(--color-navy);
     color: white;
     font-size: 0.9rem;
@@ -293,7 +288,7 @@ const jobPostings = [
   @media (max-width: 768px) {
     .recruit-content {
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 36px;
     }
 
     .sp-only {
@@ -306,7 +301,7 @@ const jobPostings = [
     }
 
     .recruit-form-wrapper {
-      padding: 20px;
+      padding: 24px;
     }
   }
 </style>

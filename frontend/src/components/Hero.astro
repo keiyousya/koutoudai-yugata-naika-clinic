@@ -59,9 +59,10 @@ import TwilightBackground from "./TwilightBackground.astro";
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding-top: 160px;
+    padding-top: 80px;
     padding-bottom: 0;
     isolation: isolate;
+    background: var(--color-navy);
   }
 
   .hero-content {
@@ -70,45 +71,46 @@ import TwilightBackground from "./TwilightBackground.astro";
   }
 
   .hero-catchphrase {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 16px;
-    font-weight: 400;
+    font-size: 1.15rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-weight: 500;
     letter-spacing: 0.06em;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
   }
 
   .hero-title {
-    margin-bottom: 16px;
+    margin-bottom: 32px;
   }
 
   .opening-notice {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 14px;
+    margin-bottom: 36px;
     flex-wrap: wrap;
   }
 
   .opening-badge {
     display: inline-block;
     padding: 5px 14px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: white;
-    font-size: 0.8rem;
-    font-weight: 500;
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
     border-radius: 3px;
     letter-spacing: 0.06em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   }
 
   .opening-date {
     font-size: 1rem;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
+    color: #ffffff;
+    font-weight: 600;
     letter-spacing: 0.04em;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
   }
 
   .hero-title-main {
@@ -118,7 +120,7 @@ import TwilightBackground from "./TwilightBackground.astro";
     color: #fff;
     letter-spacing: 0.06em;
     line-height: 1.4;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   }
 
   .sp-br {
@@ -126,10 +128,10 @@ import TwilightBackground from "./TwilightBackground.astro";
   }
 
   .hero-schedule {
-    margin: 0 auto 20px;
-    max-width: 500px;
+    margin: 0 auto 32px;
+    max-width: 520px;
     background: #2a4e78;
-    padding: 14px 14px 16px;
+    padding: 16px 16px 18px;
     border-radius: 6px;
   }
 
@@ -144,9 +146,9 @@ import TwilightBackground from "./TwilightBackground.astro";
   }
 
   .hero-schedule-table th {
-    padding: 10px 0;
+    padding: 8px 0;
     text-align: center;
-    font-size: 1.05rem;
+    font-size: 0.85rem;
     font-weight: 500;
     letter-spacing: 0.18em;
     color: var(--color-navy);
@@ -164,7 +166,7 @@ import TwilightBackground from "./TwilightBackground.astro";
 
   /* データ行: 紺背景・白文字 */
   .hero-schedule-table td {
-    padding: 14px 0;
+    padding: 10px 0;
     text-align: center;
     vertical-align: middle;
     color: white;
@@ -172,21 +174,21 @@ import TwilightBackground from "./TwilightBackground.astro";
 
   .schedule-time {
     font-weight: 700;
-    font-size: 1.05rem !important;
+    font-size: 0.85rem !important;
     letter-spacing: 0.03em;
-    width: 130px;
+    width: 120px;
   }
 
   .hero-schedule-table td.closed {
     color: rgba(255, 255, 255, 0.5);
-    font-size: 1.1rem !important;
+    font-size: 0.9rem !important;
     font-weight: 400;
   }
 
   .dot {
     display: inline-block;
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
     background: #e8a04c;
     border-radius: 50%;
   }
@@ -195,13 +197,13 @@ import TwilightBackground from "./TwilightBackground.astro";
   .hero-schedule-note {
     padding: 0 16px;
     margin-top: 0;
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.9);
   }
 
   .note-sub {
-    font-size: 0.65rem;
+    font-size: 0.9rem;
     font-weight: 400;
     color: rgba(255, 255, 255, 0.5);
     margin-left: 6px;
@@ -209,9 +211,10 @@ import TwilightBackground from "./TwilightBackground.astro";
 
   .hero-access {
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 32px;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    color: #ffffff;
+    margin-bottom: 36px;
+    font-weight: 500;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
   }
 
   .hero-cta {
@@ -237,7 +240,7 @@ import TwilightBackground from "./TwilightBackground.astro";
     }
 
     .hero-catchphrase {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
     }
 
     .hero-title-main {
@@ -250,7 +253,7 @@ import TwilightBackground from "./TwilightBackground.astro";
     }
 
     .opening-badge {
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       padding: 4px 10px;
     }
 
@@ -265,7 +268,7 @@ import TwilightBackground from "./TwilightBackground.astro";
 
     .hero-schedule-table th {
       padding: 7px 0;
-      font-size: 0.72rem;
+      font-size: 0.9rem;
       letter-spacing: 0.1em;
     }
 
@@ -282,7 +285,7 @@ import TwilightBackground from "./TwilightBackground.astro";
     .schedule-time {
       width: auto;
       padding: 0 8px;
-      font-size: 0.72rem !important;
+      font-size: 0.9rem !important;
       white-space: nowrap;
     }
 
@@ -292,21 +295,21 @@ import TwilightBackground from "./TwilightBackground.astro";
     }
 
     .hero-schedule-table td.closed {
-      font-size: 0.8rem !important;
+      font-size: 0.9rem !important;
     }
 
     .hero-schedule-note {
-      font-size: 0.6rem;
+      font-size: 0.9rem;
       padding: 0 8px;
     }
 
     .hero-access {
-      font-size: 0.82rem;
+      font-size: 0.9rem;
     }
 
     .hero-cta {
       padding: 12px 32px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
     }
   }
 
@@ -318,17 +321,17 @@ import TwilightBackground from "./TwilightBackground.astro";
 
   .recruit-banner {
     position: absolute;
-    bottom: 36px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 16px;
+    justify-content: flex-start;
+    gap: 18px;
     width: fit-content;
     max-width: min(90%, 1100px);
-    padding: 16px 32px;
+    padding: 18px 36px;
     background: rgba(255, 255, 255, 0.95);
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 4px;
@@ -342,10 +345,10 @@ import TwilightBackground from "./TwilightBackground.astro";
 
   .recruit-label {
     display: inline-block;
-    padding: 6px 14px;
+    padding: 5px 12px;
     background: var(--color-orange);
     color: white;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 600;
     border-radius: 3px;
     letter-spacing: 0.03em;
@@ -353,24 +356,24 @@ import TwilightBackground from "./TwilightBackground.astro";
 
   .recruit-text {
     color: var(--color-navy);
-    font-size: 1rem;
+    font-size: 0.82rem;
     font-weight: 500;
   }
 
   @media (max-width: 768px) {
     .recruit-banner {
-      flex-direction: column;
-      gap: 8px;
-      padding: 12px 20px;
+      gap: 10px;
+      padding: 10px 16px;
       width: 90%;
     }
 
     .recruit-label {
-      font-size: 0.8rem;
+      font-size: 0.65rem;
+      padding: 4px 10px;
     }
 
     .recruit-text {
-      font-size: 0.85rem;
+      font-size: 0.7rem;
     }
   }
 </style>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200">
+<title>OG Image</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .og {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* ===== Twilight Background (from TwilightBackground.astro) ===== */
+  .twilight-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #1e3a5f 0%, #2a4a6e 30%, #4a6a8a 50%, #d4886a 75%, #e8a87c 100%);
+    z-index: -2;
+  }
+  .twilight-bg::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 80%;
+    height: 150%;
+    background: radial-gradient(ellipse at center, rgba(230,126,34,0.15) 0%, transparent 70%);
+  }
+  .twilight-bg::after {
+    content: "";
+    position: absolute;
+    bottom: -20%;
+    left: -20%;
+    width: 60%;
+    height: 80%;
+    background: radial-gradient(ellipse at center, rgba(255,180,120,0.2) 0%, transparent 70%);
+  }
+
+  /* ===== Stars ===== */
+  .stars {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+  }
+  .star.small {
+    width: 2px;
+    height: 2px;
+    opacity: 0.7;
+  }
+
+  /* ===== Shooting Stars ===== */
+  .shooting-star {
+    position: absolute;
+    top: 12%;
+    left: 65%;
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9));
+    border-radius: 50%;
+    transform: rotate(35deg);
+    z-index: -1;
+    opacity: 0.7;
+  }
+  .shooting-star::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -1px;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 6px 2px rgba(255,255,255,0.6);
+  }
+  .shooting-star-2 {
+    top: 22%;
+    left: 28%;
+    width: 60px;
+    transform: rotate(40deg);
+    opacity: 0.5;
+  }
+
+  /* ===== Skyline (same SVG from TwilightBackground) ===== */
+  .skyline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 280px;
+    z-index: -1;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='320' viewBox='0 0 900 320'%3E%3Cdefs%3E%3Crect id='w' width='8' height='12' fill='%23ffd78a'/%3E%3C/defs%3E%3Crect x='0' y='175' width='65' height='145' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='10' y='190'/%3E%3Cuse href='%23w' x='28' y='190'/%3E%3Cuse href='%23w' x='46' y='190'/%3E%3Cuse href='%23w' x='10' y='215'/%3E%3Cuse href='%23w' x='28' y='215'/%3E%3Cuse href='%23w' x='46' y='215'/%3E%3Cuse href='%23w' x='10' y='240'/%3E%3Cuse href='%23w' x='46' y='240'/%3E%3Cuse href='%23w' x='28' y='265'/%3E%3Crect x='70' y='115' width='80' height='205' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='82' y='130'/%3E%3Cuse href='%23w' x='102' y='130'/%3E%3Cuse href='%23w' x='122' y='130'/%3E%3Cuse href='%23w' x='82' y='155'/%3E%3Cuse href='%23w' x='122' y='155'/%3E%3Cuse href='%23w' x='82' y='180'/%3E%3Cuse href='%23w' x='102' y='180'/%3E%3Cuse href='%23w' x='122' y='180'/%3E%3Cuse href='%23w' x='102' y='205'/%3E%3Cuse href='%23w' x='82' y='230'/%3E%3Cuse href='%23w' x='122' y='230'/%3E%3Cuse href='%23w' x='102' y='255'/%3E%3Crect x='115' y='75' width='4' height='245' fill='%231e3a5f'/%3E%3Crect x='158' y='205' width='58' height='115' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='168' y='220'/%3E%3Cuse href='%23w' x='188' y='220'/%3E%3Cuse href='%23w' x='168' y='245'/%3E%3Cuse href='%23w' x='188' y='245'/%3E%3Cuse href='%23w' x='188' y='270'/%3E%3Crect x='222' y='145' width='72' height='175' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='235' y='160'/%3E%3Cuse href='%23w' x='255' y='160'/%3E%3Cuse href='%23w' x='275' y='160'/%3E%3Cuse href='%23w' x='235' y='185'/%3E%3Cuse href='%23w' x='275' y='185'/%3E%3Cuse href='%23w' x='255' y='210'/%3E%3Cuse href='%23w' x='235' y='235'/%3E%3Cuse href='%23w' x='255' y='235'/%3E%3Cuse href='%23w' x='275' y='260'/%3E%3Crect x='300' y='85' width='88' height='235' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='315' y='100'/%3E%3Cuse href='%23w' x='340' y='100'/%3E%3Cuse href='%23w' x='365' y='100'/%3E%3Cuse href='%23w' x='315' y='130'/%3E%3Cuse href='%23w' x='365' y='130'/%3E%3Cuse href='%23w' x='315' y='160'/%3E%3Cuse href='%23w' x='340' y='160'/%3E%3Cuse href='%23w' x='365' y='160'/%3E%3Cuse href='%23w' x='340' y='190'/%3E%3Cuse href='%23w' x='315' y='220'/%3E%3Cuse href='%23w' x='365' y='220'/%3E%3Cuse href='%23w' x='340' y='250'/%3E%3Crect x='345' y='45' width='4' height='275' fill='%231e3a5f'/%3E%3Crect x='395' y='190' width='60' height='130' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='408' y='205'/%3E%3Cuse href='%23w' x='430' y='205'/%3E%3Cuse href='%23w' x='408' y='235'/%3E%3Cuse href='%23w' x='430' y='235'/%3E%3Cuse href='%23w' x='430' y='265'/%3E%3Crect x='462' y='135' width='75' height='185' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='475' y='150'/%3E%3Cuse href='%23w' x='498' y='150'/%3E%3Cuse href='%23w' x='521' y='150'/%3E%3Cuse href='%23w' x='475' y='180'/%3E%3Cuse href='%23w' x='521' y='180'/%3E%3Cuse href='%23w' x='498' y='210'/%3E%3Cuse href='%23w' x='475' y='240'/%3E%3Cuse href='%23w' x='521' y='240'/%3E%3Cuse href='%23w' x='498' y='270'/%3E%3Crect x='544' y='180' width='65' height='140' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='556' y='195'/%3E%3Cuse href='%23w' x='578' y='195'/%3E%3Cuse href='%23w' x='556' y='225'/%3E%3Cuse href='%23w' x='578' y='225'/%3E%3Cuse href='%23w' x='578' y='255'/%3E%3Crect x='615' y='100' width='95' height='220' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='630' y='115'/%3E%3Cuse href='%23w' x='655' y='115'/%3E%3Cuse href='%23w' x='680' y='115'/%3E%3Cuse href='%23w' x='630' y='145'/%3E%3Cuse href='%23w' x='680' y='145'/%3E%3Cuse href='%23w' x='630' y='175'/%3E%3Cuse href='%23w' x='655' y='175'/%3E%3Cuse href='%23w' x='680' y='175'/%3E%3Cuse href='%23w' x='655' y='205'/%3E%3Cuse href='%23w' x='630' y='235'/%3E%3Cuse href='%23w' x='680' y='235'/%3E%3Cuse href='%23w' x='655' y='265'/%3E%3Crect x='718' y='220' width='55' height='100' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='730' y='235'/%3E%3Cuse href='%23w' x='752' y='235'/%3E%3Cuse href='%23w' x='730' y='265'/%3E%3Cuse href='%23w' x='752' y='265'/%3E%3Crect x='780' y='160' width='80' height='160' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='795' y='175'/%3E%3Cuse href='%23w' x='818' y='175'/%3E%3Cuse href='%23w' x='841' y='175'/%3E%3Cuse href='%23w' x='795' y='205'/%3E%3Cuse href='%23w' x='841' y='205'/%3E%3Cuse href='%23w' x='818' y='235'/%3E%3Cuse href='%23w' x='795' y='265'/%3E%3Cuse href='%23w' x='841' y='265'/%3E%3Crect x='868' y='195' width='30' height='125' fill='%231e3a5f'/%3E%3Cuse href='%23w' x='879' y='210'/%3E%3Cuse href='%23w' x='879' y='240'/%3E%3Cuse href='%23w' x='879' y='270'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: bottom left;
+    background-size: auto 280px;
+  }
+
+  /* ===== Content ===== */
+  .content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    padding: 30px 40px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  /* ===== Logo + Title row ===== */
+  .title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .logo {
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 4px rgba(255,255,255,1)) drop-shadow(0 0 8px rgba(255,255,255,1));
+  }
+
+  .clinic-title {
+    font-size: 80px;
+    font-weight: 900;
+    color: #1e3a5f;
+    -webkit-text-stroke: 0.5px #1e3a5f;
+    letter-spacing: -1px;
+    line-height: 1.3;
+    text-shadow:
+      0 0 6px rgba(255,255,255,1),
+      0 0 12px rgba(255,255,255,1),
+      0 0 20px rgba(255,255,255,1);
+  }
+
+  /* ===== Bottom area: subtitle + schedule ===== */
+  .bottom-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .subtitle {
+    font-size: 32px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.95);
+    line-height: 1.7;
+    letter-spacing: 2px;
+    text-align: left;
+  }
+
+  /* ===== Schedule table (from Hero.astro) ===== */
+  .schedule {
+    flex-shrink: 0;
+    background: #2a4e78;
+    padding: 12px 12px 8px;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .schedule-table thead tr {
+    background: white;
+  }
+
+  .schedule-table th {
+    padding: 10px 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: #1e3a5f;
+    vertical-align: middle;
+    min-width: 44px;
+  }
+
+  .schedule-table th.weekend {
+    color: #d03030;
+  }
+
+  .schedule-table th.label-col {
+    width: 130px;
+    letter-spacing: 6px;
+    font-size: 16px;
+  }
+
+  .schedule-table td {
+    padding: 12px 0;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+  }
+
+  .schedule-table td.time-col {
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    width: 130px;
+  }
+
+  .schedule-table td.closed {
+    color: rgba(255,255,255,0.45);
+    font-size: 18px;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: #e8a04c;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+
+  .schedule-note {
+    padding: 0 4px;
+    margin-top: 2px;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  .schedule-note .sub {
+    font-size: 9.5px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+  }
+</style>
+</head>
+<body>
+<div class="og">
+  <!-- Background -->
+  <div class="twilight-bg"></div>
+
+  <!-- Stars (same as Hero/TwilightBackground.astro) -->
+  <div class="stars">
+    <span class="star" style="top: 8%; left: 15%;"></span>
+    <span class="star" style="top: 12%; left: 78%;"></span>
+    <span class="star" style="top: 18%; left: 45%;"></span>
+    <span class="star" style="top: 22%; left: 88%;"></span>
+    <span class="star" style="top: 15%; left: 32%;"></span>
+    <span class="star" style="top: 28%; left: 62%;"></span>
+    <span class="star" style="top: 10%; left: 55%;"></span>
+    <span class="star" style="top: 25%; left: 8%;"></span>
+    <span class="star" style="top: 35%; left: 92%;"></span>
+    <span class="star" style="top: 20%; left: 22%;"></span>
+    <span class="star small" style="top: 14%; left: 68%;"></span>
+    <span class="star small" style="top: 30%; left: 38%;"></span>
+    <span class="star small" style="top: 8%; left: 42%;"></span>
+    <span class="star small" style="top: 32%; left: 75%;"></span>
+    <span class="star small" style="top: 18%; left: 5%;"></span>
+  </div>
+
+  <!-- Shooting stars (static for screenshot) -->
+  <div class="shooting-star"></div>
+  <div class="shooting-star shooting-star-2"></div>
+
+  <!-- Skyline -->
+  <div class="skyline"></div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="title-row">
+      <img src="../src/assets/logo.png" alt="" class="logo" />
+      <span class="clinic-title">勾当台夕方内科クリニック</span>
+    </div>
+
+    <div class="bottom-area">
+      <p class="subtitle">
+        お仕事帰りや夕方のお時間に<br>
+        気軽に受診できるクリニック。
+      </p>
+
+      <div class="schedule">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th class="label-col">診療時間</th>
+              <th>月</th>
+              <th>火</th>
+              <th>水</th>
+              <th>木</th>
+              <th>金</th>
+              <th class="weekend">土</th>
+              <th class="weekend">日</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="time-col">17:00 - 21:00</td>
+              <td class="closed">―</td>
+              <td class="closed">―</td>
+              <td><span class="dot"></span></td>
+              <td><span class="dot"></span></td>
+              <td><span class="dot"></span></td>
+              <td><span class="dot"></span></td>
+              <td><span class="dot"></span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="schedule-note">
+          <span>【休診日】月曜日・火曜日・祝日</span>
+          <span class="sub">※急な休診等はウェブサイトにてお知らせいたします。</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -8,7 +8,7 @@ const routeTree = rootRoute.addChildren([indexRoute, historyRoute, adminRoute]);
 
 export const router = createRouter({
   routeTree,
-  basepath: "/koutoudai-yugata-naika-clinic/timecard",
+  basepath: "/timecard",
 });
 
 declare module "@tanstack/react-router" {

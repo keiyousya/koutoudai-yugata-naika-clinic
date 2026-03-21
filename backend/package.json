@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "db:setup": "node scripts/setup-db.js"
+    "db:setup": "node scripts/setup-db.js",
+    "db:setup-timecard": "node scripts/setup-timecard-db.js"
   },
   "dependencies": {
     "@libsql/client": "^0.17.0",

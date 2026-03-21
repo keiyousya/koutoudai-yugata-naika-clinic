@@ -6,8 +6,10 @@
     "dev:frontend": "pnpm --filter frontend dev",
     "dev:backend": "pnpm --filter backend dev",
     "dev:admin": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter admin dev\"",
+    "dev:timecard": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter timecard dev\"",
     "admin:prod": "pnpm --filter admin dev --mode production",
     "build": "pnpm --filter frontend build",
+    "build:timecard": "pnpm --filter timecard build",
     "deploy:api": "pnpm --filter backend run deploy"
   },
   "devDependencies": {

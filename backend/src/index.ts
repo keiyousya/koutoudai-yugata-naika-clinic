@@ -2,11 +2,13 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { createClient } from "@libsql/client";
 import { z } from "zod";
+import timecard from "./routes/timecard";
 
 type Bindings = {
   TURSO_URL: string;
   TURSO_AUTH_TOKEN: string;
   ADMIN_API_KEY: string;
+  VIEWER_API_KEY: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -375,5 +377,10 @@ app.delete("/api/reservations/:id", adminAuthMiddleware, async (c) => {
 
   return c.json({ success: true, message: "予約を削除しました" });
 });
+
+// ========================================
+// タイムカード API
+// ========================================
+app.route("/api/timecard", timecard);
 
 export default app;

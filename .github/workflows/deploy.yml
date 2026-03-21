@@ -41,6 +41,15 @@ jobs:
         env:
           NODE_ENV: production
 
+      - name: Build timecard
+        run: pnpm --filter timecard build
+        env:
+          NODE_ENV: production
+          VITE_API_URL: https://koutoudai-reservation-api.keiyousya.workers.dev
+
+      - name: Copy timecard to frontend dist
+        run: cp -r ./timecard/dist ./frontend/dist/timecard
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

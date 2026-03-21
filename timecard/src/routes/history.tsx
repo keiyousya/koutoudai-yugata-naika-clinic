@@ -134,7 +134,7 @@ function HistoryAuthGate({
               <Lock className="h-5 w-5" />
               パスワード認証
             </CardTitle>
-            <CardDescription>管理パスワードを入力してください</CardDescription>
+            <CardDescription>パスワードを入力してください</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
               <div className="relative">

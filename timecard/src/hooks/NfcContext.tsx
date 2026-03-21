@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useRef, useMemo } from "react";
+import { createContext, useContext, useState, useCallback, useRef, useMemo, useEffect } from "react";
 
 // Sony PaSoRi の USB Vendor ID
 const SONY_VENDOR_ID = 0x054c;
@@ -294,13 +294,74 @@ export function NfcProvider({ children, pollingInterval = 500 }: { children: Rea
     return () => { subscribersRef.current.delete(cb); };
   }, []);
 
+  const initDevice = useCallback(async (device: USBDevice) => {
+    if (readerRef.current) return;
+
+    const modelName = PASORI_PRODUCTS[device.productId] || `Unknown (${device.productId.toString(16)})`;
+    console.log(`PaSoRi 接続: ${modelName}`);
+
+    let reader: PasoriReader;
+    if (isRC_S300(device.productId)) {
+      reader = await RCS300.init(device);
+    } else {
+      reader = await RCS380.init(device);
+    }
+
+    deviceRef.current = device;
+    readerRef.current = reader;
+    setIsConnected(true);
+
+    let lastUid = "";
+    let lastReadTime = 0;
+
+    const poll = async () => {
+      if (!readerRef.current) return;
+      try {
+        const uid = await readerRef.current.pollFelica();
+        const now = Date.now();
+        if (uid && (uid !== lastUid || now - lastReadTime > 3000)) {
+          lastUid = uid;
+          lastReadTime = now;
+          for (const cb of subscribersRef.current) {
+            cb(uid);
+          }
+        }
+      } catch (e) {
+        console.error("ポーリングエラー:", e);
+      }
+      if (readerRef.current) {
+        pollingRef.current = window.setTimeout(poll, pollingInterval);
+      }
+    };
+
+    poll();
+  }, [pollingInterval]);
+
+  // ペアリング済みデバイスへの自動再接続
+  useEffect(() => {
+    if (!isSupported || readerRef.current) return;
+    (async () => {
+      try {
+        const devices = await navigator.usb.getDevices();
+        const pasori = devices.find(
+          (d) => d.vendorId === SONY_VENDOR_ID && d.productId in PASORI_PRODUCTS
+        );
+        if (pasori) {
+          console.log("[NFC] ペアリング済みデバイスを検出、自動接続中...");
+          await initDevice(pasori);
+        }
+      } catch (e) {
+        console.warn("[NFC] 自動接続失敗:", e);
+      }
+    })();
+  }, [isSupported, initDevice]);
+
   const connect = useCallback(async () => {
     if (!isSupported) {
       setError("このブラウザは WebUSB に対応していません（Chrome を使用してください）");
       return;
     }
 
-    // 既に接続中なら何もしない
     if (readerRef.current) return;
 
     try {
@@ -312,45 +373,7 @@ export function NfcProvider({ children, pollingInterval = 500 }: { children: Rea
       }));
 
       const device = await navigator.usb.requestDevice({ filters });
-
-      const modelName = PASORI_PRODUCTS[device.productId] || `Unknown (${device.productId.toString(16)})`;
-      console.log(`PaSoRi 接続: ${modelName}`);
-
-      let reader: PasoriReader;
-      if (isRC_S300(device.productId)) {
-        reader = await RCS300.init(device);
-      } else {
-        reader = await RCS380.init(device);
-      }
-
-      deviceRef.current = device;
-      readerRef.current = reader;
-      setIsConnected(true);
-
-      let lastUid = "";
-      let lastReadTime = 0;
-
-      const poll = async () => {
-        if (!readerRef.current) return;
-        try {
-          const uid = await readerRef.current.pollFelica();
-          const now = Date.now();
-          if (uid && (uid !== lastUid || now - lastReadTime > 3000)) {
-            lastUid = uid;
-            lastReadTime = now;
-            for (const cb of subscribersRef.current) {
-              cb(uid);
-            }
-          }
-        } catch (e) {
-          console.error("ポーリングエラー:", e);
-        }
-        if (readerRef.current) {
-          pollingRef.current = window.setTimeout(poll, pollingInterval);
-        }
-      };
-
-      poll();
+      await initDevice(device);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "接続に失敗しました";
       if (msg.includes("No device selected")) {
@@ -359,7 +382,7 @@ export function NfcProvider({ children, pollingInterval = 500 }: { children: Rea
         setError(msg);
       }
     }
-  }, [isSupported, pollingInterval]);
+  }, [isSupported, initDevice]);
 
   const disconnect = useCallback(() => {
     if (pollingRef.current) {

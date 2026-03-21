@@ -79,14 +79,11 @@ function PunchPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           {nfc.isConnected ? (
-            <div className="text-center space-y-4">
+            <div className="text-center">
               <div className="flex items-center justify-center gap-2 text-green-600">
                 <Wifi className="h-5 w-5 animate-pulse" />
                 <span className="font-medium">リーダー接続中 — カードをタッチしてください</span>
               </div>
-              <Button variant="outline" size="sm" onClick={nfc.disconnect}>
-                切断
-              </Button>
             </div>
           ) : (
             <div className="text-center space-y-4">

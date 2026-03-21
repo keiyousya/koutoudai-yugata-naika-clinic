@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>採用者リスト</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 12mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      font-size: 11px;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      padding: 20px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      background: #fff;
+      max-width: 1100px;
+      margin: 0 auto 30px;
+      padding: 30px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 4px;
+      letter-spacing: 0.1em;
+    }
+
+    .date {
+      text-align: center;
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 12px;
+      background: #2c3e50;
+      color: #fff;
+      margin-bottom: 0;
+      letter-spacing: 0.05em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      table-layout: fixed;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 5px 7px;
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.5;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .nurse-table th:first-child,
+    .nurse-table td:first-child {
+      width: 80px;
+      min-width: 80px;
+    }
+
+    th {
+      background: #f0f3f5;
+      font-weight: 600;
+      white-space: nowrap;
+      font-size: 10.5px;
+      color: #2c3e50;
+    }
+
+    .nurse-table td:first-child {
+      background: #f7f9fa;
+      font-weight: 600;
+      font-size: 10.5px;
+      color: #2c3e50;
+      white-space: nowrap;
+    }
+
+    .office-table th:first-child,
+    .office-table td:first-child {
+      width: 100px;
+      background: #f7f9fa;
+      font-weight: 600;
+      font-size: 10.5px;
+      color: #2c3e50;
+      white-space: nowrap;
+    }
+
+    td {
+      font-size: 10.5px;
+    }
+
+    .name-header {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eaf0f6 !important;
+      color: #1a1a1a;
+    }
+
+    .print-btn-wrap {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .print-btn {
+      display: inline-block;
+      padding: 10px 32px;
+      background: #2c3e50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+    }
+
+    .print-btn:hover {
+      background: #1a252f;
+    }
+
+    .note {
+      font-size: 10px;
+      color: #888;
+      text-align: right;
+      margin-top: -18px;
+      margin-bottom: 10px;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+
+      .page {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .print-btn-wrap {
+        display: none;
+      }
+
+      .page-break {
+        page-break-before: always;
+      }
+
+      h2 {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-btn-wrap">
+    <button class="print-btn" onclick="window.print()">PDF出力 / 印刷</button>
+  </div>
+
+  <div class="page">
+    <h1>採用者リスト</h1>
+    <p class="date">2026年3月20日 現在</p>
+
+    <h2>看護師（4名）</h2>
+    <table class="nurse-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="name-header">池田真奈美</th>
+          <th class="name-header">佐々木えりか</th>
+          <th class="name-header">澁谷瑠花</th>
+          <th class="name-header">細川由香</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>生年月日</td>
+          <td>1980/10/3（45歳）</td>
+          <td>1993/12/22（32歳）</td>
+          <td>2001/9/29（24歳）</td>
+          <td>1972/3/26（53歳）</td>
+        </tr>
+        <tr>
+          <td>住所</td>
+          <td>仙台市宮城野区東仙台1-4-34</td>
+          <td>仙台市青葉区小田原4-1-31 ルピナス102</td>
+          <td>仙台市青葉区錦町2-1-33 プランドール錦町201</td>
+          <td>仙台市太白区長町2-11-36 Cadog長町203</td>
+        </tr>
+        <tr>
+          <td>電話</td>
+          <td>090-9332-1259</td>
+          <td>080-1827-1222</td>
+          <td>090-9424-2001</td>
+          <td>070-3326-0813</td>
+        </tr>
+        <tr>
+          <td>メール</td>
+          <td>manami.nozawa@gmail.com</td>
+          <td>erica221993@gmail.com</td>
+          <td>ruka.kendou0929@i.softbank.jp</td>
+          <td>ritanyannyan@yahoo.co.jp</td>
+        </tr>
+        <tr>
+          <td>免許種別</td>
+          <td>看護師</td>
+          <td>看護師</td>
+          <td>看護師</td>
+          <td>准看護師</td>
+        </tr>
+        <tr>
+          <td>最終学歴</td>
+          <td>坂戸鶴ヶ島医師会立看護専門学校（2003年3月卒）</td>
+          <td>八戸学院短期大学 看護学科（2015年3月卒）</td>
+          <td>仙台看護助産学校 看護学科（2023年3月卒）</td>
+          <td>帝京女子短期大学 秘書科（1993年3月卒）／仁和会三沢中央病院付属准看護学院（2024年3月卒）</td>
+        </tr>
+        <tr>
+          <td>看護経験</td>
+          <td>約22年（2003年〜）</td>
+          <td>約7年以上</td>
+          <td>約3年（2023/4〜）</td>
+          <td>約半年（2024/7〜）</td>
+        </tr>
+        <tr>
+          <td>現職・直近</td>
+          <td>光ヶ丘スペルマン病院（2018/3〜 在職中）</td>
+          <td>TENTEKILABO仙台（2024/5〜）／メディトリックス(株) MRA事業部（2026/1〜）※ダブルワーク</td>
+          <td>仙台厚生病院 ICU（2023/4〜 在職中）</td>
+          <td>ひいらぎ耳鼻咽喉科（2025/1〜3月 退職済）</td>
+        </tr>
+        <tr>
+          <td>主な経歴</td>
+          <td>小川赤十字病院（ICU混合病棟）→ 明日佳クリニック → 渡辺七六クリニック（内視鏡）→ 関野病院 → スペルマン病院</td>
+          <td>八戸市立市民病院（救命救急）→ 荒巻なべ胃腸科内科 → ここみケア（介護）→ メディカルコンシェルジュ（コロナ対応統括）→ フリーランス</td>
+          <td>仙台厚生病院 集中治療室</td>
+          <td>ジャックス → 第一リース → IBM → アイタック（事務職歴豊富）→ 岬台医院 → ひいらぎ耳鼻咽喉科</td>
+        </tr>
+        <tr>
+          <td>主な資格</td>
+          <td>看護師免許、FP技能士2級、簿記実務検定1級、普通自動車免許</td>
+          <td>看護師免許、秘書検定2級、サービス接遇検定2級、美容薬学検定2級、普通自動車免許</td>
+          <td>看護師免許、普通自動車免許</td>
+          <td>准看護師免許、普通自動車免許、介護福祉士実務者研修修了</td>
+        </tr>
+        <tr>
+          <td>ダブルワーク</td>
+          <td>あり（スペルマン病院 在職中）</td>
+          <td>あり（TENTEKILABO仙台／メディトリックス 在職中）</td>
+          <td>あり（仙台厚生病院 在職中）</td>
+          <td>なし</td>
+        </tr>
+        <tr>
+          <td>勤務希望</td>
+          <td>土曜含む週1〜2回</td>
+          <td>平日土日問わず可。週5勤務も相談可能</td>
+          <td>土曜は可。平日は早上がりシフト時に不定期で可</td>
+          <td>土日いずれかを含めた週2日</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>事務（1名）</h2>
+    <table class="office-table">
+      <tbody>
+        <tr>
+          <td>氏名</td>
+          <td>細矢理奈</td>
+        </tr>
+        <tr>
+          <td>生年月日</td>
+          <td>1975/7/7（50歳）</td>
+        </tr>
+        <tr>
+          <td>住所</td>
+          <td>仙台市若林区舟丁64-5-507</td>
+        </tr>
+        <tr>
+          <td>電話</td>
+          <td>090-5188-2929</td>
+        </tr>
+        <tr>
+          <td>メール</td>
+          <td>rina.hosoya.r3@dc.tohoku.ac.jp</td>
+        </tr>
+        <tr>
+          <td>応募職種</td>
+          <td>受付事務</td>
+        </tr>
+        <tr>
+          <td>最終学歴</td>
+          <td>尚絅女学院短期大学 専攻科 食物栄養専攻（1997年3月卒）／尚絅学院大学大学院 修士課程 研究科 健康栄養専攻（2013年3月修了）／東北大学大学院 博士課程 医学系研究科 障害科学専攻 運動学分野（2018年4月入学・在籍中）</td>
+        </tr>
+        <tr>
+          <td>現職・直近</td>
+          <td>仙台北税務署 非常勤職員（2026/2〜3/16 終了予定）</td>
+        </tr>
+        <tr>
+          <td>主な経歴</td>
+          <td>山形済生病院 管理栄養士（13年）→ 尚絅学院大学 准教授（14年）→ 仙台北税務署</td>
+        </tr>
+        <tr>
+          <td>主な資格</td>
+          <td>管理栄養士免許、栄養士免許、調理師免許、普通自動車免許</td>
+        </tr>
+        <tr>
+          <td>PCスキル</td>
+          <td>Word（書式設定・表挿入）、Excel（IF関数・VLOOKUP）、PowerPoint（アニメーション）、JMP（統計分析）</td>
+        </tr>
+        <tr>
+          <td>ダブルワーク</td>
+          <td>なし（仙台北税務署は2026/3/16終了予定）</td>
+        </tr>
+        <tr>
+          <td>勤務希望</td>
+          <td>金土日希望（水木も相談可）。週2程度希望だが状況に応じて相談可能</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>

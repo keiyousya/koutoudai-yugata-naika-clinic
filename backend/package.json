@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
+    "deploy:timecard": "wrangler deploy --config wrangler.timecard.toml",
     "db:setup": "node scripts/setup-db.js",
     "db:setup-timecard": "node scripts/setup-timecard-db.js"
   },

@@ -78,11 +78,12 @@ function PunchPage() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* 接続状態 */}
           {nfc.isConnected ? (
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 text-green-600">
                 <Wifi className="h-5 w-5 animate-pulse" />
-                <span className="font-medium">リーダー接続中 — カードをタッチしてください</span>
+                <span className="font-medium">カードをタッチしてください</span>
               </div>
             </div>
           ) : (
@@ -91,15 +92,11 @@ function PunchPage() {
                 <WifiOff className="h-5 w-5" />
                 <span>リーダー未接続</span>
               </div>
-              {nfc.isSupported ? (
+              {nfc.isSupported && (
                 <Button size="lg" onClick={nfc.connect} className="text-base px-8 py-6">
                   <Nfc className="h-5 w-5 mr-2" />
                   NFC リーダーに接続
                 </Button>
-              ) : (
-                <p className="text-sm text-muted-foreground">
-                  WebUSB 非対応ブラウザです。Chrome を使用するか、下の手動入力を使ってください。
-                </p>
               )}
             </div>
           )}

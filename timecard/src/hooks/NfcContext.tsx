@@ -45,28 +45,16 @@ class RCS300 {
       device.configurations[0].configurationValue
     );
 
-    console.log("[NFC] Configuration:", device.configuration);
-    console.log("[NFC] Interfaces:", device.configuration!.interfaces.map((i) => ({
-      num: i.interfaceNumber,
-      class: i.alternate.interfaceClass,
-      endpoints: i.alternate.endpoints.map((e) => ({
-        num: e.endpointNumber,
-        dir: e.direction,
-        type: e.type,
-      })),
-    })));
-
+    // Claim vendor-specific interface (class 255)
     const iface = device.configuration!.interfaces.find(
       (i) => i.alternate.interfaceClass === 255
     );
     if (!iface) {
-      console.warn("[NFC] interfaceClass 255 not found, trying first interface");
       const fallback = device.configuration!.interfaces[0];
       if (!fallback) throw new Error("RC-S300 の対応インターフェースが見つかりません");
       const epIn = fallback.alternate.endpoints.find((e) => e.direction === "in")!.endpointNumber;
       const epOut = fallback.alternate.endpoints.find((e) => e.direction === "out")!.endpointNumber;
       await device.claimInterface(fallback.interfaceNumber);
-      console.log(`[NFC] Claimed interface ${fallback.interfaceNumber}, epIn=${epIn}, epOut=${epOut}`);
       return new RCS300(device, epIn, epOut);
     }
 
@@ -75,6 +63,7 @@ class RCS300 {
 
     await device.claimInterface(iface.interfaceNumber);
     console.log(`[NFC] Claimed interface ${iface.interfaceNumber} (class 255), epIn=${epIn}, epOut=${epOut}`);
+
     return new RCS300(device, epIn, epOut);
   }
 
@@ -159,6 +148,7 @@ class RCS300 {
       return null;
     }
   }
+
 }
 
 // ============================================================
@@ -258,6 +248,7 @@ class RCS380 {
       return null;
     }
   }
+
 }
 
 // ============================================================
@@ -311,17 +302,11 @@ export function NfcProvider({ children, pollingInterval = 500 }: { children: Rea
     readerRef.current = reader;
     setIsConnected(true);
 
-    let lastUid = "";
-    let lastReadTime = 0;
-
     const poll = async () => {
       if (!readerRef.current) return;
       try {
         const uid = await readerRef.current.pollFelica();
-        const now = Date.now();
-        if (uid && (uid !== lastUid || now - lastReadTime > 3000)) {
-          lastUid = uid;
-          lastReadTime = now;
+        if (uid) {
           for (const cb of subscribersRef.current) {
             cb(uid);
           }

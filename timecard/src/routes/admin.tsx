@@ -142,6 +142,7 @@ function AdminDashboard({ adminKey, initialStaff, onLogout }: { adminKey: string
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingUid, setEditingUid] = useState("");
+  const [editingName, setEditingName] = useState("");
 
   const { data: staff, isLoading } = useQuery({
     queryKey: ["staff"],
@@ -179,12 +180,13 @@ function AdminDashboard({ adminKey, initialStaff, onLogout }: { adminKey: string
     },
   });
 
-  const updateCardMutation = useMutation({
-    mutationFn: ({ id, card_uid }: { id: number; card_uid: string }) =>
-      updateStaff(adminKey, id, { card_uid }),
+  const updateStaffMutation = useMutation({
+    mutationFn: ({ id, name, card_uid }: { id: number; name: string; card_uid: string }) =>
+      updateStaff(adminKey, id, { name, card_uid }),
     onSuccess: () => {
       setEditingId(null);
       setEditingUid("");
+      setEditingName("");
       queryClient.invalidateQueries({ queryKey: ["staff"] });
     },
   });
@@ -310,7 +312,30 @@ function AdminDashboard({ adminKey, initialStaff, onLogout }: { adminKey: string
                 {staff.map((s) => (
                   <TableRow key={s.id}>
                     <TableCell>{s.id}</TableCell>
-                    <TableCell className="font-medium">{s.name}</TableCell>
+                    <TableCell className="font-medium">
+                      {editingId === s.id ? (
+                        <input
+                          type="text"
+                          value={editingName}
+                          onChange={(e) => setEditingName(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && editingName.trim() && editingUid.trim()) {
+                              updateStaffMutation.mutate({ id: s.id, name: editingName.trim(), card_uid: editingUid.trim() });
+                            }
+                            if (e.key === "Escape") {
+                              setEditingId(null);
+                              setEditingName("");
+                              setEditingUid("");
+                            }
+                          }}
+                          placeholder="スタッフ名"
+                          className="w-full px-2 py-1 border rounded text-sm"
+                          autoFocus
+                        />
+                      ) : (
+                        s.name
+                      )}
+                    </TableCell>
                     <TableCell className="font-mono text-xs">
                       {editingId === s.id ? (
                         <div className="flex items-center gap-1">
@@ -319,25 +344,25 @@ function AdminDashboard({ adminKey, initialStaff, onLogout }: { adminKey: string
                             value={editingUid}
                             onChange={(e) => setEditingUid(e.target.value.toUpperCase())}
                             onKeyDown={(e) => {
-                              if (e.key === "Enter" && editingUid.trim()) {
-                                updateCardMutation.mutate({ id: s.id, card_uid: editingUid.trim() });
+                              if (e.key === "Enter" && editingName.trim() && editingUid.trim()) {
+                                updateStaffMutation.mutate({ id: s.id, name: editingName.trim(), card_uid: editingUid.trim() });
                               }
                               if (e.key === "Escape") {
                                 setEditingId(null);
                                 setEditingUid("");
+                                setEditingName("");
                               }
                             }}
                             placeholder="NFC で読取 or 手入力"
                             className="w-32 px-2 py-1 border rounded text-xs font-mono"
-                            autoFocus
                           />
                           <Button
                             variant="ghost"
                             size="icon"
                             className="h-7 w-7"
                             title="保存"
-                            disabled={!editingUid.trim() || updateCardMutation.isPending}
-                            onClick={() => updateCardMutation.mutate({ id: s.id, card_uid: editingUid.trim() })}
+                            disabled={!editingName.trim() || !editingUid.trim() || updateStaffMutation.isPending}
+                            onClick={() => updateStaffMutation.mutate({ id: s.id, name: editingName.trim(), card_uid: editingUid.trim() })}
                           >
                             <Save className="h-3.5 w-3.5 text-green-600" />
                           </Button>
@@ -346,7 +371,7 @@ function AdminDashboard({ adminKey, initialStaff, onLogout }: { adminKey: string
                             size="icon"
                             className="h-7 w-7"
                             title="キャンセル"
-                            onClick={() => { setEditingId(null); setEditingUid(""); }}
+                            onClick={() => { setEditingId(null); setEditingUid(""); setEditingName(""); }}
                           >
                             <X className="h-3.5 w-3.5 text-muted-foreground" />
                           </Button>
@@ -384,9 +409,10 @@ function AdminDashboard({ adminKey, initialStaff, onLogout }: { adminKey: string
                           <Button
                             variant="ghost"
                             size="icon"
-                            title="カード変更"
+                            title="編集"
                             onClick={() => {
                               setEditingId(s.id);
+                              setEditingName(s.name);
                               setEditingUid(s.card_uid);
                             }}
                           >

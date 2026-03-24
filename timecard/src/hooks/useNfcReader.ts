@@ -402,6 +402,8 @@ export function useNfcReader({ onCardRead, pollingInterval = 500 }: UseNfcReader
       const msg = e instanceof Error ? e.message : "接続に失敗しました";
       if (msg.includes("No device selected")) {
         setError("デバイスが選択されませんでした");
+      } else if (msg.includes("Unable to claim interface")) {
+        setError("デバイスのインターフェースを確保できません。Windowsの場合、Zadig (zadig.akeo.ie) でドライバーを WinUSB に置換してください。");
       } else {
         setError(msg);
       }

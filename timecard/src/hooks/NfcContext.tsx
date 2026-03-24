@@ -337,6 +337,10 @@ export function NfcProvider({ children, pollingInterval = 500 }: { children: Rea
         }
       } catch (e) {
         console.warn("[NFC] 自動接続失敗:", e);
+        const msg = e instanceof Error ? e.message : "";
+        if (msg.includes("Unable to claim interface")) {
+          setError("デバイスのインターフェースを確保できません。Windowsの場合、Zadig (zadig.akeo.ie) でドライバーを WinUSB に置換してください。");
+        }
       }
     })();
   }, [isSupported, initDevice]);
@@ -363,6 +367,8 @@ export function NfcProvider({ children, pollingInterval = 500 }: { children: Rea
       const msg = e instanceof Error ? e.message : "接続に失敗しました";
       if (msg.includes("No device selected")) {
         setError("デバイスが選択されませんでした");
+      } else if (msg.includes("Unable to claim interface")) {
+        setError("デバイスのインターフェースを確保できません。Windowsの場合、Zadig (zadig.akeo.ie) でドライバーを WinUSB に置換してください。");
       } else {
         setError(msg);
       }

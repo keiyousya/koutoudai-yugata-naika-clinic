@@ -55,16 +55,12 @@ class RCS300 {
       device.configurations[0].configurationValue
     );
 
-    // デバイス情報をログ
-    console.log("[NFC] Configuration:", device.configuration);
-    console.log("[NFC] Interfaces:", device.configuration!.interfaces.map((i) => ({
+    // 診断ログ: 全インターフェース情報を出力
+    console.log("[NFC] RCS300 interfaces:", device.configuration!.interfaces.map((i) => ({
       num: i.interfaceNumber,
       class: i.alternate.interfaceClass,
-      endpoints: i.alternate.endpoints.map((e) => ({
-        num: e.endpointNumber,
-        dir: e.direction,
-        type: e.type,
-      })),
+      claimed: i.claimed,
+      endpoints: i.alternate.endpoints.map((e) => ({ num: e.endpointNumber, dir: e.direction, type: e.type })),
     })));
 
     // RC-S300: interfaceClass === 255（ベンダー固有）を使用
@@ -78,6 +74,7 @@ class RCS300 {
       if (!fallback) throw new Error("RC-S300 の対応インターフェースが見つかりません");
       const epIn = fallback.alternate.endpoints.find((e) => e.direction === "in")!.endpointNumber;
       const epOut = fallback.alternate.endpoints.find((e) => e.direction === "out")!.endpointNumber;
+      console.log(`[NFC] Trying fallback interface ${fallback.interfaceNumber} (class ${fallback.alternate.interfaceClass})`);
       await device.claimInterface(fallback.interfaceNumber);
       console.log(`[NFC] Claimed interface ${fallback.interfaceNumber}, epIn=${epIn}, epOut=${epOut}`);
       return new RCS300(device, epIn, epOut);
@@ -86,6 +83,7 @@ class RCS300 {
     const epIn = iface.alternate.endpoints.find((e) => e.direction === "in")!.endpointNumber;
     const epOut = iface.alternate.endpoints.find((e) => e.direction === "out")!.endpointNumber;
 
+    console.log(`[NFC] Trying to claim interface ${iface.interfaceNumber} (class 255)`);
     await device.claimInterface(iface.interfaceNumber);
     console.log(`[NFC] Claimed interface ${iface.interfaceNumber} (class 255), epIn=${epIn}, epOut=${epOut}`);
     return new RCS300(device, epIn, epOut);
@@ -216,10 +214,18 @@ class RCS380 {
       device.configurations[0].configurationValue
     );
 
+    // 診断ログ: 全インターフェース情報を出力
+    console.log("[NFC] RCS380 interfaces:", device.configuration!.interfaces.map((i) => ({
+      num: i.interfaceNumber,
+      class: i.alternate.interfaceClass,
+      claimed: i.claimed,
+      endpoints: i.alternate.endpoints.map((e) => ({ num: e.endpointNumber, dir: e.direction, type: e.type })),
+    })));
+
     const iface = device.configuration!.interfaces[0];
     const epIn = iface.alternate.endpoints.find((e) => e.direction === "in")!.endpointNumber;
     const epOut = iface.alternate.endpoints.find((e) => e.direction === "out")!.endpointNumber;
-
+    console.log(`[NFC] Trying to claim interface ${iface.interfaceNumber} (class ${iface.alternate.interfaceClass})`);
     await device.claimInterface(iface.interfaceNumber);
 
     const reader = new RCS380(device, epIn, epOut);

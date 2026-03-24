@@ -698,12 +698,12 @@ function RecordsTable({
               </Button>
             </div>
           )}
-          <Table>
+          <Table className="table-fixed">
             <TableHeader>
               <TableRow>
-                <TableHead>時刻</TableHead>
-                <TableHead>スタッフ</TableHead>
-                <TableHead>種別</TableHead>
+                <TableHead className="w-20">時刻</TableHead>
+                <TableHead className="w-45">スタッフ</TableHead>
+                <TableHead className="w-20">種別</TableHead>
                 <TableHead>方法</TableHead>
                 {isAdmin && <TableHead className="w-20"></TableHead>}
               </TableRow>

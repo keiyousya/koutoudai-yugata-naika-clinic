@@ -14,7 +14,7 @@ transition: slide-left
 
 仕事帰りに、安心の医療を。
 
-<p style="color: rgba(255,255,255,1); margin-top: 1.5em;">2026年4月 開院予定｜オープニングスタッフ募集中</p>
+<p style="color: rgba(255,255,255,1); margin-top: 1.5em;">2026年4月8日 開院予定｜オープニングスタッフ募集中</p>
 
 ---
 

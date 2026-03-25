@@ -1,4 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import interiorImage01 from "../assets/interior_design01.png";
+import interiorImage02 from "../assets/interior_design02.jpg";
 ---
 
 <section id="about" class="section about">
@@ -13,6 +16,19 @@
           生活習慣病など慢性疾患の継続的な管理から、急な発熱や体調不良への対応まで、<br />
           夕方以降のかかりつけ医として、お気軽にご相談ください。
         </p>
+
+        <div class="interior-gallery">
+          <div class="interior-image-wrapper">
+            <Image src={interiorImage01} alt="受付・待合室の完成予想図" width={560} class="interior-image" />
+            <span class="interior-label">受付・待合室</span>
+          </div>
+          <div class="interior-image-wrapper">
+            <Image src={interiorImage02} alt="診察室の完成予想図" width={560} class="interior-image" />
+            <span class="interior-label">診察室</span>
+          </div>
+        </div>
+        <p class="interior-caption">※ 完成予想図です。実際とは異なる場合があります。</p>
+
         <ul class="about-features">
           <li class="feature-item">
             <span class="feature-icon">
@@ -260,6 +276,46 @@
     margin-bottom: 28px;
   }
 
+  .interior-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 8px;
+  }
+
+  .interior-image-wrapper {
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    position: relative;
+  }
+
+  .interior-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .interior-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .interior-caption {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-bottom: 48px;
+  }
+
   .sp-only {
     display: none;
   }
@@ -317,6 +373,15 @@
     .medical-note {
       text-align: left;
       font-size: 0.9rem;
+    }
+
+    .interior-gallery {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .interior-caption {
+      margin-bottom: 32px;
     }
   }
 </style>

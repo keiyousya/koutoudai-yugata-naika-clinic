@@ -214,10 +214,43 @@ import interiorImage02 from "../assets/interior_design02.jpg";
               当院では原則として<strong>院外処方</strong>となります。<br />
               近隣の調剤薬局が閉まっている時間帯に限り、急性疾患に対する一部のお薬を<strong>院内でお渡し</strong>できる場合があります。
             </p>
-            <p class="prescription-note">
-              ※ 降圧薬・糖尿病治療薬などの慢性疾患のお薬は院外処方のみとなります。
-            </p>
           </div>
+          <p class="prescription-note">
+            ※ 降圧薬・糖尿病治療薬などの慢性疾患のお薬は院外処方のみとなります。
+          </p>
+        </div>
+
+        <div class="insurance-area">
+          <h3 class="medical-heading">保険証について</h3>
+          <div class="insurance-notice">
+            <p class="insurance-notice-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              オンライン資格確認システム導入までのご案内
+            </p>
+            <p class="insurance-notice-text">
+              当院では現在オンライン資格確認システムの導入準備中のため、マイナンバーカードの読み取りによる保険資格の確認ができません。<br />
+              ご来院の際は、以下のいずれかをお持ちください。
+            </p>
+            <ul class="insurance-list">
+              <li>
+                <strong>健康保険証</strong>または<strong>資格確認書</strong>
+              </li>
+              <li>
+                <strong>マイナ保険証</strong>をご利用の方は、保険の資格情報がわかるものを併せてお持ちください
+                <ul class="insurance-sublist">
+                  <li>「資格情報のお知らせ」（紙の通知書）</li>
+                  <li>マイナポータルの資格情報画面（スマートフォン表示またはPDF）</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <p class="insurance-note">
+            ※ オンライン資格確認の導入後は、マイナンバーカードのみで受診いただけるようになります。
+          </p>
         </div>
       </div>
     </div>
@@ -470,6 +503,71 @@ import interiorImage02 from "../assets/interior_design02.jpg";
     width: 100%;
   }
 
+  .insurance-area {
+    margin-top: 64px;
+  }
+
+  .insurance-notice {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fdf8f0;
+    border-radius: 4px;
+    padding: 28px 32px;
+    border-left: 3px solid var(--color-orange);
+  }
+
+  .insurance-notice-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-orange);
+    margin-bottom: 14px;
+  }
+
+  .insurance-notice-label svg {
+    position: relative;
+    top: 1px;
+  }
+
+  .insurance-notice-text {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 1.9;
+    margin-bottom: 16px;
+  }
+
+  .insurance-list {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 1.9;
+    margin-bottom: 16px;
+    padding-left: 1.2em;
+    list-style: disc;
+  }
+
+  .insurance-list > li {
+    margin-bottom: 10px;
+  }
+
+  .insurance-sublist {
+    padding-left: 1.2em;
+    list-style: circle;
+    margin-top: 4px;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  .insurance-note {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    max-width: 720px;
+    margin: 10px auto 0;
+    text-align: center;
+  }
+
   .prescription-area {
     margin-top: 64px;
   }
@@ -494,6 +592,9 @@ import interiorImage02 from "../assets/interior_design02.jpg";
     font-size: 0.82rem;
     color: var(--color-text-muted);
     line-height: 1.8;
+    max-width: 720px;
+    margin: 10px auto 0;
+    text-align: center;
   }
 
   .sp-only {
@@ -579,6 +680,14 @@ import interiorImage02 from "../assets/interior_design02.jpg";
 
     .exam-item-title {
       font-size: 0.9rem;
+    }
+
+    .insurance-area {
+      margin-top: 40px;
+    }
+
+    .insurance-notice {
+      padding: 22px 18px;
     }
 
     .prescription-area {

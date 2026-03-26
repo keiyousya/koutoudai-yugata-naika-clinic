@@ -1,5 +1,7 @@
 ---
 import '@fontsource-variable/noto-sans-jp';
+// ひらがな・カタカナサブセットを preload 用に取得
+import kanaFontUrl from '@fontsource-variable/noto-sans-jp/files/noto-sans-jp-119-wght-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -9,7 +11,7 @@ interface Props {
 const { title, description = "勾当台夕方内科クリニック - 仙台市国分町の夕方診療専門クリニック。勾当台公園駅近く、夕方から夜の診療で仕事帰りでも通いやすい内科クリニックです。2026年4月開院予定。" } = Astro.props;
 
 const siteUrl = "https://koutoudai-yugata-naika.clinic";
-const ogImage = `${siteUrl}/og-image.png`;
+const ogImage = `${siteUrl}/og-image.jpg`;
 
 // 構造化データ（JSON-LD）
 const structuredData = {
@@ -92,6 +94,9 @@ const structuredData = {
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Preload critical font subset (hiragana/katakana) -->
+    <link rel="preload" href={kanaFontUrl} as="font" type="font/woff2" crossorigin />
 
     <!-- Preconnect for critical resources -->
     <link rel="preconnect" href="https://koutoudai-reservation-api.kit-tamtam.workers.dev" crossorigin />
@@ -210,6 +215,16 @@ const structuredData = {
     background: var(--color-navy);
     margin: 16px auto 0;
     opacity: 0.3;
+  }
+
+  /* Below-the-fold セクションのレンダリング最適化 */
+  #about,
+  #doctor,
+  #hours,
+  #access,
+  #recruit {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
   }
 
   @media (max-width: 768px) {

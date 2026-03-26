@@ -298,6 +298,7 @@
 <script>
   const mapPlaceholder = document.getElementById("mapPlaceholder");
   const mapIframe = document.getElementById("mapIframe") as HTMLIFrameElement;
+  const mapContainer = document.getElementById("mapContainer");
 
   function loadInteractiveMap() {
     if (mapIframe && mapPlaceholder && !mapIframe.src) {
@@ -310,10 +311,22 @@
     }
   }
 
-  // ページ読み込み後に地図を読み込む（初期描画を邪魔しない）
-  if ("requestIdleCallback" in window) {
-    requestIdleCallback(() => loadInteractiveMap());
+  // セクションが画面に近づいた時だけ地図を読み込む（未使用JS削減）
+  if (mapContainer && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            loadInteractiveMap();
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: "300px" }
+    );
+    observer.observe(mapContainer);
   } else {
-    setTimeout(loadInteractiveMap, 100);
+    // フォールバック: IntersectionObserver非対応ブラウザ
+    loadInteractiveMap();
   }
 </script>

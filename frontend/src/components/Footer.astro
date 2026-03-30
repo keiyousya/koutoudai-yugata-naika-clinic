@@ -40,6 +40,9 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <div class="footer-bottom">
+      <p class="footer-legal">
+        <a href="/tokushoho">特定商取引法に基づく表記</a>
+      </p>
       <p class="copyright">
         &copy; {currentYear} 勾当台夕方内科クリニック All Rights Reserved.
       </p>
@@ -139,6 +142,20 @@ const currentYear = new Date().getFullYear();
     padding-top: 28px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
+  }
+
+  .footer-legal {
+    margin-bottom: 16px;
+  }
+
+  .footer-legal a {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 0.2s;
+  }
+
+  .footer-legal a:hover {
+    color: white;
   }
 
   .copyright {

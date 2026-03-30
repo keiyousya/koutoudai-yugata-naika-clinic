@@ -1,0 +1,205 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="特定商取引法に基づく表記 | 勾当台夕方内科クリニック" description="勾当台夕方内科クリニックの特定商取引法に基づく表記ページです。">
+  <Header />
+  <main class="legal-page">
+    <div class="container">
+      <h1 class="legal-title">特定商取引法に基づく表記</h1>
+
+      <div class="legal-table">
+        <dl>
+          <div class="legal-row">
+            <dt>事業者名</dt>
+            <dd>勾当台夕方内科クリニック</dd>
+          </div>
+          <div class="legal-row">
+            <dt>運営責任者</dt>
+            <dd>田村 慧人</dd>
+          </div>
+          <div class="legal-row">
+            <dt>所在地</dt>
+            <dd>
+              〒980-0803<br />
+              宮城県仙台市青葉区国分町3丁目8-1<br />
+              勾当台ビル 4階
+            </dd>
+          </div>
+          <div class="legal-row">
+            <dt>電話番号</dt>
+            <dd>
+              <a href="tel:022-393-8689">022-393-8689</a><br />
+              受付時間: 水〜日 17:00〜21:00（月・火・祝休み）
+            </dd>
+          </div>
+          <div class="legal-row">
+            <dt>メールアドレス</dt>
+            <dd><a href="mailto:info@koutoudai-yugata-naika.clinic">info@koutoudai-yugata-naika.clinic</a></dd>
+          </div>
+          <div class="legal-row">
+            <dt>ウェブサイト</dt>
+            <dd><a href="https://koutoudai-yugata-naika.clinic">https://koutoudai-yugata-naika.clinic</a></dd>
+          </div>
+          <div class="legal-row">
+            <dt>販売価格</dt>
+            <dd>各種健康保険に基づく医療費（保険診療・消費税非課税）<br />診断書等の文書料についてはお問い合わせください</dd>
+          </div>
+          <div class="legal-row">
+            <dt>追加手数料</dt>
+            <dd>なし<br />※ クレジットカード決済における手数料は当院が負担いたします</dd>
+          </div>
+          <div class="legal-row">
+            <dt>お支払い方法</dt>
+            <dd>
+              診療後に、以下のいずれかをお選びいただけます。
+              <ul class="payment-list">
+                <li>現金</li>
+                <li>クレジットカード等（対面での決済端末またはLINEでの事前カード登録による決済）</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="legal-row">
+            <dt>返金・キャンセルについて</dt>
+            <dd>
+              <p class="policy-section">【診療サービスについて】</p>
+              <p>医療サービスの性質上、診療提供後の返金は原則としてお受けしておりません。</p>
+              <p class="policy-section">【請求内容に誤りがあった場合】</p>
+              <p>請求内容に誤りがあった場合は、確認の上、速やかに差額を返金いたします。お電話（022-393-8689）またはメール（info@koutoudai-yugata-naika.clinic）までお問い合わせください。</p>
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <a href="/" class="back-link">トップページに戻る</a>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .legal-page {
+    padding: 120px 0 80px;
+    min-height: 100vh;
+  }
+
+  .legal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    text-align: center;
+    margin-bottom: 48px;
+    letter-spacing: 0.04em;
+  }
+
+  .legal-title::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--color-navy);
+    margin: 16px auto 0;
+    opacity: 0.3;
+  }
+
+  .legal-table {
+    max-width: 800px;
+    margin: 0 auto 48px;
+  }
+
+  .legal-table dl {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .legal-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .legal-row dt {
+    padding: 20px 24px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-navy);
+    background: var(--color-bg-blue);
+  }
+
+  .legal-row dd {
+    padding: 20px 24px;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+  }
+
+  .legal-row dd a {
+    color: var(--color-orange);
+    transition: opacity 0.2s;
+  }
+
+  .legal-row dd a:hover {
+    opacity: 0.7;
+  }
+
+  .payment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .payment-list li::before {
+    content: "・";
+  }
+
+  .policy-section {
+    font-weight: 600;
+    color: var(--color-text);
+    margin-top: 8px;
+  }
+
+  .policy-section:first-child {
+    margin-top: 0;
+  }
+
+  .policy-section + p {
+    margin-bottom: 12px;
+  }
+
+  .back-link {
+    display: block;
+    text-align: center;
+    color: var(--color-orange);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+
+  .back-link:hover {
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .legal-page {
+      padding: 100px 0 60px;
+    }
+
+    .legal-title {
+      font-size: 1.3rem;
+      margin-bottom: 36px;
+    }
+
+    .legal-row {
+      grid-template-columns: 1fr;
+    }
+
+    .legal-row dt {
+      padding: 14px 16px 8px;
+    }
+
+    .legal-row dd {
+      padding: 8px 16px 14px;
+    }
+  }
+</style>

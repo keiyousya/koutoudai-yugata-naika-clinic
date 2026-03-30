@@ -123,6 +123,7 @@ async function main() {
       "--short",
       "-d", DIST_DIR.pathname,
       "-c", "false",
+      "-s", "56d2f874ff867f08c716c247c7e55597",
     ]);
     console.log("  All files encrypted.");
   } else {

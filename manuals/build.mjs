@@ -124,6 +124,13 @@ async function main() {
       "-d", DIST_DIR.pathname,
       "-c", "false",
       "-s", "56d2f874ff867f08c716c247c7e55597",
+      "--template-color-primary", "#333",
+      "--template-color-secondary", "#f5f5f5",
+      "--template-title", "勾当台夕方内科クリニック 院内マニュアル",
+      "--template-button", "開く",
+      "--template-placeholder", "パスワード",
+      "--template-remember", "次回から入力を省略",
+      "--template-error", "パスワードが違います",
     ]);
     console.log("  All files encrypted.");
   } else {

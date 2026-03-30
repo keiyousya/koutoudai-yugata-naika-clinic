@@ -15,10 +15,14 @@ const schedule = [
     <h2 class="section-title">診療時間</h2>
     <div class="hours-content">
       <div class="hours-main">
-        <p class="hours-time">
-          <span class="time-label">診療時間</span>
-          <span class="time-value">17:00 - 21:00</span>
-        </p>
+        <div class="hours-row">
+          <span class="time-label">一般診療</span>
+          <span class="time-value">17:00 - 19:00</span>
+        </div>
+        <div class="hours-row">
+          <span class="time-label">発熱外来</span>
+          <span class="time-value">19:00 - 21:00</span>
+        </div>
       </div>
 
       <div class="schedule-table">
@@ -76,20 +80,29 @@ const schedule = [
     border: 1px solid var(--color-border);
   }
 
-  .hours-time {
+  .hours-row {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    align-items: baseline;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .hours-row + .hours-row {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
   }
 
   .time-label {
     font-size: 0.9rem;
+    font-weight: 500;
     color: var(--color-text-muted);
+    min-width: 5em;
+    text-align: right;
   }
 
   .time-value {
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: var(--color-navy);
     letter-spacing: 0.03em;
@@ -211,7 +224,7 @@ const schedule = [
 
   @media (max-width: 768px) {
     .time-value {
-      font-size: 1.7rem;
+      font-size: 1.4rem;
     }
 
     .schedule-cell {

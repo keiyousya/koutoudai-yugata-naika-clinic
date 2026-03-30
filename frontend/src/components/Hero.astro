@@ -28,7 +28,17 @@ import TwilightBackground from "./TwilightBackground.astro";
         </thead>
         <tbody>
           <tr>
-            <td class="schedule-time">17:00 - 21:00</td>
+            <td class="schedule-time">一般 17-19時</td>
+            <td class="closed">―</td>
+            <td class="closed">―</td>
+            <td class="open"><span class="dot"></span></td>
+            <td class="open"><span class="dot"></span></td>
+            <td class="open"><span class="dot"></span></td>
+            <td class="open"><span class="dot"></span></td>
+            <td class="open"><span class="dot"></span></td>
+          </tr>
+          <tr class="fever-row">
+            <td class="schedule-time">発熱 19-21時</td>
             <td class="closed">―</td>
             <td class="closed">―</td>
             <td class="open"><span class="dot"></span></td>
@@ -42,7 +52,6 @@ import TwilightBackground from "./TwilightBackground.astro";
       <p class="hero-schedule-note">【休診日】月曜日・火曜日・祝日</p>
     </div>
     <p class="hero-access">勾当台公園駅から徒歩2分</p>
-    <!-- <a href="#reservation" class="hero-cta">ご予約・お問い合わせ</a> -->
   </div>
   <a href="/#recruit" class="recruit-banner">
     <span class="recruit-label">スタッフ募集</span>
@@ -179,15 +188,19 @@ import TwilightBackground from "./TwilightBackground.astro";
 
   .schedule-time {
     font-weight: 700;
-    font-size: 0.85rem !important;
+    font-size: 0.65rem !important;
     letter-spacing: 0.03em;
-    width: 120px;
+    width: 110px;
   }
 
   .hero-schedule-table td.closed {
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.9rem !important;
     font-weight: 400;
+  }
+
+  .fever-row td {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .dot {
@@ -202,7 +215,7 @@ import TwilightBackground from "./TwilightBackground.astro";
   .hero-schedule-note {
     padding: 0 16px;
     margin-top: 0;
-    font-size: 0.8rem;
+    font-size: 0.65rem;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.9);
   }
@@ -220,22 +233,6 @@ import TwilightBackground from "./TwilightBackground.astro";
     margin-bottom: 36px;
     font-weight: 500;
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
-  }
-
-  .hero-cta {
-    display: inline-block;
-    padding: 14px 40px;
-    background: var(--color-orange);
-    color: white;
-    font-size: 0.9rem;
-    font-weight: 500;
-    border-radius: 4px;
-    transition: opacity 0.2s;
-    letter-spacing: 0.03em;
-  }
-
-  .hero-cta:hover {
-    opacity: 0.85;
   }
 
   @media (max-width: 768px) {
@@ -290,8 +287,8 @@ import TwilightBackground from "./TwilightBackground.astro";
 
     .schedule-time {
       width: auto;
-      padding: 0 8px;
-      font-size: 0.9rem !important;
+      padding: 0 4px;
+      font-size: 0.65rem !important;
       white-space: nowrap;
     }
 
@@ -301,11 +298,11 @@ import TwilightBackground from "./TwilightBackground.astro";
     }
 
     .hero-schedule-table td.closed {
-      font-size: 0.9rem !important;
+      font-size: 0.65rem !important;
     }
 
     .hero-schedule-note {
-      font-size: 0.9rem;
+      font-size: 0.65rem;
       padding: 0 8px;
     }
 
@@ -313,10 +310,6 @@ import TwilightBackground from "./TwilightBackground.astro";
       font-size: 0.9rem;
     }
 
-    .hero-cta {
-      padding: 12px 32px;
-      font-size: 0.9rem;
-    }
   }
 
   @media (max-width: 480px) {

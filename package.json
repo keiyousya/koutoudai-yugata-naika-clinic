@@ -10,6 +10,8 @@
     "admin:prod": "pnpm --filter admin dev --mode production",
     "build": "pnpm --filter frontend build",
     "build:timecard": "pnpm --filter timecard build",
+    "build:manuals": "pnpm --filter manuals build",
+    "dev:manuals": "pnpm --filter manuals dev",
     "deploy:api": "pnpm --filter backend run deploy"
   },
   "devDependencies": {

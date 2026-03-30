@@ -50,6 +50,14 @@ jobs:
       - name: Copy timecard to frontend dist
         run: cp -r ./timecard/dist ./frontend/dist/timecard
 
+      - name: Build manuals
+        run: pnpm --filter manuals build
+        env:
+          MANUALS_PASSWORD: ${{ secrets.MANUALS_PASSWORD }}
+
+      - name: Copy manuals to frontend dist
+        run: cp -r ./manuals/dist ./frontend/dist/manuals
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

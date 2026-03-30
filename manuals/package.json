@@ -1,0 +1,13 @@
+{
+  "name": "manuals",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --no-encrypt && open dist/index.html"
+  },
+  "dependencies": {
+    "marked": "^15.0.0",
+    "staticrypt": "^3.5.0"
+  }
+}

@@ -58,6 +58,12 @@ jobs:
       - name: Copy manuals to frontend dist
         run: cp -r ./manuals/dist ./frontend/dist/manuals
 
+      - name: Build slides
+        run: pnpm --filter slides build
+
+      - name: Copy slides to frontend dist
+        run: cp -r ./slides/dist ./frontend/dist/slides
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

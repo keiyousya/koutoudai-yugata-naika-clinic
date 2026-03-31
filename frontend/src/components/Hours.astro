@@ -25,6 +25,12 @@ const schedule = [
         </div>
       </div>
 
+      <div class="hours-last-reception">
+        <span class="last-reception-label">最終受付</span>
+        <span class="last-reception-time">20:30</span>
+        <span class="last-reception-note">（電話・ネット予約の当日最終）</span>
+      </div>
+
       <div class="schedule-table">
         <div class="schedule-header">
           <span>診療日カレンダー</span>
@@ -106,6 +112,38 @@ const schedule = [
     font-weight: 700;
     color: var(--color-navy);
     letter-spacing: 0.03em;
+  }
+
+  .hours-last-reception {
+    text-align: center;
+    margin-bottom: 36px;
+    padding: 18px 32px;
+    background: var(--color-bg-blue);
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .last-reception-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .last-reception-time {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    letter-spacing: 0.03em;
+  }
+
+  .last-reception-note {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
   }
 
   .hours-note {

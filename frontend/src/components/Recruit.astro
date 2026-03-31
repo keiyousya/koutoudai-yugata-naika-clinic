@@ -4,7 +4,7 @@ const jobPostings = [
     "@context": "https://schema.org/",
     "@type": "JobPosting",
     "title": "受付事務（オープニングスタッフ）",
-    "description": "2026年4月開院予定の勾当台夕方内科クリニックでオープニングスタッフを募集しています。夕方から夜間の診療をサポートしていただきます。週1日からOK。時給1,600円〜1,800円、交通費支給（月額20,000円上限）、昇給あり。",
+    "description": "2026年4月開院予定の勾当台夕方内科クリニックでオープニングスタッフを募集しています。夕方から夜間の診療をサポートしていただきます。勤務時間17:00〜21:00、平日を含む週2日以上。時給1,600円〜1,800円、交通費支給（月額20,000円上限）、昇給あり。",
     "datePosted": "2026-02-26",
     "validThrough": "2026-12-31",
     "employmentType": "PART_TIME",
@@ -63,7 +63,7 @@ const jobPostings = [
             <ul class="job-details">
               <li><span class="label">時給</span><span class="value">1,600円〜1,800円</span></li>
               <li><span class="label">勤務時間</span><span class="value">17:00〜21:00</span></li>
-              <li><span class="label">勤務日</span><span class="value">週1日〜OK（平日に入れる方歓迎）</span></li>
+              <li><span class="label">勤務日</span><span class="value">平日（水〜金）を含む週2日以上</span></li>
               <li><span class="label">試用期間</span><span class="value">3ヶ月</span></li>
               <li><span class="label">交通費</span><span class="value">実費支給（月額20,000円上限）</span></li>
               <li><span class="label">昇給</span><span class="value">あり</span></li>
@@ -208,6 +208,13 @@ const jobPostings = [
     font-size: 0.9rem;
     color: #666;
     margin-top: 8px;
+  }
+
+  .job-details .value .note {
+    display: block;
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 4px;
   }
 
   .recruit-form-wrapper {

@@ -111,7 +111,7 @@ const structuredData = {
     <!-- レイアウトシフト防止用の最小限クリティカルCSS -->
     <style>
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-      html{scroll-behavior:smooth;overflow-x:hidden}
+      html{scroll-behavior:smooth;overflow-x:clip}
       body{margin:0}
       .header{position:fixed;top:0;left:0;right:0;z-index:1000}
       .header-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
@@ -157,7 +157,7 @@ const structuredData = {
 
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    overflow-x: clip;
     background-color: var(--color-navy);
     font-size: 22px;
   }
@@ -167,7 +167,7 @@ const structuredData = {
     line-height: 1.7;
     color: var(--color-text);
     background-color: var(--color-bg);
-    overflow-x: hidden;
+    overflow-x: clip;
     font-size: 22px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

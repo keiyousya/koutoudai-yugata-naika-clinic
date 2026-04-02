@@ -48,7 +48,11 @@ const INDEX_CSS = `
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; line-height: 1.8; color: #333; max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem; background: #fafaf8; }
 h1 { font-size: 1.6rem; color: #5b4a3f; border-bottom: 2px solid #c9b99a; padding-bottom: 0.4rem; margin-bottom: 0.5rem; }
+h2 { font-size: 1.1rem; color: #5b4a3f; margin-top: 1.5rem; margin-bottom: 0.8rem; }
 .subtitle { color: #8b7d6b; font-size: 0.95rem; margin-bottom: 2rem; }
+.external-links { display: grid; gap: 0.6rem; margin-bottom: 2rem; }
+.external-links a { display: flex; align-items: center; justify-content: center; padding: 0.8rem 1rem; background: #c9b99a; color: #fff; border: none; border-radius: 6px; text-decoration: none; font-size: 0.95rem; transition: background 0.15s; }
+.external-links a:hover { background: #b5a581; }
 .manual-list { list-style: none; }
 .manual-list li { margin-bottom: 0.5rem; }
 .manual-list a { display: block; padding: 0.8rem 1rem; background: #fff; border: 1px solid #d0c8b8; border-radius: 6px; color: #5b4a3f; text-decoration: none; transition: background 0.15s; }
@@ -110,7 +114,7 @@ async function main() {
   const listItems = manuals.map((m) => `<li><a href="./${m.slug}.html">${m.title}</a></li>`).join("\n");
   const indexHtml = wrapHtml(
     "院内マニュアル",
-    `<h1>院内マニュアル</h1>\n<p class="subtitle">勾当台夕方内科クリニック</p>\n<ul class="manual-list">\n${listItems}\n</ul>`,
+    `<h1>院内マニュアル</h1>\n<p class="subtitle">勾当台夕方内科クリニック</p>\n<h2>操作マニュアル</h2>\n<div class="external-links">\n<a href="https://www.notion.so/3356e8ba85c58016818ed588fda40651?source=copy_link" target="_blank">📋 電子カルテ・レセコン操作マニュアル</a>\n</div>\n<h2>院内マニュアル</h2>\n<ul class="manual-list">\n${listItems}\n</ul>`,
     true,
   );
   await writeFile(join(DIST_DIR.pathname, "index.html"), indexHtml);

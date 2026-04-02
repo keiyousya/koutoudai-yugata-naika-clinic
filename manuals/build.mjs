@@ -38,6 +38,10 @@ a { color: #8b6d4f; }
 hr { border: none; border-top: 1px solid #d0c8b8; margin: 1.5rem 0; }
 .back-link { display: inline-block; margin-bottom: 1.5rem; color: #8b6d4f; text-decoration: none; font-size: 0.9rem; }
 .back-link:hover { text-decoration: underline; }
+.page-controls { display: flex; gap: 0.8rem; margin-bottom: 1.5rem; }
+.print-btn { padding: 0.5rem 1rem; background: #c9b99a; color: #fff; border: none; border-radius: 4px; font-size: 0.9rem; cursor: pointer; text-decoration: none; font-family: inherit; }
+.print-btn:hover { background: #b5a581; }
+@media print { .page-controls { display: none; } }
 `;
 
 const INDEX_CSS = `
@@ -53,6 +57,7 @@ h1 { font-size: 1.6rem; color: #5b4a3f; border-bottom: 2px solid #c9b99a; paddin
 
 function wrapHtml(title, bodyHtml, isIndex = false) {
   const backLink = isIndex ? "" : `<a class="back-link" href="./index.html">&larr; マニュアル一覧に戻る</a>\n`;
+  const printBtn = isIndex ? "" : `<div class="page-controls"><button class="print-btn" onclick="window.print()">🖨️ 印刷する</button></div>\n`;
   return `<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -62,7 +67,7 @@ function wrapHtml(title, bodyHtml, isIndex = false) {
 <style>${isIndex ? INDEX_CSS : CSS}</style>
 </head>
 <body>
-${backLink}${bodyHtml}
+${backLink}${printBtn}${bodyHtml}
 </body>
 </html>`;
 }

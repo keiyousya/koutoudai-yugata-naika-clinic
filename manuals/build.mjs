@@ -1,4 +1,4 @@
-import { readdir, readFile, writeFile, mkdir, rm } from "node:fs/promises";
+import { readdir, readFile, writeFile, mkdir, rm, copyFile } from "node:fs/promises";
 import { join, parse } from "node:path";
 import { marked } from "marked";
 import { execFile } from "node:child_process";
@@ -68,6 +68,9 @@ function wrapHtml(title, bodyHtml, isIndex = false) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title} - 院内マニュアル</title>
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
 <style>${isIndex ? INDEX_CSS : CSS}</style>
 </head>
 <body>
@@ -86,6 +89,17 @@ async function main() {
   // Clean and create dist
   await rm(DIST_DIR, { recursive: true, force: true });
   await mkdir(DIST_DIR, { recursive: true });
+
+  // Copy favicon files from frontend/public
+  const FRONTEND_PUBLIC = new URL("../frontend/public/", import.meta.url);
+  const faviconFiles = ["favicon-16x16.png", "favicon-32x32.png", "apple-touch-icon.png"];
+  for (const file of faviconFiles) {
+    await copyFile(
+      join(FRONTEND_PUBLIC.pathname, file),
+      join(DIST_DIR.pathname, file)
+    );
+  }
+  console.log("Copied favicon files from frontend/public/");
 
   // Read all markdown files
   const files = (await readdir(DOCS_DIR)).filter((f) => f.endsWith(".md")).sort();

@@ -61,7 +61,7 @@ h2 { font-size: 1.1rem; color: #5b4a3f; margin-top: 1.5rem; margin-bottom: 0.8re
 
 function wrapHtml(title, bodyHtml, isIndex = false) {
   const backLink = isIndex ? "" : `<a class="back-link" href="./index.html">&larr; マニュアル一覧に戻る</a>\n`;
-  const printBtn = isIndex ? "" : `<div class="page-controls"><button class="print-btn" onclick="window.print()">🖨️ 印刷する</button></div>\n`;
+  const printBtn = isIndex ? "" : `<div class="page-controls"><button class="print-btn" onclick="window.print()">印刷する</button></div>\n`;
   return `<!DOCTYPE html>
 <html lang="ja">
 <head>

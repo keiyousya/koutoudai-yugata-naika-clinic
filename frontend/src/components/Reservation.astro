@@ -2,8 +2,8 @@
 // LINE予約システムの設定
 // リリース時に lineAddFriendUrl を設定し、comingSoon を false にする
 const config = {
-  comingSoon: true,
-  lineAddFriendUrl: "", // LINE友だち追加URL（リリース時に設定）
+  comingSoon: false,
+  lineAddFriendUrl: "https://lin.ee/o8VUXOX",
 };
 ---
 
@@ -20,11 +20,8 @@ const config = {
           <p class="reservation-notice">
             LINE公式アカウントを友だち追加後、トーク画面よりご予約ください。
           </p>
-          <a href={config.lineAddFriendUrl} target="_blank" rel="noopener noreferrer" class="line-btn">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
-              <path d="M12 2C6.48 2 2 5.81 2 10.5c0 4.01 3.17 7.38 7.47 8.27.29.06.68.19.78.44.09.22.06.57.03.8l-.13.76c-.04.22-.17.87.76.47.93-.4 5.03-2.96 6.86-5.07C19.73 13.86 22 12.33 22 10.5 22 5.81 17.52 2 12 2z" fill="currentColor"/>
-            </svg>
-            友だち追加して予約する
+          <a href={config.lineAddFriendUrl} target="_blank" rel="noopener noreferrer">
+            <img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" style="border:0;" />
           </a>
         </div>
       )}

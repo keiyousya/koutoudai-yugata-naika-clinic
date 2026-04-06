@@ -5,11 +5,6 @@
   <div class="container">
     <h2 class="section-title">院長紹介</h2>
     <div class="doctor-content">
-      <div class="doctor-image">
-        <div class="image-placeholder">
-          <span>準備中</span>
-        </div>
-      </div>
       <div class="doctor-info">
         <div class="doctor-name">
           <span class="position">院長</span>
@@ -59,33 +54,8 @@
   }
 
   .doctor-content {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 56px;
-    align-items: start;
-  }
-
-  .doctor-image {
-    position: sticky;
-    top: 100px;
-  }
-
-  .image-placeholder {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    background: var(--color-navy);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
-    font-weight: 400;
-  }
-
-  .doctor-image img {
-    width: 100%;
-    border-radius: 4px;
+    max-width: 720px;
+    margin: 0 auto;
   }
 
   .doctor-info {
@@ -172,17 +142,6 @@
   }
 
   @media (max-width: 768px) {
-    .doctor-content {
-      grid-template-columns: 1fr;
-      gap: 36px;
-    }
-
-    .doctor-image {
-      position: static;
-      width: 40%;
-      margin: 0 auto;
-    }
-
     .doctor-info {
       padding: 0 4px;
     }

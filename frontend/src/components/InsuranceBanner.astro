@@ -1,0 +1,72 @@
+---
+---
+
+<div class="insurance-banner">
+  <div class="insurance-banner-inner container">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="insurance-banner-icon">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <p class="insurance-banner-text">
+      当院では現在<strong>マイナンバーカードの読み取りによる保険資格の確認ができません。</strong>健康保険証・資格確認書、またはマイナポータルの資格情報画面をお持ちください。
+      <a href="/#insurance" class="insurance-banner-link">詳しくはこちら →</a>
+    </p>
+  </div>
+</div>
+
+<style>
+  .insurance-banner {
+    background: #fdf2e6;
+    border-bottom: 2px solid #e8a04c;
+    padding: 14px 0;
+  }
+
+  .insurance-banner-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .insurance-banner-icon {
+    flex-shrink: 0;
+    color: #c07020;
+    margin-top: 2px;
+  }
+
+  .insurance-banner-text {
+    font-size: 0.82rem;
+    color: #444;
+    line-height: 1.8;
+  }
+
+  .insurance-banner-text strong {
+    color: #c05040;
+  }
+
+  .insurance-banner-link {
+    display: inline-block;
+    margin-left: 8px;
+    color: #a36232;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+  }
+
+  .insurance-banner-link:hover {
+    color: #8b4f28;
+  }
+
+  @media (max-width: 768px) {
+    .insurance-banner-text {
+      font-size: 0.78rem;
+    }
+
+    .insurance-banner-link {
+      display: block;
+      margin-left: 0;
+      margin-top: 4px;
+    }
+  }
+</style>

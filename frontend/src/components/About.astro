@@ -148,7 +148,7 @@ import echoImage from "../assets/echo.jpeg";
                 <h4 class="exam-item-title">超音波検査（エコー）</h4>
               </div>
               <p class="exam-item-description">
-                腹部・腎泌尿器・頸動脈・甲状腺などの検査を行います。
+                腹部・腎臓・頸動脈・甲状腺などの検査を行います。
               </p>
               <Image src={echoImage} alt="超音波検査装置" width={400} class="exam-item-image" />
               <span class="exam-item-device">キャノンメディカルシステムズ Aplio go / LE</span>
@@ -228,7 +228,7 @@ import echoImage from "../assets/echo.jpeg";
           </p>
         </div>
 
-        <div class="insurance-area">
+        <div class="insurance-area" id="insurance">
           <h3 class="medical-heading">保険証について</h3>
           <div class="insurance-notice">
             <p class="insurance-notice-label">
@@ -522,6 +522,7 @@ import echoImage from "../assets/echo.jpeg";
 
   .insurance-area {
     margin-top: 64px;
+    scroll-margin-top: 80px;
   }
 
   .insurance-notice {

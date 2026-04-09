@@ -1,8 +1,23 @@
 ---
+import { Image } from "astro:assets";
 import TwilightBackground from "./TwilightBackground.astro";
+import interiorImage01 from "../assets/interior01.jpeg";
+import interiorImage02 from "../assets/interior02.jpeg";
+import interiorImage03 from "../assets/interior03.jpeg";
 ---
 
 <section class="hero">
+  <div class="hero-slideshow" id="heroSlideshow">
+    <div class="hero-slide-wrapper">
+      <Image src={interiorImage01} alt="" width={1600} class="hero-slide" />
+    </div>
+    <div class="hero-slide-wrapper">
+      <Image src={interiorImage02} alt="" width={1600} class="hero-slide" />
+    </div>
+    <div class="hero-slide-wrapper">
+      <Image src={interiorImage03} alt="" width={1600} class="hero-slide" />
+    </div>
+  </div>
   <div class="hero-content container">
     <p class="hero-catchphrase">夜21時まで診療｜土日も受診できる内科</p>
     <h1 class="hero-title">
@@ -68,6 +83,36 @@ import TwilightBackground from "./TwilightBackground.astro";
     padding-bottom: 0;
     isolation: isolate;
     background: var(--color-navy);
+  }
+
+  .hero-slideshow {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .hero-slide-wrapper {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+  }
+
+  .hero-slide-wrapper.active {
+    opacity: 1;
+  }
+
+  .hero-slide-wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 58, 95, 0.65);
+  }
+
+  .hero-slide {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .hero-content {
@@ -322,3 +367,47 @@ import TwilightBackground from "./TwilightBackground.astro";
     }
   }
 </style>
+
+<script>
+  const wrappers = document.querySelectorAll<HTMLElement>(".hero-slide-wrapper");
+  const twilight = document.querySelector<HTMLElement>(".twilight-bg");
+  const stars = document.querySelector<HTMLElement>(".stars");
+  const shootingStars = document.querySelectorAll<HTMLElement>(".shooting-star");
+  const skyline = document.querySelector<HTMLElement>(".skyline");
+
+  if (wrappers.length > 0) {
+    let current = -1; // -1 = twilight background
+    const total = wrappers.length;
+    const interval = 5000;
+
+    function showTwilight() {
+      wrappers.forEach((w) => w.classList.remove("active"));
+      if (twilight) twilight.style.opacity = "1";
+      if (stars) stars.style.opacity = "1";
+      shootingStars.forEach((s) => (s.style.opacity = ""));
+      if (skyline) skyline.style.opacity = "";
+    }
+
+    function showSlide(index: number) {
+      wrappers.forEach((w) => w.classList.remove("active"));
+      if (twilight) twilight.style.opacity = "0";
+      if (stars) stars.style.opacity = "0";
+      shootingStars.forEach((s) => (s.style.opacity = "0"));
+      if (skyline) skyline.style.opacity = "0";
+      wrappers[index].classList.add("active");
+    }
+
+    // Start with twilight
+    showTwilight();
+
+    setInterval(() => {
+      current++;
+      if (current >= total) {
+        current = -1;
+        showTwilight();
+      } else {
+        showSlide(current);
+      }
+    }, interval);
+  }
+</script>

@@ -1,7 +1,10 @@
 ---
 import { Image } from "astro:assets";
-import interiorImage01 from "../assets/interior_design01.png";
-import interiorImage02 from "../assets/interior_design02.jpg";
+import interiorImage01 from "../assets/interior01.jpeg";
+import interiorImage02 from "../assets/interior02.jpeg";
+import interiorImage03 from "../assets/interior03.jpeg";
+import ecgImage from "../assets/ecg.jpeg";
+import echoImage from "../assets/echo.jpeg";
 ---
 
 <section id="about" class="section about">
@@ -19,15 +22,18 @@ import interiorImage02 from "../assets/interior_design02.jpg";
 
         <div class="interior-gallery">
           <div class="interior-image-wrapper">
-            <Image src={interiorImage01} alt="受付・待合室の完成予想図" width={560} class="interior-image" />
+            <Image src={interiorImage01} alt="受付・待合室" width={560} class="interior-image" />
             <span class="interior-label">受付・待合室</span>
           </div>
           <div class="interior-image-wrapper">
-            <Image src={interiorImage02} alt="診察室の完成予想図" width={560} class="interior-image" />
+            <Image src={interiorImage02} alt="診察室" width={560} class="interior-image" />
             <span class="interior-label">診察室</span>
           </div>
+          <div class="interior-image-wrapper">
+            <Image src={interiorImage03} alt="処置室" width={560} class="interior-image" />
+            <span class="interior-label">処置室</span>
+          </div>
         </div>
-        <p class="interior-caption">※ 完成予想図です。実際とは異なる場合があります。</p>
 
         <ul class="about-features">
           <li class="feature-item">
@@ -144,6 +150,7 @@ import interiorImage02 from "../assets/interior_design02.jpg";
               <p class="exam-item-description">
                 腹部・腎泌尿器・頸動脈・甲状腺などの検査を行います。コンベックスプローブとリニアプローブの2本構成です。
               </p>
+              <Image src={echoImage} alt="超音波検査装置" width={400} class="exam-item-image" />
               <span class="exam-item-device">キャノンメディカルシステムズ Aplio go / LE</span>
             </div>
 
@@ -159,6 +166,7 @@ import interiorImage02 from "../assets/interior_design02.jpg";
               <p class="exam-item-description">
                 不整脈や狭心症など、心臓に関わる症状の評価に用います。
               </p>
+              <Image src={ecgImage} alt="12誘導心電図" width={400} class="exam-item-image" />
               <span class="exam-item-device">日本光電 ECG-3250</span>
             </div>
 
@@ -417,9 +425,9 @@ import interiorImage02 from "../assets/interior_design02.jpg";
 
   .interior-gallery {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
-    margin-bottom: 8px;
+    margin-bottom: 48px;
   }
 
   .interior-image-wrapper {
@@ -448,12 +456,6 @@ import interiorImage02 from "../assets/interior_design02.jpg";
     text-align: center;
   }
 
-  .interior-caption {
-    text-align: center;
-    font-size: 0.78rem;
-    color: var(--color-text-muted);
-    margin-bottom: 48px;
-  }
 
   .exam-area {
     margin-top: 64px;
@@ -499,6 +501,13 @@ import interiorImage02 from "../assets/interior_design02.jpg";
     color: var(--color-text-muted);
     font-size: 0.9rem;
     line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .exam-item-image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
     margin-bottom: 12px;
   }
 
@@ -681,9 +690,6 @@ import interiorImage02 from "../assets/interior_design02.jpg";
     .interior-gallery {
       grid-template-columns: 1fr;
       gap: 16px;
-    }
-
-    .interior-caption {
       margin-bottom: 32px;
     }
 

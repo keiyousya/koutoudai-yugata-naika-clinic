@@ -260,6 +260,15 @@ import echoImage from "../assets/echo.jpeg";
             ※ オンライン資格確認の導入後は、マイナンバーカードのみで受診いただけるようになります。
           </p>
         </div>
+        <div class="certificate-area">
+          <h3 class="medical-heading">診断書の発行について</h3>
+          <div class="certificate-box">
+            <p class="certificate-text">
+              診断書は自費にて<strong>一律 5,500円（税込）</strong>で発行いたします。
+            </p>
+          </div>
+        </div>
+
         <div class="payment-area">
           <h3 class="medical-heading">お支払いについて</h3>
           <p class="payment-text">
@@ -505,10 +514,12 @@ import echoImage from "../assets/echo.jpeg";
   }
 
   .exam-item-image {
-    width: 100%;
+    display: block;
+    width: 70%;
+    max-width: 240px;
     height: auto;
     border-radius: 4px;
-    margin-bottom: 12px;
+    margin: 0 auto 12px;
   }
 
   .exam-item-device {
@@ -617,6 +628,25 @@ import echoImage from "../assets/echo.jpeg";
 
   .payment-area {
     margin-top: 64px;
+  }
+
+  .certificate-area {
+    margin-top: 64px;
+  }
+
+  .certificate-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--color-bg-blue);
+    border-radius: 4px;
+    padding: 28px 32px;
+    border-top: 2px solid var(--color-navy);
+  }
+
+  .certificate-text {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 1.9;
   }
 
   .payment-text {
@@ -729,6 +759,14 @@ import echoImage from "../assets/echo.jpeg";
 
     .payment-area {
       margin-top: 40px;
+    }
+
+    .certificate-area {
+      margin-top: 40px;
+    }
+
+    .certificate-box {
+      padding: 22px 18px;
     }
 
     .payment-text {

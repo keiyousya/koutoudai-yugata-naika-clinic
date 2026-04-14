@@ -1,0 +1,98 @@
+---
+const newsItems = [
+  {
+    date: "2026.04.12",
+    content: "5月9日（土）は臨時休診となります。",
+    isImportant: true,
+  },
+];
+---
+
+<section id="news" class="section news">
+  <div class="container">
+    <h2 class="section-title">お知らせ</h2>
+    <div class="news-content">
+      <ul class="news-list">
+        {newsItems.map((item) => (
+          <li class={`news-item ${item.isImportant ? "important" : ""}`}>
+            <span class="news-date">{item.date}</span>
+            <span class="news-text">{item.content}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .news {
+    background: white;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .news-content {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .news-item {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 16px 20px;
+    background: var(--color-bg);
+    border-radius: 4px;
+    border-left: 3px solid var(--color-navy-medium);
+  }
+
+  .news-item.important {
+    background: #fdf8f0;
+    border-left-color: var(--color-orange);
+  }
+
+  .news-date {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .news-text {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 1.7;
+  }
+
+  .news-item.important .news-text {
+    color: var(--color-navy);
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .news {
+      padding-top: 36px;
+      padding-bottom: 36px;
+    }
+
+    .news-item {
+      flex-direction: column;
+      gap: 6px;
+      padding: 14px 16px;
+    }
+
+    .news-date {
+      font-size: 0.8rem;
+    }
+
+    .news-text {
+      font-size: 0.9rem;
+    }
+  }
+</style>

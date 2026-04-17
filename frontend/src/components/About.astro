@@ -215,6 +215,23 @@ import echoImage from "../assets/echo.jpeg";
           </div>
         </div>
 
+        <div class="cooperation-area">
+          <h3 class="medical-heading">地域連携</h3>
+          <div class="cooperation-box">
+            <p class="cooperation-text">
+              当院は地域の基幹病院と連携し、より専門的な検査や治療が必要な場合にスムーズにご紹介できる体制を整えています。
+            </p>
+            <p class="cooperation-label">連携医療機関</p>
+            <ul class="cooperation-list">
+              <li><a href="https://www.hosp.tohoku.ac.jp/" target="_blank" rel="noopener noreferrer">東北大学病院</a></li>
+              <li><a href="https://hospital.city.sendai.jp/" target="_blank" rel="noopener noreferrer">仙台市立病院</a></li>
+              <li><a href="https://www.hosp.tohoku-mpu.ac.jp/" target="_blank" rel="noopener noreferrer">東北医科薬科大学病院</a></li>
+              <li><a href="https://www.openhp.or.jp/" target="_blank" rel="noopener noreferrer">仙台オープン病院</a></li>
+              <li><a href="https://www.tohokuh.johas.go.jp/" target="_blank" rel="noopener noreferrer">東北労災病院</a></li>
+            </ul>
+          </div>
+        </div>
+
         <div class="prescription-area">
           <h3 class="medical-heading">お薬の処方について</h3>
           <div class="prescription-box">
@@ -430,6 +447,57 @@ import echoImage from "../assets/echo.jpeg";
     color: var(--color-text-muted);
     line-height: 1.8;
     margin-bottom: 28px;
+  }
+
+  .cooperation-area {
+    margin-top: 64px;
+  }
+
+  .cooperation-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--color-bg-blue);
+    border-radius: 4px;
+    padding: 28px 32px;
+    border-top: 2px solid var(--color-navy);
+  }
+
+  .cooperation-text {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 1.9;
+    margin-bottom: 20px;
+  }
+
+  .cooperation-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-bottom: 12px;
+  }
+
+  .cooperation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 1.2em;
+    list-style: disc;
+  }
+
+  .cooperation-list li {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .cooperation-list a {
+    color: var(--color-navy);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .cooperation-list a:hover {
+    color: var(--color-navy-medium);
+    text-decoration: underline;
   }
 
   .interior-gallery {
@@ -716,6 +784,14 @@ import echoImage from "../assets/echo.jpeg";
     .medical-note {
       text-align: left;
       font-size: 0.9rem;
+    }
+
+    .cooperation-area {
+      margin-top: 40px;
+    }
+
+    .cooperation-box {
+      padding: 22px 18px;
     }
 
     .interior-gallery {

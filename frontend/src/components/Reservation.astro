@@ -1,24 +1,16 @@
 ---
-const lineAddFriendUrl = "https://lin.ee/o8VUXOX";
+import LineCta from "./LineCta.astro";
 ---
 
 <section id="reservation" class="section reservation">
   <div class="container">
     <h2 class="section-title">ご予約</h2>
     <div class="reservation-content">
-      <div class="line-block">
-        <p class="reservation-notice">
-          LINE公式アカウントを友だち追加後、トーク画面よりご予約ください。
-        </p>
-        <a href={lineAddFriendUrl} target="_blank" rel="noopener noreferrer">
-          <img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" style="height:48px; width:auto; border:0;" />
-        </a>
-      </div>
-
+      <LineCta showIntro={true} />
       <p class="reservation-note">
-        ※ 当院では紙の診察券は発行しておりません。お友だち追加いただいたLINEアカウントが診察券の代わりとなります。
+        ※ 当院では紙の診察券は発行しておりません。<br />
+        お友だち追加いただいたLINEアカウントが<br />診察券の代わりとなります。
       </p>
-
     </div>
   </div>
 </section>
@@ -34,41 +26,10 @@ const lineAddFriendUrl = "https://lin.ee/o8VUXOX";
     text-align: center;
   }
 
-  .reservation-notice {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    line-height: 1.9;
-    margin-bottom: 28px;
-  }
-
-  .line-block {
-    margin-bottom: 0;
-  }
-
   .reservation-note {
     font-size: 0.82rem;
     color: var(--color-text-muted);
     line-height: 1.8;
     margin-top: 28px;
   }
-
-  .line-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 36px;
-    background: #06C755;
-    color: white;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 4px;
-    letter-spacing: 0.03em;
-    transition: opacity 0.2s;
-    margin-bottom: 28px;
-  }
-
-  .line-btn:hover {
-    opacity: 0.85;
-  }
-
 </style>

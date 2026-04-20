@@ -1,0 +1,89 @@
+---
+import TwilightBackground from "./TwilightBackground.astro";
+
+interface Props {
+  label: string;
+  title: string;
+  description: string;
+}
+
+const { label, title, description } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero-label">{label}</p>
+    <h1 class="page-hero-title" set:html={title} />
+    <p class="page-hero-description" set:html={description} />
+  </div>
+  <TwilightBackground />
+</section>
+
+<style>
+  .page-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-navy);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .page-hero .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-hero-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .page-hero-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.5;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    text-wrap: balance;
+  }
+
+  .page-hero-description {
+    font-size: 0.9rem;
+    line-height: 2;
+    opacity: 0.95;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    text-wrap: balance;
+  }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      min-height: calc(100vh - 20px);
+      padding: 60px 0;
+    }
+
+    .page-hero-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<style is:global>
+  .page-hero .sp-only {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .page-hero .sp-only {
+      display: inline;
+    }
+  }
+</style>

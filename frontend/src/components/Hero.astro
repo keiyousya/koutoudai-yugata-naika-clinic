@@ -60,7 +60,7 @@ import interiorImage03 from "../assets/interior03.jpeg";
           </tr>
         </tbody>
       </table>
-      <p class="hero-schedule-note">【最終受付】20:30　【休診日】月曜日・火曜日・祝日</p>
+      <p class="hero-schedule-note">【最終受付】20:45　【休診日】月曜日・火曜日・祝日</p>
     </div>
     <p class="hero-access">勾当台公園駅から徒歩2分</p>
   </div>
@@ -106,13 +106,22 @@ import interiorImage03 from "../assets/interior03.jpeg";
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(30, 58, 95, 0.65);
+    background: rgba(30, 58, 95, 0.4);
   }
 
   .hero-slide {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  @keyframes panLeftToRight {
+    0% {
+      object-position: 0% center;
+    }
+    100% {
+      object-position: 100% center;
+    }
   }
 
   .hero-content {
@@ -255,6 +264,11 @@ import interiorImage03 from "../assets/interior03.jpeg";
       font-size: 1.6rem;
     }
 
+    .hero-slide {
+      object-position: 100% center;
+      animation: panLeftToRight 6.5s linear forwards;
+    }
+
     .hero-schedule {
       max-width: 100%;
       padding: 10px 8px 12px;
@@ -394,6 +408,15 @@ import interiorImage03 from "../assets/interior03.jpeg";
       if (stars) stars.style.opacity = "0";
       shootingStars.forEach((s) => (s.style.opacity = "0"));
       if (skyline) skyline.style.opacity = "0";
+
+      // アニメーションをリセット
+      const slide = wrappers[index].querySelector<HTMLElement>(".hero-slide");
+      if (slide) {
+        slide.style.animation = "none";
+        slide.offsetHeight; // reflowを強制
+        slide.style.animation = "";
+      }
+
       wrappers[index].classList.add("active");
     }
 

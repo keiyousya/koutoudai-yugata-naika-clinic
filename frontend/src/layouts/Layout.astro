@@ -1,7 +1,8 @@
 ---
-import '@fontsource-variable/noto-sans-jp';
-// ひらがな・カタカナサブセットを preload 用に取得
-import kanaFontUrl from '@fontsource-variable/noto-sans-jp/files/noto-sans-jp-119-wght-normal.woff2?url';
+import '@fontsource/m-plus-1p/400.css';
+import '@fontsource/m-plus-1p/500.css';
+import '@fontsource/m-plus-1p/700.css';
+import brandFontUrl from '../fonts/noto-sans-jp-brand.woff2?url';
 
 interface Props {
   title: string;
@@ -97,12 +98,22 @@ const structuredData = {
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    <!-- Preload critical font subset (hiragana/katakana) -->
-    <link rel="preload" href={kanaFontUrl} as="font" type="font/woff2" crossorigin />
 
     <!-- Preconnect for critical resources -->
     <link rel="preconnect" href="https://koutoudai-reservation-api.kit-tamtam.workers.dev" crossorigin />
     <link rel="dns-prefetch" href="https://maps.googleapis.com" />
+
+    <!-- Brand font (subset: クリニック名のみ) -->
+    <link rel="preload" href={brandFontUrl} as="font" type="font/woff2" crossorigin />
+    <style set:html={`
+      @font-face {
+        font-family: 'Noto Sans JP Brand';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url(${brandFontUrl}) format('woff2');
+      }
+    `} />
 
     <title>{title}</title>
 
@@ -147,6 +158,9 @@ const structuredData = {
 
     /* Border */
     --color-border: #e5e5e5;
+
+    /* Fonts */
+    --font-brand: "Noto Sans JP Brand", sans-serif;
   }
 
   *,
@@ -165,7 +179,7 @@ const structuredData = {
   }
 
   body {
-    font-family: "Noto Sans JP Variable", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    font-family: "M PLUS 1p", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
     line-height: 1.7;
     color: var(--color-text);
     background-color: var(--color-bg);

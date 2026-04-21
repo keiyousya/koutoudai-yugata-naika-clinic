@@ -132,7 +132,6 @@
     color: var(--color-navy);
     margin-bottom: 24px;
     padding-bottom: 14px;
-    border-bottom: 1px solid var(--color-border);
   }
 
   .info-list {
@@ -142,13 +141,9 @@
   .info-row {
     display: flex;
     align-items: baseline;
-    padding: 18px 0;
-    border-bottom: 1px solid var(--color-border);
+    padding: 14px 0;
   }
 
-  .info-row:last-child {
-    border-bottom: none;
-  }
 
   .info-row dt {
     width: 100px;
@@ -174,7 +169,7 @@
   }
 
   .tel:hover {
-    color: var(--color-orange);
+    opacity: 0.7;
   }
 
   .access-extra {
@@ -185,9 +180,9 @@
   }
 
   .directions {
-    background: var(--color-bg-warm);
-    padding: 24px;
-    border-radius: 4px;
+    background: var(--color-turquoise-bg);
+    padding: 28px;
+    border-radius: 16px;
   }
 
   .directions h4 {
@@ -216,7 +211,7 @@
     justify-content: center;
     width: 1.6em;
     height: 1.6em;
-    background: var(--color-navy);
+    background: var(--color-turquoise);
     color: white;
     font-size: 0.9rem;
     font-weight: 500;
@@ -226,9 +221,9 @@
   }
 
   .parking {
-    background: var(--color-bg-blue);
-    padding: 24px;
-    border-radius: 4px;
+    background: var(--color-coral-bg);
+    padding: 28px;
+    border-radius: 16px;
   }
 
   .parking h4 {
@@ -261,13 +256,8 @@
   .parking-row {
     display: flex;
     align-items: baseline;
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 12px 0;
     gap: 16px;
-  }
-
-  .parking-row:last-child {
-    border-bottom: none;
   }
 
   .parking-row dt {
@@ -308,9 +298,8 @@
   .map-container {
     width: 100%;
     height: 350px;
-    border-radius: 4px;
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid var(--color-border);
     position: relative;
   }
 
@@ -318,7 +307,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background: var(--color-navy);
+    background: var(--color-turquoise);
     cursor: pointer;
   }
 
@@ -345,19 +334,19 @@
   }
 
   .map-load-btn {
-    padding: 8px 20px;
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 3px;
+    padding: 10px 24px;
+    background: white;
+    color: var(--color-turquoise);
+    border: none;
+    border-radius: 20px;
     cursor: pointer;
     font-size: 0.9rem;
-    font-weight: 400;
-    transition: background 0.2s;
+    font-weight: 500;
+    transition: opacity 0.2s;
   }
 
   .map-load-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
+    opacity: 0.85;
   }
 
   .map-placeholder.hidden {

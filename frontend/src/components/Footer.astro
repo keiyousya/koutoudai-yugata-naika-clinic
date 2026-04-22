@@ -49,6 +49,8 @@ const currentYear = new Date().getFullYear();
 
     <div class="footer-bottom">
       <p class="footer-legal">
+        <a href="/privacy">個人情報の取扱いについて</a>
+        <span class="footer-legal-sep" aria-hidden="true">|</span>
         <a href="/tokushoho">特定商取引法に基づく表記</a>
       </p>
       <p class="copyright">
@@ -182,6 +184,13 @@ const currentYear = new Date().getFullYear();
 
   .footer-legal a:hover {
     color: var(--color-turquoise);
+  }
+
+  .footer-legal-sep {
+    display: inline-block;
+    margin: 0 10px;
+    color: #ccc;
+    font-size: 0.8rem;
   }
 
   .copyright {

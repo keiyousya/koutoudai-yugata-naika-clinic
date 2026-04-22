@@ -67,7 +67,8 @@ const navItems = [
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 54px;
+    height: 60px;
+    padding: 0 132px 0 12px;
   }
 
   .logo {
@@ -93,6 +94,10 @@ const navItems = [
     font-weight: 800;
     color: var(--color-navy);
     letter-spacing: -0.02em;
+  }
+
+  .nav {
+    margin-left: auto;
   }
 
   .nav-list {
@@ -123,8 +128,8 @@ const navItems = [
     display: none;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 54px;
+    width: 52px;
+    height: 60px;
     color: var(--color-navy);
     transition: opacity 0.2s;
     border-left: 1px solid #e5e5e5;
@@ -140,8 +145,8 @@ const navItems = [
     align-items: center;
     justify-content: center;
     gap: 5px;
-    width: 44px;
-    height: 54px;
+    width: 52px;
+    height: 60px;
     background: none;
     border: none;
     border-left: 1px solid #e5e5e5;
@@ -167,11 +172,7 @@ const navItems = [
     transform: translateY(-7px) rotate(-45deg);
   }
 
-  @media (max-width: 854px) {
-    .header-inner {
-      padding: 0 0 0 12px;
-    }
-
+  @media (max-width: 960px) {
     .logo {
       gap: 6px;
     }
@@ -184,6 +185,12 @@ const navItems = [
     .logo-main {
       font-size: 0.75rem;
     }
+  }
+
+  @media (max-width: 854px) {
+    .header-inner {
+      padding: 0 0 0 12px;
+    }
 
     .header-actions {
       gap: 0;
@@ -191,7 +198,7 @@ const navItems = [
 
     .nav {
       position: absolute;
-      top: 54px;
+      top: 60px;
       left: 0;
       right: 0;
       background: white;

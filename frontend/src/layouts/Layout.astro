@@ -3,6 +3,7 @@ import '@fontsource/m-plus-1p/400.css';
 import '@fontsource/m-plus-1p/500.css';
 import '@fontsource/m-plus-1p/700.css';
 import brandFontUrl from '../fonts/noto-sans-jp-brand.woff2?url';
+import FixedLineButton from '../components/FixedLineButton.astro';
 
 interface Props {
   title: string;
@@ -134,6 +135,7 @@ const structuredData = {
   </head>
   <body>
     <slot />
+    <FixedLineButton />
   </body>
 </html>
 

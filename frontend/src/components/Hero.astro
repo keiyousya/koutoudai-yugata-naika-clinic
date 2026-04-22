@@ -424,14 +424,20 @@ import interiorImage03 from "../assets/interior03.jpeg";
     // Start with twilight
     showTwilight();
 
-    setInterval(() => {
-      current++;
-      if (current >= total) {
-        current = -1;
-        showTwilight();
-      } else {
-        showSlide(current);
-      }
-    }, interval);
+    // 最初の夕方背景は1秒だけ表示
+    setTimeout(() => {
+      current = 0;
+      showSlide(current);
+
+      setInterval(() => {
+        current++;
+        if (current >= total) {
+          current = -1;
+          showTwilight();
+        } else {
+          showSlide(current);
+        }
+      }, interval);
+    }, 200);
   }
 </script>

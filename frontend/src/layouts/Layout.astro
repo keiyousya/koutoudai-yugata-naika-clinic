@@ -10,25 +10,47 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "勾当台夕方内科クリニック - 仙台市国分町の夕方診療専門クリニック。勾当台公園駅近く、夕方から夜の診療で仕事帰りでも通いやすい内科クリニックです。" } = Astro.props;
+const { title, description = "仙台市で夜21時まで診療の内科クリニック。健診で再検査・要精密検査を指摘された方、仕事帰りに通院できます。心電図・超音波検査対応。勾当台公園駅徒歩1分、土日も診療。" } = Astro.props;
 
 const siteUrl = "https://koutoudai-yugata-naika.clinic";
 const currentPath = Astro.url.pathname;
 const canonicalUrl = currentPath === "/" ? siteUrl : `${siteUrl}${currentPath}`;
 const ogImage = `${siteUrl}/og-image.jpg`;
 
-// 構造化データ（JSON-LD）
+// 構造化データ（JSON-LD）- MedicalBusiness
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
   "@id": siteUrl,
   "name": "勾当台夕方内科クリニック",
-  "alternateName": "Koutoudai Yugata Naika Clinic",
+  "alternateName": ["Koutoudai Yugata Naika Clinic", "仙台夜間内科", "仙台夜診療クリニック"],
   "description": description,
   "url": siteUrl,
   "logo": `${siteUrl}/apple-touch-icon.png`,
   "image": ogImage,
-  "medicalSpecialty": "InternalMedicine",
+  "medicalSpecialty": ["InternalMedicine", "GeneralPractice"],
+  "availableService": [
+    {
+      "@type": "MedicalProcedure",
+      "name": "健康診断の再検査・精密検査",
+      "description": "健診で指摘された項目の再検査や精密検査を夜間に受けられます"
+    },
+    {
+      "@type": "MedicalProcedure",
+      "name": "心電図検査",
+      "description": "不整脈や心臓の異常を調べる検査"
+    },
+    {
+      "@type": "MedicalProcedure",
+      "name": "超音波検査（エコー検査）",
+      "description": "腹部・甲状腺・頸動脈などの超音波検査"
+    },
+    {
+      "@type": "MedicalProcedure",
+      "name": "発熱外来",
+      "description": "発熱症状のある方の診療（19時〜21時）"
+    }
+  ],
   "address": {
     "@type": "PostalAddress",
     "postalCode": "980-0803",
@@ -57,7 +79,49 @@ const structuredData = {
       "closes": "21:00"
     }
   ],
+  "keywords": "仙台 夜間診療, 仙台 クリニック 夜, 健診 再検査 仙台, 仕事帰り 病院 仙台, 夜間 内科 仙台, 土日診療 仙台",
+  "slogan": "仕事帰りに通える夜間診療",
   "sameAs": []
+};
+
+// FAQ構造化データ
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "仙台で夜間に診療しているクリニックはありますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "勾当台夕方内科クリニックは仙台市青葉区で夜21時まで診療しています。勾当台公園駅から徒歩1分、仕事帰りに通院できます。水曜〜日曜の17時〜21時まで診療しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "健康診断で再検査と言われたのですが、仕事帰りに検査できますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、当院では夜21時まで診療しているため、仕事帰りに再検査・精密検査を受けることができます。心電図検査や超音波検査（エコー）にも対応しています。土日も診療していますので、平日お忙しい方もご利用いただけます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "土日も診療していますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、土曜日・日曜日も17時〜21時まで診療しています。月曜・火曜・祝日は休診です。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "どのような検査ができますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "心電図検査、超音波検査（腹部エコー、甲状腺エコー、頸動脈エコー）、血液検査などに対応しています。健康診断で異常を指摘された方の再検査・精密検査も行っています。"
+      }
+    }
+  ]
 };
 ---
 
@@ -120,6 +184,7 @@ const structuredData = {
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
 
     <!-- Critical CSS for above-the-fold content -->
     <!-- レイアウトシフト防止用の最小限クリティカルCSS -->

@@ -25,6 +25,9 @@ const newsItems = [
           </li>
         ))}
       </ul>
+      <div class="news-link">
+        <a href="#hours">診療時間・カレンダーを見る</a>
+      </div>
     </div>
   </div>
 </section>
@@ -76,6 +79,23 @@ const newsItems = [
   .news-item.important .news-text {
     color: var(--color-navy);
     font-weight: 500;
+  }
+
+  .news-link {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .news-link a {
+    color: var(--color-turquoise);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .news-link a:hover {
+    opacity: 0.8;
   }
 
   @media (max-width: 768px) {

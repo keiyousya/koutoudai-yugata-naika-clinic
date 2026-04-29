@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 import { createClient } from "@libsql/client";
 import { z } from "zod";
 import timecard from "./routes/timecard";
+import shift from "./routes/shift";
 
 type Bindings = {
   TURSO_URL: string;
@@ -109,7 +110,7 @@ app.use(
       return null;
     },
     allowMethods: ["GET", "POST", "PUT", "DELETE"],
-    allowHeaders: ["Content-Type", "X-Admin-API-Key", "X-Viewer-API-Key", "X-Card-UID"],
+    allowHeaders: ["Content-Type", "X-Admin-API-Key", "X-Viewer-API-Key", "X-Card-UID", "X-Staff-Id", "X-Staff-Passcode"],
   })
 );
 
@@ -383,5 +384,10 @@ app.delete("/api/reservations/:id", adminAuthMiddleware, async (c) => {
 // タイムカード API
 // ========================================
 app.route("/api/timecard", timecard);
+
+// ========================================
+// シフト管理 API
+// ========================================
+app.route("/api/shift", shift);
 
 export default app;

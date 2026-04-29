@@ -3,5 +3,7 @@ packages:
   - backend
   - admin
   - timecard
+  - shift
+  - shift-cli
   - manuals
   - slides

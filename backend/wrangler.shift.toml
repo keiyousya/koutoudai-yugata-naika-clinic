@@ -1,0 +1,12 @@
+name = "koutoudai-shift-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[dev]
+port = 8790
+
+[vars]
+# 接続情報・認証情報は secrets で設定
+# wrangler secret put TURSO_URL --config wrangler.shift.toml
+# wrangler secret put TURSO_AUTH_TOKEN --config wrangler.shift.toml
+# wrangler secret put ADMIN_API_KEY --config wrangler.shift.toml

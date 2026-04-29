@@ -7,8 +7,11 @@
 ```
 .
 ├── frontend/    # クリニックHP（Astro）
-├── backend/     # 予約API（Cloudflare Workers + Turso）
-├── admin/       # 管理画面（React + Vite）
+├── backend/     # 予約・タイムカード・シフトAPI（Cloudflare Workers + Turso）
+├── admin/       # 予約管理画面（React + Vite）
+├── timecard/    # タイムカード打刻・閲覧画面（React + Vite）
+├── shift/       # シフト管理システム（React + Vite）
+├── shift-cli/   # シフト管理CLI（Node + Commander）
 ├── finance/     # 初期費用・月額費用の見積書
 ├── instagram/   # Instagram投稿用HTML
 ├── line/        # LINEリッチメニュー用HTML
@@ -22,8 +25,11 @@
 | パッケージ | 技術 | 概要 |
 |-----------|------|------|
 | frontend | Astro, TypeScript | クリニック公式HP（静的サイト） |
-| backend | Hono, Cloudflare Workers, Turso (SQLite) | 予約API |
+| backend | Hono, Cloudflare Workers, Turso (SQLite) | 予約・タイムカード・シフトAPI |
 | admin | React, Vite, TanStack Router, TailwindCSS | 予約管理ダッシュボード |
+| timecard | React, Vite, TanStack Router, TailwindCSS | タイムカード打刻・閲覧画面 |
+| shift | React, Vite, TanStack Router, TailwindCSS | シフト希望提出・確定シフト閲覧・管理画面 |
+| shift-cli | Node, Commander, TypeScript | シフト管理CLI（AI連携用） |
 
 ### 業務ドキュメント
 

@@ -1,0 +1,21 @@
+{
+  "name": "shift-cli",
+  "version": "0.0.0",
+  "type": "module",
+  "bin": {
+    "shift-cli": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "cli-table3": "^0.6.5",
+    "commander": "^14.0.3",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "~5.9.3"
+  }
+}

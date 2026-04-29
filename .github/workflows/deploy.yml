@@ -50,6 +50,14 @@ jobs:
       - name: Copy timecard to frontend dist
         run: cp -r ./timecard/dist ./frontend/dist/timecard
 
+      - name: Build shift
+        run: pnpm --filter shift build
+        env:
+          NODE_ENV: production
+
+      - name: Copy shift to frontend dist
+        run: cp -r ./shift/dist ./frontend/dist/shift
+
       - name: Build manuals
         run: pnpm --filter manuals build
         env:
@@ -108,5 +116,10 @@ jobs:
 
       - name: Deploy timecard API
         run: pnpm --filter backend run deploy:timecard
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Deploy shift API
+        run: pnpm --filter backend run deploy:shift
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

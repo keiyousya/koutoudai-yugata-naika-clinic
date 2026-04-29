@@ -8,60 +8,138 @@ const schedule = [
   { day: "土", open: true },
   { day: "日", open: true },
 ];
+
+// 2026年5月の診療カレンダー
+const may2026 = [
+  { day: null }, { day: null }, { day: null }, { day: null },
+  { day: null },
+  { day: 1, open: true },
+  { day: 2, open: true },
+  { day: 3, open: true, holiday: true },
+  { day: 4, open: false, holiday: true },
+  { day: 5, open: false, holiday: true },
+  { day: 6, open: true, holiday: true },
+  { day: 7, open: true },
+  { day: 8, open: true },
+  { day: 9, open: false },
+  { day: 10, open: true },
+  { day: 11, open: false },
+  { day: 12, open: false },
+  { day: 13, open: true },
+  { day: 14, open: true },
+  { day: 15, open: true },
+  { day: 16, open: true },
+  { day: 17, open: true },
+  { day: 18, open: false },
+  { day: 19, open: false },
+  { day: 20, open: true },
+  { day: 21, open: true },
+  { day: 22, open: true },
+  { day: 23, open: true },
+  { day: 24, open: true },
+  { day: 25, open: false },
+  { day: 26, open: false },
+  { day: 27, open: true },
+  { day: 28, open: true },
+  { day: 29, open: true },
+  { day: 30, open: true },
+  { day: 31, open: true },
+];
+
+const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 ---
 
 <section id="hours" class="section hours">
   <div class="container">
     <h2 class="section-title">診療時間</h2>
-    <div class="hours-content">
-      <div class="hours-main">
-        <div class="hours-row">
-          <span class="time-label">一般診療</span>
-          <span class="time-value">17:00 - 19:00</span>
-        </div>
-        <div class="hours-row">
-          <span class="time-label">発熱外来</span>
-          <span class="time-value">19:00 - 21:00</span>
-        </div>
-      </div>
-
-      <div class="hours-last-reception">
-        <span class="last-reception-label">最終受付</span>
-        <span class="last-reception-time">20:45</span>
-        <span class="last-reception-note">（電話・ウェブ予約の当日最終）</span>
-      </div>
-
-      <div class="schedule-table">
-        <div class="schedule-header">
-          <span>診療日カレンダー</span>
-        </div>
-        <div class="schedule-grid">
-          {
-            schedule.map((item) => (
-              <div class={`schedule-cell ${item.open ? "open" : "closed"}`}>
-                <span class="day">{item.day}</span>
-                <span class="status">{item.open ? "○" : "休"}</span>
+    <div class="hours-layout">
+      <!-- 左側：カレンダー -->
+      <div class="calendar-side">
+        <div class="monthly-calendar">
+          <div class="monthly-header">
+            <span>2026年5月</span>
+          </div>
+          <div class="monthly-weekdays">
+            {weekdays.map((day, i) => (
+              <div class={`weekday ${i === 0 ? "sunday" : ""} ${i === 6 ? "saturday" : ""}`}>{day}</div>
+            ))}
+          </div>
+          <div class="monthly-grid">
+            {may2026.map((item, i) => (
+              <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""}`}>
+                {item.day !== null && (
+                  <>
+                    <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
+                    <span class="status">{item.open ? "○" : "休"}</span>
+                  </>
+                )}
               </div>
-            ))
-          }
+            ))}
+          </div>
+          <div class="monthly-legend">
+            <div class="legend-item">
+              <span class="legend-icon open">○</span>
+              <span>診療</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-icon closed">休</span>
+              <span>休診</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="hours-info">
-        <div class="info-item">
-          <span class="info-icon open">○</span>
-          <span>診療日（水〜日）</span>
+      <!-- 右側：診療時間 -->
+      <div class="info-side">
+        <div class="hours-main">
+          <div class="hours-row">
+            <span class="time-label">一般診療</span>
+            <span class="time-value">17:00 - 19:00</span>
+          </div>
+          <div class="hours-row">
+            <span class="time-label">発熱外来</span>
+            <span class="time-value">19:00 - 21:00</span>
+          </div>
         </div>
-        <div class="info-item">
-          <span class="info-icon closed">休</span>
-          <span>休診日（月・火・祝）</span>
-        </div>
-      </div>
 
-      <div class="hours-notice">
-        <p>
-          ※急な休診の場合は、当院ウェブサイトにてお知らせいたします。
-        </p>
+        <div class="hours-last-reception">
+          <span class="last-reception-label">最終受付</span>
+          <span class="last-reception-time">20:45</span>
+          <span class="last-reception-note">（電話・ウェブ予約の当日最終）</span>
+        </div>
+
+        <div class="schedule-table">
+          <div class="schedule-header">
+            <span>診療日カレンダー</span>
+          </div>
+          <div class="schedule-grid">
+            {
+              schedule.map((item) => (
+                <div class={`schedule-cell ${item.open ? "open" : "closed"}`}>
+                  <span class="day">{item.day}</span>
+                  <span class="status">{item.open ? "○" : "休"}</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="hours-info">
+          <div class="info-item">
+            <span class="info-icon open">○</span>
+            <span>診療日（水〜日）</span>
+          </div>
+          <div class="info-item">
+            <span class="info-icon closed">休</span>
+            <span>休診日（月・火・祝）</span>
+          </div>
+        </div>
+
+        <div class="hours-notice">
+          <p>
+            ※急な休診の場合は、当院ウェブサイトにてお知らせいたします。
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -69,19 +147,171 @@ const schedule = [
 
 <style>
   .hours {
-    background: var(--color-coral-bg);
+    background: white;
   }
 
-  .hours-content {
-    max-width: 960px;
+  .hours-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    max-width: 1100px;
     margin: 0 auto;
+    align-items: start;
+  }
+
+  /* カレンダー側 */
+  .calendar-side {
+    width: 100%;
+  }
+
+  .monthly-calendar {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #d0e8ec;
+  }
+
+  .monthly-header {
+    background: var(--color-navy);
+    color: white;
+    padding: 16px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .monthly-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #f8f8f8;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .monthly-weekdays .weekday {
+    text-align: center;
+    padding: 10px 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .monthly-weekdays .weekday.sunday {
+    color: #e05a5a;
+  }
+
+  .monthly-weekdays .weekday.saturday {
+    color: #4a90d9;
+  }
+
+  .monthly-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .monthly-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 4px;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    min-height: 60px;
+  }
+
+  .monthly-cell:nth-child(7n) {
+    border-right: none;
+  }
+
+  .monthly-cell.empty {
+    background: #fafafa;
+  }
+
+  .monthly-cell.closed {
+    background: #f9f9f9;
+  }
+
+  .monthly-cell.holiday {
+    background: #f0f8f9;
+  }
+
+  .monthly-cell .date {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-navy);
+    margin-bottom: 4px;
+  }
+
+  .monthly-cell .date.sunday {
+    color: #e05a5a;
+  }
+
+  .monthly-cell .date.saturday {
+    color: #4a90d9;
+  }
+
+  .monthly-cell .status {
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .monthly-cell.open .status {
+    color: var(--color-turquoise);
+  }
+
+  .monthly-cell.closed .status {
+    color: #888;
+  }
+
+  .monthly-legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 16px;
+    background: #fafafa;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .legend-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .legend-icon.open {
+    background: var(--color-turquoise-bg);
+    color: var(--color-turquoise);
+  }
+
+  .legend-icon.closed {
+    background: #f5f5f5;
+    color: #666;
+  }
+
+  /* 診療時間側 */
+  .info-side {
+    width: 100%;
   }
 
   .hours-main {
     text-align: center;
-    margin-bottom: 36px;
-    padding: 32px;
-    background: white;
+    margin-bottom: 24px;
+    padding: 28px;
+    background: var(--color-turquoise-bg);
     border-radius: 16px;
   }
 
@@ -95,7 +325,7 @@ const schedule = [
   .hours-row + .hours-row {
     margin-top: 16px;
     padding-top: 16px;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid rgba(62, 184, 200, 0.2);
   }
 
   .time-label {
@@ -107,7 +337,7 @@ const schedule = [
   }
 
   .time-value {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-navy);
     letter-spacing: 0.03em;
@@ -115,9 +345,9 @@ const schedule = [
 
   .hours-last-reception {
     text-align: center;
-    margin-bottom: 36px;
-    padding: 18px 32px;
-    background: white;
+    margin-bottom: 24px;
+    padding: 16px 24px;
+    background: var(--color-turquoise-bg);
     border-radius: 16px;
     display: flex;
     align-items: baseline;
@@ -133,20 +363,14 @@ const schedule = [
   }
 
   .last-reception-time {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: var(--color-navy);
     letter-spacing: 0.03em;
   }
 
   .last-reception-note {
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-  }
-
-  .hours-note {
-    margin-top: 12px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--color-text-muted);
   }
 
@@ -154,17 +378,17 @@ const schedule = [
     background: white;
     border-radius: 16px;
     overflow: hidden;
-    border: 1px solid #e5e5e5;
-    margin-bottom: 24px;
+    border: 1px solid #d0e8ec;
+    margin-bottom: 20px;
   }
 
   .schedule-header {
-    background: var(--color-coral);
+    background: var(--color-navy);
     color: white;
-    padding: 14px;
+    padding: 12px;
     text-align: center;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     letter-spacing: 0.03em;
   }
 
@@ -177,7 +401,7 @@ const schedule = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 24px 10px;
+    padding: 16px 6px;
     border-right: 1px solid var(--color-border);
   }
 
@@ -186,18 +410,18 @@ const schedule = [
   }
 
   .schedule-cell .day {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--color-text-muted);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .schedule-cell .status {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
   }
 
   .schedule-cell.open .status {
-    color: var(--color-coral);
+    color: var(--color-turquoise);
   }
 
   .schedule-cell.closed .status {
@@ -211,15 +435,15 @@ const schedule = [
   .hours-info {
     display: flex;
     justify-content: center;
-    gap: 36px;
-    margin-bottom: 28px;
+    gap: 24px;
+    margin-bottom: 20px;
   }
 
   .info-item {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--color-text-muted);
   }
 
@@ -227,16 +451,16 @@ const schedule = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
   }
 
   .info-icon.open {
-    background: var(--color-coral-bg);
-    color: var(--color-coral);
+    background: var(--color-turquoise-bg);
+    color: var(--color-turquoise);
   }
 
   .info-icon.closed {
@@ -246,44 +470,78 @@ const schedule = [
 
   .hours-notice {
     text-align: center;
-    padding: 20px 24px;
-    background: white;
+    padding: 16px 20px;
+    background: var(--color-turquoise-bg);
     border-radius: 16px;
   }
 
   .hours-notice p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--color-text-muted);
     line-height: 1.7;
   }
 
+  @media (max-width: 900px) {
+    .hours-layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .calendar-side {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .info-side {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+
   @media (max-width: 768px) {
     .time-value {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
+    }
+
+    .monthly-cell {
+      padding: 8px 2px;
+      min-height: 50px;
+    }
+
+    .monthly-cell .date {
+      font-size: 0.85rem;
+    }
+
+    .monthly-cell .status {
+      font-size: 0.75rem;
     }
 
     .schedule-cell {
-      padding: 16px 4px;
+      padding: 12px 4px;
     }
 
     .schedule-cell .day {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
     .schedule-cell .status {
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
 
     .hours-info {
       flex-direction: column;
       align-items: center;
-      gap: 12px;
-      font-size: 0.9rem;
+      gap: 10px;
     }
 
     .hours-notice p {
-      font-size: 0.9rem;
       text-align: left;
+    }
+
+    .monthly-legend {
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
   }
 </style>

@@ -297,6 +297,17 @@ import echoImage from "../assets/echo.jpeg";
           </div>
         </div>
 
+        <div class="afterpill-area">
+          <h3 class="medical-heading">アフターピル（緊急避妊薬）について</h3>
+          <div class="afterpill-box">
+            <p class="afterpill-text">
+              避妊に失敗した場合の緊急避妊薬（アフターピル）を処方しています。<br />
+              性交後72時間以内の服用が必要です。
+            </p>
+            <a href="/afterpill" class="afterpill-link">詳しくはこちら</a>
+          </div>
+        </div>
+
         <div class="payment-area">
           <h3 class="medical-heading">お支払いについて</h3>
           <p class="payment-text">
@@ -738,6 +749,38 @@ import echoImage from "../assets/echo.jpeg";
     line-height: 1.9;
   }
 
+  .afterpill-area {
+    margin-top: 64px;
+  }
+
+  .afterpill-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--color-coral-bg);
+    border-radius: 16px;
+    padding: 28px 32px;
+    text-align: center;
+  }
+
+  .afterpill-text {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .afterpill-link {
+    font-size: 0.9rem;
+    color: var(--color-coral);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s;
+  }
+
+  .afterpill-link:hover {
+    opacity: 0.7;
+  }
+
   .payment-text {
     font-size: 0.9rem;
     color: var(--color-text-muted);
@@ -863,6 +906,14 @@ import echoImage from "../assets/echo.jpeg";
     }
 
     .certificate-box {
+      padding: 22px 18px;
+    }
+
+    .afterpill-area {
+      margin-top: 40px;
+    }
+
+    .afterpill-box {
       padding: 22px 18px;
     }
 

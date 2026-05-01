@@ -45,7 +45,7 @@ jobs:
         run: pnpm --filter timecard build
         env:
           NODE_ENV: production
-          VITE_API_URL: https://koutoudai-timecard-api.kit-tamtam.workers.dev
+          VITE_API_URL: https://koutoudai-timecard-api.tamurakeito.workers.dev
 
       - name: Copy timecard to frontend dist
         run: cp -r ./timecard/dist ./frontend/dist/timecard

@@ -204,6 +204,9 @@ timecard.get("/export", viewerOrAdminAuth, async (c) => {
     args: [month],
   });
 
+  // スタッフごとの集計データ
+  const staffSummary: Record<string, { totalMinutes: number; workDays: Set<string> }> = {};
+
   // CSV 生成（BOM 付き UTF-8）
   const bom = "\uFEFF";
   let csv = bom + "日付,時刻,スタッフ名,種別,打刻方法,修正\n";
@@ -214,6 +217,37 @@ timecard.get("/export", viewerOrAdminAuth, async (c) => {
     const ts = String(row.timestamp).replace("T", " ").replace(/\.\d+Z?$/, "");
     const [date, time] = ts.split(" ");
     csv += `${date || ""},${time || ""},${row.staff_name},${typeName},${methodName},${modified}\n`;
+
+    const staffName = row.staff_name as string;
+    if (!staffSummary[staffName]) {
+      staffSummary[staffName] = { totalMinutes: 0, workDays: new Set() };
+    }
+
+    // 出勤日数カウント（出勤レコードの日付をカウント）
+    if (row.type === "in" && date) {
+      staffSummary[staffName].workDays.add(date);
+    }
+
+    // 勤務時間計算（退勤時刻 - 17:00）
+    if (row.type === "out" && time) {
+      const [hours, minutes] = time.split(":").map(Number);
+      const endMinutes = hours * 60 + minutes;
+      const startMinutes = 17 * 60; // 17:00
+      if (endMinutes > startMinutes) {
+        staffSummary[staffName].totalMinutes += endMinutes - startMinutes;
+      }
+    }
+  }
+
+  // サマリーセクションを追加
+  csv += "\n";
+  csv += "【スタッフ別集計】\n";
+  csv += "スタッフ名,出勤日数,合計勤務時間\n";
+  for (const [staffName, data] of Object.entries(staffSummary)) {
+    const totalHours = Math.floor(data.totalMinutes / 60);
+    const totalMins = data.totalMinutes % 60;
+    const timeStr = `${totalHours}時間${totalMins}分`;
+    csv += `${staffName},${data.workDays.size}日,${timeStr}\n`;
   }
 
   return new Response(csv, {

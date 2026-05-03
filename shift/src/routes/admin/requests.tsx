@@ -42,23 +42,27 @@ function AdminRequestsPage() {
 
   const lockMutation = useMutation({
     mutationFn: () => lockPeriod(selectedMonth),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setToast(data.message);
-      queryClient.invalidateQueries({ queryKey: ["period", selectedMonth] });
+      await queryClient.invalidateQueries({ queryKey: ["period", selectedMonth] });
+      setTimeout(() => setToast(null), 3000);
     },
     onError: (err) => {
       setToast(`エラー: ${(err as Error).message}`);
+      setTimeout(() => setToast(null), 5000);
     },
   });
 
   const unlockMutation = useMutation({
     mutationFn: () => unlockPeriod(selectedMonth),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setToast(data.message);
-      queryClient.invalidateQueries({ queryKey: ["period", selectedMonth] });
+      await queryClient.invalidateQueries({ queryKey: ["period", selectedMonth] });
+      setTimeout(() => setToast(null), 3000);
     },
     onError: (err) => {
       setToast(`エラー: ${(err as Error).message}`);
+      setTimeout(() => setToast(null), 5000);
     },
   });
 
@@ -123,16 +127,18 @@ function AdminRequestsPage() {
           {isLocked ? (
             <button
               onClick={() => unlockMutation.mutate()}
-              className="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600"
+              disabled={unlockMutation.isPending}
+              className="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600 disabled:opacity-50"
             >
-              ロック解除
+              {unlockMutation.isPending ? "解除中..." : "ロック解除"}
             </button>
           ) : (
             <button
               onClick={() => lockMutation.mutate()}
-              className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+              disabled={lockMutation.isPending}
+              className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50"
             >
-              提出ロック
+              {lockMutation.isPending ? "ロック中..." : "提出ロック"}
             </button>
           )}
         </div>

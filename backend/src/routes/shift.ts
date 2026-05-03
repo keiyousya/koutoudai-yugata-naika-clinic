@@ -135,15 +135,24 @@ function getNowJST(): Date {
  * - shift_periods.submission_locked_at が設定されていればその時刻を優先
  */
 async function isSubmissionLocked(db: Client, month: string): Promise<boolean> {
-  // shift_periods から手動ロックを確認
+  // shift_periods から手動ロック・ロック解除を確認
   const periodResult = await db.execute({
-    sql: "SELECT submission_locked_at FROM shift_periods WHERE month = ?",
+    sql: "SELECT submission_locked_at, submission_unlocked FROM shift_periods WHERE month = ?",
     args: [month],
   });
 
-  if (periodResult.rows.length > 0 && periodResult.rows[0].submission_locked_at) {
-    // 手動ロックが設定されている
-    return true;
+  if (periodResult.rows.length > 0) {
+    const row = periodResult.rows[0];
+
+    // 手動でロック解除されている場合は、既定締切に関係なく提出可能
+    if (row.submission_unlocked === 1) {
+      return false;
+    }
+
+    // 手動ロックが設定されている場合は、強制的にロック
+    if (row.submission_locked_at) {
+      return true;
+    }
   }
 
   // 既定締切: 対象月の前月 1 日 00:00 (JST)
@@ -811,12 +820,12 @@ shift.post("/admin/periods/:month/lock", adminAuth, async (c) => {
 
   if (existing.rows.length === 0) {
     await db.execute({
-      sql: "INSERT INTO shift_periods (month, submission_locked_at, created_at) VALUES (?, datetime('now'), datetime('now'))",
+      sql: "INSERT INTO shift_periods (month, submission_locked_at, submission_unlocked, created_at) VALUES (?, datetime('now'), 0, datetime('now'))",
       args: [month],
     });
   } else {
     await db.execute({
-      sql: "UPDATE shift_periods SET submission_locked_at = datetime('now') WHERE month = ?",
+      sql: "UPDATE shift_periods SET submission_locked_at = datetime('now'), submission_unlocked = 0 WHERE month = ?",
       args: [month],
     });
   }
@@ -839,14 +848,17 @@ shift.delete("/admin/periods/:month/lock", adminAuth, async (c) => {
   });
 
   if (existing.rows.length === 0) {
-    // レコードがなければ何もしない（既にアンロック状態）
-    return c.json({ success: true, message: `${month} はロックされていません` });
+    // レコードがなければ作成して、ロック解除状態に設定
+    await db.execute({
+      sql: "INSERT INTO shift_periods (month, submission_locked_at, submission_unlocked, created_at) VALUES (?, NULL, 1, datetime('now'))",
+      args: [month],
+    });
+  } else {
+    await db.execute({
+      sql: "UPDATE shift_periods SET submission_locked_at = NULL, submission_unlocked = 1 WHERE month = ?",
+      args: [month],
+    });
   }
-
-  await db.execute({
-    sql: "UPDATE shift_periods SET submission_locked_at = NULL WHERE month = ?",
-    args: [month],
-  });
 
   return c.json({ success: true, message: `${month} のロックを解除しました` });
 });

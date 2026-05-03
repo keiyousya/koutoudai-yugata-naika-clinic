@@ -10,7 +10,8 @@
     "deploy:shift": "wrangler deploy --config wrangler.shift.toml",
     "db:setup": "node scripts/setup-db.js",
     "db:setup-timecard": "node scripts/setup-timecard-db.js",
-    "db:setup-shift": "node scripts/setup-shift-db.js"
+    "db:setup-shift": "node scripts/setup-shift-db.js",
+    "db:migrate-shift-unlocked": "node scripts/migrate-shift-unlocked.js"
   },
   "dependencies": {
     "@holiday-jp/holiday_jp": "^2.5.1",

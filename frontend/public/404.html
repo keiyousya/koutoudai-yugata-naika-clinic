@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>読み込み中... | 勾当台夕方内科クリニック</title>
+  <script>
+    // GitHub Pages SPA routing fallback
+    (function() {
+      var path = window.location.pathname;
+      var appPath = null;
+
+      // Determine which sub-app this path belongs to
+      if (path.startsWith('/shift/')) {
+        appPath = '/shift/';
+      } else if (path.startsWith('/timecard/')) {
+        appPath = '/timecard/';
+      } else if (path.startsWith('/manuals/')) {
+        appPath = '/manuals/';
+      } else if (path.startsWith('/slides/')) {
+        appPath = '/slides/';
+      }
+
+      // If this is a sub-app path, fetch and load the app's index.html
+      if (appPath) {
+        fetch(appPath)
+          .then(function(response) { return response.text(); })
+          .then(function(html) {
+            // Replace current document with the app's index.html
+            document.open();
+            document.write(html);
+            document.close();
+          })
+          .catch(function() {
+            // If fetch fails, redirect to app root
+            window.location.replace(appPath);
+          });
+      } else {
+        // For other paths, redirect to homepage
+        window.location.replace('/');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <p style="text-align: center; margin-top: 50px;">読み込み中...</p>
+</body>
+</html>

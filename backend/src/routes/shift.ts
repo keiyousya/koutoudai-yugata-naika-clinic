@@ -291,7 +291,7 @@ shift.get("/periods/:month", async (c) => {
 
   const db = getDb(c.env);
   const result = await db.execute({
-    sql: "SELECT month, submission_locked_at, published_at, created_at FROM shift_periods WHERE month = ?",
+    sql: "SELECT month, submission_locked_at, submission_unlocked, published_at, created_at FROM shift_periods WHERE month = ?",
     args: [month],
   });
 
@@ -302,16 +302,20 @@ shift.get("/periods/:month", async (c) => {
       month,
       submission_locked: locked,
       submission_locked_at: null,
+      submission_unlocked: 0,
       published: false,
       published_at: null,
     });
   }
 
   const row = result.rows[0];
+  // submission_lockedの判定をisSubmissionLocked関数に委譲
+  const locked = await isSubmissionLocked(db, month);
   return c.json({
     month: row.month,
-    submission_locked: row.submission_locked_at !== null,
+    submission_locked: locked,
     submission_locked_at: row.submission_locked_at,
+    submission_unlocked: row.submission_unlocked || 0,
     published: row.published_at !== null,
     published_at: row.published_at,
   });

@@ -49,6 +49,8 @@ function RequestPage() {
     queryKey: ["period", selectedMonth],
     queryFn: () => fetchPeriod(selectedMonth),
     enabled: isLoggedIn,
+    refetchOnWindowFocus: true, // タブにフォーカス時に再取得
+    refetchInterval: 30000, // 30秒ごとに自動更新
   });
 
   const { data: myRequests, isLoading: requestsLoading } = useQuery({

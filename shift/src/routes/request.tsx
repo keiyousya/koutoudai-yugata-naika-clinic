@@ -17,11 +17,11 @@ export const Route = createRoute({
   component: RequestPage,
 });
 
-function getNextMonth(): string {
+function getMonthAfterNext(): string {
   const now = new Date();
-  const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-  const year = nextMonth.getFullYear();
-  const month = String(nextMonth.getMonth() + 1).padStart(2, "0");
+  const monthAfterNext = new Date(now.getFullYear(), now.getMonth() + 2, 1);
+  const year = monthAfterNext.getFullYear();
+  const month = String(monthAfterNext.getMonth() + 1).padStart(2, "0");
   return `${year}-${month}`;
 }
 
@@ -29,7 +29,7 @@ function RequestPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isLoggedIn, staffName, restore } = useAuthStore();
-  const [selectedMonth, setSelectedMonth] = useState(getNextMonth());
+  const [selectedMonth, setSelectedMonth] = useState(getMonthAfterNext());
   const [localRequests, setLocalRequests] = useState<Record<string, "available" | "unavailable" | null>>({});
   const [toast, setToast] = useState<string | null>(null);
 

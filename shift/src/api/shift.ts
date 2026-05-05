@@ -1,5 +1,5 @@
 const API_BASE = import.meta.env.PROD
-  ? "https://koutoudai-shift-api.tamurakeito.workers.dev"
+  ? "https://koutoudai-shift-api.kit-tamtam.workers.dev"
   : "http://localhost:8790";
 
 interface Staff {

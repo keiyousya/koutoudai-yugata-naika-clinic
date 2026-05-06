@@ -8,8 +8,10 @@ import LineCta from "./LineCta.astro";
     <div class="reservation-content">
       <LineCta showIntro={true} />
       <p class="reservation-note">
-        ※ 当院では紙の診察券は発行しておりません。<br />
-        お友だち追加いただいたLINEアカウントが<br />診察券の代わりとなります。
+        ※ 当院では紙の診察券は発行しておりません。<br class="sp-only" />お友だち追加いただいたLINEアカウントが<br class="sp-only" />診察券の代わりとなります。
+      </p>
+      <p class="reservation-notice">
+        ※ ご予約時間に遅れてご来院された場合、診療の順番が前後し、お待ちいただく場合がございます。
       </p>
     </div>
   </div>
@@ -31,5 +33,22 @@ import LineCta from "./LineCta.astro";
     color: var(--color-text-muted);
     line-height: 1.8;
     margin-top: 28px;
+  }
+
+  .reservation-notice {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-top: 12px;
+  }
+
+  .sp-only {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .sp-only {
+      display: inline;
+    }
   }
 </style>

@@ -10,8 +10,8 @@ const pageStructuredData = {
   "@context": "https://schema.org",
   "@type": "MedicalWebPage",
   "name": "アフターピル 夜間処方｜仙台市｜勾当台夕方内科クリニック",
-  "description": "仙台市で夜間にアフターピル（緊急避妊薬）を処方。夜21時まで診療、土日も対応。レボノルゲストレル1.5mg 11,000円。",
-  "keywords": "仙台 アフターピル, 仙台市 緊急避妊, 夜間 アフターピル, 仙台 夜 アフターピル, 緊急避妊薬 仙台, モーニングアフターピル 仙台",
+  "description": "仙台市で夜間にアフターピル（緊急避妊薬）を処方。夜21時まで診療、土日・週末・休日も対応。レボノルゲストレル1.5mg 11,000円。",
+  "keywords": "仙台 アフターピル, 仙台市 緊急避妊, 夜間 アフターピル, 仙台 夜 アフターピル, 緊急避妊薬 仙台, モーニングアフターピル 仙台, アフターピル 土日 仙台, アフターピル 週末 仙台, アフターピル 休日, 緊急避妊 土日, 緊急避妊 週末, 仙台 土日 アフターピル, 仙台 週末 緊急避妊, アフターピル 未成年, 緊急避妊 未成年, 10代 アフターピル, 高校生 アフターピル",
   "url": "https://koutoudai-yugata-naika.clinic/afterpill",
   "inLanguage": "ja",
   "medicalAudience": {
@@ -74,14 +74,55 @@ const serviceStructuredData = {
     ]
   }
 };
+
+// FAQ構造化データ
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "未成年でもアフターピルを処方してもらえますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、未成年の方も受診できます。アフターピルの処方に年齢制限はなく、保護者の同意書も不要です。お一人でも受診できます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "土日や週末でもアフターピルを処方してもらえますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、土曜日・日曜日も17時〜21時まで診療しています。週末や休日も対応しています。性交後できるだけ早めにご来院ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "アフターピルの費用はいくらですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "レボノルゲストレル1.5mgは11,000円（税込・診察料込）です。自費診療となります。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "性交後どのくらいまでにアフターピルを服用すればいいですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "性交後72時間（3日）以内に服用する必要があります。時間が経過するほど効果が低下するため、できるだけ早く受診することが重要です。"
+      }
+    }
+  ]
+};
 ---
 
 <Layout
-  title="アフターピル 夜間処方 | 仙台市 夜21時まで土日も対応 | 勾当台夕方内科クリニック"
-  description="仙台市で夜間にアフターピル（緊急避妊薬）を処方。夜21時まで診療、土日も対応。レボノルゲストレル1.5mg 11,000円（税込・診察料込）。性交後72時間以内にご来院ください。勾当台公園駅徒歩2分。"
+  title="アフターピル 夜間処方 | 仙台市 夜21時まで土日・週末も対応 | 勾当台夕方内科クリニック"
+  description="仙台市で夜間にアフターピル（緊急避妊薬）を処方。夜21時まで診療、土日・週末・休日も対応。レボノルゲストレル1.5mg 11,000円（税込・診察料込）。性交後72時間以内にご来院ください。勾当台公園駅徒歩2分。"
 >
   <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
   <Header />
   <main class="page-main">
     <div class="page-header">
@@ -97,7 +138,8 @@ const serviceStructuredData = {
         <p class="intro-text">
           避妊に失敗した場合や、避妊せずに性交渉を行った場合に、<br class="pc-only" />
           妊娠を防ぐための<strong>緊急避妊薬</strong>を処方しています。<br class="pc-only" />
-          当院では<strong>夕方17時から夜21時まで</strong>、土日も対応しています。
+          当院では<strong>夕方17時から夜21時まで</strong>診療し、<br class="pc-only" />
+          <strong>土日・週末・休日</strong>も対応しています。
         </p>
       </div>
     </section>
@@ -291,6 +333,48 @@ const serviceStructuredData = {
       </div>
     </section>
 
+    <section class="page-section bg-turquoise">
+      <div class="container">
+        <h2 class="page-section-title">未成年の方へ</h2>
+        <div class="minor-notice-box">
+          <p class="minor-notice-text">
+            <strong>未成年の方も受診できます。</strong><br />
+            アフターピルの処方に年齢制限はありません。保護者の同意書も不要です。
+          </p>
+          <ul class="minor-notice-list">
+            <li>
+              <span class="minor-notice-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </span>
+              <span>保護者の同意は不要です</span>
+            </li>
+            <li>
+              <span class="minor-notice-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </span>
+              <span>お一人でも受診できます</span>
+            </li>
+            <li>
+              <span class="minor-notice-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </span>
+              <span>プライバシーを厳守します</span>
+            </li>
+          </ul>
+          <p class="minor-notice-footer">
+            緊急避妊が必要な場合は、できるだけ早く受診することが大切です。<br />
+            年齢に関わらず、ためらわずにご来院ください。
+          </p>
+        </div>
+      </div>
+    </section>
+
     <section class="page-section">
       <div class="container">
         <h2 class="page-section-title">受診の流れ</h2>
@@ -299,7 +383,7 @@ const serviceStructuredData = {
             <span class="flow-number">1</span>
             <div>
               <strong>ご来院</strong>
-              <p>予約なしでも受診できます。性交後できるだけ早めにお越しください。</p>
+              <p>予約なしでも受診できます。土日・週末・休日も診療しています。性交後できるだけ早めにお越しください。</p>
             </div>
           </li>
           <li class="flow-item">
@@ -697,6 +781,67 @@ const serviceStructuredData = {
     line-height: 1.9;
   }
 
+  .minor-notice-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+  }
+
+  .minor-notice-text {
+    font-size: 1rem;
+    color: var(--color-navy);
+    line-height: 2;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .minor-notice-text strong {
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .minor-notice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto 24px;
+  }
+
+  .minor-notice-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .minor-notice-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: var(--color-turquoise-bg);
+    color: var(--color-turquoise);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .minor-notice-footer {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.9;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
   .flow-list {
     max-width: 640px;
     margin: 0 auto;
@@ -815,6 +960,26 @@ const serviceStructuredData = {
 
     .flow-item {
       padding: 20px;
+    }
+
+    .minor-notice-box {
+      padding: 24px 20px;
+    }
+
+    .minor-notice-text {
+      text-align: center;
+    }
+
+    .minor-notice-text strong {
+      font-size: 1rem;
+    }
+
+    .minor-notice-list {
+      max-width: 100%;
+    }
+
+    .minor-notice-footer {
+      text-align: center;
     }
   }
 </style>

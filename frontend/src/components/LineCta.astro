@@ -47,7 +47,7 @@ const { lines = [], showIntro = false } = Astro.props;
   }
 
   .cta-line {
-    display: block;
+    display: inline;
   }
 
   .line-cta-note {
@@ -64,6 +64,10 @@ const { lines = [], showIntro = false } = Astro.props;
   @media (max-width: 768px) {
     .sp-only {
       display: inline;
+    }
+
+    .cta-line {
+      display: block;
     }
   }
 </style>

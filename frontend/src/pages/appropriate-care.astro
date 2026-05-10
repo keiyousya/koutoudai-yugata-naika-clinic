@@ -1,0 +1,388 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import LineCta from "../components/LineCta.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="夜間の体調不良、まずは当院へご相談ください | 勾当台夕方内科クリニック"
+  description="夜間の急な発熱や体調不良で救急病院を受診する前に、まずは当院へご相談ください。地域の救急医療を守り、患者様の待ち時間短縮と医療費節約につながります。勾当台夕方内科クリニックは夜21時まで診療。"
+>
+  <Header />
+  <main class="page-main">
+    <section class="page-section bg-warm" style="padding-top: 100px;">
+      <div class="container">
+        <h2 class="page-section-title">適切な医療機関の受診について</h2>
+        <div class="intro-box">
+          <p class="intro-box-text">
+            昨今、厚生労働省が推進する<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000080850.html" target="_blank" rel="noopener noreferrer" class="external-link">地域医療構想</a>に基づき、地域の医療機関が役割を分担する重要性が高まっています。
+          </p>
+          <p class="intro-box-text">
+            「夜間に熱が出た」「急にお腹が痛くなった」といった際、大学病院などの救急外来を受診すべきか迷われることもあるかと思います。しかし、比較的軽微な症状で救急外来を受診すると、重症患者さんの治療に影響が出たり、患者様ご自身の待ち時間が非常に長くなったりするケースが少なくありません。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" style="background: white;">
+      <div class="container">
+        <h2 class="page-section-title">当院を受診するメリット</h2>
+        <div class="benefit-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <h3 class="benefit-title">待ち時間の短縮</h3>
+            <p class="benefit-text">
+              大病院の救急外来は緊急度優先のため、軽症だと数時間待つこともあります。当院ならスムーズに診療が受けられます。
+            </p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="2" ry="2"/>
+                <path d="M12 8v8"/>
+                <path d="M8 12h8"/>
+              </svg>
+            </div>
+            <h3 class="benefit-title">医療費の節約</h3>
+            <p class="benefit-text">
+              深夜・休日等の救急受診は「選定療養費」などで高額になる場合があります。当院での初期診療なら、適正な医療費でご案内できます。
+            </p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h3 class="benefit-title">地域医療への貢献</h3>
+            <p class="benefit-text">
+              軽症時に適切な受診先を選ぶことで、救急医療の逼迫を防ぎ、重症患者さんが迅速に治療を受けられる環境を守ります。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-cta">
+      <div class="container">
+        <LineCta lines={[
+          "夜間の体調不良で迷ったら、",
+          "まずは当院へご相談ください。"
+        ]} />
+      </div>
+    </section>
+
+    <section class="page-section emergency-section">
+      <div class="container">
+        <div class="emergency-notice">
+          <div class="emergency-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <div class="emergency-content">
+            <h3 class="emergency-title">ただし、以下の症状は迷わず119番（救急車）を呼んでください</h3>
+            <ul class="emergency-list">
+              <li>意識がない、朦朧としている</li>
+              <li>激しい胸の痛み、圧迫感</li>
+              <li>呼吸困難、息ができない</li>
+              <li>激しい頭痛、突然の麻痺やしびれ</li>
+              <li>大量の出血</li>
+              <li>けいれんが止まらない</li>
+            </ul>
+            <p class="emergency-note">
+              上記のような明らかに緊急を要する症状の場合は、当院への受診ではなく、直ちに救急車を要請してください。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-warm">
+      <div class="container">
+        <h2 class="page-section-title">こんな症状の時はご相談ください</h2>
+        <div class="symptom-grid">
+          <div class="symptom-tag">発熱・感冒症状</div>
+          <div class="symptom-tag">咳・喉の痛み</div>
+          <div class="symptom-tag">腹痛・下痢</div>
+          <div class="symptom-tag">頻尿・排尿時痛</div>
+        </div>
+        <p class="symptom-note">
+          上記以外の症状も、まずはお気軽にご相談ください。<br />
+          当院で対応できない場合は、適切な医療機関をご案内いたします。
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-section {
+    padding: 80px 0;
+  }
+
+  .page-section.bg-warm {
+    background: var(--color-turquoise-bg);
+  }
+
+  .page-section.bg-coral {
+    background: var(--color-coral-bg);
+  }
+
+  .page-section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--color-navy);
+  }
+
+  .intro-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+
+  .intro-box-text {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 1.9;
+    margin-bottom: 16px;
+  }
+
+  .intro-box-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .external-link {
+    color: var(--color-turquoise);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.2s;
+  }
+
+  .external-link:hover {
+    opacity: 0.7;
+  }
+
+  .benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .benefit-card {
+    background: var(--color-turquoise-bg);
+    border-radius: 12px;
+    padding: 36px 28px;
+    text-align: center;
+  }
+
+  .benefit-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 24px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-turquoise);
+  }
+
+  .benefit-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .benefit-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+  }
+
+  .benefit-text {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .emergency-section {
+    background: var(--color-coral-bg);
+  }
+
+  .emergency-notice {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 36px 32px;
+    text-align: center;
+  }
+
+  .emergency-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    background: var(--color-coral-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-coral);
+  }
+
+  .emergency-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .emergency-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 20px;
+  }
+
+  .emergency-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 auto 20px;
+    max-width: 500px;
+    text-align: left;
+  }
+
+  .emergency-list li {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 2;
+    padding-left: 1.5em;
+    position: relative;
+  }
+
+  .emergency-list li::before {
+    content: "⚠";
+    position: absolute;
+    left: 0;
+    color: var(--color-coral);
+  }
+
+  .emergency-note {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+    text-align: left;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .symptom-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0 auto 28px;
+  }
+
+  .symptom-tag {
+    display: inline-block;
+    padding: 10px 20px;
+    background: white;
+    color: var(--color-turquoise);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 20px;
+    border: 1px solid var(--color-turquoise);
+  }
+
+  .symptom-note {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.9;
+  }
+
+  .page-cta {
+    background: white;
+    padding: 64px 0;
+    text-align: center;
+  }
+
+  .sp-only {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .sp-only {
+      display: inline;
+    }
+
+    .intro-box {
+      padding: 24px 20px;
+    }
+
+    .intro-box-text {
+      font-size: 0.88rem;
+    }
+
+    .page-section {
+      padding: 60px 0;
+    }
+
+    .page-section:first-of-type {
+      padding-top: 80px !important;
+    }
+
+    .benefit-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .emergency-notice {
+      padding: 28px 20px;
+    }
+
+    .emergency-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 16px;
+    }
+
+    .emergency-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .symptom-grid {
+      gap: 10px;
+    }
+
+    .symptom-tag {
+      padding: 10px 18px;
+      font-size: 0.9rem;
+    }
+  }
+</style>

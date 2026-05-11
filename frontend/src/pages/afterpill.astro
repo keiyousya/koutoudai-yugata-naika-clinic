@@ -10,7 +10,7 @@ const pageStructuredData = {
   "@context": "https://schema.org",
   "@type": "MedicalWebPage",
   "name": "アフターピル 夜間処方｜仙台市｜勾当台夕方内科クリニック",
-  "description": "仙台市で夜間にアフターピル（緊急避妊薬）を処方。夜21時まで診療、土日・週末・休日も対応。レボノルゲストレル1.5mg 11,000円。",
+  "description": "仙台市で夜間に緊急避妊薬（アフターピル）を処方。夜21時まで診療、土日・週末・休日も対応。レボノルゲストレル1.5mg 11,000円。",
   "keywords": "仙台 アフターピル, 仙台市 緊急避妊, 夜間 アフターピル, 仙台 夜 アフターピル, 緊急避妊薬 仙台, モーニングアフターピル 仙台, アフターピル 土日 仙台, アフターピル 週末 仙台, アフターピル 休日, 緊急避妊 土日, 緊急避妊 週末, 仙台 土日 アフターピル, 仙台 週末 緊急避妊, アフターピル 未成年, 緊急避妊 未成年, 10代 アフターピル, 高校生 アフターピル",
   "url": "https://koutoudai-yugata-naika.clinic/afterpill",
   "inLanguage": "ja",
@@ -118,7 +118,7 @@ const faqStructuredData = {
 
 <Layout
   title="アフターピル 夜間処方 | 仙台市 夜21時まで土日・週末も対応 | 勾当台夕方内科クリニック"
-  description="仙台市で夜間にアフターピル（緊急避妊薬）を処方。夜21時まで診療、土日・週末・休日も対応。レボノルゲストレル1.5mg 11,000円（税込・診察料込）。性交後72時間以内にご来院ください。勾当台公園駅徒歩2分。"
+  description="仙台市で夜間に緊急避妊薬（アフターピル）を処方。夜21時まで診療、土日・週末・休日も対応。レボノルゲストレル1.5mg 11,000円（税込・診察料込）。性交後72時間以内にご来院ください。勾当台公園駅徒歩2分。"
 >
   <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
@@ -128,7 +128,7 @@ const faqStructuredData = {
     <div class="page-header">
       <div class="container">
         <p class="page-header-label">Emergency Contraception</p>
-        <h1 class="page-title">アフターピル（緊急避妊薬）</h1>
+        <h1 class="page-title">緊急避妊薬（アフターピル）</h1>
       </div>
       <TwilightBackground />
     </div>
@@ -408,6 +408,14 @@ const faqStructuredData = {
             </div>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <section class="page-section back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
       </div>
     </section>
   </main>
@@ -884,6 +892,36 @@ const faqStructuredData = {
     font-size: 0.9rem;
     color: var(--color-text-muted);
     line-height: 1.8;
+  }
+
+  .back-section {
+    background: white;
+    padding: 40px 0 80px;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
   }
 
   @media (max-width: 768px) {

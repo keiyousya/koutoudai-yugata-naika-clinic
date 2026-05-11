@@ -1,0 +1,184 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { newsItems } from "../../components/News.astro";
+
+export function getStaticPaths() {
+  return newsItems.map((item) => ({
+    params: { slug: item.slug },
+    props: { newsItem: item },
+  }));
+}
+
+const { newsItem } = Astro.props;
+---
+
+<Layout title={`${newsItem.title} | 勾当台夕方内科クリニック`} description={newsItem.content}>
+  <Header />
+  <main class="news-detail-main">
+    <div class="news-detail-header">
+      <div class="container">
+        <p class="news-detail-date">{newsItem.date}</p>
+        <h1 class="news-detail-title">{newsItem.title}</h1>
+      </div>
+    </div>
+
+    <section class="news-detail-content">
+      <div class="container">
+        <div class="detail-body">
+          {newsItem.detail.split('\n').map((paragraph) => (
+            paragraph.trim() && <p>{paragraph}</p>
+          ))}
+        </div>
+
+        {newsItem.link && (
+          <div class="detail-link-box">
+            <a href={newsItem.link} class="detail-link">
+              {newsItem.linkText}
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </a>
+          </div>
+        )}
+
+        <div class="detail-back">
+          <a href="/#news" class="back-button">お知らせ一覧に戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .news-detail-main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 72px);
+  }
+
+  .news-detail-header {
+    background: var(--color-navy);
+    color: white;
+    padding: 100px 0 60px;
+  }
+
+  .news-detail-date {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 12px;
+  }
+
+  .news-detail-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .news-detail-content {
+    padding: 60px 0 80px;
+    background: white;
+    flex: 1;
+  }
+
+  .news-detail-content .container {
+    max-width: 720px;
+  }
+
+  .detail-body {
+    margin-bottom: 48px;
+  }
+
+  .detail-body p {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 24px;
+  }
+
+  .detail-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .detail-link-box {
+    margin-bottom: 48px;
+    padding: 24px 28px;
+    background: var(--color-turquoise-bg);
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .detail-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-turquoise);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .detail-link:hover {
+    opacity: 0.7;
+  }
+
+  .detail-link svg {
+    transition: transform 0.2s;
+  }
+
+  .detail-link:hover svg {
+    transform: translateX(3px);
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .news-detail-header {
+      padding: 80px 0 48px;
+    }
+
+    .news-detail-title {
+      font-size: 1.3rem;
+    }
+
+    .news-detail-content {
+      padding: 48px 0 64px;
+    }
+
+    .detail-body p {
+      font-size: 0.9rem;
+    }
+
+    .detail-link-box {
+      padding: 20px 18px;
+    }
+  }
+</style>

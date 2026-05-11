@@ -1,0 +1,620 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import TwilightBackground from "../components/TwilightBackground.astro";
+import LineCta from "../components/LineCta.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="アレルゲン免疫療法 | スギ花粉症・ダニアレルギー | 勾当台夕方内科クリニック"
+  description="仙台市でアレルゲン免疫療法を実施。スギ花粉症・ダニアレルギーの根本的な体質改善治療。夜21時まで診療、土日も対応。勾当台公園駅徒歩2分。"
+>
+  <Header />
+  <main class="page-main">
+    <div class="page-header">
+      <div class="container">
+        <p class="page-header-label">Allergen Immunotherapy</p>
+        <h1 class="page-title">アレルゲン免疫療法</h1>
+      </div>
+      <TwilightBackground />
+    </div>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">アレルゲン免疫療法とは</h2>
+        <div class="info-box">
+          <p class="info-text">
+            アレルゲン免疫療法は、アレルギーの原因となる物質（アレルゲン）を少量から体内に取り込み、徐々に量を増やしていくことで、<strong>アレルギー反応を起こしにくい体質に改善する治療法</strong>です。
+          </p>
+          <p class="info-text">
+            対症療法（症状を抑える薬）とは異なり、<strong>アレルギー体質そのものを改善</strong>することを目指します。治療期間は3〜5年と長期になりますが、治療終了後も効果が持続することが期待できます。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise">
+      <div class="container">
+        <h2 class="page-section-title">対象となる方</h2>
+        <p class="section-lead">当院では以下のアレルギーに対するアレルゲン免疫療法を行っています。</p>
+        <div class="target-grid">
+          <div class="target-card">
+            <h3 class="target-title">スギ花粉症</h3>
+            <p class="target-text">
+              スギ花粉による季節性アレルギー性鼻炎の症状がある方が対象です。<br />
+              ※ 治療開始時期：<strong>6月〜11月頃</strong>（スギ花粉飛散期は開始できません）
+            </p>
+          </div>
+          <div class="target-card">
+            <h3 class="target-title">ダニアレルギー</h3>
+            <p class="target-text">
+              ダニによる通年性アレルギー性鼻炎の症状がある方が対象です。<br />
+              ※ 治療開始時期：<strong>年間を通じて可能</strong>
+            </p>
+          </div>
+        </div>
+        <div class="age-notice">
+          <p class="age-notice-text">
+            <strong>対象年齢：</strong>当院では15歳以上が対象です。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">治療の流れ</h2>
+        <ol class="flow-list">
+          <li class="flow-item">
+            <span class="flow-number">1</span>
+            <div>
+              <strong>初回診察・検査</strong>
+              <p>問診と血液検査（またはこれまでの検査結果の確認）により、アレルゲン免疫療法の適応があるか判断します。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">2</span>
+            <div>
+              <strong>初回投与</strong>
+              <p>院内で初回の薬剤を舌の下に投与し、30分程度院内で経過観察します。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">3</span>
+            <div>
+              <strong>自宅での継続投与</strong>
+              <p>毎日1回、舌の下に薬剤を投与します。1分間保持した後、飲み込みます。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">4</span>
+            <div>
+              <strong>定期通院</strong>
+              <p>初回投与後1週間後、その後は1ヶ月ごとに通院していただき、経過を確認します。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">5</span>
+            <div>
+              <strong>継続治療（3〜5年）</strong>
+              <p>効果を十分に得るためには、3〜5年の継続治療が推奨されています。</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page-cta">
+      <div class="container">
+        <LineCta lines={[
+          "アレルゲン免疫療法についてご相談がある方は、",
+          "お気軽にご予約ください。"
+        ]} />
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise">
+      <div class="container">
+        <h2 class="page-section-title">費用について</h2>
+        <div class="price-info">
+          <p class="price-text">
+            アレルゲン免疫療法は<strong>保険適用</strong>の治療です。
+          </p>
+          <div class="price-example">
+            <p class="price-example-title">概算費用（3割負担の場合）</p>
+            <ul class="price-list">
+              <li>初回診察：約5,000円（検査料込み）</li>
+              <li>初回投与時：約3,000円（診察料・導入指導料・お薬代込み）</li>
+              <li>定期通院（月1回）：約1,000円</li>
+            </ul>
+            <p class="price-note">※ 上記は目安です。実際の費用は診療内容により変動します。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-coral">
+      <div class="container">
+        <h2 class="page-section-title">副作用・注意事項</h2>
+        <div class="attention-box">
+          <h3 class="attention-subtitle">主な副作用</h3>
+          <ul class="attention-list">
+            <li class="attention-item">
+              <span class="attention-icon">⚠</span>
+              <div>
+                <strong>口の中の副作用</strong>
+                <p>口内炎、舌の下の腫れ、口の中のかゆみなど（比較的多く見られます）</p>
+              </div>
+            </li>
+          </ul>
+          <div class="side-effect-notes">
+            <p class="side-effect-note">※ その他、まれにじんましん、腹痛、喘息発作などの全身症状が現れることがあります。</p>
+            <p class="side-effect-note">※ 重篤な副作用としてアナフィラキシーショックの可能性が考えられています。</p>
+          </div>
+        </div>
+
+        <div class="caution-box">
+          <h3 class="caution-subtitle">治療を受けられない方</h3>
+          <ul class="caution-list">
+            <li>重症の気管支喘息の方</li>
+            <li>悪性腫瘍（がん）や免疫不全の病気のある方</li>
+            <li>β阻害薬（一部の高血圧・心臓の薬）を服用中の方</li>
+            <li>妊娠中の方（治療中に妊娠した場合は継続可能）</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">詳しい情報はこちら</h2>
+        <div class="external-info">
+          <p class="external-info-text">
+            アレルゲン免疫療法について、さらに詳しい情報は鳥居薬品株式会社の患者様向けサイトをご覧ください。
+          </p>
+          <div class="external-banner">
+            <a href="https://www.torii-alg.jp/" target="_blank" rel="noopener noreferrer">
+              <img src="https://www.alg-immunotherapy.jp/downloadtool/banner/download/bnr_468x60.png" alt="トリーさんのアレルゲン免疫療法ナビ" width="468" height="60" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-header {
+    position: relative;
+    padding: 120px 0 60px;
+    background: var(--color-navy);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .page-header .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .pc-only {
+    display: inline;
+  }
+
+  .page-section {
+    padding: 80px 0;
+  }
+
+  .page-section.bg-turquoise {
+    background: var(--color-turquoise-bg);
+  }
+
+  .page-section.bg-coral {
+    background: var(--color-coral-bg);
+  }
+
+  .page-section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--color-navy);
+  }
+
+  .section-lead {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 32px;
+    line-height: 1.8;
+  }
+
+  .info-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--color-turquoise-bg);
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+
+  .info-text {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 16px;
+  }
+
+  .info-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .target-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto 32px;
+  }
+
+  .target-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .target-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .target-text {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .age-notice {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 20px 28px;
+    text-align: center;
+  }
+
+  .age-notice-text {
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .flow-list {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .flow-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: var(--color-coral-bg);
+    padding: 24px;
+    border-radius: 12px;
+  }
+
+  .flow-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--color-coral);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .flow-item strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 6px;
+  }
+
+  .flow-item p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .price-info {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .price-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .price-example {
+    background: white;
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+
+  .price-example-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 16px;
+  }
+
+  .price-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 16px;
+  }
+
+  .price-list li {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    padding-left: 1.5em;
+    position: relative;
+  }
+
+  .price-list li::before {
+    content: "・";
+    position: absolute;
+    left: 0;
+    color: var(--color-turquoise);
+  }
+
+  .price-note {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .attention-box {
+    max-width: 720px;
+    margin: 0 auto 40px;
+  }
+
+  .attention-subtitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .attention-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .attention-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: white;
+    padding: 20px 24px;
+    border-radius: 12px;
+  }
+
+  .attention-icon {
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    color: var(--color-coral);
+  }
+
+  .attention-item strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--color-navy);
+    margin-bottom: 6px;
+  }
+
+  .attention-item p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .side-effect-notes {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .side-effect-note {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    margin-bottom: 8px;
+  }
+
+  .side-effect-note:last-child {
+    margin-bottom: 0;
+  }
+
+  .caution-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+
+  .caution-subtitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 16px;
+  }
+
+  .caution-list {
+    padding-left: 1.5em;
+    list-style: disc;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 2;
+  }
+
+  .external-info {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .external-info-text {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 28px;
+    line-height: 1.8;
+  }
+
+  .external-banner {
+    display: flex;
+    justify-content: center;
+  }
+
+  .external-banner img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .page-cta {
+    background: white;
+    padding: 64px 0;
+    text-align: center;
+  }
+
+  .back-section {
+    background: white;
+    padding: 40px 0 80px;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 100px 0 48px;
+    }
+
+    .page-title {
+      font-size: 1.3rem;
+    }
+
+    .pc-only {
+      display: none;
+    }
+
+    .page-section {
+      padding: 60px 0;
+    }
+
+    .page-section-title {
+      font-size: 1.15rem;
+      margin-bottom: 32px;
+    }
+
+    .section-lead {
+      text-align: left;
+    }
+
+    .info-box {
+      padding: 22px 18px;
+    }
+
+    .target-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .target-card {
+      padding: 22px;
+    }
+
+    .flow-item {
+      padding: 20px;
+    }
+
+    .price-example {
+      padding: 22px 18px;
+    }
+
+    .attention-item {
+      padding: 20px;
+    }
+
+    .caution-box {
+      padding: 22px 18px;
+    }
+  }
+</style>

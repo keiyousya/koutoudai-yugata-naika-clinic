@@ -1,0 +1,343 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import TwilightBackground from "../../components/TwilightBackground.astro";
+import Footer from "../../components/Footer.astro";
+import { newsItems } from "../../components/News.astro";
+
+// ページネーションは将来的に実装
+// 現在は全件表示
+const displayItems = newsItems;
+const totalItems = newsItems.length;
+---
+
+<Layout
+  title="お知らせ一覧 | 勾当台夕方内科クリニック"
+  description="勾当台夕方内科クリニックからのお知らせ一覧。休診情報、新サービス開始のお知らせなど。"
+>
+  <Header />
+  <main class="news-list-main">
+    <div class="news-list-header">
+      <div class="container">
+        <p class="page-header-label">News</p>
+        <h1 class="page-title">お知らせ</h1>
+      </div>
+      <TwilightBackground />
+    </div>
+
+    <section class="news-list-content">
+      <div class="container">
+        <ul class="news-list">
+          {displayItems.map((item) => (
+            <li class={`news-item ${item.isImportant ? "important" : ""}`}>
+              <a href={`/news/${item.slug}`} class="news-item-link">
+                <span class="news-date">{item.date}</span>
+                <span class="news-text">{item.content}</span>
+                <span class="news-arrow">
+                  <span class="arrow-text">詳しくはこちら</span>
+                  <span class="arrow-symbol">→</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .news-list-main {
+    min-height: calc(100vh - 72px);
+    background: white;
+  }
+
+  .news-list-header {
+    position: relative;
+    background: var(--color-navy);
+    color: white;
+    padding: 120px 0 60px;
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .news-list-header .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .news-list-content {
+    padding: 80px 0;
+  }
+
+  .news-list-content .container {
+    max-width: 800px;
+  }
+
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .news-item {
+    background: var(--color-turquoise-bg);
+    border-radius: 16px;
+    transition: background 0.2s;
+  }
+
+  .news-item:hover {
+    background: rgba(62, 184, 200, 0.25);
+  }
+
+  .news-item.important {
+    background: var(--color-turquoise-bg);
+  }
+
+  .news-item:hover {
+    background: rgba(62, 184, 200, 0.25);
+  }
+
+  .news-item-link {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 18px 24px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .news-date {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .news-text {
+    flex: 1;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 1.7;
+  }
+
+  .news-item.important .news-text {
+    color: var(--color-navy);
+    font-weight: 500;
+  }
+
+  .news-arrow {
+    flex-shrink: 0;
+    color: var(--color-turquoise);
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .arrow-text {
+    display: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .arrow-symbol {
+    font-size: 1rem;
+  }
+
+  .news-item:hover .news-arrow {
+    opacity: 1;
+  }
+
+  .back-section {
+    background: white;
+    padding: 40px 0 80px;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pagination-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .pagination-link:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  .pagination-link svg {
+    transition: transform 0.2s;
+  }
+
+  .pagination-link.prev:hover svg {
+    transform: translateX(-2px);
+  }
+
+  .pagination-link.next:hover svg {
+    transform: translateX(2px);
+  }
+
+  .pagination-numbers {
+    display: flex;
+    gap: 8px;
+  }
+
+  .pagination-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid var(--color-border);
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .pagination-number:hover {
+    border-color: var(--color-turquoise);
+    color: var(--color-turquoise);
+  }
+
+  .pagination-number.active {
+    background: var(--color-turquoise);
+    border-color: var(--color-turquoise);
+    color: white;
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .news-list-header {
+      padding: 100px 0 48px;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+    }
+
+    .news-list-content {
+      padding: 60px 0;
+    }
+
+    .news-item-link {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 14px 16px;
+    }
+
+    .news-date {
+      font-size: 0.8rem;
+    }
+
+    .news-text {
+      font-size: 0.9rem;
+    }
+
+    .news-arrow {
+      margin-top: 4px;
+      opacity: 1;
+      align-self: flex-end;
+    }
+
+    .arrow-text {
+      display: inline;
+    }
+
+    .pagination {
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .pagination-link {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+    }
+
+    .pagination-numbers {
+      gap: 6px;
+    }
+
+    .pagination-number {
+      width: 36px;
+      height: 36px;
+      font-size: 0.85rem;
+    }
+  }
+</style>

@@ -1,13 +1,37 @@
 ---
-const newsItems = [
+export const newsItems = [
   {
-    date: "2026.04.29",
-    content: "5月3日（日）・5月6日（水）は祝日ですが、通常通り診療いたします。",
+    slug: "closed-2026-06-13",
+    date: "2026.05.11",
+    title: "6月13日（金）臨時休診のお知らせ",
+    content: "6月13日（金）は臨時休診となります。",
+    detail: "6月13日（金）は臨時休診とさせていただきます。\n\nご迷惑をおかけいたしますが、よろしくお願いいたします。",
     isImportant: true,
   },
   {
+    slug: "allergen-immunotherapy-start",
+    date: "2026.05.07",
+    title: "アレルゲン免疫療法の取り扱い開始",
+    content: "アレルゲン免疫療法の取り扱いを開始しました。",
+    detail: "この度、当院ではアレルゲン免疫療法の取り扱いを開始いたしました。\n\nアレルゲン免疫療法は、スギ花粉症やダニアレルギーの根本的な体質改善を目指す治療法です。対症療法とは異なり、アレルギー体質そのものを改善することを目指します。\n\n詳しくは専用ページをご覧いただくか、診察時にお気軽にご相談ください。",
+    link: "/allergen-immunotherapy",
+    linkText: "アレルゲン免疫療法について詳しく見る",
+    isImportant: true,
+  },
+  {
+    slug: "golden-week-2026",
+    date: "2026.04.29",
+    title: "ゴールデンウィーク期間中の診療について",
+    content: "5月3日（日）・5月6日（水）は祝日ですが、通常通り診療いたします。",
+    detail: "ゴールデンウィーク期間中の診療についてお知らせいたします。\n\n5月3日（日）・5月6日（水）は祝日ですが、通常通り診療いたします。\n\n診療時間：17:00〜21:00（最終受付 20:45）\n\nご来院の際は、混雑を避けるために事前にご予約いただくことをおすすめいたします。",
+    isImportant: true,
+  },
+  {
+    slug: "closed-2026-05-09",
     date: "2026.04.12",
+    title: "5月9日（土）臨時休診のお知らせ",
     content: "5月9日（土）は臨時休診となります。",
+    detail: "5月9日（土）は臨時休診とさせていただきます。\n\nご迷惑をおかけいたしますが、よろしくお願いいたします。",
     isImportant: true,
   },
 ];
@@ -18,15 +42,21 @@ const newsItems = [
     <h2 class="section-title">お知らせ</h2>
     <div class="news-content">
       <ul class="news-list">
-        {newsItems.map((item) => (
+        {newsItems.slice(0, 3).map((item) => (
           <li class={`news-item ${item.isImportant ? "important" : ""}`}>
-            <span class="news-date">{item.date}</span>
-            <span class="news-text">{item.content}</span>
+            <a href={`/news/${item.slug}`} class="news-item-link">
+              <span class="news-date">{item.date}</span>
+              <span class="news-text">{item.content}</span>
+              <span class="news-arrow">
+                <span class="arrow-text">詳しくはこちら</span>
+                <span class="arrow-symbol">→</span>
+              </span>
+            </a>
           </li>
         ))}
       </ul>
       <div class="news-link">
-        <a href="#hours">診療時間・カレンダーを見る</a>
+        <a href="/news">すべてのお知らせを見る →</a>
       </div>
     </div>
   </div>
@@ -51,16 +81,26 @@ const newsItems = [
   }
 
   .news-item {
-    display: flex;
-    align-items: baseline;
-    gap: 20px;
-    padding: 18px 24px;
     background: var(--color-turquoise-bg);
     border-radius: 16px;
+    transition: background 0.2s;
   }
 
   .news-item.important {
     background: var(--color-turquoise-bg);
+  }
+
+  .news-item:hover {
+    background: rgba(62, 184, 200, 0.25);
+  }
+
+  .news-item-link {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 18px 24px;
+    text-decoration: none;
+    color: inherit;
   }
 
   .news-date {
@@ -71,6 +111,7 @@ const newsItems = [
   }
 
   .news-text {
+    flex: 1;
     font-size: 0.9rem;
     color: var(--color-text);
     line-height: 1.7;
@@ -79,6 +120,30 @@ const newsItems = [
   .news-item.important .news-text {
     color: var(--color-navy);
     font-weight: 500;
+  }
+
+  .news-arrow {
+    flex-shrink: 0;
+    color: var(--color-turquoise);
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .arrow-text {
+    display: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .arrow-symbol {
+    font-size: 1rem;
+  }
+
+  .news-item:hover .news-arrow {
+    opacity: 1;
   }
 
   .news-link {
@@ -104,9 +169,10 @@ const newsItems = [
       padding-bottom: 36px;
     }
 
-    .news-item {
+    .news-item-link {
       flex-direction: column;
-      gap: 6px;
+      align-items: flex-start;
+      gap: 8px;
       padding: 14px 16px;
     }
 
@@ -116,6 +182,16 @@ const newsItems = [
 
     .news-text {
       font-size: 0.9rem;
+    }
+
+    .news-arrow {
+      margin-top: 4px;
+      opacity: 1;
+      align-self: flex-end;
+    }
+
+    .arrow-text {
+      display: inline;
     }
   }
 </style>

@@ -227,6 +227,34 @@ import echoImage from "../assets/echo.jpeg";
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="immunotherapy" class="section immunotherapy-section">
+  <div class="container">
+    <div class="immunotherapy-content">
+      <div class="immunotherapy-card">
+        <div class="immunotherapy-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <h3 class="immunotherapy-title">アレルゲン免疫療法</h3>
+        <p class="immunotherapy-description">
+          当院では、スギ花粉症・ダニアレルギーの根本的な体質改善を目指すアレルゲン免疫療法を行っています。
+        </p>
+        <a href="/allergen-immunotherapy" class="immunotherapy-link">詳しくはこちら</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section about">
+  <div class="container">
+    <div class="about-content">
+      <div class="about-text">
 
         <div class="cooperation-area">
           <h3 class="medical-heading">地域連携</h3>
@@ -263,11 +291,13 @@ import echoImage from "../assets/echo.jpeg";
           <h3 class="medical-heading">保険証について</h3>
           <div class="insurance-notice">
             <p class="insurance-notice-label">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="8" x2="12" y2="12"/>
-                <line x1="12" y1="16" x2="12.01" y2="16"/>
-              </svg>
+              <span class="insurance-notice-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </span>
               オンライン資格確認システム導入までのご案内
             </p>
             <p class="insurance-notice-text">
@@ -301,7 +331,7 @@ import echoImage from "../assets/echo.jpeg";
         </div>
 
         <div class="afterpill-area">
-          <h3 class="medical-heading">アフターピル（緊急避妊薬）について</h3>
+          <h3 class="medical-heading">緊急避妊薬（アフターピル）について</h3>
           <div class="afterpill-box">
             <p class="afterpill-text">
               避妊に失敗した場合の緊急避妊薬（アフターピル）を処方しています。<br />
@@ -653,16 +683,23 @@ import echoImage from "../assets/echo.jpeg";
   .insurance-notice-label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-size: 0.9rem;
     font-weight: 700;
-    color: var(--color-orange);
+    color: var(--color-navy);
     margin-bottom: 14px;
   }
 
-  .insurance-notice-label svg {
-    position: relative;
-    top: 1px;
+  .insurance-notice-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 10px;
+    color: var(--color-coral);
   }
 
   .insurance-notice-text {
@@ -793,6 +830,62 @@ import echoImage from "../assets/echo.jpeg";
     margin: 0 auto;
   }
 
+  .immunotherapy-section {
+    background: var(--color-coral-bg);
+    padding: 60px 0;
+  }
+
+  .immunotherapy-content {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .immunotherapy-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px 48px;
+    text-align: center;
+  }
+
+  .immunotherapy-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    background: var(--color-coral-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-coral);
+  }
+
+  .immunotherapy-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 16px;
+  }
+
+  .immunotherapy-description {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.9;
+    margin-bottom: 24px;
+  }
+
+  .immunotherapy-link {
+    display: inline-block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-coral);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s;
+  }
+
+  .immunotherapy-link:hover {
+    opacity: 0.7;
+  }
 
   .sp-only {
     display: none;
@@ -851,6 +944,14 @@ import echoImage from "../assets/echo.jpeg";
     .medical-note {
       text-align: left;
       font-size: 0.9rem;
+    }
+
+    .immunotherapy-section {
+      padding: 48px 0;
+    }
+
+    .immunotherapy-card {
+      padding: 32px 24px;
     }
 
     .cooperation-area {

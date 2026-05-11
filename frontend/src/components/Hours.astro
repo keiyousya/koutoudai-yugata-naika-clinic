@@ -46,6 +46,41 @@ const may2026 = [
   { day: 31, open: true },
 ];
 
+// 2026年6月の診療カレンダー（月曜始まり）
+const june2026 = [
+  { day: null },
+  { day: 1, open: false },
+  { day: 2, open: false },
+  { day: 3, open: true },
+  { day: 4, open: true },
+  { day: 5, open: true },
+  { day: 6, open: true },
+  { day: 7, open: true },
+  { day: 8, open: false },
+  { day: 9, open: false },
+  { day: 10, open: true },
+  { day: 11, open: true },
+  { day: 12, open: true },
+  { day: 13, open: false },
+  { day: 14, open: true },
+  { day: 15, open: false },
+  { day: 16, open: false },
+  { day: 17, open: true },
+  { day: 18, open: true },
+  { day: 19, open: true },
+  { day: 20, open: true },
+  { day: 21, open: true },
+  { day: 22, open: false },
+  { day: 23, open: false },
+  { day: 24, open: true },
+  { day: 25, open: true },
+  { day: 26, open: true },
+  { day: 27, open: true },
+  { day: 28, open: true },
+  { day: 29, open: false },
+  { day: 30, open: false },
+];
+
 const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 ---
 
@@ -55,36 +90,83 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     <div class="hours-layout">
       <!-- 左側：カレンダー -->
       <div class="calendar-side">
-        <div class="monthly-calendar">
-          <div class="monthly-header">
-            <span>2026年5月</span>
-          </div>
-          <div class="monthly-weekdays">
-            {weekdays.map((day, i) => (
-              <div class={`weekday ${i === 0 ? "sunday" : ""} ${i === 6 ? "saturday" : ""}`}>{day}</div>
-            ))}
-          </div>
-          <div class="monthly-grid">
-            {may2026.map((item, i) => (
-              <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""}`}>
-                {item.day !== null && (
-                  <>
-                    <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
-                    <span class="status">{item.open ? "○" : "休"}</span>
-                  </>
-                )}
+        <div class="month-tabs">
+          <button class="month-tab active" data-month="0">5月</button>
+          <button class="month-tab" data-month="1">6月</button>
+        </div>
+
+        <div class="calendar-container">
+          <button class="calendar-nav prev" id="prevMonth" aria-label="前の月">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+
+          <div class="calendar-slider">
+            <div class="calendar-track" id="calendarTrack">
+              <div class="monthly-calendar">
+                <div class="monthly-header">
+                  <span>2026年5月</span>
+                </div>
+                <div class="monthly-weekdays">
+                  {weekdays.map((day, i) => (
+                    <div class={`weekday ${i === 0 ? "sunday" : ""} ${i === 6 ? "saturday" : ""}`}>{day}</div>
+                  ))}
+                </div>
+                <div class="monthly-grid">
+                  {may2026.map((item, i) => (
+                    <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""}`}>
+                      {item.day !== null && (
+                        <>
+                          <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
+                          <span class="status">{item.open ? "○" : "休"}</span>
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
+
+              <div class="monthly-calendar">
+                <div class="monthly-header">
+                  <span>2026年6月</span>
+                </div>
+                <div class="monthly-weekdays">
+                  {weekdays.map((day, i) => (
+                    <div class={`weekday ${i === 0 ? "sunday" : ""} ${i === 6 ? "saturday" : ""}`}>{day}</div>
+                  ))}
+                </div>
+                <div class="monthly-grid">
+                  {june2026.map((item, i) => (
+                    <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"}`}>
+                      {item.day !== null && (
+                        <>
+                          <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
+                          <span class="status">{item.open ? "○" : "休"}</span>
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="monthly-legend">
-            <div class="legend-item">
-              <span class="legend-icon open">○</span>
-              <span>診療</span>
-            </div>
-            <div class="legend-item">
-              <span class="legend-icon closed">休</span>
-              <span>休診</span>
-            </div>
+
+          <button class="calendar-nav next" id="nextMonth" aria-label="次の月">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="calendar-legend">
+          <div class="legend-item">
+            <span class="legend-icon open">○</span>
+            <span>診療</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-icon closed">休</span>
+            <span>休診</span>
           </div>
         </div>
       </div>
@@ -105,7 +187,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
         <div class="hours-last-reception">
           <span class="last-reception-label">最終受付</span>
           <span class="last-reception-time">20:45</span>
-          <span class="last-reception-note">（電話・ウェブ予約の当日最終）</span>
+          <span class="last-reception-note">（電話・LINE予約の当日最終）</span>
         </div>
 
         <div class="schedule-table">
@@ -164,11 +246,93 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     width: 100%;
   }
 
-  .monthly-calendar {
+  .month-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+
+  .month-tab {
+    padding: 10px 28px;
     background: white;
-    border-radius: 16px;
+    border: 2px solid var(--color-border);
+    border-radius: 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .month-tab:hover {
+    border-color: var(--color-turquoise);
+    color: var(--color-turquoise);
+  }
+
+  .month-tab.active {
+    background: var(--color-turquoise);
+    border-color: var(--color-turquoise);
+    color: white;
+  }
+
+  .calendar-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .calendar-slider {
     overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .calendar-track {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .monthly-calendar {
+    min-width: 100%;
+    flex-shrink: 0;
+    background: white;
     border: 1px solid #d0e8ec;
+  }
+
+  .calendar-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 1px solid #d0e8ec;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-navy);
+    transition: all 0.2s;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .calendar-nav:hover:not(:disabled) {
+    background: var(--color-turquoise-bg);
+    border-color: var(--color-turquoise);
+    color: var(--color-turquoise);
+  }
+
+  .calendar-nav:disabled {
+    cursor: not-allowed;
+  }
+
+  .calendar-nav.prev {
+    left: -22px;
+  }
+
+  .calendar-nav.next {
+    right: -22px;
   }
 
   .monthly-header {
@@ -264,13 +428,13 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     color: #888;
   }
 
-  .monthly-legend {
+  .calendar-legend {
     display: flex;
     justify-content: center;
     gap: 24px;
-    padding: 16px;
+    padding: 16px 20px;
     background: #fafafa;
-    border-top: 1px solid var(--color-border);
+    border-radius: 12px;
   }
 
   .legend-item {
@@ -496,6 +660,14 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
       max-width: 500px;
       margin: 0 auto;
     }
+
+    .calendar-nav.prev {
+      left: -16px;
+    }
+
+    .calendar-nav.next {
+      right: -16px;
+    }
   }
 
   @media (max-width: 768px) {
@@ -538,9 +710,75 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
       text-align: left;
     }
 
-    .monthly-legend {
+    .calendar-legend {
       flex-direction: row;
       gap: 20px;
     }
   }
 </style>
+
+<script>
+  let currentMonth = 0;
+  const totalMonths = 2;
+  const track = document.getElementById('calendarTrack');
+  const prevBtn = document.getElementById('prevMonth');
+  const nextBtn = document.getElementById('nextMonth');
+  const monthTabs = document.querySelectorAll('.month-tab');
+
+  function updateCalendar() {
+    // Update calendar position
+    if (track) {
+      track.style.transform = `translateX(-${currentMonth * 100}%)`;
+    }
+
+    // Update navigation buttons
+    if (prevBtn) {
+      prevBtn.disabled = currentMonth === 0;
+      prevBtn.style.opacity = currentMonth === 0 ? '0.3' : '1';
+    }
+
+    if (nextBtn) {
+      nextBtn.disabled = currentMonth === totalMonths - 1;
+      nextBtn.style.opacity = currentMonth === totalMonths - 1 ? '0.3' : '1';
+    }
+
+    // Update month tabs
+    monthTabs.forEach((tab, index) => {
+      if (index === currentMonth) {
+        tab.classList.add('active');
+      } else {
+        tab.classList.remove('active');
+      }
+    });
+  }
+
+  // Arrow button navigation
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentMonth > 0) {
+        currentMonth--;
+        updateCalendar();
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (currentMonth < totalMonths - 1) {
+        currentMonth++;
+        updateCalendar();
+      }
+    });
+  }
+
+  // Month tab navigation
+  monthTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const monthIndex = parseInt(tab.getAttribute('data-month') || '0');
+      currentMonth = monthIndex;
+      updateCalendar();
+    });
+  });
+
+  updateCalendar();
+</script>

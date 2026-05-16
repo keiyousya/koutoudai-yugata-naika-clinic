@@ -16,6 +16,8 @@ if (!noEncrypt && !password) {
   process.exit(1);
 }
 
+const IMAGES_DIR = new URL("./docs/images/", import.meta.url);
+
 // Minimal clinic-style CSS
 const CSS = `
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,6 +38,7 @@ pre code { background: none; padding: 0; }
 blockquote { border-left: 4px solid #c9b99a; padding: 0.5rem 1rem; margin: 1rem 0; background: #f8f6f0; color: #6b5d52; }
 a { color: #8b6d4f; }
 hr { border: none; border-top: 1px solid #d0c8b8; margin: 1.5rem 0; }
+img { max-width: 100%; height: auto; border: 1px solid #d0c8b8; border-radius: 6px; margin: 1rem 0; }
 .back-link { display: inline-block; margin-bottom: 1.5rem; color: #8b6d4f; text-decoration: none; font-size: 0.9rem; }
 .back-link:hover { text-decoration: underline; }
 .page-controls { display: flex; gap: 0.8rem; margin-bottom: 1.5rem; }
@@ -100,6 +103,24 @@ async function main() {
     );
   }
   console.log("Copied favicon files from frontend/public/");
+
+  // Copy images folder if exists
+  try {
+    const imageFiles = await readdir(IMAGES_DIR);
+    if (imageFiles.length > 0) {
+      const distImagesDir = new URL("./images/", DIST_DIR);
+      await mkdir(distImagesDir, { recursive: true });
+      for (const file of imageFiles) {
+        await copyFile(
+          join(IMAGES_DIR.pathname, file),
+          join(distImagesDir.pathname, file)
+        );
+      }
+      console.log(`Copied ${imageFiles.length} image(s) from docs/images/`);
+    }
+  } catch {
+    // images folder doesn't exist, skip
+  }
 
   // Read all markdown files
   const files = (await readdir(DOCS_DIR)).filter((f) => f.endsWith(".md")).sort();

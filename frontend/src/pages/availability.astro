@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
-import PageHero from "../components/PageHero.astro";
+import TwilightBackground from "../components/TwilightBackground.astro";
 import Footer from "../components/Footer.astro";
 ---
 
@@ -10,12 +10,14 @@ import Footer from "../components/Footer.astro";
   description="当日の予約空き状況をリアルタイムで確認できます。仙台で夜21時まで診療、勾当台公園駅徒歩2分。"
 >
   <Header />
-  <main>
-    <PageHero
-      label="Availability"
-      title="本日の予約状況"
-      description="当日の予約空き状況をリアルタイムで確認できます。<br class='sp-only' />予約はLINEからお願いします。"
-    />
+  <main class="page-main">
+    <div class="page-header">
+      <div class="container">
+        <p class="page-header-label">Availability</p>
+        <h1 class="page-title">本日の予約状況</h1>
+      </div>
+      <TwilightBackground />
+    </div>
 
     <section class="section availability">
       <div class="container">
@@ -82,6 +84,34 @@ import Footer from "../components/Footer.astro";
 </Layout>
 
 <style>
+  .page-header {
+    position: relative;
+    padding: 120px 0 60px;
+    background: var(--color-navy);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .page-header .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
   .availability {
     background: white;
     min-height: 60vh;
@@ -318,6 +348,14 @@ import Footer from "../components/Footer.astro";
   }
 
   @media (max-width: 768px) {
+    .page-header {
+      padding: 100px 0 48px;
+    }
+
+    .page-title {
+      font-size: 1.3rem;
+    }
+
     .availability-header {
       flex-direction: column;
       align-items: flex-start;

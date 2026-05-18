@@ -12,7 +12,7 @@ const { lines = [], showIntro = false } = Astro.props;
 <div class="line-cta">
   {showIntro && (
     <p class="line-cta-intro">
-      当院ではLINEからのご予約をお願いしております。
+      当院ではLINEからのご予約をお願いしております。友だち追加後、トーク画面よりご予約ください。
     </p>
   )}
   {lines.length > 0 && (
@@ -23,9 +23,6 @@ const { lines = [], showIntro = false } = Astro.props;
     </p>
   )}
   <LineButton />
-  <p class="line-cta-note">
-    友だち追加後、トーク画面よりご予約ください。<br class="sp-only" />予約なしでも受診いただけます。
-  </p>
 </div>
 
 <style>
@@ -50,22 +47,7 @@ const { lines = [], showIntro = false } = Astro.props;
     display: inline;
   }
 
-  .line-cta-note {
-    margin-top: 20px;
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
-    line-height: 1.8;
-  }
-
-  .sp-only {
-    display: none;
-  }
-
   @media (max-width: 768px) {
-    .sp-only {
-      display: inline;
-    }
-
     .cta-line {
       display: block;
     }

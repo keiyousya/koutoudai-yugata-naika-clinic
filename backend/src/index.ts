@@ -279,6 +279,28 @@ app.get("/api/availability/:date", async (c) => {
   });
 });
 
+// Procyon Helix API へのプロキシ（公開）
+app.get("/api/procyon/availability", async (c) => {
+  try {
+    const response = await fetch(
+      "https://api.procyon.helix.keiyousya.com/koutoudai-yugata-naika/v1/availability"
+    );
+
+    if (!response.ok) {
+      return c.json({ error: "予約状況の取得に失敗しました" }, response.status);
+    }
+
+    const data = await response.json();
+
+    return c.json(data, 200, {
+      "Cache-Control": "public, max-age=60", // 1分間キャッシュ
+    });
+  } catch (error) {
+    console.error("Procyon API error:", error);
+    return c.json({ error: "サーバーエラーが発生しました" }, 500);
+  }
+});
+
 // ========================================
 // 管理用API（認証必須）
 // ========================================

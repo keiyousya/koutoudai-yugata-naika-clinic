@@ -1,0 +1,563 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import PageHero from "../components/PageHero.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="本日の予約状況 | 勾当台夕方内科クリニック"
+  description="当日の予約空き状況をリアルタイムで確認できます。仙台で夜21時まで診療、勾当台公園駅徒歩2分。"
+>
+  <Header />
+  <main>
+    <PageHero
+      label="Availability"
+      title="本日の予約状況"
+      description="当日の予約空き状況をリアルタイムで確認できます。<br class='sp-only' />予約はLINEからお願いします。"
+    />
+
+    <section class="section availability">
+      <div class="container">
+        <div class="availability-header">
+          <div class="date-display" id="dateDisplay">
+            <div class="date-label">本日の診療</div>
+            <div class="date-value">読み込み中...</div>
+          </div>
+          <div class="last-updated">
+            最終更新: <span id="lastUpdated">--:--</span>
+          </div>
+        </div>
+
+        <div class="status-message" id="statusMessage">
+          <div class="loading">予約状況を読み込んでいます...</div>
+        </div>
+
+        <div class="slots-container" id="slotsContainer" style="display: none;">
+          <div class="time-period">
+            <div class="period-header">
+              <h3 class="period-title">一般診療</h3>
+              <p class="period-time">17:00 - 19:00</p>
+            </div>
+            <div class="slots-grid" id="generalSlots"></div>
+          </div>
+
+          <div class="time-period">
+            <div class="period-header">
+              <h3 class="period-title">発熱外来</h3>
+              <p class="period-time">19:00 - 21:00</p>
+            </div>
+            <div class="slots-grid" id="feverSlots"></div>
+          </div>
+        </div>
+
+        <div class="availability-legend">
+          <div class="legend-item">
+            <span class="legend-badge available">○</span>
+            <span>予約可能</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-badge unavailable">×</span>
+            <span>満席</span>
+          </div>
+        </div>
+
+        <div class="availability-notes">
+          <p>※ 予約状況は5分ごとに自動更新されます。</p>
+          <p>※ 実際の予約受付状況と若干のタイムラグが生じる場合があります。</p>
+          <p>※ 予約はLINEからお願いいたします。</p>
+        </div>
+
+        <div class="reservation-cta">
+          <a href="https://line.me/R/ti/p/@koutoudai-yugata-naika" class="line-button" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+            </svg>
+            LINEで予約する
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .availability {
+    background: white;
+    min-height: 60vh;
+  }
+
+  .availability-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 24px;
+    background: var(--color-turquoise-bg);
+    border-radius: 16px;
+  }
+
+  .date-display {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .date-label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .date-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .last-updated {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .status-message {
+    text-align: center;
+    padding: 48px 24px;
+    margin-bottom: 32px;
+  }
+
+  .loading {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+  }
+
+  .error {
+    font-size: 0.95rem;
+    color: #e05a5a;
+    padding: 20px;
+    background: #fff5f5;
+    border-radius: 12px;
+    border: 1px solid #fdd;
+  }
+
+  .closed {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  .slots-container {
+    max-width: 900px;
+    margin: 0 auto 40px;
+  }
+
+  .time-period {
+    margin-bottom: 48px;
+  }
+
+  .time-period:last-child {
+    margin-bottom: 0;
+  }
+
+  .period-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-turquoise);
+  }
+
+  .period-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .period-time {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .slot-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 12px;
+    border-radius: 12px;
+    border: 2px solid var(--color-border);
+    transition: all 0.2s;
+  }
+
+  .slot-card.available {
+    background: white;
+    border-color: var(--color-turquoise);
+  }
+
+  .slot-card.available:hover {
+    background: var(--color-turquoise-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(62, 184, 200, 0.15);
+  }
+
+  .slot-card.unavailable {
+    background: #f9f9f9;
+    border-color: #ddd;
+    opacity: 0.6;
+  }
+
+  .slot-time {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    margin-bottom: 6px;
+  }
+
+  .slot-card.unavailable .slot-time {
+    color: #888;
+  }
+
+  .slot-status {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .slot-card.available .slot-status {
+    color: var(--color-turquoise);
+  }
+
+  .slot-card.unavailable .slot-status {
+    color: #999;
+  }
+
+  .availability-legend {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 32px;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 12px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  .legend-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .legend-badge.available {
+    background: var(--color-turquoise-bg);
+    color: var(--color-turquoise);
+  }
+
+  .legend-badge.unavailable {
+    background: #f5f5f5;
+    color: #999;
+  }
+
+  .availability-notes {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .availability-notes p {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    margin-bottom: 4px;
+  }
+
+  .reservation-cta {
+    text-align: center;
+  }
+
+  .line-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 40px;
+    background: #06c755;
+    color: white;
+    border-radius: 32px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);
+  }
+
+  .line-button:hover {
+    background: #05b04c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(6, 199, 85, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .availability-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .date-value {
+      font-size: 1.1rem;
+    }
+
+    .period-header {
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+    }
+
+    .slots-grid {
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+    }
+
+    .slot-card {
+      padding: 14px 8px;
+    }
+
+    .slot-time {
+      font-size: 0.85rem;
+    }
+
+    .slot-status {
+      font-size: 1rem;
+    }
+
+    .availability-legend {
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .line-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  const API_URL = 'https://koutoudai-reservation-api.kit-tamtam.workers.dev/api/procyon/availability';
+  const UPDATE_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+  interface ApiSlot {
+    time: string;
+    endTime: string;
+    status: 'available' | 'booked';
+    consultationSlotName: string;
+    consultationSlotKey: string;
+    medicalDepartmentKey: string;
+    medicalDepartmentName: string;
+  }
+
+  interface Slot {
+    time: string;
+    endTime: string;
+    available: boolean;
+    consultationSlotName: string;
+  }
+
+  interface ApiDateData {
+    date: string;
+    dayOfWeek: number;
+    isClosed: boolean;
+    isHoliday: boolean;
+    slots: ApiSlot[];
+  }
+
+  interface DateData {
+    date: string;
+    dayOfWeek: number;
+    isClosed: boolean;
+    isHoliday: boolean;
+    slots: Slot[];
+  }
+
+  interface ApiResponse {
+    dates: ApiDateData[];
+  }
+
+  function convertSlot(apiSlot: ApiSlot): Slot {
+    return {
+      time: apiSlot.time,
+      endTime: apiSlot.endTime,
+      available: apiSlot.status === 'available',
+      consultationSlotName: apiSlot.consultationSlotName,
+    };
+  }
+
+  function convertDateData(apiData: ApiDateData): DateData {
+    return {
+      date: apiData.date,
+      dayOfWeek: apiData.dayOfWeek,
+      isClosed: apiData.isClosed,
+      isHoliday: apiData.isHoliday,
+      slots: apiData.slots.map(convertSlot),
+    };
+  }
+
+  const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+
+  function formatDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const dayOfWeek = dayNames[date.getDay()];
+    return `${month}月${day}日（${dayOfWeek}）`;
+  }
+
+  function updateLastUpdated(): void {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const element = document.getElementById('lastUpdated');
+    if (element) {
+      element.textContent = `${hours}:${minutes}`;
+    }
+  }
+
+  function renderSlots(slots: Slot[], containerId: string): void {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    slots.forEach(slot => {
+      const card = document.createElement('div');
+      card.className = `slot-card ${slot.available ? 'available' : 'unavailable'}`;
+
+      const time = document.createElement('div');
+      time.className = 'slot-time';
+      time.textContent = slot.time;
+
+      const status = document.createElement('div');
+      status.className = 'slot-status';
+      status.textContent = slot.available ? '○' : '×';
+
+      card.appendChild(time);
+      card.appendChild(status);
+      container.appendChild(card);
+    });
+  }
+
+  function showMessage(message: string, type: 'loading' | 'error' | 'closed'): void {
+    const statusMessage = document.getElementById('statusMessage');
+    const slotsContainer = document.getElementById('slotsContainer');
+
+    if (!statusMessage || !slotsContainer) return;
+
+    statusMessage.style.display = 'block';
+    statusMessage.innerHTML = `<div class="${type}">${message}</div>`;
+    slotsContainer.style.display = 'none';
+  }
+
+  function hideMessage(): void {
+    const statusMessage = document.getElementById('statusMessage');
+    const slotsContainer = document.getElementById('slotsContainer');
+
+    if (!statusMessage || !slotsContainer) return;
+
+    statusMessage.style.display = 'none';
+    slotsContainer.style.display = 'block';
+  }
+
+  async function fetchAvailability(): Promise<void> {
+    try {
+      const response = await fetch(API_URL);
+
+      if (!response.ok) {
+        throw new Error('予約状況の取得に失敗しました');
+      }
+
+      const data: ApiResponse = await response.json();
+
+      // Get today's data (first element) and convert
+      const apiToday = data.dates[0];
+      if (!apiToday) {
+        throw new Error('本日のデータが見つかりませんでした');
+      }
+      const today = convertDateData(apiToday);
+
+      // Update date display
+      const dateDisplay = document.getElementById('dateDisplay');
+      if (dateDisplay) {
+        const dateValue = dateDisplay.querySelector('.date-value');
+        if (dateValue) {
+          dateValue.textContent = formatDate(today.date);
+        }
+      }
+
+      // Check if clinic is closed
+      if (today.isClosed || today.slots.length === 0) {
+        showMessage('本日は休診日です', 'closed');
+        updateLastUpdated();
+        return;
+      }
+
+      // Split slots into general (17:00-19:00) and fever (19:00-21:00)
+      const generalSlots = today.slots.filter(slot => {
+        const hour = parseInt(slot.time.split(':')[0]);
+        return hour < 19;
+      });
+
+      const feverSlots = today.slots.filter(slot => {
+        const hour = parseInt(slot.time.split(':')[0]);
+        return hour >= 19;
+      });
+
+      // Render slots
+      if (generalSlots.length > 0) {
+        renderSlots(generalSlots, 'generalSlots');
+      }
+
+      if (feverSlots.length > 0) {
+        renderSlots(feverSlots, 'feverSlots');
+      }
+
+      hideMessage();
+      updateLastUpdated();
+
+    } catch (error) {
+      console.error('Error fetching availability:', error);
+      showMessage(
+        '予約状況の読み込みに失敗しました。<br>しばらく経ってから再度お試しください。',
+        'error'
+      );
+    }
+  }
+
+  // Initial fetch
+  fetchAvailability();
+
+  // Auto-refresh every 5 minutes
+  setInterval(fetchAvailability, UPDATE_INTERVAL);
+</script>

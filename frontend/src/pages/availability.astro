@@ -27,7 +27,7 @@ import Footer from "../components/Footer.astro";
             <div class="date-value">読み込み中...</div>
           </div>
           <div class="last-updated">
-            最終更新: <span id="lastUpdated">--:--</span>
+            <span id="lastUpdated">--:--</span> 時点
           </div>
         </div>
 
@@ -475,11 +475,11 @@ import Footer from "../components/Footer.astro";
   function updateLastUpdated(): void {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
-    const roundedMinutes = Math.floor(now.getMinutes() / 5) * 5;
-    const minutes = String(roundedMinutes).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
     const element = document.getElementById('lastUpdated');
     if (element) {
-      element.textContent = `${hours}:${minutes}`;
+      element.textContent = `${hours}:${minutes}:${seconds}`;
     }
   }
 

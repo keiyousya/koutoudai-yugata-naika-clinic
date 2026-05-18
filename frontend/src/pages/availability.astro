@@ -112,9 +112,15 @@ import Footer from "../components/Footer.astro";
     font-weight: 700;
   }
 
+  .page-main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 72px);
+  }
+
   .availability {
     background: white;
-    min-height: 60vh;
+    flex: 1;
   }
 
   .availability-header {

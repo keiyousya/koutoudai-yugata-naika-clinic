@@ -77,8 +77,9 @@ function AdminEditorPage() {
     () => staff?.filter((s) => s.role === "nurse" && s.is_active) || [],
     [staff]
   );
-  const clerks = useMemo(
-    () => staff?.filter((s) => s.role === "clerk" && s.is_active) || [],
+  // 事務枠には看護師も入れるため、全スタッフを候補にする
+  const clerkCandidates = useMemo(
+    () => staff?.filter((s) => s.is_active) || [],
     [staff]
   );
 
@@ -311,9 +312,9 @@ function AdminEditorPage() {
                           className="w-full p-1 border rounded"
                         >
                           <option value="">-</option>
-                          {clerks.map((c) => (
+                          {clerkCandidates.map((c) => (
                             <option key={c.id} value={c.id}>
-                              {c.name}
+                              {c.name}{c.role === "nurse" ? " (看)" : ""}
                             </option>
                           ))}
                         </select>

@@ -987,8 +987,9 @@ shift.put("/admin/assignments", adminAuth, async (c) => {
     if (!staff) {
       return c.json({ error: `スタッフID ${a.staff_id} が見つかりません` }, 400);
     }
-    if (staff.role !== a.role) {
-      return c.json({ error: `スタッフ「${staff.name}」の職種 (${staff.role}) と割当の職種 (${a.role}) が一致しません` }, 400);
+    // 看護師は事務枠にも入れる、事務は看護師枠には入れない
+    if (staff.role === "clerk" && a.role === "nurse") {
+      return c.json({ error: `事務スタッフ「${staff.name}」は看護師枠には割り当てできません` }, 400);
     }
   }
 

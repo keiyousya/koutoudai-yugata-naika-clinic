@@ -25,12 +25,16 @@ function getMonthAfterNext(): string {
   return `${year}-${month}`;
 }
 
+type Availability = "available" | "unavailable" | null;
+// date -> slot -> availability
+type LocalRequests = Record<string, Record<string, Availability>>;
+
 function RequestPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isLoggedIn, staffName, restore } = useAuthStore();
   const [selectedMonth, setSelectedMonth] = useState(getMonthAfterNext());
-  const [localRequests, setLocalRequests] = useState<Record<string, "available" | "unavailable" | null>>({});
+  const [localRequests, setLocalRequests] = useState<LocalRequests>({});
   const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
@@ -49,8 +53,8 @@ function RequestPage() {
     queryKey: ["period", selectedMonth],
     queryFn: () => fetchPeriod(selectedMonth),
     enabled: isLoggedIn,
-    refetchOnWindowFocus: true, // タブにフォーカス時に再取得
-    refetchInterval: 30000, // 30秒ごとに自動更新
+    refetchOnWindowFocus: true,
+    refetchInterval: 30000,
   });
 
   const { data: myRequests, isLoading: requestsLoading } = useQuery({
@@ -62,9 +66,10 @@ function RequestPage() {
   // サーバーからの希望をローカル状態に反映
   useEffect(() => {
     if (myRequests) {
-      const requests: Record<string, "available" | "unavailable" | null> = {};
+      const requests: LocalRequests = {};
       for (const req of myRequests.requests) {
-        requests[req.date] = req.availability;
+        if (!requests[req.date]) requests[req.date] = {};
+        requests[req.date][req.slot] = req.availability;
       }
       setLocalRequests(requests);
     }
@@ -74,12 +79,18 @@ function RequestPage() {
 
   const saveMutation = useMutation({
     mutationFn: () => {
-      const items = Object.entries(localRequests)
-        .filter(([, availability]) => availability !== null)
-        .map(([date, availability]) => ({
-          date,
-          availability: availability!,
-        }));
+      const items: Array<{ date: string; slot: "day" | "evening"; availability: "available" | "unavailable" }> = [];
+      for (const [date, slots] of Object.entries(localRequests)) {
+        for (const [slot, availability] of Object.entries(slots)) {
+          if (availability !== null) {
+            items.push({
+              date,
+              slot: slot as "day" | "evening",
+              availability,
+            });
+          }
+        }
+      }
       return updateMyRequests(selectedMonth, items);
     },
     onSuccess: () => {
@@ -93,26 +104,30 @@ function RequestPage() {
     },
   });
 
-  const toggleRequest = (date: string) => {
+  const toggleRequest = (date: string, slot: string) => {
     if (isLocked) return;
     setLocalRequests((prev) => {
-      const current = prev[date];
+      const dateSlots = prev[date] || {};
+      const current = dateSlots[slot];
       if (current === "available") {
-        return { ...prev, [date]: "unavailable" };
+        return { ...prev, [date]: { ...dateSlots, [slot]: "unavailable" } };
       } else if (current === "unavailable") {
-        return { ...prev, [date]: null };
+        return { ...prev, [date]: { ...dateSlots, [slot]: null } };
       } else {
-        return { ...prev, [date]: "available" };
+        return { ...prev, [date]: { ...dateSlots, [slot]: "available" } };
       }
     });
   };
 
   const setAllAvailable = () => {
     if (isLocked || !calendar) return;
-    const requests: Record<string, "available" | "unavailable" | null> = {};
+    const requests: LocalRequests = {};
     for (const day of calendar.days) {
-      if (day.is_open) {
-        requests[day.date] = "available";
+      if (day.is_open && day.slots) {
+        requests[day.date] = {};
+        for (const slot of day.slots) {
+          requests[day.date][slot] = "available";
+        }
       }
     }
     setLocalRequests(requests);
@@ -162,6 +177,11 @@ function RequestPage() {
   if (!isLoggedIn) {
     return null;
   }
+
+  const slotLabels: Record<string, string> = {
+    day: "14-17",
+    evening: "17-21",
+  };
 
   return (
     <div className="max-w-lg mx-auto py-4">
@@ -213,44 +233,66 @@ function RequestPage() {
             <div className="grid grid-cols-7 gap-1">
               {calendarGrid.map((day, i) => {
                 if (!day) {
-                  return <div key={i} className="h-14" />;
+                  return <div key={i} className="h-20" />;
                 }
 
-                const request = localRequests[day.date];
+                const dateRequests = localRequests[day.date] || {};
                 const dayNum = parseInt(day.date.split("-")[2], 10);
                 const isOpen = day.is_open;
                 const dayOfWeek = new Date(day.date).getDay();
+                const slots = day.slots || ["evening"];
+                const hasMultipleSlots = slots.length > 1;
+
+                if (!isOpen) {
+                  return (
+                    <div
+                      key={day.date}
+                      className="h-20 rounded-lg bg-gray-200 text-gray-400 flex flex-col items-center justify-center text-sm"
+                    >
+                      <span>{dayNum}</span>
+                    </div>
+                  );
+                }
 
                 return (
-                  <button
+                  <div
                     key={day.date}
-                    disabled={!isOpen || isLocked}
-                    onClick={() => toggleRequest(day.date)}
-                    className={`h-14 rounded-lg text-sm flex flex-col items-center justify-center transition-colors ${
-                      !isOpen
-                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                        : request === "available"
-                        ? "bg-green-500 text-white"
-                        : request === "unavailable"
-                        ? "bg-red-500 text-white"
-                        : "bg-secondary hover:bg-secondary/80"
-                    }`}
+                    className="h-20 rounded-lg bg-secondary flex flex-col items-center text-sm overflow-hidden"
                   >
                     <span
-                      className={`${
+                      className={`text-xs mt-1 ${
                         dayOfWeek === 0 ? "text-red-500" : dayOfWeek === 6 ? "text-blue-500" : ""
-                      } ${!isOpen ? "text-gray-400" : ""} ${
-                        request === "available" || request === "unavailable" ? "text-white" : ""
                       }`}
                     >
                       {dayNum}
                     </span>
-                    {isOpen && (
-                      <span className="text-xs">
-                        {request === "available" ? "○" : request === "unavailable" ? "×" : "-"}
-                      </span>
-                    )}
-                  </button>
+                    <div className={`flex-1 flex ${hasMultipleSlots ? "flex-col" : "items-center"} gap-0.5 p-0.5 w-full`}>
+                      {slots.map((slot) => {
+                        const request = dateRequests[slot];
+                        return (
+                          <button
+                            key={slot}
+                            disabled={isLocked}
+                            onClick={() => toggleRequest(day.date, slot)}
+                            className={`flex-1 rounded text-xs flex flex-col items-center justify-center transition-colors ${
+                              request === "available"
+                                ? "bg-green-500 text-white"
+                                : request === "unavailable"
+                                ? "bg-red-500 text-white"
+                                : "bg-white/50 hover:bg-white/80"
+                            }`}
+                          >
+                            {hasMultipleSlots && (
+                              <span className="text-[10px] opacity-70">{slotLabels[slot]}</span>
+                            )}
+                            <span>
+                              {request === "available" ? "○" : request === "unavailable" ? "×" : "-"}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 );
               })}
             </div>

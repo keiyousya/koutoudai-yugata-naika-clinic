@@ -1,0 +1,495 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import TwilightBackground from "../components/TwilightBackground.astro";
+import Footer from "../components/Footer.astro";
+import { Image } from "astro:assets";
+import ecgImage from "../assets/ecg.jpeg";
+import echoImage from "../assets/echo.jpeg";
+---
+
+<Layout
+  title="診療内容 | 勾当台夕方内科クリニック"
+  description="勾当台夕方内科クリニックの診療内容。生活習慣病の管理、急な発熱や体調不良への対応、各種検査・設備についてご案内します。"
+>
+  <Header />
+  <main class="page-main">
+    <div class="page-header">
+      <div class="container">
+        <p class="page-header-label">Medical Services</p>
+        <h1 class="page-title">診療内容</h1>
+      </div>
+      <TwilightBackground />
+    </div>
+
+    <section class="page-intro">
+      <div class="container">
+        <p class="intro-text">
+          下記以外の症状もお気軽にご相談ください。<br class="pc-only" />
+          必要に応じて専門医療機関へのご紹介も行います。
+        </p>
+        <p class="intro-note">
+          ※ 健診で指摘を受けた項目の精査をご希望の方は、健診結果をお持ちください。
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section" id="chronic">
+      <div class="container">
+        <h2 class="page-section-title">慢性疾患のかかりつけ</h2>
+        <div class="info-box">
+          <p class="info-text">
+            夕方以降の時間帯で継続的に生活習慣病などの管理・治療を行います。
+          </p>
+        </div>
+        <div class="condition-grid">
+          <span class="condition-tag">高血圧</span>
+          <span class="condition-tag">糖尿病</span>
+          <span class="condition-tag">脂質異常症</span>
+          <span class="condition-tag">高尿酸血症・痛風</span>
+          <span class="condition-tag">甲状腺疾患</span>
+          <span class="condition-tag">貧血</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise" id="acute">
+      <div class="container">
+        <h2 class="page-section-title">夜間の急な症状にも対応</h2>
+        <div class="info-box white">
+          <p class="info-text">
+            夕方以降の急な発熱や体調不良に対応します。
+          </p>
+        </div>
+        <div class="condition-grid">
+          <span class="condition-tag accent">発熱・感冒症状</span>
+          <span class="condition-tag accent">咳・喉の痛み</span>
+          <span class="condition-tag accent">腹痛・下痢</span>
+          <span class="condition-tag accent">花粉症・アレルギー</span>
+          <span class="condition-tag accent">頻尿・排尿時痛</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="exam">
+      <div class="container">
+        <h2 class="page-section-title">検査・設備</h2>
+        <p class="section-lead">院内で実施できる検査のご案内です。</p>
+
+        <div class="exam-grid">
+          <div class="exam-item">
+            <div class="exam-item-header">
+              <span class="exam-item-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+              </span>
+              <h3 class="exam-item-title">超音波検査（エコー）</h3>
+            </div>
+            <p class="exam-item-description">
+              腹部・腎臓・頸動脈・甲状腺などの検査を行います。
+            </p>
+            <Image src={echoImage} alt="超音波検査装置" width={400} class="exam-item-image" />
+            <span class="exam-item-device">キャノンメディカルシステムズ Aplio go / LE</span>
+          </div>
+
+          <div class="exam-item">
+            <div class="exam-item-header">
+              <span class="exam-item-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+              </span>
+              <h3 class="exam-item-title">12誘導心電図</h3>
+            </div>
+            <p class="exam-item-description">
+              不整脈や狭心症など、心臓に関わる症状の評価に用います。
+            </p>
+            <Image src={ecgImage} alt="12誘導心電図" width={400} class="exam-item-image" />
+            <span class="exam-item-device">日本光電 ECG-3250</span>
+          </div>
+
+          <div class="exam-item">
+            <div class="exam-item-header">
+              <span class="exam-item-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="3" x2="12" y2="5"/>
+                  <line x1="12" y1="19" x2="12" y2="21"/>
+                  <line x1="3" y1="12" x2="5" y2="12"/>
+                  <line x1="19" y1="12" x2="21" y2="12"/>
+                  <line x1="5.64" y1="5.64" x2="7.05" y2="7.05"/>
+                  <line x1="16.95" y1="16.95" x2="18.36" y2="18.36"/>
+                  <line x1="5.64" y1="18.36" x2="7.05" y2="16.95"/>
+                  <line x1="16.95" y1="7.05" x2="18.36" y2="5.64"/>
+                </svg>
+              </span>
+              <h3 class="exam-item-title">迅速抗原検査</h3>
+            </div>
+            <p class="exam-item-description">
+              院内で短時間に結果が得られる検査です。
+            </p>
+            <div class="condition-grid compact">
+              <span class="condition-tag coral">インフルエンザA / B</span>
+              <span class="condition-tag coral">新型コロナウイルス</span>
+              <span class="condition-tag coral">溶連菌</span>
+            </div>
+          </div>
+
+          <div class="exam-item">
+            <div class="exam-item-header">
+              <span class="exam-item-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 2l4 4-9.5 9.5-4-4z"/>
+                  <path d="M8.5 15.5L2 22"/>
+                  <line x1="15" y1="9" x2="9.5" y2="14.5"/>
+                </svg>
+              </span>
+              <h3 class="exam-item-title">検体検査</h3>
+            </div>
+            <p class="exam-item-description">
+              血液検査・尿検査などは外部検査機関に委託して実施します。結果は後日お伝えいたします。
+            </p>
+            <div class="condition-grid compact">
+              <span class="condition-tag coral">糖尿病</span>
+              <span class="condition-tag coral">脂質異常症</span>
+              <span class="condition-tag coral">尿酸</span>
+              <span class="condition-tag coral">貧血</span>
+              <span class="condition-tag coral">甲状腺</span>
+              <span class="condition-tag coral">アレルギー</span>
+              <span class="condition-tag coral">性感染症</span>
+            </div>
+            <div class="exam-notes">
+              <p class="exam-item-note">※ アレルギー検査は39項目のセット検査が可能です。</p>
+              <p class="exam-item-note">※ 性感染症はクラミジア・淋菌・梅毒・HIVの検査が可能です。</p>
+              <p class="exam-item-note">※ その他、症状に応じて必要な検査を行います。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-header {
+    position: relative;
+    padding: 120px 0 60px;
+    background: var(--color-navy);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .page-header .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-intro {
+    padding: 48px 0;
+    background: var(--color-turquoise-bg);
+  }
+
+  .intro-text {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 2;
+    text-align: center;
+  }
+
+  .intro-note {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  .pc-only {
+    display: inline;
+  }
+
+  .page-section {
+    padding: 80px 0;
+  }
+
+  .page-section.bg-turquoise {
+    background: var(--color-turquoise-bg);
+  }
+
+  .page-section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--color-navy);
+  }
+
+  .section-lead {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 40px;
+    line-height: 1.8;
+  }
+
+  .info-box {
+    max-width: 720px;
+    margin: 0 auto 32px;
+    background: var(--color-turquoise-bg);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+
+  .info-box.white {
+    background: white;
+  }
+
+  .info-text {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    text-align: center;
+  }
+
+  .condition-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .condition-grid.compact {
+    justify-content: flex-start;
+    max-width: none;
+    margin: 0;
+    gap: 10px;
+  }
+
+  .condition-tag {
+    display: inline-block;
+    padding: 8px 20px;
+    background: white;
+    color: var(--color-turquoise);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 24px;
+    border: 1px solid var(--color-turquoise);
+  }
+
+  .condition-tag.accent {
+    color: var(--color-coral);
+    border-color: var(--color-coral);
+  }
+
+  .condition-tag.coral {
+    color: var(--color-coral);
+    border-color: var(--color-coral);
+    padding: 6px 16px;
+    font-size: 0.85rem;
+  }
+
+  .exam-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .exam-item {
+    background: var(--color-coral-bg);
+    border-radius: 16px;
+    padding: 24px;
+  }
+
+  .exam-item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .exam-item-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 10px;
+    color: var(--color-coral);
+  }
+
+  .exam-item-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .exam-item-description {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .exam-item-image {
+    display: block;
+    width: 70%;
+    max-width: 240px;
+    height: auto;
+    border-radius: 4px;
+    margin: 0 auto 12px;
+  }
+
+  .exam-item-device {
+    display: inline-block;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+    padding-top: 10px;
+    width: 100%;
+  }
+
+  .exam-notes {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .exam-item-note {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-bottom: 6px;
+    line-height: 1.6;
+  }
+
+  .exam-item-note:last-child {
+    margin-bottom: 0;
+  }
+
+  .back-section {
+    background: white;
+    padding: 40px 0 80px;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 100px 0 48px;
+    }
+
+    .page-title {
+      font-size: 1.3rem;
+    }
+
+    .page-intro {
+      padding: 36px 0;
+    }
+
+    .intro-text {
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .pc-only {
+      display: none;
+    }
+
+    .page-section {
+      padding: 60px 0;
+    }
+
+    .page-section-title {
+      font-size: 1.15rem;
+      margin-bottom: 32px;
+    }
+
+    .section-lead {
+      text-align: left;
+    }
+
+    .info-box {
+      padding: 22px 18px;
+    }
+
+    .condition-grid {
+      justify-content: flex-start;
+    }
+
+    .condition-tag {
+      padding: 6px 16px;
+      font-size: 0.85rem;
+    }
+
+    .exam-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .exam-item {
+      padding: 20px 18px;
+    }
+
+    .exam-item-title {
+      font-size: 0.9rem;
+    }
+  }
+</style>

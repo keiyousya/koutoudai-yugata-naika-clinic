@@ -100,7 +100,8 @@ export interface RequestsMatrix {
   month: string;
   staff: Array<{ id: number; name: string; role: string }>;
   days: string[];
-  matrix: Record<string, Record<number, { availability: string; note?: string }>>;
+  // date -> slot -> staffId -> availability
+  matrix: Record<string, Record<string, Record<number, { availability: string; note?: string }>>>;
 }
 
 export async function fetchAdminRequests(month: string): Promise<RequestsMatrix> {

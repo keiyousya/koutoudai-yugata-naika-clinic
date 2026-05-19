@@ -67,6 +67,7 @@ const calendarOverrideSchema = z.object({
 
 const requestItemSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "日付はYYYY-MM-DD形式で指定してください"),
+  slot: z.enum(["day", "evening"], { error: "slot は day または evening を指定してください" }).default("evening"),
   availability: z.enum(["available", "unavailable"], { error: "availability は available または unavailable を指定してください" }),
   note: z.string().max(200).optional(),
 });
@@ -429,10 +430,10 @@ shift.get("/requests/me", staffAuth, async (c) => {
   }
 
   const result = await db.execute({
-    sql: `SELECT id, date, availability, note, created_at, updated_at
+    sql: `SELECT id, date, slot, availability, note, created_at, updated_at
           FROM shift_requests
           WHERE staff_id = ? AND date LIKE ?
-          ORDER BY date`,
+          ORDER BY date, slot`,
     args: [staffId, `${month}%`],
   });
 
@@ -511,11 +512,11 @@ shift.put("/requests/me", staffAuth, async (c) => {
     return c.json({ error: "提出期限が過ぎています" }, 423);
   }
 
-  // 日付の重複チェック
-  const dates = items.map((item) => item.date);
-  const uniqueDates = new Set(dates);
-  if (dates.length !== uniqueDates.size) {
-    return c.json({ error: "重複した日付があります" }, 400);
+  // (日付, スロット)の重複チェック
+  const keys = items.map((item) => `${item.date}:${item.slot}`);
+  const uniqueKeys = new Set(keys);
+  if (keys.length !== uniqueKeys.size) {
+    return c.json({ error: "重複した日付・スロットの組み合わせがあります" }, 400);
   }
 
   // 日付が指定月の範囲内かチェック
@@ -534,9 +535,9 @@ shift.put("/requests/me", staffAuth, async (c) => {
   // 新しい希望を挿入
   for (const item of items) {
     await db.execute({
-      sql: `INSERT INTO shift_requests (staff_id, date, availability, note, created_at, updated_at)
-            VALUES (?, ?, ?, ?, datetime('now'), datetime('now'))`,
-      args: [staffId, item.date, item.availability, item.note || null],
+      sql: `INSERT INTO shift_requests (staff_id, date, slot, availability, note, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, datetime('now'), datetime('now'))`,
+      args: [staffId, item.date, item.slot, item.availability, item.note || null],
     });
   }
 
@@ -781,27 +782,28 @@ shift.get("/admin/requests", adminAuth, async (c) => {
 
   // 全希望を取得
   const requestsResult = await db.execute({
-    sql: `SELECT r.staff_id, r.date, r.availability, r.note
+    sql: `SELECT r.staff_id, r.date, r.slot, r.availability, r.note
           FROM shift_requests r
           JOIN shift_staff s ON r.staff_id = s.id
           WHERE r.date LIKE ? AND s.is_active = 1
-          ORDER BY r.date, r.staff_id`,
+          ORDER BY r.date, r.slot, r.staff_id`,
     args: [`${month}%`],
   });
 
-  // マトリクスを構築
+  // マトリクスを構築 (date -> slot -> staffId -> availability)
   const days = getDaysInMonth(month);
-  const matrix: Record<string, Record<number, { availability: string; note?: string }>> = {};
+  const matrix: Record<string, Record<string, Record<number, { availability: string; note?: string }>>> = {};
 
   for (const day of days) {
-    matrix[day] = {};
+    matrix[day] = { day: {}, evening: {} };
   }
 
   for (const row of requestsResult.rows) {
     const date = row.date as string;
+    const slot = row.slot as string;
     const staffId = row.staff_id as number;
-    if (matrix[date]) {
-      matrix[date][staffId] = {
+    if (matrix[date] && matrix[date][slot]) {
+      matrix[date][slot][staffId] = {
         availability: row.availability as string,
         note: row.note as string | undefined,
       };

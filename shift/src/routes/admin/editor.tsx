@@ -167,9 +167,9 @@ function AdminEditorPage() {
   };
 
   // 警告の計算
-  const getWarning = (date: string, staffId?: number): string | null => {
+  const getWarning = (date: string, slot: string, staffId?: number): string | null => {
     if (!staffId || !requests) return null;
-    const req = requests.matrix[date]?.[staffId];
+    const req = requests.matrix[date]?.[slot]?.[staffId];
     if (req?.availability === "unavailable") {
       const staffName = staff?.find((s) => s.id === staffId)?.name;
       return `${staffName}さんは「不可」`;
@@ -260,8 +260,8 @@ function AdminEditorPage() {
 
                 return slots.map((slot, slotIdx) => {
                   const slotAssignment = localAssignments[day.date]?.[slot] || {};
-                  const nurseWarning = getWarning(day.date, slotAssignment.nurse);
-                  const clerkWarning = getWarning(day.date, slotAssignment.clerk);
+                  const nurseWarning = getWarning(day.date, slot, slotAssignment.nurse);
+                  const clerkWarning = getWarning(day.date, slot, slotAssignment.clerk);
 
                   return (
                     <tr key={`${day.date}-${slot}`} className={slotIdx === 0 ? "border-t" : ""}>

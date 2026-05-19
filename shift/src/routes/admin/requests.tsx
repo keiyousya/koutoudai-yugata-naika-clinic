@@ -75,21 +75,27 @@ function AdminRequestsPage() {
   };
 
   const exportCSV = () => {
-    if (!requests) return;
-    const headers = ["日付", ...requests.staff.map((s) => s.name)];
+    if (!requests || !calendar) return;
+    const headers = ["日付", "時間帯", ...requests.staff.map((s) => s.name)];
     const lines: string[] = [headers.join(",")];
 
-    for (const day of requests.days) {
-      const row: string[] = [day];
-      for (const staff of requests.staff) {
-        const req = requests.matrix[day]?.[staff.id];
-        if (req) {
-          row.push(req.availability === "available" ? "○" : "×");
-        } else {
-          row.push("");
+    const openDays = calendar.days.filter((d) => d.is_open);
+    const slotLabels: Record<string, string> = { day: "14-17時", evening: "17-21時" };
+
+    for (const day of openDays) {
+      const slots = day.slots || ["evening"];
+      for (const slot of slots) {
+        const row: string[] = [day.date, slotLabels[slot]];
+        for (const staff of requests.staff) {
+          const req = requests.matrix[day.date]?.[slot]?.[staff.id];
+          if (req) {
+            row.push(req.availability === "available" ? "○" : "×");
+          } else {
+            row.push("");
+          }
         }
+        lines.push(row.join(","));
       }
-      lines.push(row.join(","));
     }
 
     const blob = new Blob(["\uFEFF" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
@@ -104,8 +110,9 @@ function AdminRequestsPage() {
   const isLoading = requestsLoading || calendarLoading;
   const isLocked = period?.submission_locked ?? false;
 
-  // 営業日のみ表示
-  const openDays = calendar?.days.filter((d) => d.is_open).map((d) => d.date) || [];
+  // 営業日のみ
+  const openDays = calendar?.days.filter((d) => d.is_open) || [];
+  const slotLabels: Record<string, string> = { day: "14-17時", evening: "17-21時" };
 
   return (
     <div className="max-w-6xl mx-auto py-4">
@@ -169,6 +176,7 @@ function AdminRequestsPage() {
             <thead>
               <tr className="bg-secondary">
                 <th className="p-2 text-left border sticky left-0 bg-secondary">日付</th>
+                <th className="p-2 text-center border">時間帯</th>
                 {requests.staff.map((staff) => (
                   <th key={staff.id} className="p-2 text-center border min-w-[60px]">
                     <div>{staff.name}</div>
@@ -180,19 +188,25 @@ function AdminRequestsPage() {
               </tr>
             </thead>
             <tbody>
-              {openDays.map((day) => {
-                const date = new Date(day);
+              {openDays.flatMap((day) => {
+                const date = new Date(day.date);
                 const dayNum = date.getDate();
                 const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
                 const weekday = weekdays[date.getDay()];
+                const slots = day.slots || ["evening"];
 
-                return (
-                  <tr key={day} className="border-t">
-                    <td className="p-2 border sticky left-0 bg-white">
-                      {dayNum} ({weekday})
+                return slots.map((slot, slotIdx) => (
+                  <tr key={`${day.date}-${slot}`} className={slotIdx === 0 ? "border-t" : ""}>
+                    {slotIdx === 0 && (
+                      <td className="p-2 border sticky left-0 bg-white" rowSpan={slots.length}>
+                        {dayNum} ({weekday})
+                      </td>
+                    )}
+                    <td className="p-2 text-center border text-xs">
+                      {slotLabels[slot]}
                     </td>
                     {requests.staff.map((staff) => {
-                      const req = requests.matrix[day]?.[staff.id];
+                      const req = requests.matrix[day.date]?.[slot]?.[staff.id];
                       return (
                         <td
                           key={staff.id}
@@ -213,7 +227,7 @@ function AdminRequestsPage() {
                       );
                     })}
                   </tr>
-                );
+                ));
               })}
             </tbody>
           </table>

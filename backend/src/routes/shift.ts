@@ -78,6 +78,7 @@ const requestsUpdateSchema = z.object({
 
 const assignmentItemSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "日付はYYYY-MM-DD形式で指定してください"),
+  slot: z.enum(["day", "evening"], { error: "slot は day または evening を指定してください" }).default("evening"),
   role: z.enum(["nurse", "clerk"], { error: "role は nurse または clerk を指定してください" }),
   staff_id: z.number().int().positive("staff_id は正の整数を指定してください"),
 });
@@ -93,12 +94,12 @@ const assignmentsUpdateSchema = z.object({
 
 /**
  * 既定の営業日判定
- * - 月・火・日本の祝日は休診
- * - それ以外（水・木・金・土・日）は営業
+ * - 火・日本の祝日は休診
+ * - それ以外（日・月・水・木・金・土）は営業
  */
 function isOpenByDefault(date: Date): boolean {
   const day = date.getDay(); // 0=日 ... 6=土
-  if (day === 1 || day === 2) return false; // 月・火休診
+  if (day === 2) return false; // 火休診
   if (isHoliday(date)) return false; // 祝日休診
   return true;
 }
@@ -345,10 +346,15 @@ shift.get("/calendar", async (c) => {
     });
   }
 
-  // 各日の営業可否を計算
+  // 各日の営業可否とスロットを計算
   const result = days.map((dateStr) => {
     const date = new Date(dateStr);
     const override = overrides.get(dateStr);
+    const dayOfWeek = date.getDay(); // 0=日, 6=土
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+    // 土日はday(14-17)とevening(17-21)の2スロット、それ以外はevening(17-21)のみ
+    const slots = isWeekend ? ["day", "evening"] : ["evening"];
 
     if (override) {
       return {
@@ -356,6 +362,7 @@ shift.get("/calendar", async (c) => {
         is_open: override.is_open,
         reason: "override" as const,
         note: override.note,
+        slots: override.is_open ? slots : [],
       };
     }
 
@@ -364,6 +371,7 @@ shift.get("/calendar", async (c) => {
       date: dateStr,
       is_open: isOpen,
       reason: "weekly" as const,
+      slots: isOpen ? slots : [],
     };
   });
 
@@ -458,16 +466,17 @@ shift.get("/assignments", staffAuth, async (c) => {
 
   // 確定シフトを取得
   const result = await db.execute({
-    sql: `SELECT a.date, a.role, a.staff_id, s.name as staff_name
+    sql: `SELECT a.date, a.slot, a.role, a.staff_id, s.name as staff_name
           FROM shift_assignments a
           JOIN shift_staff s ON a.staff_id = s.id
           WHERE a.date LIKE ?
-          ORDER BY a.date, a.role`,
+          ORDER BY a.date, a.slot, a.role`,
     args: [`${month}%`],
   });
 
   const assignments = result.rows.map((row) => ({
     date: row.date,
+    slot: row.slot,
     role: row.role,
     staff: {
       id: row.staff_id,
@@ -890,17 +899,18 @@ shift.get("/admin/assignments", adminAuth, async (c) => {
 
   // 確定シフト
   const result = await db.execute({
-    sql: `SELECT a.id, a.date, a.role, a.staff_id, s.name as staff_name, a.created_at, a.updated_at
+    sql: `SELECT a.id, a.date, a.slot, a.role, a.staff_id, s.name as staff_name, a.created_at, a.updated_at
           FROM shift_assignments a
           JOIN shift_staff s ON a.staff_id = s.id
           WHERE a.date LIKE ?
-          ORDER BY a.date, a.role`,
+          ORDER BY a.date, a.slot, a.role`,
     args: [`${month}%`],
   });
 
   const assignments = result.rows.map((row) => ({
     id: row.id,
     date: row.date,
+    slot: row.slot,
     role: row.role,
     staff: {
       id: row.staff_id,
@@ -942,12 +952,12 @@ shift.put("/admin/assignments", adminAuth, async (c) => {
     return c.json({ error: "クエリパラメータの month と body の month が一致しません" }, 400);
   }
 
-  // (date, role) の重複チェック
+  // (date, slot, role) の重複チェック
   const seen = new Set<string>();
   for (const a of assignments) {
-    const key = `${a.date}:${a.role}`;
+    const key = `${a.date}:${a.slot}:${a.role}`;
     if (seen.has(key)) {
-      return c.json({ error: `${a.date} の ${a.role} が重複しています` }, 400);
+      return c.json({ error: `${a.date} の ${a.slot} スロット ${a.role} が重複しています` }, 400);
     }
     seen.add(key);
   }
@@ -1038,9 +1048,9 @@ shift.put("/admin/assignments", adminAuth, async (c) => {
   // 新しい割当を挿入
   for (const a of assignments) {
     await db.execute({
-      sql: `INSERT INTO shift_assignments (date, role, staff_id, created_at, updated_at)
-            VALUES (?, ?, ?, datetime('now'), datetime('now'))`,
-      args: [a.date, a.role, a.staff_id],
+      sql: `INSERT INTO shift_assignments (date, slot, role, staff_id, created_at, updated_at)
+            VALUES (?, ?, ?, ?, datetime('now'), datetime('now'))`,
+      args: [a.date, a.slot, a.role, a.staff_id],
     });
   }
 

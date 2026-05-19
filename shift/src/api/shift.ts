@@ -18,6 +18,7 @@ interface CalendarDay {
   is_open: boolean;
   reason: "weekly" | "override";
   note?: string;
+  slots: ("day" | "evening")[];
 }
 
 interface CalendarResponse {
@@ -50,6 +51,7 @@ interface MyRequestsResponse {
 
 interface AssignmentItem {
   date: string;
+  slot: "day" | "evening";
   role: "nurse" | "clerk";
   staff: {
     id: number;

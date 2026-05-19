@@ -55,15 +55,19 @@ function ViewPage() {
     setSelectedMonth(`${newYear}-${newMonth}`);
   };
 
-  // 日付ごとの割当をマップ化
-  const assignmentsByDate = useMemo(() => {
-    if (!assignments) return new Map<string, { nurse?: AssignmentItem; clerk?: AssignmentItem }>();
-    const map = new Map<string, { nurse?: AssignmentItem; clerk?: AssignmentItem }>();
+  // 日付・スロットごとの割当をマップ化
+  const assignmentsByDateSlot = useMemo(() => {
+    if (!assignments) return new Map<string, Map<string, { nurse?: AssignmentItem; clerk?: AssignmentItem }>>();
+    const map = new Map<string, Map<string, { nurse?: AssignmentItem; clerk?: AssignmentItem }>>();
     for (const a of assignments.assignments) {
       if (!map.has(a.date)) {
-        map.set(a.date, {});
+        map.set(a.date, new Map());
       }
-      const entry = map.get(a.date)!;
+      const dateMap = map.get(a.date)!;
+      if (!dateMap.has(a.slot)) {
+        dateMap.set(a.slot, {});
+      }
+      const entry = dateMap.get(a.slot)!;
       entry[a.role] = a;
     }
     return map;
@@ -122,54 +126,70 @@ function ViewPage() {
                 <tr className="bg-secondary">
                   <th className="p-2 text-left border-r">日付</th>
                   <th className="p-2 text-center border-r">曜日</th>
+                  <th className="p-2 text-center border-r">時間帯</th>
                   <th className="p-2 text-center border-r">看護師</th>
                   <th className="p-2 text-center">事務</th>
                 </tr>
               </thead>
               <tbody>
-                {calendar?.days.map((day) => {
-                  const assignment = assignmentsByDate.get(day.date);
+                {calendar?.days.flatMap((day) => {
+                  const dateSlotMap = assignmentsByDateSlot.get(day.date);
                   const date = new Date(day.date);
                   const dayNum = date.getDate();
                   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
                   const weekday = weekdays[date.getDay()];
                   const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-
-                  const isMyNurse = assignment?.nurse?.staff.id === staffId;
-                  const isMyClerk = assignment?.clerk?.staff.id === staffId;
+                  const slots = day.slots || ["evening"];
+                  const slotLabels: Record<string, string> = {
+                    day: "14-17時",
+                    evening: "17-21時",
+                  };
 
                   if (!day.is_open) {
                     return (
                       <tr key={day.date} className="bg-gray-100 text-gray-400">
                         <td className="p-2 border-r border-t">{dayNum}</td>
                         <td className="p-2 text-center border-r border-t">{weekday}</td>
-                        <td className="p-2 text-center border-r border-t" colSpan={2}>
+                        <td className="p-2 text-center border-r border-t" colSpan={3}>
                           休診
                         </td>
                       </tr>
                     );
                   }
 
-                  return (
-                    <tr key={day.date} className="border-t">
-                      <td className="p-2 border-r">
-                        <span className={isWeekend ? (date.getDay() === 0 ? "text-red-500" : "text-blue-500") : ""}>
-                          {dayNum}
-                        </span>
-                      </td>
-                      <td className={`p-2 text-center border-r ${
-                        date.getDay() === 0 ? "text-red-500" : date.getDay() === 6 ? "text-blue-500" : ""
-                      }`}>
-                        {weekday}
-                      </td>
-                      <td className={`p-2 text-center border-r ${isMyNurse ? "bg-yellow-100 font-bold" : ""}`}>
-                        {assignment?.nurse?.staff.name || "-"}
-                      </td>
-                      <td className={`p-2 text-center ${isMyClerk ? "bg-yellow-100 font-bold" : ""}`}>
-                        {assignment?.clerk?.staff.name || "-"}
-                      </td>
-                    </tr>
-                  );
+                  return slots.map((slot, slotIdx) => {
+                    const assignment = dateSlotMap?.get(slot);
+                    const isMyNurse = assignment?.nurse?.staff.id === staffId;
+                    const isMyClerk = assignment?.clerk?.staff.id === staffId;
+
+                    return (
+                      <tr key={`${day.date}-${slot}`} className={slotIdx === 0 ? "border-t" : ""}>
+                        {slotIdx === 0 && (
+                          <>
+                            <td className="p-2 border-r" rowSpan={slots.length}>
+                              <span className={isWeekend ? (date.getDay() === 0 ? "text-red-500" : "text-blue-500") : ""}>
+                                {dayNum}
+                              </span>
+                            </td>
+                            <td className={`p-2 text-center border-r ${
+                              date.getDay() === 0 ? "text-red-500" : date.getDay() === 6 ? "text-blue-500" : ""
+                            }`} rowSpan={slots.length}>
+                              {weekday}
+                            </td>
+                          </>
+                        )}
+                        <td className="p-2 text-center border-r text-xs">
+                          {slotLabels[slot]}
+                        </td>
+                        <td className={`p-2 text-center border-r ${isMyNurse ? "bg-yellow-100 font-bold" : ""}`}>
+                          {assignment?.nurse?.staff.name || "-"}
+                        </td>
+                        <td className={`p-2 text-center ${isMyClerk ? "bg-yellow-100 font-bold" : ""}`}>
+                          {assignment?.clerk?.staff.name || "-"}
+                        </td>
+                      </tr>
+                    );
+                  });
                 })}
               </tbody>
             </table>

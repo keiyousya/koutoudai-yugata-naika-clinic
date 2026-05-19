@@ -119,6 +119,7 @@ export async function unlockPeriod(month: string): Promise<{ success: boolean; m
 export interface AdminAssignment {
   id: number;
   date: string;
+  slot: "day" | "evening";
   role: "nurse" | "clerk";
   staff: {
     id: number;
@@ -141,7 +142,7 @@ export async function fetchAdminAssignments(month: string): Promise<AdminAssignm
 
 export async function saveAssignments(
   month: string,
-  assignments: Array<{ date: string; role: "nurse" | "clerk"; staff_id: number }>,
+  assignments: Array<{ date: string; slot: "day" | "evening"; role: "nurse" | "clerk"; staff_id: number }>,
   force?: boolean
 ): Promise<{ success: boolean; message: string; count: number; warnings?: string[] }> {
   const query = force ? `?month=${month}&force=1` : `?month=${month}`;

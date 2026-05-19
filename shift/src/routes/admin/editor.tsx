@@ -26,15 +26,18 @@ function getNextMonth(): string {
   return `${year}-${month}`;
 }
 
-interface LocalAssignment {
+interface SlotAssignment {
   nurse?: number;
   clerk?: number;
 }
 
+// date -> slot -> assignment
+type LocalAssignments = Record<string, Record<string, SlotAssignment>>;
+
 function AdminEditorPage() {
   const queryClient = useQueryClient();
   const [selectedMonth, setSelectedMonth] = useState(getNextMonth());
-  const [localAssignments, setLocalAssignments] = useState<Record<string, LocalAssignment>>({});
+  const [localAssignments, setLocalAssignments] = useState<LocalAssignments>({});
   const [toast, setToast] = useState<string | null>(null);
 
   const { data: calendar, isLoading: calendarLoading } = useQuery({
@@ -60,10 +63,11 @@ function AdminEditorPage() {
   // サーバーからの割当をローカル状態に反映
   useEffect(() => {
     if (assignments) {
-      const local: Record<string, LocalAssignment> = {};
+      const local: LocalAssignments = {};
       for (const a of assignments.assignments) {
         if (!local[a.date]) local[a.date] = {};
-        local[a.date][a.role] = a.staff.id;
+        if (!local[a.date][a.slot]) local[a.date][a.slot] = {};
+        local[a.date][a.slot][a.role] = a.staff.id;
       }
       setLocalAssignments(local);
     }
@@ -80,13 +84,15 @@ function AdminEditorPage() {
 
   const saveMutation = useMutation({
     mutationFn: (force: boolean) => {
-      const items: Array<{ date: string; role: "nurse" | "clerk"; staff_id: number }> = [];
-      for (const [date, assignment] of Object.entries(localAssignments)) {
-        if (assignment.nurse) {
-          items.push({ date, role: "nurse", staff_id: assignment.nurse });
-        }
-        if (assignment.clerk) {
-          items.push({ date, role: "clerk", staff_id: assignment.clerk });
+      const items: Array<{ date: string; slot: "day" | "evening"; role: "nurse" | "clerk"; staff_id: number }> = [];
+      for (const [date, slots] of Object.entries(localAssignments)) {
+        for (const [slot, assignment] of Object.entries(slots)) {
+          if (assignment.nurse) {
+            items.push({ date, slot: slot as "day" | "evening", role: "nurse", staff_id: assignment.nurse });
+          }
+          if (assignment.clerk) {
+            items.push({ date, slot: slot as "day" | "evening", role: "clerk", staff_id: assignment.clerk });
+          }
         }
       }
       return saveAssignments(selectedMonth, items, force);
@@ -139,24 +145,29 @@ function AdminEditorPage() {
     setSelectedMonth(`${newYear}-${newMonth}`);
   };
 
-  const handleAssignmentChange = (date: string, role: "nurse" | "clerk", staffId: number | null) => {
+  const handleAssignmentChange = (date: string, slot: "day" | "evening", role: "nurse" | "clerk", staffId: number | null) => {
     setLocalAssignments((prev) => {
-      const current = prev[date] || {};
+      const dateSlots = prev[date] || {};
+      const current = dateSlots[slot] || {};
       if (staffId === null) {
         const updated = { ...current };
         delete updated[role];
         if (Object.keys(updated).length === 0) {
-          const { [date]: _, ...rest } = prev;
-          return rest;
+          const { [slot]: _, ...restSlots } = dateSlots;
+          if (Object.keys(restSlots).length === 0) {
+            const { [date]: __, ...rest } = prev;
+            return rest;
+          }
+          return { ...prev, [date]: restSlots };
         }
-        return { ...prev, [date]: updated };
+        return { ...prev, [date]: { ...dateSlots, [slot]: updated } };
       }
-      return { ...prev, [date]: { ...current, [role]: staffId } };
+      return { ...prev, [date]: { ...dateSlots, [slot]: { ...current, [role]: staffId } } };
     });
   };
 
   // 警告の計算
-  const getWarning = (date: string, _role: "nurse" | "clerk", staffId?: number): string | null => {
+  const getWarning = (date: string, staffId?: number): string | null => {
     if (!staffId || !requests) return null;
     const req = requests.matrix[date]?.[staffId];
     if (req?.availability === "unavailable") {
@@ -230,73 +241,89 @@ function AdminEditorPage() {
             <thead>
               <tr className="bg-secondary">
                 <th className="p-2 text-left border">日付</th>
+                <th className="p-2 text-center border">時間帯</th>
                 <th className="p-2 text-center border">看護師</th>
                 <th className="p-2 text-center border">事務</th>
               </tr>
             </thead>
             <tbody>
-              {openDays.map((day) => {
+              {openDays.flatMap((day) => {
                 const date = new Date(day.date);
                 const dayNum = date.getDate();
                 const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
                 const weekday = weekdays[date.getDay()];
-                const assignment = localAssignments[day.date] || {};
-                const nurseWarning = getWarning(day.date, "nurse", assignment.nurse);
-                const clerkWarning = getWarning(day.date, "clerk", assignment.clerk);
+                const slots = day.slots || ["evening"];
+                const slotLabels: Record<string, string> = {
+                  day: "14-17時",
+                  evening: "17-21時",
+                };
 
-                return (
-                  <tr key={day.date} className="border-t">
-                    <td className="p-2 border">
-                      {dayNum} ({weekday})
-                    </td>
-                    <td className={`p-2 border ${nurseWarning ? "bg-yellow-50" : ""}`}>
-                      <select
-                        value={assignment.nurse || ""}
-                        onChange={(e) =>
-                          handleAssignmentChange(
-                            day.date,
-                            "nurse",
-                            e.target.value ? Number(e.target.value) : null
-                          )
-                        }
-                        className="w-full p-1 border rounded"
-                      >
-                        <option value="">-</option>
-                        {nurses.map((n) => (
-                          <option key={n.id} value={n.id}>
-                            {n.name}
-                          </option>
-                        ))}
-                      </select>
-                      {nurseWarning && (
-                        <div className="text-xs text-yellow-600 mt-1">{nurseWarning}</div>
+                return slots.map((slot, slotIdx) => {
+                  const slotAssignment = localAssignments[day.date]?.[slot] || {};
+                  const nurseWarning = getWarning(day.date, slotAssignment.nurse);
+                  const clerkWarning = getWarning(day.date, slotAssignment.clerk);
+
+                  return (
+                    <tr key={`${day.date}-${slot}`} className={slotIdx === 0 ? "border-t" : ""}>
+                      {slotIdx === 0 && (
+                        <td className="p-2 border" rowSpan={slots.length}>
+                          {dayNum} ({weekday})
+                        </td>
                       )}
-                    </td>
-                    <td className={`p-2 border ${clerkWarning ? "bg-yellow-50" : ""}`}>
-                      <select
-                        value={assignment.clerk || ""}
-                        onChange={(e) =>
-                          handleAssignmentChange(
-                            day.date,
-                            "clerk",
-                            e.target.value ? Number(e.target.value) : null
-                          )
-                        }
-                        className="w-full p-1 border rounded"
-                      >
-                        <option value="">-</option>
-                        {clerks.map((c) => (
-                          <option key={c.id} value={c.id}>
-                            {c.name}
-                          </option>
-                        ))}
-                      </select>
-                      {clerkWarning && (
-                        <div className="text-xs text-yellow-600 mt-1">{clerkWarning}</div>
-                      )}
-                    </td>
-                  </tr>
-                );
+                      <td className="p-2 border text-center text-xs">
+                        {slotLabels[slot]}
+                      </td>
+                      <td className={`p-2 border ${nurseWarning ? "bg-yellow-50" : ""}`}>
+                        <select
+                          value={slotAssignment.nurse || ""}
+                          onChange={(e) =>
+                            handleAssignmentChange(
+                              day.date,
+                              slot as "day" | "evening",
+                              "nurse",
+                              e.target.value ? Number(e.target.value) : null
+                            )
+                          }
+                          className="w-full p-1 border rounded"
+                        >
+                          <option value="">-</option>
+                          {nurses.map((n) => (
+                            <option key={n.id} value={n.id}>
+                              {n.name}
+                            </option>
+                          ))}
+                        </select>
+                        {nurseWarning && (
+                          <div className="text-xs text-yellow-600 mt-1">{nurseWarning}</div>
+                        )}
+                      </td>
+                      <td className={`p-2 border ${clerkWarning ? "bg-yellow-50" : ""}`}>
+                        <select
+                          value={slotAssignment.clerk || ""}
+                          onChange={(e) =>
+                            handleAssignmentChange(
+                              day.date,
+                              slot as "day" | "evening",
+                              "clerk",
+                              e.target.value ? Number(e.target.value) : null
+                            )
+                          }
+                          className="w-full p-1 border rounded"
+                        >
+                          <option value="">-</option>
+                          {clerks.map((c) => (
+                            <option key={c.id} value={c.id}>
+                              {c.name}
+                            </option>
+                          ))}
+                        </select>
+                        {clerkWarning && (
+                          <div className="text-xs text-yellow-600 mt-1">{clerkWarning}</div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                });
               })}
             </tbody>
           </table>

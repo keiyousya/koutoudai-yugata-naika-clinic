@@ -62,6 +62,10 @@ import Footer from "../components/Footer.astro";
             <span class="legend-badge unavailable">×</span>
             <span>満席</span>
           </div>
+          <div class="legend-item">
+            <span class="legend-badge past">-</span>
+            <span>受付終了</span>
+          </div>
         </div>
 
         <div class="availability-notes" id="availabilityNotes">
@@ -253,6 +257,20 @@ import Footer from "../components/Footer.astro";
     opacity: 0.6;
   }
 
+  .slot-card.past {
+    background: #f5f5f5;
+    border-color: #e0e0e0;
+    opacity: 0.5;
+  }
+
+  .slot-card.past .slot-time {
+    color: #aaa;
+  }
+
+  .slot-card.past .slot-status {
+    color: #bbb;
+  }
+
   .slot-time {
     font-size: 0.95rem;
     font-weight: 600;
@@ -314,6 +332,11 @@ import Footer from "../components/Footer.astro";
   .legend-badge.unavailable {
     background: #f5f5f5;
     color: #999;
+  }
+
+  .legend-badge.past {
+    background: #f0f0f0;
+    color: #bbb;
   }
 
   .availability-notes {
@@ -427,6 +450,7 @@ import Footer from "../components/Footer.astro";
     endTime: string;
     available: boolean;
     consultationSlotName: string;
+    isPast: boolean;
   }
 
   interface ApiDateData {
@@ -449,12 +473,18 @@ import Footer from "../components/Footer.astro";
     dates: ApiDateData[];
   }
 
-  function convertSlot(apiSlot: ApiSlot): Slot {
+  function convertSlot(apiSlot: ApiSlot, dateStr: string): Slot {
+    const now = new Date();
+    const [hour, minute] = apiSlot.time.split(':').map(Number);
+    const slotDate = new Date(dateStr);
+    slotDate.setHours(hour, minute, 0, 0);
+
     return {
       time: apiSlot.time,
       endTime: apiSlot.endTime,
       available: apiSlot.status === 'available',
       consultationSlotName: apiSlot.consultationSlotName,
+      isPast: slotDate < now,
     };
   }
 
@@ -464,7 +494,7 @@ import Footer from "../components/Footer.astro";
       dayOfWeek: apiData.dayOfWeek,
       isClosed: apiData.isClosed,
       isHoliday: apiData.isHoliday,
-      slots: apiData.slots.map(convertSlot),
+      slots: apiData.slots.map(slot => convertSlot(slot, apiData.date)),
     };
   }
 
@@ -497,7 +527,21 @@ import Footer from "../components/Footer.astro";
 
     slots.forEach(slot => {
       const card = document.createElement('div');
-      card.className = `slot-card ${slot.available ? 'available' : 'unavailable'}`;
+      let statusClass: string;
+      let statusText: string;
+
+      if (slot.isPast) {
+        statusClass = 'past';
+        statusText = '-';
+      } else if (slot.available) {
+        statusClass = 'available';
+        statusText = '○';
+      } else {
+        statusClass = 'unavailable';
+        statusText = '×';
+      }
+
+      card.className = `slot-card ${statusClass}`;
 
       const time = document.createElement('div');
       time.className = 'slot-time';
@@ -505,7 +549,7 @@ import Footer from "../components/Footer.astro";
 
       const status = document.createElement('div');
       status.className = 'slot-status';
-      status.textContent = slot.available ? '○' : '×';
+      status.textContent = statusText;
 
       card.appendChild(time);
       card.appendChild(status);

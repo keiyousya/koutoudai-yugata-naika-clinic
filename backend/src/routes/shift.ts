@@ -68,7 +68,7 @@ const calendarOverrideSchema = z.object({
 const requestItemSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "日付はYYYY-MM-DD形式で指定してください"),
   slot: z.enum(["day", "evening"], { error: "slot は day または evening を指定してください" }).default("evening"),
-  availability: z.enum(["available", "unavailable"], { error: "availability は available または unavailable を指定してください" }),
+  availability: z.enum(["available", "conditional", "unavailable"], { error: "availability は available, conditional, unavailable を指定してください" }),
   note: z.string().max(200).optional(),
 });
 

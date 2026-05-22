@@ -25,7 +25,7 @@ function getMonthAfterNext(): string {
   return `${year}-${month}`;
 }
 
-type Availability = "available" | "unavailable" | null;
+type Availability = "available" | "conditional" | "unavailable" | null;
 // date -> slot -> availability
 type LocalRequests = Record<string, Record<string, Availability>>;
 
@@ -79,7 +79,7 @@ function RequestPage() {
 
   const saveMutation = useMutation({
     mutationFn: () => {
-      const items: Array<{ date: string; slot: "day" | "evening"; availability: "available" | "unavailable" }> = [];
+      const items: Array<{ date: string; slot: "day" | "evening"; availability: "available" | "conditional" | "unavailable" }> = [];
       for (const [date, slots] of Object.entries(localRequests)) {
         for (const [slot, availability] of Object.entries(slots)) {
           if (availability !== null) {
@@ -110,6 +110,8 @@ function RequestPage() {
       const dateSlots = prev[date] || {};
       const current = dateSlots[slot];
       if (current === "available") {
+        return { ...prev, [date]: { ...dateSlots, [slot]: "conditional" } };
+      } else if (current === "conditional") {
         return { ...prev, [date]: { ...dateSlots, [slot]: "unavailable" } };
       } else if (current === "unavailable") {
         return { ...prev, [date]: { ...dateSlots, [slot]: null } };
@@ -277,6 +279,8 @@ function RequestPage() {
                             className={`flex-1 rounded text-xs flex flex-col items-center justify-center transition-colors ${
                               request === "available"
                                 ? "bg-green-500 text-white"
+                                : request === "conditional"
+                                ? "bg-yellow-500 text-white"
                                 : request === "unavailable"
                                 ? "bg-red-500 text-white"
                                 : "bg-white/50 hover:bg-white/80"
@@ -286,7 +290,7 @@ function RequestPage() {
                               <span className="text-[10px] opacity-70">{slotLabels[slot]}</span>
                             )}
                             <span>
-                              {request === "available" ? "○" : request === "unavailable" ? "×" : "-"}
+                              {request === "available" ? "○" : request === "conditional" ? "△" : request === "unavailable" ? "×" : "-"}
                             </span>
                           </button>
                         );
@@ -299,10 +303,14 @@ function RequestPage() {
           </div>
 
           {/* 凡例 */}
-          <div className="flex justify-center gap-4 text-sm mb-4">
+          <div className="flex justify-center gap-3 text-sm mb-4 flex-wrap">
             <div className="flex items-center gap-1">
               <div className="w-4 h-4 bg-green-500 rounded" />
               <span>○ 出勤可</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-4 h-4 bg-yellow-500 rounded" />
+              <span>△ 微妙</span>
             </div>
             <div className="flex items-center gap-1">
               <div className="w-4 h-4 bg-red-500 rounded" />

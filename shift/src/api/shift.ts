@@ -38,7 +38,7 @@ interface RequestItem {
   id: number;
   date: string;
   slot: "day" | "evening";
-  availability: "available" | "unavailable";
+  availability: "available" | "conditional" | "unavailable";
   note?: string;
   created_at: string;
   updated_at: string;
@@ -120,7 +120,7 @@ export async function fetchMyRequests(month: string): Promise<MyRequestsResponse
 
 export async function updateMyRequests(
   month: string,
-  items: Array<{ date: string; slot: "day" | "evening"; availability: "available" | "unavailable"; note?: string }>
+  items: Array<{ date: string; slot: "day" | "evening"; availability: "available" | "conditional" | "unavailable"; note?: string }>
 ): Promise<{ success: boolean; message: string; count: number }> {
   const res = await fetch(`${API_BASE}/api/shift/requests/me`, {
     method: "PUT",

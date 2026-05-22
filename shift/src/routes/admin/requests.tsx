@@ -89,7 +89,7 @@ function AdminRequestsPage() {
         for (const staff of requests.staff) {
           const req = requests.matrix[day.date]?.[slot]?.[staff.id];
           if (req) {
-            row.push(req.availability === "available" ? "○" : "×");
+            row.push(req.availability === "available" ? "○" : req.availability === "conditional" ? "△" : "×");
           } else {
             row.push("");
           }
@@ -213,6 +213,8 @@ function AdminRequestsPage() {
                           className={`p-2 text-center border ${
                             req?.availability === "available"
                               ? "bg-green-100 text-green-700"
+                              : req?.availability === "conditional"
+                              ? "bg-yellow-100 text-yellow-700"
                               : req?.availability === "unavailable"
                               ? "bg-red-100 text-red-700"
                               : "text-gray-400"
@@ -220,6 +222,8 @@ function AdminRequestsPage() {
                         >
                           {req?.availability === "available"
                             ? "○"
+                            : req?.availability === "conditional"
+                            ? "△"
                             : req?.availability === "unavailable"
                             ? "×"
                             : "-"}

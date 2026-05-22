@@ -39,7 +39,7 @@ requestsCommands
           for (const staff of data.staff) {
             const req = data.matrix[day]?.[staff.id];
             if (req) {
-              row.push(req.availability === "available" ? "○" : "×");
+              row.push(req.availability === "available" ? "○" : req.availability === "conditional" ? "△" : "×");
             } else {
               row.push("-");
             }
@@ -82,7 +82,7 @@ requestsCommands
         for (const staff of data.staff) {
           const req = data.matrix[day]?.[staff.id];
           if (req) {
-            row.push(req.availability === "available" ? "○" : "×");
+            row.push(req.availability === "available" ? "○" : req.availability === "conditional" ? "△" : "×");
           } else {
             row.push("");
           }

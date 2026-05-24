@@ -34,7 +34,7 @@ type LocalRequests = Record<string, Record<string, Availability>>;
 function RequestPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { isLoggedIn, staffName, restore } = useAuthStore();
+  const { isLoggedIn, staffId, staffName, restore } = useAuthStore();
   const [selectedMonth, setSelectedMonth] = useState(getMonthAfterNext());
   const [localRequests, setLocalRequests] = useState<LocalRequests>({});
   const [toast, setToast] = useState<string | null>(null);
@@ -62,9 +62,9 @@ function RequestPage() {
   });
 
   const { data: profile } = useQuery({
-    queryKey: ["myProfile"],
+    queryKey: ["myProfile", staffId],
     queryFn: fetchMyProfile,
-    enabled: isLoggedIn,
+    enabled: isLoggedIn && !!staffId,
   });
 
   // プロフィールからコメントを同期

@@ -145,6 +145,36 @@ export async function fetchAssignments(month: string): Promise<AssignmentsRespon
   return res.json();
 }
 
+interface MyProfileResponse {
+  id: number;
+  name: string;
+  role: "nurse" | "clerk";
+  shift_comment: string;
+}
+
+export async function fetchMyProfile(): Promise<MyProfileResponse> {
+  const res = await fetch(`${API_BASE}/api/shift/me/profile`, {
+    headers: getAuthHeaders(),
+  });
+  if (!res.ok) throw new Error("プロフィールの取得に失敗しました");
+  return res.json();
+}
+
+export async function updateMyComment(
+  comment: string
+): Promise<{ success: boolean; message: string; shift_comment: string }> {
+  const res = await fetch(`${API_BASE}/api/shift/me/comment`, {
+    method: "PUT",
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ comment }),
+  });
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.error || "コメントの保存に失敗しました");
+  }
+  return res.json();
+}
+
 export type {
   Staff,
   LoginResponse,
@@ -155,4 +185,5 @@ export type {
   MyRequestsResponse,
   AssignmentItem,
   AssignmentsResponse,
+  MyProfileResponse,
 };

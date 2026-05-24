@@ -57,6 +57,7 @@ const staffUpdateSchema = z.object({
   passcode: z.string().regex(/^\d{4}$/, "パスコードは4桁の数字です").optional(),
   sort_order: z.number().int().min(0).optional(),
   is_active: z.boolean().optional(),
+  shift_comment: z.string().max(500).optional().nullable(),
 });
 
 const calendarOverrideSchema = z.object({
@@ -419,6 +420,56 @@ shift.post("/auth/login", async (c) => {
 // スタッフ認証が必要な API
 // ========================================
 
+// 自分のプロフィール取得（コメント含む）
+shift.get("/me/profile", staffAuth, async (c) => {
+  const db = c.get("db");
+  const staffId = c.get("staffId");
+
+  const result = await db.execute({
+    sql: "SELECT id, name, role, shift_comment FROM shift_staff WHERE id = ?",
+    args: [staffId],
+  });
+
+  if (result.rows.length === 0) {
+    return c.json({ error: "スタッフが見つかりません" }, 404);
+  }
+
+  const staff = result.rows[0];
+  return c.json({
+    id: staff.id,
+    name: staff.name,
+    role: staff.role,
+    shift_comment: staff.shift_comment || "",
+  });
+});
+
+// 自分のコメントを更新
+shift.put("/me/comment", staffAuth, async (c) => {
+  const db = c.get("db");
+  const staffId = c.get("staffId");
+  const body = await c.req.json();
+
+  const comment = body.comment;
+  if (typeof comment !== "string") {
+    return c.json({ error: "comment は文字列で指定してください" }, 400);
+  }
+
+  if (comment.length > 500) {
+    return c.json({ error: "コメントは500文字以内で入力してください" }, 400);
+  }
+
+  await db.execute({
+    sql: "UPDATE shift_staff SET shift_comment = ?, updated_at = datetime('now') WHERE id = ?",
+    args: [comment || null, staffId],
+  });
+
+  return c.json({
+    success: true,
+    message: "コメントを更新しました",
+    shift_comment: comment,
+  });
+});
+
 // 自分の希望一覧
 shift.get("/requests/me", staffAuth, async (c) => {
   const db = c.get("db");
@@ -556,7 +607,7 @@ shift.put("/requests/me", staffAuth, async (c) => {
 shift.get("/admin/staff", adminAuth, async (c) => {
   const db = c.get("db");
   const result = await db.execute(
-    "SELECT id, name, role, is_active, sort_order, created_at, updated_at FROM shift_staff ORDER BY sort_order, id"
+    "SELECT id, name, role, is_active, sort_order, shift_comment, created_at, updated_at FROM shift_staff ORDER BY sort_order, id"
   );
   return c.json(result.rows);
 });
@@ -639,6 +690,10 @@ shift.put("/admin/staff/:id", adminAuth, async (c) => {
   if (is_active !== undefined) {
     updates.push("is_active = ?");
     args.push(is_active ? 1 : 0);
+  }
+  if (parsed.data.shift_comment !== undefined) {
+    updates.push("shift_comment = ?");
+    args.push(parsed.data.shift_comment);
   }
 
   if (args.length === 0) {
@@ -777,7 +832,7 @@ shift.get("/admin/requests", adminAuth, async (c) => {
 
   // 有効なスタッフ一覧
   const staffResult = await db.execute(
-    "SELECT id, name, role FROM shift_staff WHERE is_active = 1 ORDER BY sort_order, id"
+    "SELECT id, name, role, shift_comment FROM shift_staff WHERE is_active = 1 ORDER BY sort_order, id"
   );
 
   // 全希望を取得

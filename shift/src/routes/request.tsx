@@ -7,6 +7,8 @@ import {
   fetchPeriod,
   fetchMyRequests,
   updateMyRequests,
+  fetchMyProfile,
+  updateMyComment,
   type CalendarDay,
 } from "@/api/shift";
 import { useAuthStore } from "@/stores/auth";
@@ -36,6 +38,8 @@ function RequestPage() {
   const [selectedMonth, setSelectedMonth] = useState(getMonthAfterNext());
   const [localRequests, setLocalRequests] = useState<LocalRequests>({});
   const [toast, setToast] = useState<string | null>(null);
+  const [isEditingComment, setIsEditingComment] = useState(false);
+  const [localComment, setLocalComment] = useState("");
 
   useEffect(() => {
     if (!isLoggedIn && !restore()) {
@@ -55,6 +59,33 @@ function RequestPage() {
     enabled: isLoggedIn,
     refetchOnWindowFocus: true,
     refetchInterval: 30000,
+  });
+
+  const { data: profile } = useQuery({
+    queryKey: ["myProfile"],
+    queryFn: fetchMyProfile,
+    enabled: isLoggedIn,
+  });
+
+  // プロフィールからコメントを同期
+  useEffect(() => {
+    if (profile && !isEditingComment) {
+      setLocalComment(profile.shift_comment || "");
+    }
+  }, [profile, isEditingComment]);
+
+  const commentMutation = useMutation({
+    mutationFn: (comment: string) => updateMyComment(comment),
+    onSuccess: () => {
+      setToast("コメントを保存しました");
+      setIsEditingComment(false);
+      queryClient.invalidateQueries({ queryKey: ["myProfile"] });
+      setTimeout(() => setToast(null), 3000);
+    },
+    onError: (err) => {
+      setToast(`エラー: ${(err as Error).message}`);
+      setTimeout(() => setToast(null), 5000);
+    },
   });
 
   const { data: myRequests, isLoading: requestsLoading } = useQuery({
@@ -320,6 +351,55 @@ function RequestPage() {
               <div className="w-4 h-4 bg-gray-200 rounded" />
               <span>休診日</span>
             </div>
+          </div>
+
+          {/* シフト希望コメント */}
+          <div className="mb-4 p-3 bg-secondary rounded-lg">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-bold">希望コメント</span>
+              {!isEditingComment && (
+                <button
+                  onClick={() => setIsEditingComment(true)}
+                  className="text-xs text-primary hover:underline"
+                >
+                  編集
+                </button>
+              )}
+            </div>
+            {isEditingComment ? (
+              <div className="space-y-2">
+                <textarea
+                  value={localComment}
+                  onChange={(e) => setLocalComment(e.target.value)}
+                  placeholder="例: 平日は最大週1日まででお願いします"
+                  className="w-full p-2 text-sm border rounded-lg resize-none"
+                  rows={2}
+                  maxLength={500}
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => commentMutation.mutate(localComment)}
+                    disabled={commentMutation.isPending}
+                    className="flex-1 py-1.5 text-sm bg-primary text-primary-foreground rounded-lg disabled:opacity-50"
+                  >
+                    {commentMutation.isPending ? "保存中..." : "保存"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsEditingComment(false);
+                      setLocalComment(profile?.shift_comment || "");
+                    }}
+                    className="px-3 py-1.5 text-sm border rounded-lg hover:bg-white/50"
+                  >
+                    キャンセル
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                {profile?.shift_comment || "（未設定）"}
+              </p>
+            )}
           </div>
 
           {/* 操作ボタン */}

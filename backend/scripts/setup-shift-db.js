@@ -18,6 +18,7 @@ async function setup() {
       passcode_hash TEXT NOT NULL,
       is_active INTEGER NOT NULL DEFAULT 1,
       sort_order INTEGER NOT NULL DEFAULT 0,
+      shift_comment TEXT,
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     )
@@ -52,11 +53,12 @@ async function setup() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       staff_id INTEGER NOT NULL REFERENCES shift_staff(id),
       date TEXT NOT NULL,
-      availability TEXT NOT NULL CHECK(availability IN ('available', 'unavailable')),
+      slot TEXT NOT NULL DEFAULT 'evening' CHECK(slot IN ('day', 'evening')),
+      availability TEXT NOT NULL CHECK(availability IN ('available', 'conditional', 'unavailable')),
       note TEXT,
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       updated_at TEXT NOT NULL DEFAULT (datetime('now')),
-      UNIQUE (staff_id, date)
+      UNIQUE (staff_id, date, slot)
     )
   `);
 
@@ -66,11 +68,12 @@ async function setup() {
     CREATE TABLE IF NOT EXISTS shift_assignments (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       date TEXT NOT NULL,
+      slot TEXT NOT NULL DEFAULT 'evening' CHECK(slot IN ('day', 'evening')),
       role TEXT NOT NULL CHECK(role IN ('nurse', 'clerk')),
       staff_id INTEGER NOT NULL REFERENCES shift_staff(id),
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       updated_at TEXT NOT NULL DEFAULT (datetime('now')),
-      UNIQUE (date, role)
+      UNIQUE (date, slot, role)
     )
   `);
 

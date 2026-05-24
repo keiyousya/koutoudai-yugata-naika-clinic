@@ -238,6 +238,27 @@ function AdminRequestsPage() {
         </div>
       ) : null}
 
+      {/* スタッフコメント一覧 */}
+      {requests && requests.staff.some((s) => s.shift_comment) && (
+        <div className="mt-6 p-4 bg-secondary rounded-lg">
+          <h3 className="font-bold mb-3">スタッフ希望コメント</h3>
+          <div className="space-y-2">
+            {requests.staff
+              .filter((s) => s.shift_comment)
+              .map((staff) => (
+                <div key={staff.id} className="text-sm">
+                  <span className="font-medium">{staff.name}</span>
+                  <span className="text-xs text-muted-foreground ml-1">
+                    ({staff.role === "nurse" ? "看護師" : "事務"})
+                  </span>
+                  <span className="mx-2">:</span>
+                  <span className="text-muted-foreground whitespace-pre-wrap">{staff.shift_comment}</span>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
       {/* トースト */}
       {toast && (
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/80 text-white rounded-lg">

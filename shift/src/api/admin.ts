@@ -98,7 +98,7 @@ export async function deleteCalendarOverride(date: string): Promise<{ success: b
 // 希望管理
 export interface RequestsMatrix {
   month: string;
-  staff: Array<{ id: number; name: string; role: string }>;
+  staff: Array<{ id: number; name: string; role: string; shift_comment?: string }>;
   days: string[];
   // date -> slot -> staffId -> availability
   matrix: Record<string, Record<string, Record<number, { availability: string; note?: string }>>>;

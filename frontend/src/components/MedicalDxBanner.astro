@@ -1,0 +1,123 @@
+---
+---
+
+<section class="medical-dx-banner">
+  <div class="container">
+    <div class="banner-content">
+      <div class="banner-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M12 9v6"/>
+          <path d="M9 12h6"/>
+        </svg>
+      </div>
+      <div class="banner-text">
+        <h3 class="banner-title">医療DX推進体制について</h3>
+        <p class="banner-description">
+          当院ではオンライン資格確認システムを導入し、マイナ保険証による診療情報の活用など、医療DXの推進に取り組んでいます。
+        </p>
+        <a href="/medical-dx" class="banner-link">
+          詳しくはこちら →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .medical-dx-banner {
+    background: var(--color-orange-bg);
+    padding: 48px 0;
+  }
+
+  .banner-content {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    background: white;
+    border-radius: 16px;
+    padding: 36px 40px;
+  }
+
+  .banner-icon {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    background: var(--color-orange-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-orange);
+  }
+
+  .banner-text {
+    flex: 1;
+  }
+
+  .banner-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  .banner-description {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    margin-bottom: 18px;
+  }
+
+  .banner-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-orange);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .banner-link:hover {
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .medical-dx-banner {
+      padding: 32px 0;
+    }
+
+    .banner-content {
+      flex-direction: column;
+      gap: 20px;
+      padding: 28px 24px;
+    }
+
+    .banner-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .banner-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .banner-title {
+      font-size: 1rem;
+    }
+
+    .banner-description {
+      font-size: 0.88rem;
+    }
+
+    .banner-link {
+      display: block;
+      text-align: right;
+      margin-top: 8px;
+    }
+  }
+</style>

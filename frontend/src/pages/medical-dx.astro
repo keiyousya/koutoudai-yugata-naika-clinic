@@ -1,0 +1,189 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="医療DX推進体制について | 勾当台夕方内科クリニック" description="当院の医療DX推進体制整備に関する掲示です。オンライン資格確認、電子処方箋、マイナ保険証の対応について。">
+  <Header />
+  <main class="legal-page">
+    <div class="container">
+      <h1 class="legal-title">医療DX推進体制について</h1>
+
+      <p class="legal-lead">
+        当院では、医療DX推進体制整備について以下の通り対応を行っています。
+      </p>
+
+      <div class="legal-table">
+        <dl>
+          <div class="legal-row">
+            <dt>オンライン請求の実施</dt>
+            <dd>診療報酬明細書（レセプト）のオンライン請求を行っています。</dd>
+          </div>
+          <div class="legal-row">
+            <dt>オンライン資格確認システムの導入</dt>
+            <dd>マイナ保険証（オンライン資格確認）を行う体制を有しています。</dd>
+          </div>
+          <div class="legal-row">
+            <dt>診療情報の閲覧・活用体制</dt>
+            <dd>
+              オンライン資格確認等システムにより取得した診療情報（医師等が受診歴、薬剤情報、特定健診情報その他必要な診療情報を取得・閲覧できるシステム）を、診察室等において実際に閲覧・活用して診療を行う体制を有しています。
+            </dd>
+          </div>
+          <div class="legal-row">
+            <dt>電子処方箋および電子カルテ情報共有サービスの導入予定</dt>
+            <dd>
+              電子処方箋の発行体制および国が提供する電子カルテ情報共有サービスを活用できる体制について、今後順次整備を進めていく予定です。
+            </dd>
+          </div>
+          <div class="legal-row">
+            <dt>マイナ保険証の利用促進</dt>
+            <dd>
+              医療DXを通じて質の高い医療を提供できるよう、マイナンバーカードの健康保険証利用（マイナ保険証）を促進するお声掛けやポスター掲示等を行っています。
+            </dd>
+          </div>
+          <div class="legal-row">
+            <dt>健康管理等の相談対応</dt>
+            <dd>
+              マイナポータル等から得られる医療情報等に基づき、患者様からの健康管理に関わる相談に適切に応じる体制を整えています。
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <p class="legal-notice">
+        当院は、十分な情報を取得・活用して質の高い医療を提供できるよう取り組んでおります。<br />
+        ご理解とご協力のほど何卒よろしくお願い申し上げます。
+      </p>
+
+      <div class="detail-back">
+        <a href="/" class="back-button">ホームに戻る</a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .legal-page {
+    padding: 120px 0 80px;
+    min-height: 100vh;
+  }
+
+  .legal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    text-align: center;
+    margin-bottom: 48px;
+    letter-spacing: 0.04em;
+  }
+
+  .legal-title::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--color-navy);
+    margin: 16px auto 0;
+    opacity: 0.3;
+  }
+
+  .legal-lead {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  .legal-table {
+    max-width: 800px;
+    margin: 0 auto 48px;
+  }
+
+  .legal-table dl {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .legal-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .legal-row dt {
+    padding: 20px 24px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-navy);
+    background: var(--color-bg-blue);
+  }
+
+  .legal-row dd {
+    padding: 20px 24px;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+  }
+
+  .legal-notice {
+    max-width: 800px;
+    margin: 0 auto 48px;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .legal-page {
+      padding: 100px 0 60px;
+    }
+
+    .legal-title {
+      font-size: 1.3rem;
+      margin-bottom: 36px;
+    }
+
+    .legal-row {
+      grid-template-columns: 1fr;
+    }
+
+    .legal-row dt {
+      padding: 14px 16px 8px;
+    }
+
+    .legal-row dd {
+      padding: 8px 16px 14px;
+    }
+  }
+</style>

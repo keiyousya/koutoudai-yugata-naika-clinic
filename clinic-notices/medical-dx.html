@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医療DX推進体制について - 院内掲示用</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 10mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      font-size: 11pt;
+      line-height: 1.6;
+      color: #333;
+      background: white;
+      padding: 10mm;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 12pt;
+      padding-bottom: 10pt;
+      border-bottom: 2pt solid #1e3a5f;
+    }
+
+    .title {
+      font-size: 18pt;
+      font-weight: bold;
+      color: #1e3a5f;
+      margin-bottom: 4pt;
+    }
+
+    .subtitle {
+      font-size: 10pt;
+      color: #666;
+    }
+
+    .intro {
+      margin-bottom: 12pt;
+      text-align: center;
+      font-size: 10pt;
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10pt;
+    }
+
+    .section {
+      margin-bottom: 8pt;
+      page-break-inside: avoid;
+    }
+
+    .section-title {
+      font-size: 10pt;
+      font-weight: bold;
+      color: #1e3a5f;
+      background: #f0f4f8;
+      padding: 6pt 10pt;
+      margin-bottom: 4pt;
+      border-left: 3pt solid #1e3a5f;
+    }
+
+    .section-content {
+      padding: 4pt 10pt;
+      font-size: 9pt;
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 12pt;
+      padding-top: 10pt;
+      border-top: 1pt solid #ccc;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 10pt;
+      line-height: 1.7;
+      margin-bottom: 8pt;
+    }
+
+    .clinic-name {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1e3a5f;
+    }
+
+    .clinic-director {
+      font-size: 10pt;
+      color: #333;
+      margin-top: 4pt;
+    }
+
+    .print-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 24px;
+      background: #1e3a5f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .print-button:hover {
+      background: #2a4a6e;
+    }
+
+    @media print {
+      .print-button {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="title">医療DX推進体制について</h1>
+      <p class="subtitle">電子的診療情報連携体制整備加算に係る掲示</p>
+    </header>
+
+    <p class="intro">
+      当院では、医療DX推進体制整備について以下の通り対応を行っています。
+    </p>
+
+    <div class="sections">
+      <section class="section">
+        <h2 class="section-title">オンライン請求の実施</h2>
+        <p class="section-content">
+          診療報酬明細書（レセプト）のオンライン請求を行っています。
+        </p>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">オンライン資格確認システムの導入</h2>
+        <p class="section-content">
+          マイナ保険証（オンライン資格確認）を行う体制を有しています。
+        </p>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">診療情報の閲覧・活用体制</h2>
+        <p class="section-content">
+          オンライン資格確認等システムにより取得した診療情報（医師等が受診歴、薬剤情報、特定健診情報その他必要な診療情報を取得・閲覧できるシステム）を、診察室等において実際に閲覧・活用して診療を行う体制を有しています。
+        </p>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">電子処方箋および電子カルテ情報共有サービスの導入予定</h2>
+        <p class="section-content">
+          電子処方箋の発行体制および国が提供する電子カルテ情報共有サービスを活用できる体制について、今後順次整備を進めていく予定です。
+        </p>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">マイナ保険証の利用促進</h2>
+        <p class="section-content">
+          医療DXを通じて質の高い医療を提供できるよう、マイナンバーカードの健康保険証利用（マイナ保険証）を促進するお声掛けやポスター掲示等を行っています。
+        </p>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">健康管理等の相談対応</h2>
+        <p class="section-content">
+          マイナポータル等から得られる医療情報等に基づき、患者様からの健康管理に関わる相談に適切に応じる体制を整えています。
+        </p>
+      </section>
+    </div>
+
+    <footer class="footer">
+      <p class="footer-text">
+        当院は、十分な情報を取得・活用して質の高い医療を提供できるよう取り組んでおります。<br>
+        ご理解とご協力のほど何卒よろしくお願い申し上げます。
+      </p>
+      <p class="clinic-name">勾当台夕方内科クリニック</p>
+      <p class="clinic-director">院長　田村　慧人</p>
+    </footer>
+  </div>
+
+  <button class="print-button" onclick="window.print()">印刷する</button>
+</body>
+</html>

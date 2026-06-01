@@ -1097,20 +1097,20 @@ shift.put("/admin/assignments", adminAuth, async (c) => {
     }
   }
 
-  // 既存の割当を削除
-  await db.execute({
-    sql: "DELETE FROM shift_assignments WHERE date LIKE ?",
-    args: [`${month}%`],
-  });
-
-  // 新しい割当を挿入
-  for (const a of assignments) {
-    await db.execute({
+  // トランザクションで既存の割当を削除し、新しい割当を挿入
+  const statements = [
+    {
+      sql: "DELETE FROM shift_assignments WHERE date LIKE ?",
+      args: [`${month}%`],
+    },
+    ...assignments.map((a) => ({
       sql: `INSERT INTO shift_assignments (date, slot, role, staff_id, created_at, updated_at)
             VALUES (?, ?, ?, ?, datetime('now'), datetime('now'))`,
       args: [a.date, a.slot, a.role, a.staff_id],
-    });
-  }
+    })),
+  ];
+
+  await db.batch(statements, "write");
 
   return c.json({
     success: true,

@@ -290,7 +290,7 @@ export interface NfcContextValue {
 
 const NfcContext = createContext<NfcContextValue | null>(null);
 
-export function NfcProvider({ children, pollingInterval = 500 }: { children: React.ReactNode; pollingInterval?: number }) {
+export function NfcProvider({ children, pollingInterval = 500, disabled = false }: { children: React.ReactNode; pollingInterval?: number; disabled?: boolean }) {
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const deviceRef = useRef<USBDevice | null>(null);
@@ -344,7 +344,7 @@ export function NfcProvider({ children, pollingInterval = 500 }: { children: Rea
 
   // ペアリング済みデバイスへの自動再接続
   useEffect(() => {
-    if (!isSupported || readerRef.current) return;
+    if (!isSupported || readerRef.current || disabled) return;
     (async () => {
       try {
         const devices = await navigator.usb.getDevices();
@@ -363,9 +363,14 @@ export function NfcProvider({ children, pollingInterval = 500 }: { children: Rea
         }
       }
     })();
-  }, [isSupported, initDevice]);
+  }, [isSupported, initDevice, disabled]);
 
   const connect = useCallback(async () => {
+    if (disabled) {
+      setError("別のタブでタイムカードが開いているため、NFCリーダーを使用できません");
+      return;
+    }
+
     if (!isSupported) {
       setError("このブラウザは WebUSB に対応していません（Chrome を使用してください）");
       return;
@@ -393,7 +398,7 @@ export function NfcProvider({ children, pollingInterval = 500 }: { children: Rea
         setError(msg);
       }
     }
-  }, [isSupported, initDevice]);
+  }, [disabled, isSupported, initDevice]);
 
   const disconnect = useCallback(() => {
     if (pollingRef.current) {

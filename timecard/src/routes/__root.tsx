@@ -1,14 +1,19 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { Nfc } from "lucide-react";
 import { NfcProvider } from "@/hooks/NfcContext";
+import { useTabExclusive } from "@/hooks/useTabExclusive";
+import { TabBlockedOverlay } from "@/components/TabBlockedOverlay";
 
 export const Route = createRootRoute({
   component: RootComponent,
 });
 
 function RootComponent() {
+  const { otherTabActive } = useTabExclusive();
+
   return (
-    <NfcProvider>
+    <NfcProvider disabled={otherTabActive}>
+      {otherTabActive && <TabBlockedOverlay />}
       <div className="min-h-screen bg-background">
         <header className="border-b bg-card">
           <div className="container mx-auto px-4 py-3 flex items-center justify-between">

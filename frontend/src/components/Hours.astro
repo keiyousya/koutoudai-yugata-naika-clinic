@@ -9,44 +9,7 @@ const schedule = [
   { day: "日", open: true },
 ];
 
-// 2026年5月の診療カレンダー
-const may2026 = [
-  { day: null }, { day: null }, { day: null }, { day: null },
-  { day: null },
-  { day: 1, open: true },
-  { day: 2, open: true },
-  { day: 3, open: true, holiday: true },
-  { day: 4, open: false, holiday: true },
-  { day: 5, open: false, holiday: true },
-  { day: 6, open: true, holiday: true },
-  { day: 7, open: true },
-  { day: 8, open: true },
-  { day: 9, open: false },
-  { day: 10, open: true },
-  { day: 11, open: false },
-  { day: 12, open: false },
-  { day: 13, open: true },
-  { day: 14, open: true },
-  { day: 15, open: true },
-  { day: 16, open: true },
-  { day: 17, open: true },
-  { day: 18, open: false },
-  { day: 19, open: false },
-  { day: 20, open: true },
-  { day: 21, open: true },
-  { day: 22, open: true },
-  { day: 23, open: true },
-  { day: 24, open: true },
-  { day: 25, open: false },
-  { day: 26, open: false },
-  { day: 27, open: true },
-  { day: 28, open: true },
-  { day: 29, open: true },
-  { day: 30, open: true },
-  { day: 31, open: true },
-];
-
-// 2026年6月の診療カレンダー（月曜始まり）
+// 2026年6月の診療カレンダー（日曜始まり）
 const june2026 = [
   { day: null },
   { day: 1, open: false },
@@ -55,7 +18,7 @@ const june2026 = [
   { day: 4, open: true },
   { day: 5, open: true },
   { day: 6, open: true },
-  { day: 7, open: true },
+  { day: 7, open: false, temporary: true },
   { day: 8, open: false },
   { day: 9, open: false },
   { day: 10, open: true },
@@ -81,6 +44,42 @@ const june2026 = [
   { day: 30, open: false },
 ];
 
+// 2026年7月の診療カレンダー（日曜始まり）
+const july2026 = [
+  { day: null }, { day: null }, { day: null },
+  { day: 1, open: true },
+  { day: 2, open: true },
+  { day: 3, open: true },
+  { day: 4, open: true },
+  { day: 5, open: true },
+  { day: 6, open: false },
+  { day: 7, open: false },
+  { day: 8, open: true },
+  { day: 9, open: true },
+  { day: 10, open: true },
+  { day: 11, open: true },
+  { day: 12, open: true },
+  { day: 13, open: false },
+  { day: 14, open: false },
+  { day: 15, open: true },
+  { day: 16, open: true },
+  { day: 17, open: true },
+  { day: 18, open: true },
+  { day: 19, open: true },
+  { day: 20, open: false, holiday: true },
+  { day: 21, open: false },
+  { day: 22, open: true },
+  { day: 23, open: true },
+  { day: 24, open: true },
+  { day: 25, open: true },
+  { day: 26, open: true },
+  { day: 27, open: false },
+  { day: 28, open: false },
+  { day: 29, open: true },
+  { day: 30, open: true },
+  { day: 31, open: true },
+];
+
 const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 ---
 
@@ -91,8 +90,8 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
       <!-- 左側：カレンダー -->
       <div class="calendar-side">
         <div class="month-tabs">
-          <button class="month-tab active" data-month="0">5月</button>
-          <button class="month-tab" data-month="1">6月</button>
+          <button class="month-tab active" data-month="0">6月</button>
+          <button class="month-tab" data-month="1">7月</button>
         </div>
 
         <div class="calendar-container">
@@ -106,7 +105,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
             <div class="calendar-track" id="calendarTrack">
               <div class="monthly-calendar">
                 <div class="monthly-header">
-                  <span>2026年5月</span>
+                  <span>2026年6月</span>
                 </div>
                 <div class="monthly-weekdays">
                   {weekdays.map((day, i) => (
@@ -114,8 +113,8 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
                   ))}
                 </div>
                 <div class="monthly-grid">
-                  {may2026.map((item, i) => (
-                    <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""}`}>
+                  {june2026.map((item, i) => (
+                    <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""} ${item.temporary ? "temporary" : ""}`}>
                       {item.day !== null && (
                         <>
                           <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
@@ -129,7 +128,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 
               <div class="monthly-calendar">
                 <div class="monthly-header">
-                  <span>2026年6月</span>
+                  <span>2026年7月</span>
                 </div>
                 <div class="monthly-weekdays">
                   {weekdays.map((day, i) => (
@@ -137,8 +136,8 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
                   ))}
                 </div>
                 <div class="monthly-grid">
-                  {june2026.map((item, i) => (
-                    <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"}`}>
+                  {july2026.map((item, i) => (
+                    <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""} ${item.temporary ? "temporary" : ""}`}>
                       {item.day !== null && (
                         <>
                           <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
@@ -167,6 +166,10 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
           <div class="legend-item">
             <span class="legend-icon closed">休</span>
             <span>休診</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-icon temporary">休</span>
+            <span>臨時休診</span>
           </div>
         </div>
       </div>
@@ -402,6 +405,14 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     background: #f0f8f9;
   }
 
+  .monthly-cell.temporary {
+    background: #fff5e6;
+  }
+
+  .monthly-cell.temporary .status {
+    color: #e07a30;
+  }
+
   .monthly-cell .date {
     font-size: 0.95rem;
     font-weight: 500;
@@ -466,6 +477,11 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   .legend-icon.closed {
     background: #f5f5f5;
     color: #666;
+  }
+
+  .legend-icon.temporary {
+    background: #fff5e6;
+    color: #e07a30;
   }
 
   /* 診療時間側 */

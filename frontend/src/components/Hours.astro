@@ -1,7 +1,31 @@
 ---
-const schedule = [
+// 6月までのスケジュール（1段のみ）
+const scheduleJune = [
   { day: "月", open: false },
   { day: "火", open: false },
+  { day: "水", open: true },
+  { day: "木", open: true },
+  { day: "金", open: true },
+  { day: "土", open: true },
+  { day: "日", open: true },
+];
+
+// 7月からのスケジュール（2段）
+const days = ["月", "火", "水", "木", "金", "土", "日"];
+// 14-17時: 土日のみ
+const scheduleJuly14 = [
+  { day: "月", open: false, na: true },
+  { day: "火", open: false, na: true },
+  { day: "水", open: false, na: true },
+  { day: "木", open: false, na: true },
+  { day: "金", open: false, na: true },
+  { day: "土", open: true },
+  { day: "日", open: true },
+];
+// 17-21時: 火曜以外
+const scheduleJuly17 = [
+  { day: "月", open: true },
+  { day: "火", open: false, na: true },
   { day: "水", open: true },
   { day: "木", open: true },
   { day: "金", open: true },
@@ -45,6 +69,7 @@ const june2026 = [
 ];
 
 // 2026年7月の診療カレンダー（日曜始まり）
+// 7月から月曜も診療日
 const july2026 = [
   { day: null }, { day: null }, { day: null },
   { day: 1, open: true },
@@ -52,28 +77,28 @@ const july2026 = [
   { day: 3, open: true },
   { day: 4, open: true },
   { day: 5, open: true },
-  { day: 6, open: false },
+  { day: 6, open: true },  // 月曜（7月から診療日）
   { day: 7, open: false },
   { day: 8, open: true },
   { day: 9, open: true },
   { day: 10, open: true },
   { day: 11, open: true },
   { day: 12, open: true },
-  { day: 13, open: false },
+  { day: 13, open: true },  // 月曜（7月から診療日）
   { day: 14, open: false },
   { day: 15, open: true },
   { day: 16, open: true },
   { day: 17, open: true },
   { day: 18, open: true },
   { day: 19, open: true },
-  { day: 20, open: false, holiday: true },
+  { day: 20, open: false, holiday: true },  // 海の日（祝日）
   { day: 21, open: false },
   { day: 22, open: true },
   { day: 23, open: true },
   { day: 24, open: true },
   { day: 25, open: true },
   { day: 26, open: true },
-  { day: 27, open: false },
+  { day: 27, open: true },  // 月曜（7月から診療日）
   { day: 28, open: false },
   { day: 29, open: true },
   { day: 30, open: true },
@@ -176,30 +201,44 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 
       <!-- 右側：診療時間 -->
       <div class="info-side">
-        <div class="hours-main">
-          <div class="hours-row">
-            <span class="time-label">一般診療</span>
-            <span class="time-value">17:00 - 19:00</span>
+        <!-- 6月の診療時間 -->
+        <div class="hours-main" id="hoursJune">
+          <div class="hours-primary">17:00 - 21:00</div>
+          <div class="hours-sub">発熱外来 19:00-21:00</div>
+        </div>
+
+        <!-- 7月からの注意書き -->
+        <div class="new-hours-notice hidden" id="newHoursNotice">
+          <span class="new-hours-badge">NEW</span>
+          <span>7月より診療時間が変わります</span>
+        </div>
+
+        <!-- 7月からの診療時間 -->
+        <div class="hours-main hidden" id="hoursJuly">
+          <div class="hours-block">
+            <span class="hours-block-label">平日（月・水〜金）</span>
+            <div class="hours-primary">17:00 - 21:00</div>
+            <div class="hours-sub">発熱外来 19:00-21:00</div>
           </div>
-          <div class="hours-row">
-            <span class="time-label">発熱外来</span>
-            <span class="time-value">19:00 - 21:00</span>
+          <div class="hours-block">
+            <span class="hours-block-label">土日</span>
+            <div class="hours-primary">14:00 - 21:00</div>
+            <div class="hours-sub">発熱外来 18:00-21:00</div>
           </div>
         </div>
 
         <div class="hours-last-reception">
-          <span class="last-reception-label">最終受付</span>
-          <span class="last-reception-time">20:45</span>
-          <span class="last-reception-note">（電話・LINE予約の当日最終）</span>
+          <span class="last-reception-text">最終受付 <strong>20:45</strong><br class="sp-only" />（LINE・電話予約の当日最終）</span>
         </div>
 
-        <div class="schedule-table">
+        <!-- 6月の診療日カレンダー -->
+        <div class="schedule-table" id="scheduleJune">
           <div class="schedule-header">
             <span>診療日カレンダー</span>
           </div>
           <div class="schedule-grid">
             {
-              schedule.map((item) => (
+              scheduleJune.map((item) => (
                 <div class={`schedule-cell ${item.open ? "open" : "closed"}`}>
                   <span class="day">{item.day}</span>
                   <span class="status">{item.open ? "○" : "休"}</span>
@@ -209,7 +248,40 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
           </div>
         </div>
 
-        <div class="hours-info">
+        <!-- 7月からの診療日カレンダー -->
+        <div class="schedule-table two-rows hidden" id="scheduleJuly">
+          <div class="schedule-header">
+            <span>診療日カレンダー</span>
+          </div>
+          <div class="schedule-days">
+            {days.map((day) => (
+              <div class="schedule-day-header">{day}</div>
+            ))}
+          </div>
+          <div class="schedule-row">
+            <div class="schedule-time-label">14-17時</div>
+            <div class="schedule-grid-row">
+              {scheduleJuly14.map((item) => (
+                <div class={`schedule-cell ${item.open ? "open" : "closed"} ${item.na ? "na" : ""}`}>
+                  <span class="status">{item.na ? "-" : (item.open ? "○" : "休")}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div class="schedule-row">
+            <div class="schedule-time-label">17-21時</div>
+            <div class="schedule-grid-row">
+              {scheduleJuly17.map((item) => (
+                <div class={`schedule-cell ${item.open ? "open" : "closed"} ${item.na ? "na" : ""}`}>
+                  <span class="status">{item.na ? "-" : (item.open ? "○" : "休")}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- 6月の診療日説明 -->
+        <div class="hours-info" id="infoJune">
           <div class="info-item">
             <span class="info-icon open">○</span>
             <span>診療日（水〜日・週末対応）</span>
@@ -217,6 +289,14 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
           <div class="info-item">
             <span class="info-icon closed">休</span>
             <span>休診日（月・火・祝）</span>
+          </div>
+        </div>
+
+        <!-- 7月からの診療日説明 -->
+        <div class="hours-info hidden" id="infoJuly">
+          <div class="info-item">
+            <span class="info-icon open">○</span>
+            <span>診療日（月・水〜日）</span>
           </div>
         </div>
 
@@ -233,6 +313,10 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 <style>
   .hours {
     background: white;
+  }
+
+  .hidden {
+    display: none !important;
   }
 
   .hours-layout {
@@ -489,6 +573,32 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     width: 100%;
   }
 
+  .new-hours-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    border: 1px solid #ffb74d;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #e65100;
+  }
+
+  .new-hours-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #ff6d00;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
   .hours-main {
     text-align: center;
     margin-bottom: 24px;
@@ -497,63 +607,52 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     border-radius: 16px;
   }
 
-  .hours-row {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 20px;
-  }
-
-  .hours-row + .hours-row {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(62, 184, 200, 0.2);
-  }
-
-  .time-label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    min-width: 5em;
-    text-align: right;
-  }
-
-  .time-value {
-    font-size: 1.5rem;
+  .hours-primary {
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--color-navy);
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
+  }
+
+  .hours-sub {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-top: 10px;
+  }
+
+  .hours-block {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(62, 184, 200, 0.3);
+  }
+
+  .hours-block:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+
+  .hours-block-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    margin-bottom: 10px;
   }
 
   .hours-last-reception {
     text-align: center;
     margin-bottom: 24px;
-    padding: 16px 24px;
-    background: var(--color-turquoise-bg);
-    border-radius: 16px;
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
   }
 
-  .last-reception-label {
-    font-size: 0.9rem;
-    font-weight: 500;
+  .last-reception-text {
+    font-size: 1rem;
     color: var(--color-text-muted);
   }
 
-  .last-reception-time {
-    font-size: 1.3rem;
+  .last-reception-text strong {
     font-weight: 700;
     color: var(--color-navy);
-    letter-spacing: 0.03em;
-  }
-
-  .last-reception-note {
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
   }
 
   .schedule-table {
@@ -612,6 +711,62 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 
   .schedule-cell.closed {
     background: #f9f9f9;
+  }
+
+  .schedule-cell.na {
+    background: #fafafa;
+  }
+
+  .schedule-cell.na .status {
+    color: #ccc;
+  }
+
+  /* 2段レイアウト用 */
+  .schedule-table.two-rows .schedule-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #f8f8f8;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .schedule-day-header {
+    text-align: center;
+    padding: 10px 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .schedule-row {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .schedule-row:last-child {
+    border-bottom: none;
+  }
+
+  .schedule-time-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    flex-shrink: 0;
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    background: #f8f8f8;
+    border-right: 1px solid var(--color-border);
+  }
+
+  .schedule-grid-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    flex: 1;
+  }
+
+  .schedule-grid-row .schedule-cell {
+    padding: 12px 4px;
   }
 
   .hours-info {
@@ -688,7 +843,15 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     }
   }
 
+  .sp-only {
+    display: none;
+  }
+
   @media (max-width: 768px) {
+    .sp-only {
+      display: inline;
+    }
+
     .time-value {
       font-size: 1.3rem;
     }
@@ -743,6 +906,15 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   const nextBtn = document.getElementById('nextMonth');
   const monthTabs = document.querySelectorAll('.month-tab');
 
+  // 6月と7月で切り替える要素
+  const hoursJune = document.getElementById('hoursJune');
+  const hoursJuly = document.getElementById('hoursJuly');
+  const scheduleJune = document.getElementById('scheduleJune');
+  const scheduleJuly = document.getElementById('scheduleJuly');
+  const infoJune = document.getElementById('infoJune');
+  const infoJuly = document.getElementById('infoJuly');
+  const newHoursNotice = document.getElementById('newHoursNotice');
+
   function updateCalendar() {
     // Update calendar position
     if (track) {
@@ -768,6 +940,27 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
         tab.classList.remove('active');
       }
     });
+
+    // 6月（currentMonth === 0）と7月（currentMonth === 1）で診療時間・スケジュールを切り替え
+    if (currentMonth === 0) {
+      // 6月
+      hoursJune?.classList.remove('hidden');
+      hoursJuly?.classList.add('hidden');
+      scheduleJune?.classList.remove('hidden');
+      scheduleJuly?.classList.add('hidden');
+      infoJune?.classList.remove('hidden');
+      infoJuly?.classList.add('hidden');
+      newHoursNotice?.classList.add('hidden');
+    } else {
+      // 7月
+      hoursJune?.classList.add('hidden');
+      hoursJuly?.classList.remove('hidden');
+      scheduleJune?.classList.add('hidden');
+      scheduleJuly?.classList.remove('hidden');
+      infoJune?.classList.add('hidden');
+      infoJuly?.classList.remove('hidden');
+      newHoursNotice?.classList.remove('hidden');
+    }
   }
 
   // Arrow button navigation

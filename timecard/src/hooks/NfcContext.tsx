@@ -297,6 +297,8 @@ export function NfcProvider({ children, pollingInterval = 500, disabled = false 
   const readerRef = useRef<PasoriReader | null>(null);
   const pollingRef = useRef<number | null>(null);
   const subscribersRef = useRef<Set<(uid: string) => void>>(new Set());
+  const errorCountRef = useRef(0);
+  const reconnectingRef = useRef(false);
 
   const isSupported = typeof navigator !== "undefined" && "usb" in navigator;
 
@@ -305,11 +307,31 @@ export function NfcProvider({ children, pollingInterval = 500, disabled = false 
     return () => { subscribersRef.current.delete(cb); };
   }, []);
 
-  const initDevice = useCallback(async (device: USBDevice) => {
-    if (readerRef.current) return;
+  const cleanupDevice = useCallback(() => {
+    if (pollingRef.current) {
+      clearTimeout(pollingRef.current);
+      pollingRef.current = null;
+    }
+    readerRef.current = null;
+    errorCountRef.current = 0;
+  }, []);
+
+  const initDevice = useCallback(async (device: USBDevice, isReconnect = false) => {
+    if (readerRef.current && !isReconnect) return;
+
+    // 再接続の場合は既存のポーリングを停止
+    if (isReconnect) {
+      cleanupDevice();
+      // デバイスを一度閉じて再オープン
+      try {
+        await device.close();
+      } catch {
+        // 既に閉じている場合は無視
+      }
+    }
 
     const modelName = PASORI_PRODUCTS[device.productId] || `Unknown (${device.productId.toString(16)})`;
-    console.log(`PaSoRi 接続: ${modelName}`);
+    console.log(`PaSoRi ${isReconnect ? '再' : ''}接続: ${modelName}`);
 
     let reader: PasoriReader;
     if (isRC_S300(device.productId)) {
@@ -320,12 +342,15 @@ export function NfcProvider({ children, pollingInterval = 500, disabled = false 
 
     deviceRef.current = device;
     readerRef.current = reader;
+    errorCountRef.current = 0;
     setIsConnected(true);
+    setError(null);
 
     const poll = async () => {
       if (!readerRef.current) return;
       try {
         const uid = await readerRef.current.pollFelica();
+        errorCountRef.current = 0; // 成功したらリセット
         if (uid) {
           for (const cb of subscribersRef.current) {
             cb(uid);
@@ -333,6 +358,22 @@ export function NfcProvider({ children, pollingInterval = 500, disabled = false 
         }
       } catch (e) {
         console.error("ポーリングエラー:", e);
+        errorCountRef.current++;
+
+        // エラーが5回連続したら自動再接続を試みる
+        if (errorCountRef.current >= 5 && deviceRef.current && !reconnectingRef.current) {
+          console.log("[NFC] エラーが連続したため再接続を試みます...");
+          reconnectingRef.current = true;
+          try {
+            await initDevice(deviceRef.current, true);
+          } catch (reconnectError) {
+            console.error("[NFC] 再接続失敗:", reconnectError);
+            setError("NFCリーダーとの接続が不安定です。ページをリロードしてください。");
+          } finally {
+            reconnectingRef.current = false;
+          }
+          return;
+        }
       }
       if (readerRef.current) {
         pollingRef.current = window.setTimeout(poll, pollingInterval);
@@ -340,7 +381,7 @@ export function NfcProvider({ children, pollingInterval = 500, disabled = false 
     };
 
     poll();
-  }, [pollingInterval]);
+  }, [pollingInterval, cleanupDevice]);
 
   // ペアリング済みデバイスへの自動再接続
   useEffect(() => {
@@ -364,6 +405,54 @@ export function NfcProvider({ children, pollingInterval = 500, disabled = false 
       }
     })();
   }, [isSupported, initDevice, disabled]);
+
+  // タブがアクティブに戻ったときの自動再接続
+  useEffect(() => {
+    if (!isSupported || disabled) return;
+
+    const handleVisibilityChange = async () => {
+      if (document.visibilityState !== 'visible') return;
+      if (reconnectingRef.current) return;
+
+      // タブがアクティブになった時、デバイスはあるが接続が切れている場合
+      if (deviceRef.current && !readerRef.current) {
+        console.log('[NFC] タブがアクティブになりました。再接続を試みます...');
+        reconnectingRef.current = true;
+        try {
+          await initDevice(deviceRef.current, true);
+        } catch (e) {
+          console.error('[NFC] 再接続失敗:', e);
+        } finally {
+          reconnectingRef.current = false;
+        }
+        return;
+      }
+
+      // デバイスがあり接続中の場合、ヘルスチェックとして1回ポーリングを試みる
+      if (deviceRef.current && readerRef.current) {
+        console.log('[NFC] タブがアクティブになりました。接続状態を確認中...');
+        try {
+          await readerRef.current.pollFelica();
+          errorCountRef.current = 0;
+          console.log('[NFC] 接続は正常です');
+        } catch (e) {
+          console.warn('[NFC] 接続が不安定です。再接続を試みます...', e);
+          reconnectingRef.current = true;
+          try {
+            await initDevice(deviceRef.current, true);
+          } catch (reconnectError) {
+            console.error('[NFC] 再接続失敗:', reconnectError);
+            setError("NFCリーダーとの接続が不安定です。ページをリロードしてください。");
+          } finally {
+            reconnectingRef.current = false;
+          }
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [isSupported, disabled, initDevice]);
 
   const connect = useCallback(async () => {
     if (disabled) {

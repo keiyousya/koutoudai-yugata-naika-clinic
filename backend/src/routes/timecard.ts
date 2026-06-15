@@ -165,6 +165,32 @@ timecard.get("/today", async (c) => {
   return c.json(result.rows);
 });
 
+// 直近 N 日の打刻（無認証・院内端末用 / 打刻漏れアラート表示に使用）
+timecard.get("/recent", async (c) => {
+  const db = getDb(c.env);
+
+  const daysParam = parseInt(c.req.query("days") || "14", 10);
+  const days = Number.isFinite(daysParam) ? Math.min(Math.max(daysParam, 1), 92) : 14;
+
+  // JST 基準で当日を含む直近 days 日分
+  const now = new Date();
+  const jst = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+  const cutoff = new Date(jst.getTime() - (days - 1) * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10);
+
+  const result = await db.execute({
+    sql: `SELECT r.id, r.staff_id, s.name as staff_name, r.type, r.method, r.timestamp, r.is_modified
+          FROM timecard_records r
+          JOIN staff s ON r.staff_id = s.id
+          WHERE date(r.timestamp) >= ?
+          ORDER BY r.timestamp ASC`,
+    args: [cutoff],
+  });
+
+  return c.json(result.rows);
+});
+
 // 月次履歴（Admin or Viewer 認証必須）
 timecard.get("/history", viewerOrAdminAuth, async (c) => {
   const db = getDb(c.env);

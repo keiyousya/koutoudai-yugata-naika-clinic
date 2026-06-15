@@ -2,16 +2,17 @@ import { createRoute } from "@tanstack/react-router";
 import { Route as rootRoute } from "./__root";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useCallback, useEffect } from "react";
-import { Nfc, Wifi, WifiOff, Keyboard } from "lucide-react";
+import { Nfc, Wifi, WifiOff, Keyboard, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
-import { punch, fetchTodayRecords } from "@/api/timecard";
+import { punch, fetchTodayRecords, fetchRecentRecords } from "@/api/timecard";
 import type { PunchResult } from "@/api/timecard";
 import { useNfc } from "@/hooks/NfcContext";
+import { groupByDate, collectAnomalies } from "@/lib/anomalies";
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
@@ -33,6 +34,15 @@ function PunchPage() {
     queryFn: fetchTodayRecords,
     refetchInterval: 30_000,
   });
+
+  // 直近2週間の打刻漏れ・重複を検出（当日は除外）
+  const { data: recentRecords } = useQuery({
+    queryKey: ["recent-records"],
+    queryFn: () => fetchRecentRecords(14),
+    refetchInterval: 60_000,
+  });
+
+  const anomalies = collectAnomalies(groupByDate(recentRecords));
 
   const punchMutation = useMutation({
     mutationFn: ({ uid, method }: { uid: string; method: "nfc" | "manual" }) => punch(uid, method),
@@ -132,6 +142,41 @@ function PunchPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* 打刻漏れアラート */}
+      {anomalies.length > 0 && (
+        <Card className="border-red-300 bg-red-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base text-red-800">
+              <AlertTriangle className="h-5 w-5 text-red-600" />
+              打刻漏れの可能性があります（{anomalies.length}件）
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xs text-red-600 mb-3">
+              直近2週間で出勤・退勤の対応が取れていない記録です。該当者は管理者に修正を依頼してください。
+            </p>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-32">日付</TableHead>
+                  <TableHead className="w-40">スタッフ</TableHead>
+                  <TableHead>内容</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {anomalies.map((a, i) => (
+                  <TableRow key={`${a.date}-${a.staffName}-${i}`}>
+                    <TableCell className="font-mono text-red-800">{a.date}</TableCell>
+                    <TableCell className="font-medium text-red-800">{a.staffName}</TableCell>
+                    <TableCell className="text-red-700">{a.message}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      )}
 
       {/* 打刻結果表示 */}
       {lastResult && (

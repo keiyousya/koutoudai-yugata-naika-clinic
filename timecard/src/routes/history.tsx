@@ -16,6 +16,7 @@ import {
 } from "@/api/timecard";
 import type { TimecardRecord, AuthKey, EditLogEntry, Staff } from "@/api/timecard";
 import { useNfc } from "@/hooks/NfcContext";
+import { groupByDate, detectDayAnomalies, type DayAnomaly } from "@/lib/anomalies";
 
 export const Route = createRoute({
   getParentRoute: () => rootRoute,
@@ -547,69 +548,6 @@ function MyHistoryView({
 // ========================================
 // 共通: 記録テーブル
 // ========================================
-
-function groupByDate(records: TimecardRecord[] | undefined) {
-  const grouped = new Map<string, TimecardRecord[]>();
-  for (const r of records || []) {
-    const date = r.timestamp.slice(0, 10);
-    if (!grouped.has(date)) grouped.set(date, []);
-    grouped.get(date)!.push(r);
-  }
-  return grouped;
-}
-
-// ========================================
-// 打刻異常の検出（給与計算ミス防止アラート）
-// ========================================
-
-function getToday(): string {
-  const now = new Date();
-  const y = now.getFullYear();
-  const m = String(now.getMonth() + 1).padStart(2, "0");
-  const d = String(now.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
-
-export interface DayAnomaly {
-  staffName: string;
-  message: string;
-}
-
-// 同一スタッフ・同一日の打刻を時刻順に並べ、出勤→退勤→出勤→退勤… と
-// 交互に並んでいるかを検査する。崩れていれば打刻漏れ・重複として返す。
-// （連続シフト = in,out,in,out は正常扱い。当日の未退勤は警告しない）
-function detectDayAnomalies(date: string, dayRecords: TimecardRecord[]): DayAnomaly[] {
-  const isToday = date === getToday();
-  const byStaff = new Map<string, TimecardRecord[]>();
-  for (const r of dayRecords) {
-    if (!byStaff.has(r.staff_name)) byStaff.set(r.staff_name, []);
-    byStaff.get(r.staff_name)!.push(r);
-  }
-
-  const anomalies: DayAnomaly[] = [];
-  for (const [staffName, recs] of byStaff) {
-    const sorted = [...recs].sort((a, b) => a.timestamp.localeCompare(b.timestamp));
-    let expectIn = true; // 次に来るべき打刻（true=出勤, false=退勤）
-    let message = "";
-    for (const r of sorted) {
-      if (expectIn && r.type === "out") {
-        message = "出勤打刻がありません（退勤のみ）";
-        break;
-      }
-      if (!expectIn && r.type === "in") {
-        message = "退勤打刻が漏れています（出勤が連続）";
-        break;
-      }
-      expectIn = !expectIn;
-    }
-    // ループを正常に抜けても expectIn が false なら、最後の出勤に退勤が無い
-    if (!message && !expectIn && !isToday) {
-      message = "退勤打刻が漏れています";
-    }
-    if (message) anomalies.push({ staffName, message });
-  }
-  return anomalies;
-}
 
 function RecordsTable({
   records,

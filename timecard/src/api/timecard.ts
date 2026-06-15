@@ -73,6 +73,12 @@ export async function fetchTodayRecords(): Promise<TimecardRecord[]> {
   return handleResponse<TimecardRecord[]>(res);
 }
 
+// 直近 N 日の打刻（無認証・打刻漏れアラート用）
+export async function fetchRecentRecords(days = 14): Promise<TimecardRecord[]> {
+  const res = await fetch(`${API_BASE}/api/timecard/recent?days=${days}`);
+  return handleResponse<TimecardRecord[]>(res);
+}
+
 export type AuthKey = { type: "admin"; key: string } | { type: "viewer"; key: string };
 
 function authKeyToHeaders(authKey: AuthKey): HeadersInit {

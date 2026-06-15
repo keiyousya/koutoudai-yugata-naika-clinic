@@ -2,7 +2,7 @@ import { createRoute } from "@tanstack/react-router";
 import { Route as rootRoute } from "./__root";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useCallback, useEffect, useRef } from "react";
-import { Calendar, Download, LogIn, Nfc, Lock, User, LogOut, Keyboard, Eye, EyeOff, Pencil, Trash2, Plus, X, Check, ShieldCheck, History } from "lucide-react";
+import { Calendar, Download, LogIn, Nfc, Lock, User, LogOut, Keyboard, Eye, EyeOff, Pencil, Trash2, Plus, X, Check, ShieldCheck, History, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -311,7 +311,23 @@ function FullHistoryView({ authKey, onLogout }: { authKey: AuthKey; onLogout: ()
 
   const grouped = groupByDate(filtered);
 
+  // CSV はフィルタに関わらず全スタッフ分を出力するため、月全体で異常を集計
+  let exportAnomalyCount = 0;
+  for (const [date, recs] of groupByDate(records)) {
+    exportAnomalyCount += detectDayAnomalies(date, recs).length;
+  }
+
   const handleExport = async () => {
+    if (
+      exportAnomalyCount > 0 &&
+      !confirm(
+        `この月の打刻に ${exportAnomalyCount} 件の異常（出勤・退勤の対応漏れなど）が残っています。\n` +
+          `このまま CSV を出力すると給与計算ミスの原因になる可能性があります。\n\n` +
+          `修正せずに出力しますか？`
+      )
+    ) {
+      return;
+    }
     setIsExporting(true);
     try {
       await downloadExport(month, authKey);
@@ -542,6 +558,59 @@ function groupByDate(records: TimecardRecord[] | undefined) {
   return grouped;
 }
 
+// ========================================
+// 打刻異常の検出（給与計算ミス防止アラート）
+// ========================================
+
+function getToday(): string {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+export interface DayAnomaly {
+  staffName: string;
+  message: string;
+}
+
+// 同一スタッフ・同一日の打刻を時刻順に並べ、出勤→退勤→出勤→退勤… と
+// 交互に並んでいるかを検査する。崩れていれば打刻漏れ・重複として返す。
+// （連続シフト = in,out,in,out は正常扱い。当日の未退勤は警告しない）
+function detectDayAnomalies(date: string, dayRecords: TimecardRecord[]): DayAnomaly[] {
+  const isToday = date === getToday();
+  const byStaff = new Map<string, TimecardRecord[]>();
+  for (const r of dayRecords) {
+    if (!byStaff.has(r.staff_name)) byStaff.set(r.staff_name, []);
+    byStaff.get(r.staff_name)!.push(r);
+  }
+
+  const anomalies: DayAnomaly[] = [];
+  for (const [staffName, recs] of byStaff) {
+    const sorted = [...recs].sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+    let expectIn = true; // 次に来るべき打刻（true=出勤, false=退勤）
+    let message = "";
+    for (const r of sorted) {
+      if (expectIn && r.type === "out") {
+        message = "出勤打刻がありません（退勤のみ）";
+        break;
+      }
+      if (!expectIn && r.type === "in") {
+        message = "退勤打刻が漏れています（出勤が連続）";
+        break;
+      }
+      expectIn = !expectIn;
+    }
+    // ループを正常に抜けても expectIn が false なら、最後の出勤に退勤が無い
+    if (!message && !expectIn && !isToday) {
+      message = "退勤打刻が漏れています";
+    }
+    if (message) anomalies.push({ staffName, message });
+  }
+  return anomalies;
+}
+
 function RecordsTable({
   records,
   isLoading,
@@ -633,9 +702,35 @@ function RecordsTable({
     }
   };
 
+  const dayAnomalies = new Map<string, DayAnomaly[]>();
+  let totalAnomalies = 0;
+  for (const [date, recs] of grouped) {
+    const a = detectDayAnomalies(date, recs);
+    if (a.length > 0) {
+      dayAnomalies.set(date, a);
+      totalAnomalies += a.length;
+    }
+  }
+
   return (
     <>
-      {[...grouped.entries()].map(([date, dayRecords]) => (
+      {totalAnomalies > 0 && (
+        <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-md">
+          <AlertTriangle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
+          <div className="text-sm">
+            <p className="font-medium text-red-800">
+              打刻に {totalAnomalies} 件の異常があります
+            </p>
+            <p className="text-red-600 text-xs mt-0.5">
+              出勤・退勤の対応を確認してください。給与計算の前に修正することをおすすめします。
+            </p>
+          </div>
+        </div>
+      )}
+      {[...grouped.entries()].map(([date, dayRecords]) => {
+        const anomalies = dayAnomalies.get(date);
+        const anomalyStaff = new Set(anomalies?.map((a) => a.staffName));
+        return (
         <div key={date}>
           <div className="flex items-center gap-2 mt-4 mb-1">
             <h3 className="font-medium text-sm text-muted-foreground">
@@ -698,6 +793,17 @@ function RecordsTable({
               </Button>
             </div>
           )}
+          {anomalies?.map((a, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-2 mb-2 p-2 bg-red-50 border border-red-200 rounded-md text-sm text-red-700"
+            >
+              <AlertTriangle className="h-4 w-4 shrink-0" />
+              <span>
+                <strong>{a.staffName}</strong>: {a.message}
+              </span>
+            </div>
+          ))}
           <Table className="table-fixed">
             <TableHeader>
               <TableRow>
@@ -710,7 +816,10 @@ function RecordsTable({
             </TableHeader>
             <TableBody>
               {dayRecords.map((r) => (
-                <TableRow key={r.id}>
+                <TableRow
+                  key={r.id}
+                  className={anomalyStaff.has(r.staff_name) ? "bg-red-50/60" : undefined}
+                >
                   <TableCell className="font-mono">
                     {editingId === r.id ? (
                       <input
@@ -782,7 +891,8 @@ function RecordsTable({
             </TableBody>
           </Table>
         </div>
-      ))}
+        );
+      })}
     </>
   );
 }

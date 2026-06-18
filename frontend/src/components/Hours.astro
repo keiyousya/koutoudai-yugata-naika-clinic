@@ -254,6 +254,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
             <span>診療日カレンダー</span>
           </div>
           <div class="schedule-days">
+            <div class="schedule-day-spacer"></div>
             {days.map((day) => (
               <div class="schedule-day-header">{day}</div>
             ))}
@@ -724,9 +725,13 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   /* 2段レイアウト用 */
   .schedule-table.two-rows .schedule-days {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: 70px repeat(7, 1fr);
     background: #f8f8f8;
     border-bottom: 1px solid var(--color-border);
+  }
+
+  .schedule-day-spacer {
+    border-right: 1px solid var(--color-border);
   }
 
   .schedule-day-header {

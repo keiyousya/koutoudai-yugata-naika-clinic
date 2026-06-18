@@ -6,7 +6,7 @@ import Footer from "../components/Footer.astro";
 ---
 
 <Layout
-  title="患者層（年代別割合） | 勾当台夕方内科クリニック"
+  title="当院の患者層（年代別割合） | 勾当台夕方内科クリニック"
   description="直近90日間に受診された患者さまの年代別割合をご紹介します。仙台で夜21時まで診療、勾当台公園駅徒歩2分。"
 >
   <Header />
@@ -14,7 +14,7 @@ import Footer from "../components/Footer.astro";
     <div class="page-header">
       <div class="container">
         <p class="page-header-label">Patient Demographics</p>
-        <h1 class="page-title">患者層（年代別割合）</h1>
+        <h1 class="page-title">当院の患者層（年代別割合）</h1>
       </div>
       <TwilightBackground />
     </div>
@@ -42,6 +42,29 @@ import Footer from "../components/Footer.astro";
         <div class="demographics-notes" id="demographicsNotes">
           <p>※ 直近90日間に会計が完了した患者さまを対象に集計しています。</p>
           <p>※ 各年代の割合（%）を表示しています。</p>
+        </div>
+
+        <div class="demographics-message">
+          <h2 class="message-title">年代を問わず、お気軽にご相談ください</h2>
+          <p class="message-text">
+            現在は20〜40代の方を中心にご利用いただいていますが、高血圧・糖尿病・脂質異常症など、年代が上がるにつれて有病率の高まる慢性疾患の管理も当院が力を入れる分野です。<br />
+            夕方〜夜間に通いやすい環境を整えていますので、ぜひお気軽にご相談ください。
+          </p>
+        </div>
+
+        <div class="demographics-pediatric">
+          <h3 class="pediatric-title">お子さま（中学生以下）の受診について</h3>
+          <p class="pediatric-text">
+            中学生以下のお子さまも、夜間の急な発熱や体調不良などの初期診療に対応しています。錠剤など成人と共通のお薬は院内でも処方できますが、体重に応じて用量を調整する粉薬など、お子さま向けのお薬は院内にご用意がないため、院外処方とさせていただきます。また、より専門的な検査・治療や入院などが必要と判断した場合は、小児科や近隣の基幹病院など、適切な医療機関へご紹介いたします。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
         </div>
       </div>
     </section>
@@ -190,6 +213,51 @@ import Footer from "../components/Footer.astro";
     text-align: right;
   }
 
+  .demographics-message {
+    max-width: 720px;
+    margin: 0 auto 32px;
+    padding: 28px 32px;
+    background: var(--color-turquoise-bg);
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .message-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 14px;
+    letter-spacing: 0.02em;
+  }
+
+  .message-text {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    line-height: 1.9;
+  }
+
+  .demographics-pediatric {
+    max-width: 720px;
+    margin: 0 auto 32px;
+    padding: 24px 32px;
+    background: var(--color-coral-bg);
+    border-radius: 16px;
+  }
+
+  .pediatric-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .pediatric-text {
+    font-size: 0.88rem;
+    color: var(--color-text);
+    line-height: 1.9;
+  }
+
   .demographics-notes {
     text-align: center;
     margin-bottom: 32px;
@@ -200,6 +268,36 @@ import Footer from "../components/Footer.astro";
     color: var(--color-text-muted);
     line-height: 1.8;
     margin-bottom: 4px;
+  }
+
+  .back-section {
+    background: white;
+    padding: 0 0 80px;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
   }
 
   @media (max-width: 768px) {
@@ -218,7 +316,8 @@ import Footer from "../components/Footer.astro";
     }
 
     .period-value {
-      font-size: 1.1rem;
+      font-size: 0.9rem;
+      white-space: nowrap;
     }
 
     .bar-row {
@@ -229,6 +328,26 @@ import Footer from "../components/Footer.astro";
     .bar-label,
     .bar-value {
       font-size: 0.8rem;
+    }
+
+    .demographics-message {
+      padding: 22px 18px;
+    }
+
+    .message-title {
+      font-size: 0.85rem;
+    }
+
+    .message-text {
+      text-align: left;
+    }
+
+    .demographics-pediatric {
+      padding: 20px 18px;
+    }
+
+    .pediatric-title {
+      font-size: 0.85rem;
     }
   }
 </style>

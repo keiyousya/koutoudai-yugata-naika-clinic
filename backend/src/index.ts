@@ -301,6 +301,28 @@ app.get("/api/procyon/availability", async (c) => {
   }
 });
 
+// 患者層（年代別割合）取得（公開・Procyon APIプロキシ）
+app.get("/api/procyon/patient-demographics", async (c) => {
+  try {
+    const response = await fetch(
+      "https://api.procyon.helix.keiyousya.com/koutoudai-yugata-naika/v1/patient-demographics"
+    );
+
+    if (!response.ok) {
+      return c.json({ error: "患者層データの取得に失敗しました" }, response.status);
+    }
+
+    const data = await response.json();
+
+    return c.json(data, 200, {
+      "Cache-Control": "public, max-age=3600", // 1時間キャッシュ（日次集計のため）
+    });
+  } catch (error) {
+    console.error("Procyon API error:", error);
+    return c.json({ error: "サーバーエラーが発生しました" }, 500);
+  }
+});
+
 // ========================================
 // 管理用API（認証必須）
 // ========================================

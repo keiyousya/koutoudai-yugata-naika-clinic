@@ -1,0 +1,380 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import TwilightBackground from "../components/TwilightBackground.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="患者層（年代別割合） | 勾当台夕方内科クリニック"
+  description="直近90日間に受診された患者さまの年代別割合をご紹介します。仙台で夜21時まで診療、勾当台公園駅徒歩2分。"
+>
+  <Header />
+  <main class="page-main">
+    <div class="page-header">
+      <div class="container">
+        <p class="page-header-label">Patient Demographics</p>
+        <h1 class="page-title">患者層（年代別割合）</h1>
+      </div>
+      <TwilightBackground />
+    </div>
+
+    <section class="section demographics">
+      <div class="container">
+        <div class="demographics-header">
+          <div class="period-display" id="periodDisplay">
+            <div class="period-label">集計期間</div>
+            <div class="period-value">読み込み中...</div>
+          </div>
+          <div class="last-updated">
+            <span id="lastUpdated">--:--</span> 時点
+          </div>
+        </div>
+
+        <div class="status-message" id="statusMessage">
+          <div class="loading">患者層データを読み込んでいます...</div>
+        </div>
+
+        <div class="chart-container" id="chartContainer" style="display: none;">
+          <div class="chart" id="ageGroupChart"></div>
+        </div>
+
+        <div class="demographics-notes" id="demographicsNotes">
+          <p>※ 直近90日間に会計が完了した患者さまを対象に集計しています。</p>
+          <p>※ 各年代の割合（%）を表示しています。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style is:global>
+  .page-header {
+    position: relative;
+    padding: 120px 0 60px;
+    background: var(--color-navy);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .page-header .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  .page-main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 72px);
+  }
+
+  .demographics {
+    background: white;
+    flex: 1;
+  }
+
+  .demographics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 24px;
+    background: var(--color-turquoise-bg);
+    border-radius: 16px;
+  }
+
+  .period-display {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .period-label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .period-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .last-updated {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .status-message {
+    text-align: center;
+    padding: 48px 24px;
+    margin-bottom: 32px;
+  }
+
+  .loading {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+  }
+
+  .error {
+    font-size: 0.95rem;
+    color: #e05a5a;
+    padding: 20px;
+    background: #fff5f5;
+    border-radius: 12px;
+    border: 1px solid #fdd;
+  }
+
+  .chart-container {
+    max-width: 720px;
+    margin: 0 auto 40px;
+  }
+
+  .chart {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .bar-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 56px;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .bar-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    text-align: right;
+  }
+
+  .bar-track {
+    position: relative;
+    height: 24px;
+    background: #f1f3f5;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--color-turquoise);
+    border-radius: 6px;
+    width: 0;
+    transition: width 0.6s ease;
+  }
+
+  .bar-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    text-align: right;
+  }
+
+  .demographics-notes {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .demographics-notes p {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    margin-bottom: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 100px 0 48px;
+    }
+
+    .page-title {
+      font-size: 1.3rem;
+    }
+
+    .demographics-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .period-value {
+      font-size: 1.1rem;
+    }
+
+    .bar-row {
+      grid-template-columns: 64px 1fr 48px;
+      gap: 8px;
+    }
+
+    .bar-label,
+    .bar-value {
+      font-size: 0.8rem;
+    }
+  }
+</style>
+
+<script>
+  const API_URL = 'https://koutoudai-reservation-api.kit-tamtam.workers.dev/api/procyon/patient-demographics';
+  const UPDATE_INTERVAL = 60 * 60 * 1000; // 1 hour
+
+  interface AgeGroupRatio {
+    ageGroup: string;
+    label: string;
+    percentage: number;
+  }
+
+  interface ApiResponse {
+    periodStart: string;
+    periodEnd: string;
+    ageGroups: AgeGroupRatio[];
+  }
+
+  function formatDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}年${month}月${day}日`;
+  }
+
+  function updateLastUpdated(): void {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const element = document.getElementById('lastUpdated');
+    if (element) {
+      element.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+  }
+
+  function renderChart(ageGroups: AgeGroupRatio[]): void {
+    const chart = document.getElementById('ageGroupChart');
+    if (!chart) return;
+
+    chart.innerHTML = '';
+
+    // バーの長さを見やすくするため、最大割合を基準にスケーリング
+    const maxPercentage = Math.max(...ageGroups.map(g => g.percentage), 1);
+
+    ageGroups.forEach(group => {
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+
+      const label = document.createElement('div');
+      label.className = 'bar-label';
+      label.textContent = group.label;
+
+      const track = document.createElement('div');
+      track.className = 'bar-track';
+
+      const fill = document.createElement('div');
+      fill.className = 'bar-fill';
+      track.appendChild(fill);
+
+      const value = document.createElement('div');
+      value.className = 'bar-value';
+      value.textContent = `${group.percentage.toFixed(1)}%`;
+
+      row.appendChild(label);
+      row.appendChild(track);
+      row.appendChild(value);
+      chart.appendChild(row);
+
+      // 次フレームで幅を設定してアニメーションを発火
+      requestAnimationFrame(() => {
+        fill.style.width = `${(group.percentage / maxPercentage) * 100}%`;
+      });
+    });
+  }
+
+  function showMessage(message: string, type: 'loading' | 'error'): void {
+    const statusMessage = document.getElementById('statusMessage');
+    const chartContainer = document.getElementById('chartContainer');
+    const notes = document.getElementById('demographicsNotes');
+
+    if (!statusMessage || !chartContainer) return;
+
+    statusMessage.style.display = 'block';
+    statusMessage.innerHTML = `<div class="${type}">${message}</div>`;
+    chartContainer.style.display = 'none';
+
+    if (type === 'error' && notes) {
+      notes.style.display = 'none';
+    }
+  }
+
+  function hideMessage(): void {
+    const statusMessage = document.getElementById('statusMessage');
+    const chartContainer = document.getElementById('chartContainer');
+    const notes = document.getElementById('demographicsNotes');
+
+    if (!statusMessage || !chartContainer) return;
+
+    statusMessage.style.display = 'none';
+    chartContainer.style.display = 'block';
+    if (notes) notes.style.display = '';
+  }
+
+  async function fetchDemographics(): Promise<void> {
+    try {
+      const response = await fetch(API_URL);
+
+      if (!response.ok) {
+        throw new Error('患者層データの取得に失敗しました');
+      }
+
+      const data: ApiResponse = await response.json();
+
+      // 集計期間の表示
+      const periodDisplay = document.getElementById('periodDisplay');
+      if (periodDisplay) {
+        const periodValue = periodDisplay.querySelector('.period-value');
+        if (periodValue) {
+          periodValue.textContent = `${formatDate(data.periodStart)} 〜 ${formatDate(data.periodEnd)}`;
+        }
+      }
+
+      if (!data.ageGroups || data.ageGroups.length === 0) {
+        throw new Error('患者層データが見つかりませんでした');
+      }
+
+      renderChart(data.ageGroups);
+      hideMessage();
+      updateLastUpdated();
+
+    } catch (error) {
+      console.error('Error fetching patient demographics:', error);
+      showMessage(
+        '患者層データの読み込みに失敗しました。<br>しばらく経ってから再度お試しください。',
+        'error'
+      );
+    }
+  }
+
+  // Initial fetch
+  fetchDemographics();
+
+  // Auto-refresh every hour
+  setInterval(fetchDemographics, UPDATE_INTERVAL);
+</script>

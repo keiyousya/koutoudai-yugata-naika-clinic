@@ -18,6 +18,7 @@ import echoImage from "../assets/echo.jpeg";
         <p class="about-description">
           健診での指摘の精査、生活習慣病など慢性疾患の管理から急な発熱・体調不良まで、<br />
           夕方以降のかかりつけ医として、お気軽にご相談ください。
+          <a href="/patient-demographics" class="demographics-inline-link">患者層（年代別割合）はこちら</a>
         </p>
 
         <div class="interior-gallery">
@@ -350,6 +351,20 @@ import echoImage from "../assets/echo.jpeg";
     margin-bottom: 48px;
     line-height: 1.9;
     font-size: 0.9rem;
+  }
+
+  .demographics-inline-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: var(--color-turquoise);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s;
+  }
+
+  .demographics-inline-link:hover {
+    opacity: 0.7;
   }
 
   .about-features {

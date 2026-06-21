@@ -58,6 +58,14 @@ jobs:
       - name: Copy shift to frontend dist
         run: cp -r ./shift/dist ./frontend/dist/shift
 
+      - name: Build mixer
+        run: pnpm --filter mixer build
+        env:
+          NODE_ENV: production
+
+      - name: Copy mixer to frontend dist
+        run: cp -r ./mixer/dist ./frontend/dist/mixer
+
       - name: Build manuals
         run: pnpm --filter manuals build
         env:

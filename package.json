@@ -14,6 +14,8 @@
     "build:shift": "pnpm --filter shift build",
     "build:manuals": "pnpm --filter manuals build",
     "dev:manuals": "pnpm --filter manuals dev",
+    "dev:mixer": "pnpm --filter mixer dev",
+    "build:mixer": "pnpm --filter mixer build",
     "deploy:api": "pnpm --filter backend run deploy"
   },
   "devDependencies": {

@@ -1,0 +1,125 @@
+---
+---
+
+<section class="disclosure-links">
+  <div class="container">
+    <div class="disclosure-grid">
+      <a href="/medical-dx" class="disclosure-card is-dx">
+        <span class="disclosure-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M12 9v6"/>
+            <path d="M9 12h6"/>
+          </svg>
+        </span>
+        <span class="disclosure-body">
+          <span class="disclosure-title">医療DX推進体制について</span>
+          <span class="disclosure-arrow" aria-hidden="true">→</span>
+        </span>
+      </a>
+
+      <a href="/after-hours" class="disclosure-card is-afterhours">
+        <span class="disclosure-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </span>
+        <span class="disclosure-body">
+          <span class="disclosure-title">時間外対応体制加算について</span>
+          <span class="disclosure-arrow" aria-hidden="true">→</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .disclosure-links {
+    background: white;
+    padding: 24px 0;
+  }
+
+  .disclosure-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .disclosure-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    background: var(--accent-bg);
+    text-decoration: none;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .disclosure-card.is-dx {
+    --accent: var(--color-orange);
+    --accent-bg: var(--color-orange-bg);
+  }
+
+  .disclosure-card.is-afterhours {
+    --accent: var(--color-coral);
+    --accent-bg: var(--color-coral-bg);
+  }
+
+  .disclosure-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+  }
+
+  .disclosure-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
+  .disclosure-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .disclosure-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    line-height: 1.5;
+  }
+
+  .disclosure-arrow {
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .disclosure-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .disclosure-card {
+      padding: 14px 16px;
+    }
+
+    .disclosure-title {
+      font-size: 0.88rem;
+    }
+  }
+</style>

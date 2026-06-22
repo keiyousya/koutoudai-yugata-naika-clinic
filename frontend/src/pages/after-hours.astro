@@ -1,0 +1,269 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="時間外対応体制加算について | 勾当台夕方内科クリニック"
+  description="勾当台夕方内科クリニックの時間外対応体制加算3に関する掲示です。診療時間外の緊急時の連絡方法、連携医療機関（東北労災病院）のご案内について。"
+>
+  <Header />
+  <main class="legal-page">
+    <div class="container">
+      <h1 class="legal-title">時間外対応体制加算について</h1>
+
+      <p class="legal-lead">
+        当院では、地域における「かかりつけ医」として、通院されている患者様が診療時間外に緊急の相談を必要とされる場合に対応できるよう、「時間外対応体制加算3」の施設基準を満たす体制を整えております。
+      </p>
+
+      <section class="ah-section">
+        <h2 class="ah-heading">加算の算定について</h2>
+        <p class="ah-text">
+          上記体制の整備に伴い、当院を継続して受診されている患者様を対象に、<strong>2026年（令和8年）7月より</strong>、<strong>再診時に「時間外対応体制加算3」（4点）</strong>を算定させていただきます。ご負担額は、3割負担の方で再診1回あたり<strong>12円</strong>です。
+        </p>
+      </section>
+
+      <section class="ah-section">
+        <h2 class="ah-heading">診療時間外の対応について</h2>
+        <p class="ah-text">
+          当院の診療時間（<strong>17:00〜21:00</strong>）以外の時間帯において、緊急の対応が必要な場合は、以下の通り対応いたします。
+        </p>
+
+        <div class="ah-step">
+          <span class="ah-step-num">1</span>
+          <div class="ah-step-body">
+            <h3 class="ah-step-title">まずは当院へご連絡ください</h3>
+            <p class="ah-text">
+              当院の電話番号（<a href="tel:022-393-8689" class="ah-tel">022-393-8689</a>）にお電話ください。診療時間外であっても、対応可能な体制にある場合は、医師またはスタッフが直接お電話をお受けし、ご相談に対応いたします。
+            </p>
+          </div>
+        </div>
+
+        <div class="ah-step">
+          <span class="ah-step-num">2</span>
+          <div class="ah-step-body">
+            <h3 class="ah-step-title">連携医療機関へのご連絡（当院が電話に対応できない場合）</h3>
+            <p class="ah-text">
+              学会・研修会への出席や深夜帯など、やむを得ない事由により当院で電話対応ができない場合は、以下の連携医療機関へお問い合わせいただきますようお願いいたします。
+            </p>
+            <div class="ah-institution">
+              <p class="ah-inst-label">連携医療機関</p>
+              <p class="ah-inst-name">東北労災病院</p>
+              <p class="ah-inst-detail">〒981-8563　宮城県仙台市青葉区台原4丁目3番21号</p>
+              <p class="ah-inst-detail">
+                電話番号：<a href="tel:022-275-1111" class="ah-tel">022-275-1111</a>（代表）
+              </p>
+            </div>
+            <p class="ah-note">
+              ※ ご受診の際は、当院（勾当台夕方内科クリニック）に通院中である旨をお伝えください。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <p class="legal-notice">
+        患者様に安心して医療を受けていただけるよう努めてまいります。<br />
+        ご理解とご協力のほど何卒よろしくお願い申し上げます。
+      </p>
+
+      <div class="detail-back">
+        <a href="/" class="back-button">ホームに戻る</a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .legal-page {
+    padding: 120px 0 80px;
+    min-height: 100vh;
+  }
+
+  .legal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    text-align: center;
+    margin-bottom: 48px;
+    letter-spacing: 0.04em;
+  }
+
+  .legal-title::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--color-navy);
+    margin: 16px auto 0;
+    opacity: 0.3;
+  }
+
+  .legal-lead {
+    max-width: 800px;
+    margin: 0 auto 48px;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  .ah-section {
+    max-width: 800px;
+    margin: 0 auto 48px;
+  }
+
+  .ah-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 16px;
+    padding-left: 12px;
+    border-left: 4px solid var(--color-turquoise);
+  }
+
+  .ah-text {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .ah-text strong {
+    color: var(--color-navy);
+    font-weight: 700;
+  }
+
+  .ah-note {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .ah-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-top: 24px;
+  }
+
+  .ah-step-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--color-turquoise);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .ah-step-body {
+    flex: 1;
+  }
+
+  .ah-step-title {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+
+  .ah-tel {
+    color: var(--color-turquoise);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .ah-tel:hover {
+    text-decoration: underline;
+  }
+
+  .ah-institution {
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+
+  .ah-inst-label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+  }
+
+  .ah-inst-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 8px;
+  }
+
+  .ah-inst-detail {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+  }
+
+  .legal-notice {
+    max-width: 800px;
+    margin: 0 auto 48px;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .legal-page {
+      padding: 100px 0 60px;
+    }
+
+    .legal-title {
+      font-size: 1.3rem;
+      margin-bottom: 36px;
+    }
+
+    .ah-heading {
+      font-size: 1rem;
+    }
+
+    .ah-institution {
+      padding: 18px 18px;
+    }
+  }
+</style>

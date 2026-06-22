@@ -24,7 +24,7 @@ export type MixerState = {
   trackName: string | null;
   /** 音楽音量 0..1 */
   musicVolume: number;
-  /** マイク音量 0..1 */
+  /** マイク音量 0..MAX_MIC_GAIN（1.0=ユニティ、それ以上は増幅） */
   micVolume: number;
   /** 放送中の音楽音量倍率 0..1（ダッキング量） */
   duckVolume: number;
@@ -33,6 +33,13 @@ export type MixerState = {
 };
 
 const RAMP = 0.08; // 秒。ゲイン変更のランプ時間
+
+/**
+ * マイク音量の上限（ゲイン倍率）。1.0=ユニティ。
+ * PA用途で AGC を切っているぶん素の収音が小さくなりがちなため、
+ * 最大 4倍(=400%) まで手動で増幅できるようにしている。
+ */
+export const MAX_MIC_GAIN = 4;
 
 export class MixerEngine {
   private ctx: AudioContext | null = null;
@@ -52,7 +59,7 @@ export class MixerEngine {
     playing: false,
     trackName: null,
     musicVolume: 0.8,
-    micVolume: 0.9,
+    micVolume: 1.6,
     duckVolume: 0.25,
     micError: null,
   };
@@ -196,7 +203,7 @@ export class MixerEngine {
   }
 
   setMicVolume(v: number): void {
-    this.emit({ micVolume: clamp01(v) });
+    this.emit({ micVolume: clamp(v, 0, MAX_MIC_GAIN) });
     this.applyGains();
   }
 
@@ -216,5 +223,9 @@ export class MixerEngine {
 }
 
 function clamp01(v: number): number {
-  return Math.min(1, Math.max(0, v));
+  return clamp(v, 0, 1);
+}
+
+function clamp(v: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, v));
 }

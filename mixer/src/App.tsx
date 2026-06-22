@@ -10,6 +10,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { useMixer } from "@/hooks/useMixer";
+import { MAX_MIC_GAIN } from "@/audio/mixer";
 import { VolumeSlider } from "@/components/VolumeSlider";
 import { cn } from "@/lib/utils";
 
@@ -148,6 +149,7 @@ export function App() {
           value={state.micVolume}
           onChange={(v) => engine.setMicVolume(v)}
           accent="mic"
+          max={MAX_MIC_GAIN * 100}
         />
         <VolumeSlider
           label="放送中の音楽音量（ダッキング）"

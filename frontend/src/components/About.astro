@@ -137,6 +137,20 @@ import echoImage from "../assets/echo.jpeg";
               </ul>
             </div>
           </div>
+
+          <div class="fever-notice">
+            <div class="fever-notice-header">
+              <span class="fever-notice-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+                </svg>
+              </span>
+              <h4 class="fever-notice-title">発熱患者等の受入れについて</h4>
+            </div>
+            <p class="fever-notice-text">
+              当院は、<strong>受診歴の有無にかかわらず</strong>、発熱その他感染症を疑わせる症状を呈する患者様の受入れを行っております。感染防止対策として、一般診療と発熱外来で<strong>診療時間帯を分ける</strong>とともに、<strong>別室の診療スペース</strong>をご用意し、必要に応じて発熱患者様の動線を他の患者様と分ける体制を整えております。
+            </p>
+          </div>
         </div>
 
         <div class="exam-area">
@@ -503,6 +517,49 @@ import echoImage from "../assets/echo.jpeg";
     color: var(--color-text-muted);
     line-height: 1.8;
     margin-bottom: 28px;
+  }
+
+  .fever-notice {
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    padding: 24px 28px;
+  }
+
+  .fever-notice-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .fever-notice-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--color-turquoise-bg);
+    border-radius: 10px;
+    color: var(--color-turquoise);
+  }
+
+  .fever-notice-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .fever-notice-text {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .fever-notice-text strong {
+    color: var(--color-navy);
+    font-weight: 700;
   }
 
   .cooperation-area {
@@ -937,6 +994,11 @@ import echoImage from "../assets/echo.jpeg";
     .medical-note {
       text-align: left;
       font-size: 0.9rem;
+    }
+
+    .fever-notice {
+      padding: 20px 18px;
+      gap: 12px;
     }
 
     .immunotherapy-section {

@@ -36,10 +36,10 @@ const RAMP = 0.08; // 秒。ゲイン変更のランプ時間
 
 /**
  * マイク音量の上限（ゲイン倍率）。1.0=ユニティ。
- * PA用途で AGC を切っているぶん素の収音が小さくなりがちなため、
- * 最大 4倍(=400%) まで手動で増幅できるようにしている。
+ * 自動ゲイン＋コンプレッサーに加え、手動でも最大 6倍(=600%) まで
+ * 増幅できるようにして「近づかないと拾わない」マイクを補正する。
  */
-export const MAX_MIC_GAIN = 4;
+export const MAX_MIC_GAIN = 6;
 
 export class MixerEngine {
   private ctx: AudioContext | null = null;
@@ -47,6 +47,7 @@ export class MixerEngine {
   private musicSource: MediaElementAudioSourceNode | null = null;
   private micStream: MediaStream | null = null;
   private micSource: MediaStreamAudioSourceNode | null = null;
+  private micComp: DynamicsCompressorNode | null = null;
   private musicGain: GainNode | null = null;
   private micGain: GainNode | null = null;
   private master: GainNode | null = null;
@@ -105,9 +106,19 @@ export class MixerEngine {
     this.musicGain = ctx.createGain();
     this.musicSource.connect(this.musicGain).connect(this.master);
 
-    // マイクグラフ
+    // マイクグラフ:  micSource → micComp(コンプレッサー) → micGain → master
+    // コンプレッサーで小さい音（遠い声）を持ち上げ、大きい音を抑える。
+    // これにより「近づかないと拾わない」を改善しつつハウリング/クリップを防ぐ。
+    this.micComp = ctx.createDynamicsCompressor();
+    this.micComp.threshold.value = -50; // dB。これ以下を圧縮対象に（弱い声も拾う）
+    this.micComp.knee.value = 30;
+    this.micComp.ratio.value = 12; // 強めの圧縮で音量を揃える
+    this.micComp.attack.value = 0.003;
+    this.micComp.release.value = 0.25;
+
     this.micGain = ctx.createGain();
     this.micGain.gain.value = 0; // 起動直後は放送OFF
+    this.micComp.connect(this.micGain);
     this.micGain.connect(this.master);
 
     this.emit({ ready: true });
@@ -116,21 +127,25 @@ export class MixerEngine {
     await this.initMic();
   }
 
-  /** マイクを取得して micGain に接続。PA用途のため通話用処理は無効化する。 */
+  /** マイクを取得して micComp に接続。PA用途のためエコー除去のみ無効化する。 */
   private async initMic(): Promise<void> {
-    if (!this.ctx || !this.micGain) return;
+    if (!this.ctx || !this.micComp) return;
     try {
+      // 既存ストリームがあれば停止してから取り直す（再試行時の二重取得を防ぐ）
+      this.micStream?.getTracks().forEach((t) => t.stop());
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: false,
-          noiseSuppression: false,
-          autoGainControl: false,
+          // 弱い入力を底上げするため自動ゲインは有効化（コンプレッサーと併用）
+          noiseSuppression: true,
+          autoGainControl: true,
         },
         video: false,
       });
       this.micStream = stream;
+      this.micSource?.disconnect();
       this.micSource = this.ctx.createMediaStreamSource(stream);
-      this.micSource.connect(this.micGain);
+      this.micSource.connect(this.micComp);
       this.emit({ micReady: true, micError: null });
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);

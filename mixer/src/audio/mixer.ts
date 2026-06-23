@@ -28,11 +28,19 @@ export type MixerState = {
   micVolume: number;
   /** 放送中の音楽音量倍率 0..1（ダッキング量） */
   duckVolume: number;
+  /** ノイズゲートの強さ 0..1（大きいほど小さい雑音をカット） */
+  noiseGate: number;
   /** マイク取得失敗時のメッセージ */
   micError: string | null;
 };
 
 const RAMP = 0.08; // 秒。ゲイン変更のランプ時間
+
+/** ノイズゲート: noiseGate=1 のときの RMS しきい値。これ以下の入力を雑音とみなしてミュート。 */
+const GATE_MAX_THRESHOLD = 0.05;
+const GATE_HOLD = 0.4; // 秒。一度開いたゲートを保持する時間（語尾の切れを防ぐ）
+const GATE_ATTACK = 0.01; // 秒。ゲートを開くランプ
+const GATE_RELEASE = 0.18; // 秒。ゲートを閉じるランプ
 
 /**
  * マイク音量の上限（ゲイン倍率）。1.0=ユニティ。
@@ -48,6 +56,12 @@ export class MixerEngine {
   private micStream: MediaStream | null = null;
   private micSource: MediaStreamAudioSourceNode | null = null;
   private micComp: DynamicsCompressorNode | null = null;
+  private micAnalyser: AnalyserNode | null = null;
+  private gateGain: GainNode | null = null;
+  private gateBuf: Float32Array<ArrayBuffer> | null = null;
+  private gateOpenUntil = 0; // ctx.currentTime 基準。これ以前はゲート開を維持
+  private gateTarget = 1; // 現在のゲート目標（1=開, 0=閉）。再ランプの無駄打ちを避ける
+  private rafId = 0;
   private musicGain: GainNode | null = null;
   private micGain: GainNode | null = null;
   private master: GainNode | null = null;
@@ -60,8 +74,9 @@ export class MixerEngine {
     playing: false,
     trackName: null,
     musicVolume: 0.8,
-    micVolume: 1.6,
+    micVolume: 1.4,
     duckVolume: 0.25,
+    noiseGate: 0.3,
     micError: null,
   };
 
@@ -106,28 +121,70 @@ export class MixerEngine {
     this.musicGain = ctx.createGain();
     this.musicSource.connect(this.musicGain).connect(this.master);
 
-    // マイクグラフ:  micSource → micComp(コンプレッサー) → micGain → master
-    // コンプレッサーで小さい音（遠い声）を持ち上げ、大きい音を抑える。
-    // これにより「近づかないと拾わない」を改善しつつハウリング/クリップを防ぐ。
+    // マイクグラフ:  micSource → micComp → gateGain(ノイズゲート) → micGain → master
+    //                       └→ micAnalyser（ゲート判定用の側鎖。音は通さない）
+    // コンプレッサーで声を整え、ノイズゲートで無音時の環境雑音をミュートする。
+    // 無音時にマイクが切れることで、スピーカーとのハウリングのループも断ち切る。
     this.micComp = ctx.createDynamicsCompressor();
-    this.micComp.threshold.value = -50; // dB。これ以下を圧縮対象に（弱い声も拾う）
+    this.micComp.threshold.value = -32; // dB。穏やかな圧縮に留め、ノイズフロアを持ち上げすぎない
     this.micComp.knee.value = 30;
-    this.micComp.ratio.value = 12; // 強めの圧縮で音量を揃える
+    this.micComp.ratio.value = 4;
     this.micComp.attack.value = 0.003;
     this.micComp.release.value = 0.25;
 
+    this.gateGain = ctx.createGain();
+    this.gateGain.gain.value = 1; // ゲートは開で初期化（放送ON/OFFは micGain 側で制御）
+
+    this.micAnalyser = ctx.createAnalyser();
+    this.micAnalyser.fftSize = 1024;
+    this.gateBuf = new Float32Array(new ArrayBuffer(this.micAnalyser.fftSize * 4));
+
     this.micGain = ctx.createGain();
     this.micGain.gain.value = 0; // 起動直後は放送OFF
-    this.micComp.connect(this.micGain);
+    this.micComp.connect(this.gateGain);
+    this.gateGain.connect(this.micGain);
     this.micGain.connect(this.master);
 
     this.emit({ ready: true });
     this.applyGains(0);
+    this.startGateLoop();
 
     await this.initMic();
   }
 
-  /** マイクを取得して micComp に接続。PA用途のためエコー除去のみ無効化する。 */
+  /**
+   * ノイズゲートのループ。放送中のみ、生マイク入力の音量(RMS)を監視し、
+   * しきい値を下回ったら gateGain を 0 に落として雑音をミュートする。
+   * 判定はコンプレッサー前の素の信号で行う（圧縮後は音量が均されて判定できないため）。
+   */
+  private startGateLoop(): void {
+    const tick = () => {
+      this.rafId = requestAnimationFrame(tick);
+      const ctx = this.ctx;
+      const analyser = this.micAnalyser;
+      const gate = this.gateGain;
+      const buf = this.gateBuf;
+      if (!ctx || !analyser || !gate || !buf) return;
+      if (!this.state.broadcasting) return; // 放送OFF中は判定しない
+
+      analyser.getFloatTimeDomainData(buf);
+      let sum = 0;
+      for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i];
+      const rms = Math.sqrt(sum / buf.length);
+
+      const threshold = this.state.noiseGate * GATE_MAX_THRESHOLD;
+      const now = ctx.currentTime;
+      if (rms > threshold) this.gateOpenUntil = now + GATE_HOLD;
+      const target = now < this.gateOpenUntil ? 1 : 0;
+      if (target !== this.gateTarget) {
+        this.ramp(gate.gain, target, target ? GATE_ATTACK : GATE_RELEASE);
+        this.gateTarget = target;
+      }
+    };
+    this.rafId = requestAnimationFrame(tick);
+  }
+
+  /** マイクを取得して micComp と側鎖アナライザに接続。 */
   private async initMic(): Promise<void> {
     if (!this.ctx || !this.micComp) return;
     try {
@@ -136,9 +193,10 @@ export class MixerEngine {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: false,
-          // 弱い入力を底上げするため自動ゲインは有効化（コンプレッサーと併用）
+          // ブラウザのノイズ抑制は残す。一方 AGC は無音時にゲインを最大化して
+          // ハウリングを誘発するため無効化し、増幅は手動＋コンプレッサーで行う。
           noiseSuppression: true,
-          autoGainControl: true,
+          autoGainControl: false,
         },
         video: false,
       });
@@ -146,6 +204,7 @@ export class MixerEngine {
       this.micSource?.disconnect();
       this.micSource = this.ctx.createMediaStreamSource(stream);
       this.micSource.connect(this.micComp);
+      if (this.micAnalyser) this.micSource.connect(this.micAnalyser);
       this.emit({ micReady: true, micError: null });
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
@@ -227,8 +286,14 @@ export class MixerEngine {
     this.applyGains();
   }
 
+  /** ノイズゲートの強さを設定。0=無効、1=最も強くカット。 */
+  setNoiseGate(v: number): void {
+    this.emit({ noiseGate: clamp01(v) });
+  }
+
   /** 後片付け。タブを閉じる際などに。 */
   dispose(): void {
+    if (this.rafId) cancelAnimationFrame(this.rafId);
     this.audioEl?.pause();
     this.micStream?.getTracks().forEach((t) => t.stop());
     if (this.trackUrl) URL.revokeObjectURL(this.trackUrl);

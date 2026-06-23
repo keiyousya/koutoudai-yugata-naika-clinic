@@ -152,6 +152,12 @@ export function App() {
           max={MAX_MIC_GAIN * 100}
         />
         <VolumeSlider
+          label="ノイズゲート（雑音カット）"
+          value={state.noiseGate}
+          onChange={(v) => engine.setNoiseGate(v)}
+          accent="gate"
+        />
+        <VolumeSlider
           label="放送中の音楽音量（ダッキング）"
           value={state.duckVolume}
           onChange={(v) => engine.setDuckVolume(v)}

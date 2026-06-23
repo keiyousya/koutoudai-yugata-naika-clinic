@@ -6,7 +6,7 @@ type Props = {
   value: number; // 0..1（mic のみ 0..max/100）
   onChange: (v: number) => void;
   disabled?: boolean;
-  accent?: "music" | "mic" | "duck";
+  accent?: "music" | "mic" | "duck" | "gate";
   /** スライダー／入力欄のパーセント上限。既定 100 */
   max?: number;
 };
@@ -15,6 +15,7 @@ const accentClass: Record<NonNullable<Props["accent"]>, string> = {
   music: "accent-sky-400",
   mic: "accent-emerald-400",
   duck: "accent-amber-400",
+  gate: "accent-rose-400",
 };
 
 export function VolumeSlider({

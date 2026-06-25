@@ -154,6 +154,9 @@ importers:
 
   mixer:
     dependencies:
+      '@sapphi-red/web-noise-suppressor':
+        specifier: ^0.3.5
+        version: 0.3.5
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -2691,6 +2694,9 @@ packages:
     resolution: {integrity: sha512-mxRFDdHIWRxg3UfIIAwCm6NzvxG0jDX/wBN6KsQFTvKFqqg9vTrWUE68qEjHt19A5wwx5X5aUi2zuZT7YR0jrA==}
     cpu: [x64]
     os: [win32]
+
+  '@sapphi-red/web-noise-suppressor@0.3.5':
+    resolution: {integrity: sha512-jh3+V9yM+zxLriQexoGm0GatoPaJWjs6ypFIbFYwQp+AoUb55eUXrjKtKQyuC5zShzzeAQUl0M5JzqB7SSrsRA==}
 
   '@shikijs/core@3.21.0':
     resolution: {integrity: sha512-AXSQu/2n1UIQekY8euBJlvFYZIw0PHY63jUzGbrOma4wPxzznJXTXkri+QcHeBNaFxiiOljKxxJkVSoB3PjbyA==}
@@ -9192,6 +9198,8 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.57.1':
     optional: true
+
+  '@sapphi-red/web-noise-suppressor@0.3.5': {}
 
   '@shikijs/core@3.21.0':
     dependencies:

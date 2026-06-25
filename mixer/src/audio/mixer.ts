@@ -2,14 +2,24 @@
  * MixerEngine — Web Audio ベースの院内放送ミキサー。
  *
  * 信号経路:
- *   <audio>(音楽) ─→ MediaElementSource ─→ musicGain ─┐
- *                                                      ├─→ master ─→ destination(OS既定出力=BTスピーカー)
- *   マイク(getUserMedia) ─→ MediaStreamSource ─→ micGain ┘
+ *   <audio>(音楽) ─→ MediaElementSource ─→ musicGain ─────────────────────┐
+ *                                                                         ├─→ master ─→ destination
+ *   マイク ─→ MediaStreamSource ─→ rnnoise ─→ micComp ─→ gateGain ─→ micGain ┘
  *
+ * - rnnoise: RNNoise(ニューラル雑音除去)で環境ノイズを消す。読み込み失敗時は素通し。
+ * - micComp: 声を整えるコンプレッサー。
+ * - gateGain: ノイズゲート。無音時にミュートしハウリングのループを断つ。
  * - 放送ON/OFFは micGain を 0↔micVolume に滑らかにランプして実現。
  * - 放送中は musicGain を duckVolume 倍に下げる（ダッキング）。
- * - クリックノイズを避けるため全ゲイン変更は短いランプで行う。
  */
+
+import {
+  RnnoiseWorkletNode,
+  loadRnnoise,
+} from "@sapphi-red/web-noise-suppressor";
+import rnnoiseWasmUrl from "@sapphi-red/web-noise-suppressor/rnnoise.wasm?url";
+import rnnoiseSimdWasmUrl from "@sapphi-red/web-noise-suppressor/rnnoise_simd.wasm?url";
+import rnnoiseWorkletUrl from "@sapphi-red/web-noise-suppressor/rnnoiseWorklet.js?url";
 
 export type MixerState = {
   /** AudioContext と音楽グラフが初期化済みか */
@@ -55,6 +65,7 @@ export class MixerEngine {
   private musicSource: MediaElementAudioSourceNode | null = null;
   private micStream: MediaStream | null = null;
   private micSource: MediaStreamAudioSourceNode | null = null;
+  private rnnoise: RnnoiseWorkletNode | null = null;
   private micComp: DynamicsCompressorNode | null = null;
   private micAnalyser: AnalyserNode | null = null;
   private gateGain: GainNode | null = null;
@@ -76,7 +87,7 @@ export class MixerEngine {
     musicVolume: 0.8,
     micVolume: 1.4,
     duckVolume: 0.25,
-    noiseGate: 0.3,
+    noiseGate: 0.15,
     micError: null,
   };
 
@@ -101,7 +112,8 @@ export class MixerEngine {
    */
   async start(): Promise<void> {
     if (this.ctx) return;
-    const ctx = new AudioContext();
+    // RNNoise は 48kHz 前提のため AudioContext を 48kHz 固定で生成する。
+    const ctx = new AudioContext({ sampleRate: 48000 });
     await ctx.resume();
     this.ctx = ctx;
 
@@ -149,7 +161,30 @@ export class MixerEngine {
     this.applyGains(0);
     this.startGateLoop();
 
+    await this.setupRnnoise(ctx);
     await this.initMic();
+  }
+
+  /**
+   * RNNoise(ニューラル雑音除去)ノードを用意し micComp の前段に挿す。
+   * WASM/Worklet の読み込みに失敗しても放送は使えるよう、失敗時は null のままにして素通しする。
+   */
+  private async setupRnnoise(ctx: AudioContext): Promise<void> {
+    if (!this.micComp) return;
+    try {
+      const wasmBinary = await loadRnnoise({
+        url: rnnoiseWasmUrl,
+        simdUrl: rnnoiseSimdWasmUrl,
+      });
+      await ctx.audioWorklet.addModule(rnnoiseWorkletUrl);
+      const node = new RnnoiseWorkletNode(ctx, { maxChannels: 1, wasmBinary });
+      node.connect(this.micComp);
+      // ゲート判定は雑音除去後の信号で行う（無音をより正確に検出できる）
+      if (this.micAnalyser) node.connect(this.micAnalyser);
+      this.rnnoise = node;
+    } catch {
+      this.rnnoise = null; // フォールバック: micSource → micComp を直結する
+    }
   }
 
   /**
@@ -203,8 +238,11 @@ export class MixerEngine {
       this.micStream = stream;
       this.micSource?.disconnect();
       this.micSource = this.ctx.createMediaStreamSource(stream);
-      this.micSource.connect(this.micComp);
-      if (this.micAnalyser) this.micSource.connect(this.micAnalyser);
+      // RNNoise があればその前段へ、なければコンプレッサーへ直結（フォールバック）
+      const head: AudioNode = this.rnnoise ?? this.micComp;
+      this.micSource.connect(head);
+      // RNNoise 未使用時はゲート判定用に生信号を analyser へ分岐する
+      if (!this.rnnoise && this.micAnalyser) this.micSource.connect(this.micAnalyser);
       this.emit({ micReady: true, micError: null });
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
@@ -294,6 +332,7 @@ export class MixerEngine {
   /** 後片付け。タブを閉じる際などに。 */
   dispose(): void {
     if (this.rafId) cancelAnimationFrame(this.rafId);
+    this.rnnoise?.destroy();
     this.audioEl?.pause();
     this.micStream?.getTracks().forEach((t) => t.stop());
     if (this.trackUrl) URL.revokeObjectURL(this.trackUrl);

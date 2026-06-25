@@ -46,7 +46,7 @@ export function VolumeSlider({
     <label className={cn("block", disabled && "opacity-50")}>
       <div className="mb-1.5 flex items-baseline justify-between">
         <span className="text-sm font-medium text-card-foreground">{label}</span>
-        <div className="flex items-baseline gap-0.5 text-xs text-muted-foreground">
+        <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <input
             type="number"
             min={0}
@@ -58,7 +58,7 @@ export function VolumeSlider({
               commit(e.target.value);
             }}
             onBlur={() => setText(String(percent))}
-            className="w-12 rounded bg-secondary px-1.5 py-0.5 text-right tabular-nums text-card-foreground outline-none focus:ring-1 focus:ring-accent"
+            className="w-20 rounded-lg bg-secondary px-2.5 py-1.5 text-right text-lg font-semibold tabular-nums text-card-foreground outline-none focus:ring-2 focus:ring-accent"
           />
           <span>%</span>
         </div>

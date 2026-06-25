@@ -40,6 +40,8 @@ export type MixerState = {
   duckVolume: number;
   /** ノイズゲートの強さ 0..1（大きいほど小さい雑音をカット） */
   noiseGate: number;
+  /** 雑音除去(RNNoise)を使うか。OFFにすると声の通りが良くなる場合がある */
+  micDenoise: boolean;
   /** マイク取得失敗時のメッセージ */
   micError: string | null;
 };
@@ -88,6 +90,7 @@ export class MixerEngine {
     micVolume: 1.4,
     duckVolume: 0.25,
     noiseGate: 0.15,
+    micDenoise: true,
     micError: null,
   };
 
@@ -179,9 +182,9 @@ export class MixerEngine {
       await ctx.audioWorklet.addModule(rnnoiseWorkletUrl);
       const node = new RnnoiseWorkletNode(ctx, { maxChannels: 1, wasmBinary });
       node.connect(this.micComp);
-      // ゲート判定は雑音除去後の信号で行う（無音をより正確に検出できる）
-      if (this.micAnalyser) node.connect(this.micAnalyser);
       this.rnnoise = node;
+      // RNNoise が用意できたらマイクの接続経路を組み直す（既に取得済みなら反映）
+      this.connectMicHead();
     } catch {
       this.rnnoise = null; // フォールバック: micSource → micComp を直結する
     }
@@ -238,16 +241,27 @@ export class MixerEngine {
       this.micStream = stream;
       this.micSource?.disconnect();
       this.micSource = this.ctx.createMediaStreamSource(stream);
-      // RNNoise があればその前段へ、なければコンプレッサーへ直結（フォールバック）
-      const head: AudioNode = this.rnnoise ?? this.micComp;
-      this.micSource.connect(head);
-      // RNNoise 未使用時はゲート判定用に生信号を analyser へ分岐する
-      if (!this.rnnoise && this.micAnalyser) this.micSource.connect(this.micAnalyser);
+      this.connectMicHead();
       this.emit({ micReady: true, micError: null });
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       this.emit({ micReady: false, micError: `マイクを取得できません: ${msg}` });
     }
+  }
+
+  /**
+   * マイク入力の接続経路を現在の設定に合わせて組み直す。
+   * - 雑音除去ON かつ RNNoise 利用可: micSource → rnnoise → micComp
+   * - それ以外:                       micSource → micComp（素通し）
+   * ゲート判定用の analyser は常に「生マイク信号」から取る。RNNoise 後の信号で
+   * 判定すると、抑制された声を無音と誤判定してゲートが閉じてしまうため。
+   */
+  private connectMicHead(): void {
+    if (!this.micSource || !this.micComp) return;
+    this.micSource.disconnect();
+    const useRnnoise = this.state.micDenoise && this.rnnoise;
+    this.micSource.connect(useRnnoise ? this.rnnoise! : this.micComp);
+    if (this.micAnalyser) this.micSource.connect(this.micAnalyser);
   }
 
   /** マイク取得をやり直す（権限拒否後の再試行用）。 */
@@ -327,6 +341,12 @@ export class MixerEngine {
   /** ノイズゲートの強さを設定。0=無効、1=最も強くカット。 */
   setNoiseGate(v: number): void {
     this.emit({ noiseGate: clamp01(v) });
+  }
+
+  /** 雑音除去(RNNoise)の ON/OFF。マイク経路を即座に組み直す。 */
+  setDenoise(on: boolean): void {
+    this.emit({ micDenoise: on });
+    this.connectMicHead();
   }
 
   /** 後片付け。タブを閉じる際などに。 */

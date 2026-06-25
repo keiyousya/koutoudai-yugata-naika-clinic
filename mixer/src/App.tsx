@@ -157,6 +157,31 @@ export function App() {
           onChange={(v) => engine.setNoiseGate(v)}
           accent="gate"
         />
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-card-foreground">雑音除去（RNNoise）</p>
+            <p className="text-xs text-muted-foreground">
+              声が拾いにくいときはOFFにしてみてください
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={state.micDenoise}
+            onClick={() => engine.setDenoise(!state.micDenoise)}
+            className={cn(
+              "relative h-7 w-12 shrink-0 rounded-full transition",
+              state.micDenoise ? "bg-accent" : "bg-secondary"
+            )}
+          >
+            <span
+              className={cn(
+                "absolute top-1 size-5 rounded-full bg-white transition-all",
+                state.micDenoise ? "left-6" : "left-1"
+              )}
+            />
+          </button>
+        </div>
         <VolumeSlider
           label="放送中の音楽音量（ダッキング）"
           value={state.duckVolume}

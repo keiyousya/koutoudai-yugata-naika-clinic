@@ -206,6 +206,29 @@ const faqStructuredData = {
   <body>
     <slot />
     <FixedLineButton />
+
+    <!-- 広告効果測定: gclid付き（Google広告経由）でアクセスされた場合、
+         LINE友だち追加ボタンを広告用の経路別URLに差し替える。
+         gclidは着地ページにしか付かないため、判定結果をsessionStorageに保存し
+         サイト内の他ページでも広告用URLを維持する。 -->
+    <script>
+      (function () {
+        var KEY = "lineAdRoute";
+        try {
+          if (new URLSearchParams(window.location.search).has("gclid")) {
+            sessionStorage.setItem(KEY, "1");
+          }
+          if (sessionStorage.getItem(KEY) === "1") {
+            document.querySelectorAll("[data-line-button]").forEach(function (el) {
+              var adHref = el.getAttribute("data-ad-href");
+              if (adHref) el.setAttribute("href", adHref);
+            });
+          }
+        } catch (e) {
+          /* sessionStorage非対応(プライベートモード等)では何もしない */
+        }
+      })();
+    </script>
   </body>
 </html>
 

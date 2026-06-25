@@ -4,6 +4,7 @@ import '@fontsource/m-plus-1p/500.css';
 import '@fontsource/m-plus-1p/700.css';
 import brandFontUrl from '../fonts/noto-sans-jp-brand.woff2?url';
 import FixedLineButton from '../components/FixedLineButton.astro';
+import { LINE_ADD_FRIEND_URL_AD } from '../config/line';
 
 interface Props {
   title: string;
@@ -208,10 +209,12 @@ const faqStructuredData = {
     <FixedLineButton />
 
     <!-- 広告効果測定: gclid付き（Google広告経由）でアクセスされた場合、
-         LINE友だち追加ボタンを広告用の経路別URLに差し替える。
+         ページ内のLINEへのリンク（lin.ee / line.me）をすべて広告用の経路別URLに差し替える。
+         href基準で自動的に全ボタンを拾うため、コンポーネント／手書きを問わず
+         今後追加されるLINEボタンも自動で対象になる（印の付け忘れによる漏れを防止）。
          gclidは着地ページにしか付かないため、判定結果をsessionStorageに保存し
          サイト内の他ページでも広告用URLを維持する。 -->
-    <script>
+    <script define:vars={{ adUrl: LINE_ADD_FRIEND_URL_AD }}>
       (function () {
         var KEY = "lineAdRoute";
         try {
@@ -219,10 +222,11 @@ const faqStructuredData = {
             sessionStorage.setItem(KEY, "1");
           }
           if (sessionStorage.getItem(KEY) === "1") {
-            document.querySelectorAll("[data-line-button]").forEach(function (el) {
-              var adHref = el.getAttribute("data-ad-href");
-              if (adHref) el.setAttribute("href", adHref);
-            });
+            document
+              .querySelectorAll('a[href*="lin.ee/"], a[href*="line.me/"]')
+              .forEach(function (el) {
+                el.setAttribute("href", adUrl);
+              });
           }
         } catch (e) {
           /* sessionStorage非対応(プライベートモード等)では何もしない */

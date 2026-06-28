@@ -1,0 +1,57 @@
+"""GoogleAdsClient の初期化と共通ヘルパ。
+
+認証情報の読み込み順:
+  1. リポジトリ直下に google-ads.yaml があればそれを使う
+  2. なければ .env を読み込み、環境変数（GOOGLE_ADS_*）から構築する
+"""
+
+from __future__ import annotations
+
+import os
+from functools import lru_cache
+from pathlib import Path
+
+import click
+from dotenv import load_dotenv
+from google.ads.googleads.client import GoogleAdsClient
+
+# .../google-ads/  （pyproject や .env が置かれる場所）
+ROOT = Path(__file__).resolve().parents[2]
+YAML_PATH = ROOT / "google-ads.yaml"
+
+
+@lru_cache(maxsize=1)
+def load_client() -> GoogleAdsClient:
+    """設定を読み込んで GoogleAdsClient を返す。"""
+    if YAML_PATH.exists():
+        return GoogleAdsClient.load_from_storage(str(YAML_PATH))
+
+    load_dotenv(ROOT / ".env")
+    missing = [
+        key
+        for key in (
+            "GOOGLE_ADS_DEVELOPER_TOKEN",
+            "GOOGLE_ADS_CLIENT_ID",
+            "GOOGLE_ADS_CLIENT_SECRET",
+            "GOOGLE_ADS_REFRESH_TOKEN",
+        )
+        if not os.getenv(key)
+    ]
+    if missing:
+        raise click.ClickException(
+            "認証情報が不足しています: "
+            + ", ".join(missing)
+            + "\n.env.example を .env にコピーして埋めてください（手順は README.md）。"
+        )
+    return GoogleAdsClient.load_from_env()
+
+
+def resolve_customer_id(customer_id: str | None) -> str:
+    """操作対象アカウントIDを決定する（--customer-id > 環境変数）。"""
+    cid = customer_id or os.getenv("GOOGLE_ADS_CUSTOMER_ID")
+    if not cid:
+        raise click.ClickException(
+            "操作対象アカウントIDが未指定です。"
+            "--customer-id を渡すか .env の GOOGLE_ADS_CUSTOMER_ID を設定してください。"
+        )
+    return cid.replace("-", "").strip()

@@ -1,0 +1,9 @@
+# 公式ライブラリ設定ファイルの雛形。
+# .env での管理を推奨するが、yaml で管理したい場合はこれを google-ads.yaml にコピーして埋める。
+# google-ads.yaml が存在する場合はそちらが .env より優先される。
+developer_token: ""
+client_id: ""
+client_secret: ""
+refresh_token: ""
+login_customer_id: ""
+use_proto_plus: True

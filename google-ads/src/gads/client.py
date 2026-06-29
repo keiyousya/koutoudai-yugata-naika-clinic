@@ -14,6 +14,7 @@ from pathlib import Path
 import click
 from dotenv import load_dotenv
 from google.ads.googleads.client import GoogleAdsClient
+from google.ads.googleads.errors import GoogleAdsException
 
 # .../google-ads/  （pyproject や .env が置かれる場所）
 ROOT = Path(__file__).resolve().parents[2]
@@ -44,6 +45,29 @@ def load_client() -> GoogleAdsClient:
             + "\n.env.example を .env にコピーして埋めてください（手順は README.md）。"
         )
     return GoogleAdsClient.load_from_env()
+
+
+def mutate_with_exemption(mutate_fn, customer_id: str, operation, request_exemption: bool):
+    """mutate を実行する。ポリシー違反で弾かれ、かつ request_exemption=True なら
+    違反キーを exempt_policy_violation_keys に積んで再送（＝例外申請して審査に回す）。
+
+    Returns: (response, exempted_policy_names)
+      exempted_policy_names は例外申請したポリシー名のリスト（通常通過時は空）。
+    """
+    try:
+        return mutate_fn(customer_id=customer_id, operations=[operation]), []
+    except GoogleAdsException as ex:
+        keys = [
+            e.details.policy_violation_details.key
+            for e in ex.failure.errors
+            if e.details.policy_violation_details.key.policy_name
+        ]
+        if not (request_exemption and keys):
+            raise
+        operation.exempt_policy_violation_keys.extend(keys)
+        resp = mutate_fn(customer_id=customer_id, operations=[operation])
+        names = sorted({k.policy_name for k in keys})
+        return resp, names
 
 
 def resolve_customer_id(customer_id: str | None) -> str:

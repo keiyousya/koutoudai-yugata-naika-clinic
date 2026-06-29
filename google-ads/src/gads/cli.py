@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import click
 
-from .commands import budget, conversion, keyword, report
+from .commands import ad, budget, campaign, conversion, keyword, report
 
 
 @click.group()
@@ -17,6 +17,8 @@ cli.add_command(report.report)
 cli.add_command(budget.budget)
 cli.add_command(keyword.keyword)
 cli.add_command(conversion.conversion)
+cli.add_command(campaign.campaign)
+cli.add_command(ad.ad)
 
 
 if __name__ == "__main__":

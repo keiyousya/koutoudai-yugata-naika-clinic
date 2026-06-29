@@ -6,7 +6,7 @@ import click
 from rich.console import Console
 from rich.table import Table
 
-from ..client import load_client, resolve_customer_id
+from ..client import load_client, mutate_with_exemption, resolve_customer_id
 
 console = Console()
 
@@ -72,12 +72,18 @@ def list_keywords(ad_group_id: str | None, customer_id: str | None) -> None:
     help="マッチタイプ。",
 )
 @click.option("--negative", is_flag=True, help="除外キーワードとして追加する。")
+@click.option(
+    "--request-exemption",
+    is_flag=True,
+    help="ポリシー違反で弾かれた場合に例外申請して審査に回す（医療系広告など）。",
+)
 @click.option("--customer-id", default=None, help="操作対象アカウントID（未指定時は.env）。")
 def add_keyword(
     ad_group_id: str,
     text: str,
     match: str,
     negative: bool,
+    request_exemption: bool,
     customer_id: str | None,
 ) -> None:
     """キーワード（または除外キーワード）を追加する。"""
@@ -95,12 +101,17 @@ def add_keyword(
     if not negative:
         criterion.status = client.enums.AdGroupCriterionStatusEnum.ENABLED
 
-    response = criterion_service.mutate_ad_group_criteria(
-        customer_id=cid, operations=[operation]
+    response, exempted = mutate_with_exemption(
+        criterion_service.mutate_ad_group_criteria, cid, operation, request_exemption
     )
     kind = "除外キーワード" if negative else "キーワード"
+    note = (
+        f"\n[yellow]※ 例外申請して審査に提出: {', '.join(exempted)}[/yellow]"
+        if exempted
+        else ""
+    )
     console.print(
-        f"[green]✓ {kind}「{text}」({match}) を追加しました。[/green]\n"
+        f"[green]✓ {kind}「{text}」({match}) を追加しました。[/green]{note}\n"
         f"[dim]{response.results[0].resource_name}[/dim]"
     )
 

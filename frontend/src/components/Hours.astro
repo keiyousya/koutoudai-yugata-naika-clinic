@@ -33,39 +33,43 @@ const scheduleJuly17 = [
   { day: "日", open: true },
 ];
 
-// 2026年6月の診療カレンダー（日曜始まり）
-const june2026 = [
-  { day: null },
-  { day: 1, open: false },
-  { day: 2, open: false },
-  { day: 3, open: true },
-  { day: 4, open: true },
+// 2026年8月の診療カレンダー（日曜始まり）
+// 火曜のみ休診（7月からの体制）
+const august2026 = [
+  { day: null }, { day: null }, { day: null },
+  { day: null }, { day: null }, { day: null },
+  { day: 1, open: true },
+  { day: 2, open: true },
+  { day: 3, open: true },  // 月曜（診療日）
+  { day: 4, open: false },
   { day: 5, open: true },
   { day: 6, open: true },
-  { day: 7, open: false, temporary: true },
-  { day: 8, open: false },
-  { day: 9, open: false },
-  { day: 10, open: true },
-  { day: 11, open: true },
+  { day: 7, open: true },
+  { day: 8, open: true },
+  { day: 9, open: true },
+  { day: 10, open: true },  // 月曜（診療日）
+  { day: 11, open: false, holiday: true },  // 山の日（祝日・火曜）
   { day: 12, open: true },
   { day: 13, open: true },
   { day: 14, open: true },
-  { day: 15, open: false },
-  { day: 16, open: false },
-  { day: 17, open: true },
-  { day: 18, open: true },
+  { day: 15, open: true },
+  { day: 16, open: true },
+  { day: 17, open: true },  // 月曜（診療日）
+  { day: 18, open: false },
   { day: 19, open: true },
   { day: 20, open: true },
   { day: 21, open: true },
-  { day: 22, open: false },
-  { day: 23, open: false },
-  { day: 24, open: true },
-  { day: 25, open: true },
+  { day: 22, open: true },
+  { day: 23, open: true },
+  { day: 24, open: true },  // 月曜（診療日）
+  { day: 25, open: false },
   { day: 26, open: true },
-  { day: 27, open: true },
-  { day: 28, open: true },
-  { day: 29, open: false },
-  { day: 30, open: false },
+  // 8/27以降 臨時休診
+  { day: 27, open: false, temporary: true },
+  { day: 28, open: false, temporary: true },
+  { day: 29, open: false, temporary: true },
+  { day: 30, open: false, temporary: true },
+  { day: 31, open: false, temporary: true },
 ];
 
 // 2026年7月の診療カレンダー（日曜始まり）
@@ -87,22 +91,23 @@ const july2026 = [
   { day: 13, open: true },  // 月曜（7月から診療日）
   { day: 14, open: false },
   { day: 15, open: true },
-  { day: 16, open: true },
-  { day: 17, open: true },
-  { day: 18, open: true },
-  { day: 19, open: true },
+  // 7/16〜31 臨時休診（院長療養のため）
+  { day: 16, open: false, temporary: true },
+  { day: 17, open: false, temporary: true },
+  { day: 18, open: false, temporary: true },
+  { day: 19, open: false, temporary: true },
   { day: 20, open: false, holiday: true },  // 海の日（祝日）
   { day: 21, open: false },
-  { day: 22, open: true },
-  { day: 23, open: true },
-  { day: 24, open: true },
-  { day: 25, open: true },
-  { day: 26, open: true },
-  { day: 27, open: true },  // 月曜（7月から診療日）
+  { day: 22, open: false, temporary: true },
+  { day: 23, open: false, temporary: true },
+  { day: 24, open: false, temporary: true },
+  { day: 25, open: false, temporary: true },
+  { day: 26, open: false, temporary: true },
+  { day: 27, open: false, temporary: true },
   { day: 28, open: false },
-  { day: 29, open: true },
-  { day: 30, open: true },
-  { day: 31, open: true },
+  { day: 29, open: false, temporary: true },
+  { day: 30, open: false, temporary: true },
+  { day: 31, open: false, temporary: true },
 ];
 
 const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
@@ -115,8 +120,8 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
       <!-- 左側：カレンダー -->
       <div class="calendar-side">
         <div class="month-tabs">
-          <button class="month-tab active" data-month="0">6月</button>
-          <button class="month-tab" data-month="1">7月</button>
+          <button class="month-tab active" data-month="0">7月</button>
+          <button class="month-tab" data-month="1">8月</button>
         </div>
 
         <div class="calendar-container">
@@ -130,7 +135,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
             <div class="calendar-track" id="calendarTrack">
               <div class="monthly-calendar">
                 <div class="monthly-header">
-                  <span>2026年6月</span>
+                  <span>2026年7月</span>
                 </div>
                 <div class="monthly-weekdays">
                   {weekdays.map((day, i) => (
@@ -138,7 +143,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
                   ))}
                 </div>
                 <div class="monthly-grid">
-                  {june2026.map((item, i) => (
+                  {july2026.map((item, i) => (
                     <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""} ${item.temporary ? "temporary" : ""}`}>
                       {item.day !== null && (
                         <>
@@ -153,7 +158,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 
               <div class="monthly-calendar">
                 <div class="monthly-header">
-                  <span>2026年7月</span>
+                  <span>2026年8月</span>
                 </div>
                 <div class="monthly-weekdays">
                   {weekdays.map((day, i) => (
@@ -161,7 +166,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
                   ))}
                 </div>
                 <div class="monthly-grid">
-                  {july2026.map((item, i) => (
+                  {august2026.map((item, i) => (
                     <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""} ${item.temporary ? "temporary" : ""}`}>
                       {item.day !== null && (
                         <>
@@ -202,7 +207,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
       <!-- 右側：診療時間 -->
       <div class="info-side">
         <!-- 6月の診療時間 -->
-        <div class="hours-main" id="hoursJune">
+        <div class="hours-main hidden" id="hoursJune">
           <div class="hours-primary">17:00 - 21:00</div>
           <div class="hours-sub">発熱外来 19:00-21:00</div>
         </div>
@@ -214,7 +219,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
         </div>
 
         <!-- 7月からの診療時間 -->
-        <div class="hours-main hidden" id="hoursJuly">
+        <div class="hours-main" id="hoursJuly">
           <div class="hours-block">
             <span class="hours-block-label">平日（月・水〜金）</span>
             <div class="hours-primary">17:00 - 21:00</div>
@@ -232,7 +237,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
         </div>
 
         <!-- 6月の診療日カレンダー -->
-        <div class="schedule-table" id="scheduleJune">
+        <div class="schedule-table hidden" id="scheduleJune">
           <div class="schedule-header">
             <span>診療日カレンダー</span>
           </div>
@@ -249,7 +254,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
         </div>
 
         <!-- 7月からの診療日カレンダー -->
-        <div class="schedule-table two-rows hidden" id="scheduleJuly">
+        <div class="schedule-table two-rows" id="scheduleJuly">
           <div class="schedule-header">
             <span>診療日カレンダー</span>
           </div>
@@ -282,7 +287,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
         </div>
 
         <!-- 6月の診療日説明 -->
-        <div class="hours-info" id="infoJune">
+        <div class="hours-info hidden" id="infoJune">
           <div class="info-item">
             <span class="info-icon open">○</span>
             <span>診療日（水〜日・週末対応）</span>
@@ -294,7 +299,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
         </div>
 
         <!-- 7月からの診療日説明 -->
-        <div class="hours-info hidden" id="infoJuly">
+        <div class="hours-info" id="infoJuly">
           <div class="info-item">
             <span class="info-icon open">○</span>
             <span>診療日（月・水〜日）</span>
@@ -946,26 +951,14 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
       }
     });
 
-    // 6月（currentMonth === 0）と7月（currentMonth === 1）で診療時間・スケジュールを切り替え
-    if (currentMonth === 0) {
-      // 6月
-      hoursJune?.classList.remove('hidden');
-      hoursJuly?.classList.add('hidden');
-      scheduleJune?.classList.remove('hidden');
-      scheduleJuly?.classList.add('hidden');
-      infoJune?.classList.remove('hidden');
-      infoJuly?.classList.add('hidden');
-      newHoursNotice?.classList.add('hidden');
-    } else {
-      // 7月
-      hoursJune?.classList.add('hidden');
-      hoursJuly?.classList.remove('hidden');
-      scheduleJune?.classList.add('hidden');
-      scheduleJuly?.classList.remove('hidden');
-      infoJune?.classList.add('hidden');
-      infoJuly?.classList.remove('hidden');
-      newHoursNotice?.classList.remove('hidden');
-    }
+    // 7月・8月とも7月からの診療体制（拡大後）で統一表示
+    hoursJune?.classList.add('hidden');
+    hoursJuly?.classList.remove('hidden');
+    scheduleJune?.classList.add('hidden');
+    scheduleJuly?.classList.remove('hidden');
+    infoJune?.classList.add('hidden');
+    infoJuly?.classList.remove('hidden');
+    newHoursNotice?.classList.add('hidden');
   }
 
   // Arrow button navigation

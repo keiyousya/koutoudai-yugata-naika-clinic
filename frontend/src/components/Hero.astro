@@ -39,18 +39,18 @@ import interiorImage03 from "../assets/interior03.jpeg";
         </thead>
         <tbody>
           <tr>
-            <td class="schedule-time">一般 17-19時</td>
+            <td class="schedule-time">14-17時</td>
             <td class="closed">―</td>
             <td class="closed">―</td>
-            <td class="open"><span class="dot"></span></td>
-            <td class="open"><span class="dot"></span></td>
-            <td class="open"><span class="dot"></span></td>
+            <td class="closed">―</td>
+            <td class="closed">―</td>
+            <td class="closed">―</td>
             <td class="open"><span class="dot"></span></td>
             <td class="open"><span class="dot"></span></td>
           </tr>
           <tr class="fever-row">
-            <td class="schedule-time">発熱 19-21時</td>
-            <td class="closed">―</td>
+            <td class="schedule-time">17-21時</td>
+            <td class="open"><span class="dot"></span></td>
             <td class="closed">―</td>
             <td class="open"><span class="dot"></span></td>
             <td class="open"><span class="dot"></span></td>
@@ -60,7 +60,7 @@ import interiorImage03 from "../assets/interior03.jpeg";
           </tr>
         </tbody>
       </table>
-      <p class="hero-schedule-note">【最終受付】20:45　【休診日】月曜日・火曜日・祝日</p>
+      <p class="hero-schedule-note"><strong>【休診日】火曜日・祝日</strong><span class="note-sub">※最終受付 20:45</span></p>
     </div>
     <p class="hero-access">勾当台公園駅から徒歩2分</p>
   </div>
@@ -205,7 +205,7 @@ import interiorImage03 from "../assets/interior03.jpeg";
 
   /* データ行: 紺背景・白文字 */
   .hero-schedule-table td {
-    padding: 10px 0;
+    padding: 5px 0;
     text-align: center;
     vertical-align: middle;
     color: white;
@@ -213,7 +213,7 @@ import interiorImage03 from "../assets/interior03.jpeg";
 
   .schedule-time {
     font-weight: 700;
-    font-size: 0.65rem !important;
+    font-size: 0.8rem;
     letter-spacing: 0.03em;
     width: 110px;
   }
@@ -238,18 +238,24 @@ import interiorImage03 from "../assets/interior03.jpeg";
 
   /* 休診日注記: 紺背景の中 */
   .hero-schedule-note {
-    padding: 0 16px;
+    padding: 8px 16px 0;
     margin-top: 0;
-    font-size: 0.65rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 0.8rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
+    color: #fff;
+    text-align: center;
+  }
+
+  .hero-schedule-note strong {
+    font-weight: 700;
   }
 
   .note-sub {
-    font-size: 0.9rem;
+    font-size: 0.72rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.5);
-    margin-left: 6px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-left: 10px;
   }
 
   .hero-access {
@@ -291,19 +297,19 @@ import interiorImage03 from "../assets/interior03.jpeg";
     }
 
     .hero-schedule-table td {
-      padding: 8px 0;
+      padding: 4px 0;
     }
 
     .schedule-label {
       width: auto;
-      padding: 0 8px;
-      letter-spacing: 0.12em !important;
+      padding: 0 6px;
+      letter-spacing: 0.08em !important;
     }
 
     .schedule-time {
       width: auto;
       padding: 0 4px;
-      font-size: 0.65rem !important;
+      font-size: 0.72rem;
       white-space: nowrap;
     }
 
@@ -313,12 +319,12 @@ import interiorImage03 from "../assets/interior03.jpeg";
     }
 
     .hero-schedule-table td.closed {
-      font-size: 0.65rem !important;
+      font-size: 0.8rem !important;
     }
 
     .hero-schedule-note {
-      font-size: 0.65rem;
-      padding: 0 8px;
+      font-size: 0.72rem;
+      padding: 10px 6px 0;
     }
 
     .hero-access {

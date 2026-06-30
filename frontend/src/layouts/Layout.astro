@@ -4,7 +4,7 @@ import '@fontsource/m-plus-1p/500.css';
 import '@fontsource/m-plus-1p/700.css';
 import brandFontUrl from '../fonts/noto-sans-jp-brand.woff2?url';
 import FixedLineButton from '../components/FixedLineButton.astro';
-import { LINE_ADD_FRIEND_URL_AD } from '../config/line';
+import { LINE_ADD_FRIEND_URL_AD, GOOGLE_ADS_TAG_ID, LINE_CONVERSION_SEND_TO } from '../config/line';
 
 interface Props {
   title: string;
@@ -188,6 +188,15 @@ const faqStructuredData = {
 
     <title>{title}</title>
 
+    <!-- Google tag (gtag.js) — Google広告コンバージョン計測 -->
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_TAG_ID}`}></script>
+    <script define:vars={{ tagId: GOOGLE_ADS_TAG_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', tagId);
+    </script>
+
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
@@ -213,21 +222,36 @@ const faqStructuredData = {
          href基準で自動的に全ボタンを拾うため、コンポーネント／手書きを問わず
          今後追加されるLINEボタンも自動で対象になる（印の付け忘れによる漏れを防止）。
          gclidは着地ページにしか付かないため、判定結果をsessionStorageに保存し
-         サイト内の他ページでも広告用URLを維持する。 -->
-    <script define:vars={{ adUrl: LINE_ADD_FRIEND_URL_AD }}>
+         サイト内の他ページでも広告用URLを維持する。
+
+         あわせて、同じLINEアンカーのクリックを「LINE友だち追加」コンバージョンとして
+         Google広告に送る。全ボタン共通で発火させ、広告経由（gclidあり）のクリックだけ
+         Google側で自動的にコンバージョンとして帰属される。ボタンはすべて target="_blank"
+         なのでページは残り、計測ビーコンは確実に送られる（遷移を遅らせる必要はない）。 -->
+    <script define:vars={{ adUrl: LINE_ADD_FRIEND_URL_AD, sendTo: LINE_CONVERSION_SEND_TO }}>
       (function () {
         var KEY = "lineAdRoute";
         try {
           if (new URLSearchParams(window.location.search).has("gclid")) {
             sessionStorage.setItem(KEY, "1");
           }
-          if (sessionStorage.getItem(KEY) === "1") {
-            document
-              .querySelectorAll('a[href*="lin.ee/"], a[href*="line.me/"]')
-              .forEach(function (el) {
+          var isAd = sessionStorage.getItem(KEY) === "1";
+          document
+            .querySelectorAll('a[href*="lin.ee/"], a[href*="line.me/"]')
+            .forEach(function (el) {
+              if (isAd) {
                 el.setAttribute("href", adUrl);
+              }
+              el.addEventListener("click", function () {
+                if (typeof window.gtag === "function") {
+                  window.gtag("event", "conversion", {
+                    send_to: sendTo,
+                    value: 1.0,
+                    currency: "JPY",
+                  });
+                }
               });
-          }
+            });
         } catch (e) {
           /* sessionStorage非対応(プライベートモード等)では何もしない */
         }

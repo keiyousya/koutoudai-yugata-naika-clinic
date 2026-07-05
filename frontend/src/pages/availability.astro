@@ -638,16 +638,41 @@ import Footer from "../components/Footer.astro";
         return;
       }
 
-      // Split slots into general (17:00-19:00) and fever (19:00-21:00)
-      const generalSlots = today.slots.filter(slot => {
-        const hour = parseInt(slot.time.split(':')[0]);
-        return hour < 19;
-      });
+      // 土日(0=日,6=土)は18時、平日は19時で一般/発熱を分割
+      const isWeekend = today.dayOfWeek === 0 || today.dayOfWeek === 6;
+      const feverStartHour = isWeekend ? 18 : 19;
 
-      const feverSlots = today.slots.filter(slot => {
-        const hour = parseInt(slot.time.split(':')[0]);
-        return hour >= 19;
-      });
+      const sortByTime = (a: Slot, b: Slot) => a.time.localeCompare(b.time);
+
+      const generalSlots = today.slots
+        .filter(slot => {
+          const hour = parseInt(slot.time.split(':')[0]);
+          return hour < feverStartHour;
+        })
+        .sort(sortByTime);
+
+      const feverSlots = today.slots
+        .filter(slot => {
+          const hour = parseInt(slot.time.split(':')[0]);
+          return hour >= feverStartHour;
+        })
+        .sort(sortByTime);
+
+      // Update period time labels dynamically
+      const generalPeriodTime = document.querySelector('#slotsContainer .time-period:first-child .period-time');
+      const feverPeriodTime = document.querySelector('#slotsContainer .time-period:last-child .period-time');
+
+      if (generalSlots.length > 0 && generalPeriodTime) {
+        const firstTime = generalSlots[0].time;
+        const lastEndTime = generalSlots[generalSlots.length - 1].endTime;
+        generalPeriodTime.textContent = `${firstTime} - ${lastEndTime}`;
+      }
+
+      if (feverSlots.length > 0 && feverPeriodTime) {
+        const firstTime = feverSlots[0].time;
+        const lastEndTime = feverSlots[feverSlots.length - 1].endTime;
+        feverPeriodTime.textContent = `${firstTime} - ${lastEndTime}`;
+      }
 
       // Render slots
       if (generalSlots.length > 0) {

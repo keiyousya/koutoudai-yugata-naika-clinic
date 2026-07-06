@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import click
+from google.api_core import protobuf_helpers
 from rich.console import Console
 
 from ..client import load_client, resolve_customer_id
@@ -62,7 +63,7 @@ def set_budget(
     update.amount_micros = new_micros
     client.copy_from(
         operation.update_mask,
-        client.get_type("FieldMask", paths=["amount_micros"]),
+        protobuf_helpers.field_mask(None, update._pb),
     )
     budget_service.mutate_campaign_budgets(customer_id=cid, operations=[operation])
     console.print("[green]✓ 予算を変更しました。[/green]")
@@ -95,7 +96,7 @@ def set_status(
     campaign.status = client.enums.CampaignStatusEnum[state]
     client.copy_from(
         operation.update_mask,
-        client.get_type("FieldMask", paths=["status"]),
+        protobuf_helpers.field_mask(None, campaign._pb),
     )
     campaign_service.mutate_campaigns(customer_id=cid, operations=[operation])
     console.print(f"[green]✓ キャンペーンを {state} にしました。[/green]")

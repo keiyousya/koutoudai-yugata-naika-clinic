@@ -1,17 +1,14 @@
 ---
 ---
 
-<div class="insurance-banner">
+<div class="insurance-banner" role="alert">
   <div class="insurance-banner-inner container">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="insurance-banner-icon">
-      <circle cx="12" cy="12" r="10"/>
-      <line x1="12" y1="8" x2="12" y2="12"/>
-      <line x1="12" y1="16" x2="12.01" y2="16"/>
-    </svg>
-    <p class="insurance-banner-text">
-      当院では現在<strong>マイナンバーカードの読み取りによる保険資格の確認ができません。</strong>健康保険証・資格確認書、またはマイナポータルの資格情報画面をお持ちください。
-      <a href="/#insurance" class="insurance-banner-link">詳しくはこちら →</a>
-    </p>
+    <div class="insurance-banner-body">
+      <p class="insurance-banner-title">【健康保険証の取扱いが2026年8月1日から変わります】</p>
+      <p class="insurance-banner-text">
+        従来の健康保険証の暫定的な取扱いは<strong>2026年7月31日で終了</strong>します。8月1日以降、従来の健康保険証はご利用いただけません。ご来院・ご予約の際は<strong>「マイナ保険証（マイナンバーカード）」または「資格確認書」</strong>を必ずお持ちください。
+      </p>
+    </div>
   </div>
 </div>
 
@@ -19,7 +16,7 @@
   .insurance-banner {
     background: #fdf2e6;
     border-bottom: 2px solid #e8a04c;
-    padding: 14px 0;
+    padding: 16px 0;
   }
 
   .insurance-banner-inner {
@@ -28,10 +25,16 @@
     gap: 12px;
   }
 
-  .insurance-banner-icon {
-    flex-shrink: 0;
-    color: #c07020;
-    margin-top: 2px;
+  .insurance-banner-body {
+    flex: 1;
+  }
+
+  .insurance-banner-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #b0472f;
+    line-height: 1.6;
+    margin-bottom: 4px;
   }
 
   .insurance-banner-text {
@@ -44,30 +47,13 @@
     color: #c05040;
   }
 
-  .insurance-banner-link {
-    display: inline-block;
-    margin-left: 8px;
-    color: #a36232;
-    font-weight: 500;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    white-space: nowrap;
-  }
-
-  .insurance-banner-link:hover {
-    color: #8b4f28;
-  }
-
   @media (max-width: 768px) {
-    .insurance-banner-text {
-      font-size: 0.78rem;
+    .insurance-banner-title {
+      font-size: 0.88rem;
     }
 
-    .insurance-banner-link {
-      display: block;
-      margin-left: 0;
-      margin-top: 4px;
-      text-align: right;
+    .insurance-banner-text {
+      font-size: 0.78rem;
     }
   }
 </style>

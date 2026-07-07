@@ -6,10 +6,10 @@ import About from "../components/About.astro";
 import Doctor from "../components/Doctor.astro";
 import Hours from "../components/Hours.astro";
 import Access from "../components/Access.astro";
-// import Recruit from "../components/Recruit.astro";
 import Reservation from "../components/Reservation.astro";
 import News from "../components/News.astro";
 import AppropriateCareBanner from "../components/AppropriateCareBanner.astro";
+import InsuranceBanner from "../components/InsuranceBanner.astro";
 import DisclosureLinks from "../components/DisclosureLinks.astro";
 import Footer from "../components/Footer.astro";
 ---
@@ -21,6 +21,7 @@ import Footer from "../components/Footer.astro";
   <Header />
   <main>
     <Hero />
+    <InsuranceBanner />
     <News />
     <AppropriateCareBanner />
     <DisclosureLinks />
@@ -29,7 +30,6 @@ import Footer from "../components/Footer.astro";
     <Reservation />
     <Access />
     <Doctor />
-    <!-- <Recruit /> -->
   </main>
   <Footer />
 </Layout>

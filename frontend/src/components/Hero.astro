@@ -73,10 +73,6 @@ import interiorImage03 from "../assets/interior03.jpeg";
     </svg>
     <span>本日の予約状況を確認</span>
   </a>
-  <!-- <a href="/#recruit" class="recruit-banner">
-    <span class="recruit-label">スタッフ募集</span>
-    <span class="recruit-text">受付事務を募集しています</span>
-  </a> -->
   <TwilightBackground />
 </section>
 
@@ -336,64 +332,6 @@ import interiorImage03 from "../assets/interior03.jpeg";
   @media (max-width: 480px) {
     .sp-br {
       display: inline;
-    }
-  }
-
-  .recruit-banner {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 18px;
-    width: fit-content;
-    max-width: min(90%, 1100px);
-    padding: 18px 36px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: opacity 0.2s;
-  }
-
-  .recruit-banner:hover {
-    opacity: 0.9;
-  }
-
-  .recruit-label {
-    display: inline-block;
-    padding: 5px 12px;
-    background: var(--color-orange);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: 3px;
-    letter-spacing: 0.03em;
-  }
-
-  .recruit-text {
-    color: var(--color-navy);
-    font-size: 0.82rem;
-    font-weight: 500;
-  }
-
-  @media (max-width: 768px) {
-    .recruit-banner {
-      gap: 10px;
-      padding: 10px 16px;
-      width: 90%;
-    }
-
-    .recruit-label {
-      font-size: 0.65rem;
-      padding: 4px 10px;
-    }
-
-    .recruit-text {
-      font-size: 0.7rem;
     }
   }
 

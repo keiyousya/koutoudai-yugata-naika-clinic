@@ -1,15 +1,10 @@
 ---
-import { Image } from "astro:assets";
-import doctorImage from "../assets/doctor.jpeg";
 ---
 
 <section id="doctor" class="section doctor">
   <div class="container">
     <h2 class="section-title">院長紹介</h2>
     <div class="doctor-content">
-      <!-- <div class="doctor-photo-wrapper">
-        <Image src={doctorImage} alt="院長とスタッフ" width={720} class="doctor-photo" />
-      </div> -->
       <div class="doctor-info">
         <div class="doctor-name">
           <span class="position">院長</span>
@@ -65,17 +60,6 @@ import doctorImage from "../assets/doctor.jpeg";
     /* grid-template-columns: 220px 1fr;
     gap: 80px;
     align-items: start; */
-  }
-
-  .doctor-photo-wrapper {
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  .doctor-photo {
-    display: block;
-    width: 100%;
-    height: auto;
   }
 
   .doctor-info {
@@ -164,12 +148,6 @@ import doctorImage from "../assets/doctor.jpeg";
     .doctor-content {
       grid-template-columns: 1fr;
       gap: 24px;
-    }
-
-    .doctor-photo-wrapper {
-      width: 48%;
-      max-width: 300px;
-      margin: 0 auto;
     }
 
     .doctor-info {

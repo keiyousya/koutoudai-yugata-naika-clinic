@@ -217,7 +217,7 @@ const faqStructuredData = {
     <slot />
     <FixedLineButton />
 
-    <!-- 広告効果測定: gclid付き（Google広告経由）でアクセスされた場合、
+    {/* 広告効果測定: gclid付き（Google広告経由）でアクセスされた場合、
          ページ内のLINEへのリンク（lin.ee / line.me）をすべて広告用の経路別URLに差し替える。
          href基準で自動的に全ボタンを拾うため、コンポーネント／手書きを問わず
          今後追加されるLINEボタンも自動で対象になる（印の付け忘れによる漏れを防止）。
@@ -227,7 +227,7 @@ const faqStructuredData = {
          あわせて、同じLINEアンカーのクリックを「LINE友だち追加」コンバージョンとして
          Google広告に送る。全ボタン共通で発火させ、広告経由（gclidあり）のクリックだけ
          Google側で自動的にコンバージョンとして帰属される。ボタンはすべて target="_blank"
-         なのでページは残り、計測ビーコンは確実に送られる（遷移を遅らせる必要はない）。 -->
+         なのでページは残り、計測ビーコンは確実に送られる（遷移を遅らせる必要はない）。 */}
     <script define:vars={{ adUrl: LINE_ADD_FRIEND_URL_AD, sendTo: LINE_CONVERSION_SEND_TO }}>
       (function () {
         var KEY = "lineAdRoute";

@@ -6,50 +6,74 @@ import Footer from "../components/Footer.astro";
 ---
 
 <Layout
-  title="本日の予約状況 | 勾当台夕方内科クリニック"
-  description="当日の予約空き状況をリアルタイムで確認できます。仙台で夜21時まで診療、勾当台公園駅徒歩2分。"
+  title="予約状況 | 勾当台夕方内科クリニック"
+  description="本日・明日の予約空き状況をリアルタイムで確認できます。仙台で夜21時まで診療、勾当台公園駅徒歩2分。"
 >
   <Header />
   <main class="page-main">
     <div class="page-header">
       <div class="container">
         <p class="page-header-label">Availability</p>
-        <h1 class="page-title">本日の予約状況</h1>
+        <h1 class="page-title">予約状況</h1>
       </div>
       <TwilightBackground />
     </div>
 
     <section class="section availability">
       <div class="container">
-        <div class="availability-header">
-          <div class="date-display" id="dateDisplay">
-            <div class="date-label">本日の診療</div>
-            <div class="date-value">読み込み中...</div>
+        <div class="availability-topbar">
+          <div class="day-tabs" id="dayTabs">
+            <span class="day-tab-indicator" aria-hidden="true"></span>
+            <button class="day-tab active" type="button" data-offset="0">本日</button>
+            <button class="day-tab" type="button" data-offset="1">明日</button>
           </div>
           <div class="last-updated">
-            <span id="lastUpdated">--:--</span> 時点
+            <span id="lastUpdated">--/-- --:--:--</span> 時点
           </div>
         </div>
 
-        <div class="status-message" id="statusMessage">
-          <div class="loading">予約状況を読み込んでいます...</div>
-        </div>
+        <div class="day-viewport">
+          <div class="day-track" id="dayTrack">
+            {[0, 1].map((offset) => (
+              <div class="day-panel" data-offset={offset}>
+                <div class="availability-header">
+                  <div class="date-display">
+                    <div class="date-label">{offset === 0 ? "本日の診療" : "明日の診療"}</div>
+                    <div class="date-value-row">
+                      <svg class="date-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                      </svg>
+                      <span class="date-value">読み込み中...</span>
+                    </div>
+                  </div>
+                </div>
 
-        <div class="slots-container" id="slotsContainer" style="display: none;">
-          <div class="time-period">
-            <div class="period-header">
-              <h3 class="period-title">一般診療</h3>
-              <p class="period-time">17:00 - 19:00</p>
-            </div>
-            <div class="slots-grid" id="generalSlots"></div>
-          </div>
+                <div class="status-message">
+                  <div class="loading">予約状況を読み込んでいます...</div>
+                </div>
 
-          <div class="time-period">
-            <div class="period-header">
-              <h3 class="period-title">発熱外来</h3>
-              <p class="period-time">19:00 - 21:00</p>
-            </div>
-            <div class="slots-grid" id="feverSlots"></div>
+                <div class="slots-container" style="display: none;">
+                  <div class="time-period">
+                    <div class="period-header">
+                      <h3 class="period-title">一般診療</h3>
+                      <p class="period-time">17:00 - 19:00</p>
+                    </div>
+                    <div class="slots-grid general-slots"></div>
+                  </div>
+
+                  <div class="time-period">
+                    <div class="period-header">
+                      <h3 class="period-title">発熱外来</h3>
+                      <p class="period-time">19:00 - 21:00</p>
+                    </div>
+                    <div class="slots-grid fever-slots"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -80,6 +104,10 @@ import Footer from "../components/Footer.astro";
             </svg>
             LINEで予約する
           </a>
+        </div>
+
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
         </div>
       </div>
     </section>
@@ -127,12 +155,93 @@ import Footer from "../components/Footer.astro";
     flex: 1;
   }
 
+  .availability-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .day-tabs {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    padding: 6px;
+    background: #f2f4f5;
+    border-radius: 12px;
+  }
+
+  .day-tab-indicator {
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 6px;
+    width: calc((100% - 20px) / 2);
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    transform: translateX(0);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 0;
+  }
+
+  .day-tabs[data-active="1"] .day-tab-indicator {
+    transform: translateX(calc(100% + 8px));
+  }
+
+  .day-tab {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    min-width: 96px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.25s;
+  }
+
+  .day-tab:hover {
+    color: var(--color-navy);
+  }
+
+  .day-tab.active {
+    color: var(--color-navy);
+  }
+
+  .day-viewport {
+    overflow: hidden;
+  }
+
+  .day-track {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .day-track[data-active="1"] {
+    transform: translateX(calc(-100% - 24px));
+  }
+
+  .day-panel {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 0;
+  }
+
   .availability-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    text-align: center;
     margin-bottom: 40px;
-    padding: 24px;
+    padding: 28px 24px;
     background: var(--color-turquoise-bg);
     border-radius: 16px;
   }
@@ -140,17 +249,32 @@ import Footer from "../components/Footer.astro";
   .date-display {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    gap: 8px;
   }
 
   .date-label {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--color-text-muted);
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .date-value-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .date-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--color-turquoise);
+    flex-shrink: 0;
   }
 
   .date-value {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--color-navy);
   }
@@ -354,6 +478,35 @@ import Footer from "../components/Footer.astro";
     text-align: center;
   }
 
+  .detail-back {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
   .line-button {
     display: inline-flex;
     align-items: center;
@@ -390,10 +543,18 @@ import Footer from "../components/Footer.astro";
       font-size: 1.3rem;
     }
 
-    .availability-header {
+    .availability-topbar {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: stretch;
       gap: 12px;
+    }
+
+    .last-updated {
+      text-align: right;
+    }
+
+    .availability-header {
+      padding: 24px 20px;
     }
 
     .date-value {
@@ -521,17 +682,18 @@ import Footer from "../components/Footer.astro";
 
   function updateLastUpdated(): void {
     const now = new Date();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     const element = document.getElementById('lastUpdated');
     if (element) {
-      element.textContent = `${hours}:${minutes}:${seconds}`;
+      element.textContent = `${month}/${day} ${hours}:${minutes}:${seconds}`;
     }
   }
 
-  function renderSlots(slots: Slot[], containerId: string): void {
-    const container = document.getElementById(containerId);
+  function renderSlots(slots: Slot[], container: HTMLElement | null): void {
     if (!container) return;
 
     container.innerHTML = '';
@@ -568,41 +730,158 @@ import Footer from "../components/Footer.astro";
     });
   }
 
-  function showMessage(message: string, type: 'loading' | 'error' | 'closed'): void {
-    const statusMessage = document.getElementById('statusMessage');
-    const slotsContainer = document.getElementById('slotsContainer');
-    const legend = document.getElementById('availabilityLegend');
-    const notes = document.getElementById('availabilityNotes');
-    const cta = document.getElementById('reservationCta');
+  type DayState = 'open' | 'closed' | 'error' | 'loading';
 
+  function getPanel(offsetDays: number): HTMLElement | null {
+    return document.querySelector<HTMLElement>(`.day-panel[data-offset="${offsetDays}"]`);
+  }
+
+  function showMessage(panel: HTMLElement, message: string, type: 'loading' | 'error' | 'closed'): void {
+    const statusMessage = panel.querySelector<HTMLElement>('.status-message');
+    const slotsContainer = panel.querySelector<HTMLElement>('.slots-container');
     if (!statusMessage || !slotsContainer) return;
 
     statusMessage.style.display = 'block';
     statusMessage.innerHTML = `<div class="${type}">${message}</div>`;
     slotsContainer.style.display = 'none';
-
-    // 休診日の場合は凡例・注釈・CTAを非表示
-    if (type === 'closed') {
-      if (legend) legend.style.display = 'none';
-      if (notes) notes.style.display = 'none';
-      if (cta) cta.style.display = 'none';
-    }
   }
 
-  function hideMessage(): void {
-    const statusMessage = document.getElementById('statusMessage');
-    const slotsContainer = document.getElementById('slotsContainer');
-    const legend = document.getElementById('availabilityLegend');
-    const notes = document.getElementById('availabilityNotes');
-    const cta = document.getElementById('reservationCta');
-
+  function hideMessage(panel: HTMLElement): void {
+    const statusMessage = panel.querySelector<HTMLElement>('.status-message');
+    const slotsContainer = panel.querySelector<HTMLElement>('.slots-container');
     if (!statusMessage || !slotsContainer) return;
 
     statusMessage.style.display = 'none';
     slotsContainer.style.display = 'block';
-    if (legend) legend.style.display = '';
-    if (notes) notes.style.display = '';
-    if (cta) cta.style.display = '';
+  }
+
+  // 0 = 本日, 1 = 明日
+  let selectedOffset = 0;
+  let cachedDates: ApiDateData[] | null = null;
+  const dayStates: DayState[] = ['loading', 'loading'];
+
+  // ローカル日付を YYYY-MM-DD で取得（offsetDays 日後）
+  function getDateStr(offsetDays: number): string {
+    const d = new Date();
+    d.setDate(d.getDate() + offsetDays);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  // offsetDays に対応する日付データを、date フィールドで突き合わせて取得
+  // （見つからなければ配列インデックスにフォールバック）
+  function findDateData(dates: ApiDateData[], offsetDays: number): ApiDateData | null {
+    const target = getDateStr(offsetDays);
+    return dates.find(d => d.date === target) ?? dates[offsetDays] ?? null;
+  }
+
+  function renderDay(offsetDays: number): void {
+    if (!cachedDates) return;
+
+    const panel = getPanel(offsetDays);
+    if (!panel) return;
+
+    const dayLabel = offsetDays === 0 ? '本日' : '明日';
+    const apiData = findDateData(cachedDates, offsetDays);
+
+    // 日付ラベル更新
+    const dateLabel = panel.querySelector('.date-label');
+    const dateValue = panel.querySelector('.date-value');
+    if (dateLabel) dateLabel.textContent = `${dayLabel}の診療`;
+
+    if (!apiData) {
+      if (dateValue) dateValue.textContent = '--';
+      dayStates[offsetDays] = 'error';
+      showMessage(panel, `${dayLabel}のデータが見つかりませんでした`, 'error');
+      return;
+    }
+
+    const dayData = convertDateData(apiData);
+    if (dateValue) dateValue.textContent = formatDate(dayData.date);
+
+    // 休診日チェック
+    if (dayData.isClosed || dayData.slots.length === 0) {
+      dayStates[offsetDays] = 'closed';
+      showMessage(panel, `${dayLabel}は休診日です`, 'closed');
+      return;
+    }
+
+    // 土日(0=日,6=土)は18時、平日は19時で一般/発熱を分割
+    const isWeekend = dayData.dayOfWeek === 0 || dayData.dayOfWeek === 6;
+    const feverStartHour = isWeekend ? 18 : 19;
+
+    const sortByTime = (a: Slot, b: Slot) => a.time.localeCompare(b.time);
+
+    const generalSlots = dayData.slots
+      .filter(slot => {
+        const hour = parseInt(slot.time.split(':')[0]);
+        return hour < feverStartHour;
+      })
+      .sort(sortByTime);
+
+    const feverSlots = dayData.slots
+      .filter(slot => {
+        const hour = parseInt(slot.time.split(':')[0]);
+        return hour >= feverStartHour;
+      })
+      .sort(sortByTime);
+
+    // Update period time labels dynamically
+    const generalPeriodTime = panel.querySelector('.time-period:first-child .period-time');
+    const feverPeriodTime = panel.querySelector('.time-period:last-child .period-time');
+
+    if (generalSlots.length > 0 && generalPeriodTime) {
+      const firstTime = generalSlots[0].time;
+      const lastEndTime = generalSlots[generalSlots.length - 1].endTime;
+      generalPeriodTime.textContent = `${firstTime} - ${lastEndTime}`;
+    }
+
+    if (feverSlots.length > 0 && feverPeriodTime) {
+      const firstTime = feverSlots[0].time;
+      const lastEndTime = feverSlots[feverSlots.length - 1].endTime;
+      feverPeriodTime.textContent = `${firstTime} - ${lastEndTime}`;
+    }
+
+    // Render slots
+    renderSlots(generalSlots, panel.querySelector<HTMLElement>('.general-slots'));
+    renderSlots(feverSlots, panel.querySelector<HTMLElement>('.fever-slots'));
+
+    dayStates[offsetDays] = 'open';
+    hideMessage(panel);
+  }
+
+  // 選択中の日に応じて、共有の凡例・注釈・CTAの表示を切り替える
+  function updateSharedChrome(offsetDays: number): void {
+    const legend = document.getElementById('availabilityLegend');
+    const notes = document.getElementById('availabilityNotes');
+    const cta = document.getElementById('reservationCta');
+    // 休診日は凡例・注釈・CTAを非表示
+    const hidden = dayStates[offsetDays] === 'closed';
+    [legend, notes, cta].forEach(el => {
+      if (el) el.style.display = hidden ? 'none' : '';
+    });
+  }
+
+  // 本日/明日の切替（スライド）— データはキャッシュ済みなので再取得不要
+  function selectDay(offsetDays: number): void {
+    selectedOffset = offsetDays;
+
+    const dayTabs = document.getElementById('dayTabs');
+    if (dayTabs) {
+      dayTabs.setAttribute('data-active', String(offsetDays));
+      dayTabs.querySelectorAll('.day-tab').forEach(t => {
+        t.classList.toggle('active', Number((t as HTMLElement).dataset.offset) === offsetDays);
+      });
+    }
+
+    const track = document.getElementById('dayTrack');
+    if (track) {
+      track.setAttribute('data-active', String(offsetDays));
+    }
+
+    updateSharedChrome(offsetDays);
   }
 
   async function fetchAvailability(): Promise<void> {
@@ -614,85 +893,41 @@ import Footer from "../components/Footer.astro";
       }
 
       const data: ApiResponse = await response.json();
+      cachedDates = data.dates;
 
-      // Get today's data (first element) and convert
-      const apiToday = data.dates[0];
-      if (!apiToday) {
-        throw new Error('本日のデータが見つかりませんでした');
-      }
-      const today = convertDateData(apiToday);
-
-      // Update date display
-      const dateDisplay = document.getElementById('dateDisplay');
-      if (dateDisplay) {
-        const dateValue = dateDisplay.querySelector('.date-value');
-        if (dateValue) {
-          dateValue.textContent = formatDate(today.date);
-        }
-      }
-
-      // Check if clinic is closed
-      if (today.isClosed || today.slots.length === 0) {
-        showMessage('本日は休診日です', 'closed');
-        updateLastUpdated();
-        return;
-      }
-
-      // 土日(0=日,6=土)は18時、平日は19時で一般/発熱を分割
-      const isWeekend = today.dayOfWeek === 0 || today.dayOfWeek === 6;
-      const feverStartHour = isWeekend ? 18 : 19;
-
-      const sortByTime = (a: Slot, b: Slot) => a.time.localeCompare(b.time);
-
-      const generalSlots = today.slots
-        .filter(slot => {
-          const hour = parseInt(slot.time.split(':')[0]);
-          return hour < feverStartHour;
-        })
-        .sort(sortByTime);
-
-      const feverSlots = today.slots
-        .filter(slot => {
-          const hour = parseInt(slot.time.split(':')[0]);
-          return hour >= feverStartHour;
-        })
-        .sort(sortByTime);
-
-      // Update period time labels dynamically
-      const generalPeriodTime = document.querySelector('#slotsContainer .time-period:first-child .period-time');
-      const feverPeriodTime = document.querySelector('#slotsContainer .time-period:last-child .period-time');
-
-      if (generalSlots.length > 0 && generalPeriodTime) {
-        const firstTime = generalSlots[0].time;
-        const lastEndTime = generalSlots[generalSlots.length - 1].endTime;
-        generalPeriodTime.textContent = `${firstTime} - ${lastEndTime}`;
-      }
-
-      if (feverSlots.length > 0 && feverPeriodTime) {
-        const firstTime = feverSlots[0].time;
-        const lastEndTime = feverSlots[feverSlots.length - 1].endTime;
-        feverPeriodTime.textContent = `${firstTime} - ${lastEndTime}`;
-      }
-
-      // Render slots
-      if (generalSlots.length > 0) {
-        renderSlots(generalSlots, 'generalSlots');
-      }
-
-      if (feverSlots.length > 0) {
-        renderSlots(feverSlots, 'feverSlots');
-      }
-
-      hideMessage();
+      // 両日ぶんを描画しておく（切替時は即スライド表示）
+      renderDay(0);
+      renderDay(1);
+      updateSharedChrome(selectedOffset);
       updateLastUpdated();
 
     } catch (error) {
       console.error('Error fetching availability:', error);
-      showMessage(
-        '予約状況の読み込みに失敗しました。<br>しばらく経ってから再度お試しください。',
-        'error'
-      );
+      [0, 1].forEach(offset => {
+        const panel = getPanel(offset);
+        if (panel) {
+          dayStates[offset] = 'error';
+          showMessage(
+            panel,
+            '予約状況の読み込みに失敗しました。<br>しばらく経ってから再度お試しください。',
+            'error'
+          );
+        }
+      });
+      updateSharedChrome(selectedOffset);
     }
+  }
+
+  // タブのクリックで日付を切替
+  const dayTabsEl = document.getElementById('dayTabs');
+  if (dayTabsEl) {
+    dayTabsEl.querySelectorAll<HTMLButtonElement>('.day-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const offset = Number(tab.dataset.offset);
+        if (offset === selectedOffset) return;
+        selectDay(offset);
+      });
+    });
   }
 
   // Initial fetch

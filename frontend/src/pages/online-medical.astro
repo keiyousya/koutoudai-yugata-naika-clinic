@@ -1,0 +1,656 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PasswordGate from "../components/PasswordGate.astro";
+
+// 情報通信機器を用いた診療（オンライン診療）に係る施設基準の届出に必要な
+// ウェブサイト掲示ページ。
+// 掲示要件（東北厚生局 様式１ 情報通信機器を用いた診療に係る届出書添付書類）:
+//   1. 情報通信機器を用いた診療の初診において向精神薬の処方は行わないこと
+//   2. 対応状況を記載した「オンライン診療指針」の遵守確認チェックリスト
+//
+// チェックリスト本文は厚生労働省「基準等遵守の確認をするためのチェックリスト
+// （医療機関 ver.）」（令和8年4月改訂対応・オンライン診療の適切な実施に関する
+// 指針に準拠）を再現したもの。
+//
+// ※ 確認日・確認者、および各項目の対応状況は院長がご確認のうえ適宜更新して
+//    ください（下記 confirmedDate / confirmedBy）。
+const confirmedDate = "2026年7月8日";
+const confirmedBy = "院長　田村 慧人";
+
+type Item = {
+  mark?: string; // ⅰ, ⅱ ... （省略可）
+  text: string;
+  level: "遵守" | "推奨";
+  note?: string;
+};
+
+type Group = {
+  label: string;
+  note?: string;
+  conditional?: boolean; // 当院で該当する診療を行う場合に遵守する項目
+  items: Item[];
+};
+
+type Section = {
+  num: string;
+  title: string;
+  groups: Group[];
+};
+
+const sections: Section[] = [
+  {
+    num: "１",
+    title: "オンライン診療の提供に関する事項",
+    groups: [
+      {
+        label: "(1) 医師－患者関係／患者合意",
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "オンライン診療を実施する際は、オンライン診療を実施する旨について、医師と患者との間で合意がある場合に行う。" },
+          { mark: "ⅱ", level: "遵守", text: "ⅰの合意を行うに当たっては、医師は、患者がオンライン診療を希望する旨を明示的に確認する。" },
+          { mark: "ⅲ", level: "遵守", text: "オンライン診療を実施する都度、医師が医学的な観点から実施の可否を判断し、オンライン診療を行うことが適切でないと判断した場合はオンライン診療を中止し、速やかに適切な対面診療につなげる。" },
+          { mark: "ⅳ", level: "遵守", text: "医師は、患者のⅰの合意を得るに先立ち、患者に対して次の事項について説明を行う。（触診等を行うことができない等の理由によりオンライン診療で得られる情報は限られていることから、対面診療を組み合わせる必要があること／オンライン診療を実施する都度、医師がオンライン診療の実施の可否を判断すること／(3)に示す「診療計画」に含まれる事項）" },
+        ],
+      },
+      {
+        label: "(2) 適用対象",
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "直接の対面診察と同等でないにしても、これに代替し得る程度の患者の心身の状態に関する有用な情報を、オンライン診療により得る。" },
+          { mark: "ⅱ", level: "遵守", text: "オンライン診療が困難な症状として、一般社団法人日本医学会連合が作成した「オンライン診療の初診に適さない症状」等を踏まえて医師が判断し、オンライン診療が適さない場合には対面診療を実施する（対面診療が可能な医療機関を紹介する場合も含む。）。" },
+          { mark: "ⅲ", level: "遵守", text: "初診からのオンライン診療は、原則として「かかりつけの医師」が行う。" },
+          { mark: "ⅳ", level: "遵守", text: "「かかりつけの医師」以外の医師が診療前相談を行った上で初診からのオンライン診療を行う場合は、安全性が担保されたオンライン診療を実施できるよう、オンライン診療の実施後、適切に対面診療につなげられるようにしておく。" },
+          { mark: "ⅴ", level: "遵守", text: "診療前相談により対面受診が必要と判断した場合であって、対面診療を行うのが他院である場合は、診療前相談で得た情報について必要に応じて適切に情報提供を行う。" },
+          { mark: "ⅵ", level: "遵守", text: "診療前相談を行うにあたっては、結果としてオンライン診療が行えない可能性があることや、診療前相談の費用等について医療機関のホームページ等で示すほか、あらかじめ患者に十分周知する。" },
+          { mark: "ⅶ", level: "遵守", text: "急病急変患者については、原則として直接の対面による診療を行う。" },
+          { mark: "ⅷ", level: "遵守", text: "特定の複数医師が関与することについて「診療計画」で明示しており、いずれかの医師が直接の対面診療を行っている場合は、全ての医師について直接の対面診療が行われていなくとも、これらの医師が交代でオンライン診療を行うことが可能。ただし、交代でオンライン診療を行う場合は、「診療計画」に医師名を記載する。" },
+          { level: "遵守", text: "患者の同意を得た上で、診療録記載を含む十分な引継ぎを行っていれば、オンライン診療を行う予定であった医師の病欠、勤務の変更などにより、「診療計画」において予定されていない代診医がオンライン診療を行うことが可能。" },
+          { level: "遵守", text: "主に健康な人を対象にした診療であり、対面診療においても一般的に同一医師が行う必要性が低いと認識されている診療を行う場合などにおいても、「診療計画」での明示など同様の要件の下、特定の複数医師が交代でオンライン診療を行うことが可能。" },
+          { mark: "Ⅹ", level: "推奨", text: "自身の心身の状態に関する情報の伝達に困難がある患者については、伝達できる情報が限定されるオンライン診療の適用を慎重に判断する。" },
+        ],
+      },
+      {
+        label: "≪禁煙外来を行う医療機関の場合≫",
+        conditional: true,
+        items: [
+          { mark: "ⅸ", level: "遵守", text: "禁煙外来については、定期的な健康診断等が行われる等により疾病を見落とすリスクが排除されている場合であって、治療によるリスクが極めて低いものとして、患者側の利益と不利益を十分に勘案した上で、直接の対面診療を組み合わせないオンライン診療を行うことが許容され得る。" },
+        ],
+      },
+      {
+        label: "≪緊急避妊に係る診療を行う医療機関の場合≫",
+        conditional: true,
+        items: [
+          { level: "遵守", text: "地理的要因がある場合等において、産婦人科医又は厚生労働省が指定する研修を受講した医師が初診からオンライン診療を行うことは許容され得る。この場合、初診からオンライン診療を行う医師は一錠のみの院外処方を行うこととし、受診した女性は薬局において研修を受けた薬剤師による調剤を受け、薬剤師の面前で内服することとする。加えて、内服した女性が避妊の成否等を確認できるよう、産婦人科医による直接の対面診療を約三週間後に受診することを確実に担保し、確実なフォローアップを行う。" },
+        ],
+      },
+      {
+        label: "(3) 診療計画",
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "医師は、オンライン診療を行う前に、患者の心身の状態について、直接の対面診療により十分な医学的評価（診断等）を行い、その評価に基づいて「診療計画」を定め、2年間は保存する。", note: "診療計画に含む事項：オンライン診療で行う具体的な診療内容／対面診療・検査との組み合わせ（頻度・タイミング等）／診療時間（予約制等）／使用する情報通信機器等／オンライン診療を行わないと判断する条件と対面診療に切り替える旨／患者が診察に積極的に協力する必要がある旨／急病急変時の対応方針／複数医師が関与する場合の明示／セキュリティリスクに関する責任の範囲（責任分界点）等。" },
+          { mark: "ⅱ", level: "遵守", text: "初診からのオンライン診療を行う場合については、診察の後にその後の方針を患者に説明する。その後、オンラインでの診療継続又はその見込みのある場合、可及的速やかに、ⅰに基づき診療計画を定め、保存する。" },
+          { mark: "ⅲ", level: "遵守", text: "オンライン診療において、映像や音声等を医師側又は患者側端末に保存する場合には、事前に医師－患者間で、映像や音声等の保存の要否や保存端末等の取り決めを明確にし、双方で合意する。" },
+          { mark: "ⅳ", level: "遵守", text: "オンライン診療を実施する医師自らが対応できないことが想定される場合、そのような急変に対応できる医療機関に対して当該患者の診療録等必要な医療情報が事前に伝達されるよう、患者の心身の状態に関する情報提供を定期的に行うなど、適切な体制を整える。" },
+          { level: "遵守", text: "急変時の対応を速やかに行うことが困難となると想定される場合については、急変時の対応について、事前に関係医療機関との合意を行っておく。" },
+          { mark: "ⅴ", level: "推奨", text: "「診療計画」は、文書又は電磁的記録により患者が参照できるようにする。" },
+          { mark: "ⅵ", level: "推奨", text: "同一疾患等について複数の医師が同一の患者に対しオンライン診療を行う場合等において、既に作成されている「診療計画」を変更することにより患者の不利益につながるときは、患者の意思を十分尊重した上で、当該「診療計画」を変更せずにオンライン診療を行う。" },
+        ],
+      },
+      {
+        label: "(4) 本人確認",
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "緊急時などのやむを得ない事情がある場合を除き、原則として、医師と患者双方が身分確認書類を用いてお互いに本人であることの確認を行う。（かかりつけの医師がオンライン診療を行う場合等、社会通念上、当然に本人であると認識できる状況であった場合には、診療の都度の本人確認は要しない。）" },
+          { mark: "ⅱ", level: "遵守", text: "初診でオンライン診療を実施する場合、当該患者の本人確認は、顔写真付きの身分証明書（マイナンバーカード、運転免許証、パスポート等）、これを有しない場合は2種類以上の身分証明書、1種類しか使用できない場合は当該書類の特徴を十分確認した上で適切な質問や全身観察等を組み合わせた確認、のいずれかの方法により行う。" },
+          { mark: "ⅲ", level: "遵守", text: "医師の本人証明の方法として、なりすまし防止のため、原則として顔写真付きの身分証明書（HPKIカード、マイナンバーカード、運転免許証、パスポート等）を用いて医師本人の氏名を示す。特に、オンライン診療受診施設で患者に対してオンライン診療を行う場合は、患者が事後的にも確認できる方法により氏名の提示を行う。" },
+          { mark: "ⅳ", level: "遵守", text: "「医籍登録年」を伝える（医師免許証を用いることが望ましい。）など、医師が医師の資格を保有していることを患者が確認できる環境を整える。また、必要に応じて厚生労働省の「医師等資格確認検索」を用いて医師の資格確認が可能である旨を示す。" },
+        ],
+      },
+      {
+        label: "(5) 薬剤処方・管理",
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "患者の心身の状態の十分な評価を行うため、初診からのオンライン診療の場合及び新たな疾患に対して医薬品の処方を行う場合は、日本医学会連合が作成した「オンライン診療の初診での投与について十分な検討が必要な薬剤」等の関係学会が定める診療ガイドラインを参考に行う。ただし、初診の場合には次の処方は行わない。①麻薬及び向精神薬の処方　②基礎疾患等の情報が把握できていない患者に対する、特に安全管理が必要な医薬品（薬剤管理指導料「１」の対象となる薬剤）の処方　③基礎疾患等の情報が把握できていない患者に対する8日分以上の処方。また、重篤な副作用が発現するおそれのある医薬品の処方は特に慎重に行うとともに、処方後の服薬状況の把握に努めるなど、そのリスク管理に最大限努める。" },
+          { mark: "ⅱ", level: "遵守", text: "医師は、患者に対し、現在服薬している医薬品を確認する。患者は医師に対し正確な申告を行う。" },
+          { mark: "ⅲ", level: "推奨", text: "医師は、患者に対し、かかりつけ薬剤師・薬局の下、医薬品の一元管理を行うことを求める。" },
+        ],
+      },
+      {
+        label: "(6) 診察方法",
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "医師がオンライン診療を行っている間、患者の状態について十分に必要な情報が得られていると判断できない場合には、速やかにオンライン診療を中止し、直接の対面診療を行う。" },
+          { mark: "ⅱ", level: "遵守", text: "オンライン診療では、可能な限り多くの診療情報を得るために、リアルタイムの視覚及び聴覚の情報を含む情報通信手段を採用する。" },
+          { level: "遵守", text: "オンライン診療は、文字、写真及び録画動画のみのやりとりで完結してはならない。病状の変化に直接関わらないことについてチャット機能を用いる場合は、あらかじめ活用して伝達し合う事項・範囲を決めておく。" },
+          { mark: "ⅲ", level: "遵守", text: "オンライン診療において、医師は、情報通信機器を介して、同時に複数の患者の診療を行ってはならない。" },
+          { mark: "ⅳ", level: "遵守", text: "医師の他に医療従事者等が同席する場合は、その都度患者に説明を行い、患者の同意を得る。" },
+          { mark: "ⅴ", level: "推奨", text: "医師と患者が1対1で診療を行っていることを確認するために、オンライン診療の開始時間及び終了時間をアクセスログとして記録するシステムとする。" },
+          { mark: "ⅵ", level: "推奨", text: "オンライン診療を実施する前に、直接の対面で、実際に使用する情報通信機器を用いた試験を実施し、情報通信機器を通して得られる画像の色彩や動作等について確認する。" },
+        ],
+      },
+    ],
+  },
+  {
+    num: "２",
+    title: "オンライン診療の提供体制に関する事項",
+    groups: [
+      {
+        label: "(1) 医師の所在",
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "オンライン診療を行う医師は、医療機関に所属し、その所属及び当該オンライン診療実施病院等の問い合わせ先を明らかにする。特に、オンライン診療受診施設で患者に対してオンライン診療を行う場合は、患者が事後的にも確認できる方法により、所属する医療機関及びその問合せ先の明示その他必要な通知を行う。" },
+          { mark: "ⅱ", level: "遵守", text: "患者の急病急変時に適切に対応するため、患者が速やかにアクセスできる医療機関において直接の対面診療を行える体制を整える。" },
+          { mark: "ⅲ", level: "遵守", text: "医師は、騒音により音声が聞き取れない、ネットワークが不安定であり動画が途切れる等、オンライン診療を行うに当たり適切な判断を害する場所でオンライン診療を行ってはならない。" },
+          { mark: "ⅳ", level: "遵守", text: "オンライン診療を行う際は、診療録等、過去の患者の状態を把握しながら診療すること等により、医療機関に居る場合と同等程度に患者の心身の状態に関する情報を得られる体制を整える。" },
+          { mark: "ⅴ", level: "遵守", text: "第三者に患者の心身の状態に関する情報の伝わることのないよう、医師は物理的に外部から隔離される空間においてオンライン診療を行う。" },
+          { mark: "ⅵ", level: "遵守", text: "オンライン診療実施病院等は、ホームページや院内掲示等において、本指針を遵守した上でオンライン診療を実施している旨を具体的に公表する。", note: "当該公表として、本ページにおいて本チェックリストを公表しています。" },
+          { mark: "ⅶ", level: "推奨", text: "オンライン診療を行う医師は、2(1)ⅱの医療機関に容易にアクセスできるよう努める。" },
+        ],
+      },
+      {
+        label: "(2) 患者の所在",
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "患者がオンライン診療を受ける場所は、対面診療が行われる場合と同程度に、清潔かつ安全でなければならない。" },
+          { mark: "ⅱ", level: "遵守", text: "プライバシーが保たれるよう、患者が物理的に外部から隔離される空間においてオンライン診療が行われなければならない。" },
+        ],
+      },
+      {
+        label: "≪（同じ場所にいる）特定多数人に対してオンライン診療を提供する場合≫",
+        conditional: true,
+        items: [
+          { mark: "ⅲ", level: "遵守", text: "医療法上、特定多数人に対して医業を提供する場所は病院又は診療所であり、これはオンライン診療であっても同様であるため、特定多数人に対してオンライン診療受診施設以外でオンライン診療を提供する場合には、診療所の届出を行う。" },
+        ],
+      },
+      {
+        label: "(3) 患者が看護師等といる場合のオンライン診療（D to P with N）",
+        conditional: true,
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "医師の指示による診療の補助行為の内容として、「診療計画」若しくは訪問看護指示書又はその両方に基づき、予測された範囲内において診療の補助行為を行う。また、「診療計画」や訪問看護指示書の内容については、患者の状況や診療の内容に応じ、適時に見直しを行う。" },
+          { mark: "ⅱ", level: "遵守", text: "D to P with N を行う医師は、原則、訪問診療等を定期的に行っている医師であり、看護師等は同一医療機関の看護師等あるいは訪問看護の指示を受けた看護師等とする。" },
+        ],
+      },
+      {
+        label: "(4) 患者が医師といる場合のオンライン診療（D to P with D）",
+        conditional: true,
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "情報通信機器を用いて診療を行う遠隔地にいる医師は、事前に直接の対面診療を行わずにオンライン診療を行うことができ、主治医等の医師は遠隔地にいる医師の専門的な知見・技術を活かした診療が可能。ただし、患者の側にいる医師は既に直接の対面診療を行っている主治医等である必要があり、遠隔地にいる医師はあらかじめ主治医等の医師より十分な情報提供を受けること。" },
+          { mark: "ⅱ", level: "遵守", text: "診療の責任の主体は、原則として従来から診療している主治医等の医師にあるが、情報通信機器の特性を勘案し、問題が生じた場合の責任分担等についてあらかじめ協議しておく。" },
+          { level: "遵守", text: "【遠隔からの高度な技術を有する医師による手術等】遠隔地にいる医師でないと実施が困難な手術等を必要とし、かつ患者の体力面などから当該医師の下への搬送・移動等が難しい患者を対象に行う。手術等に当たり重大な遅延等が生じない通信環境を整え、事前に通信環境の確認を行うとともに、一時的に不具合があった場合等でも患者の側にいる主治医等の医師により手術の安全な継続が可能な体制を組む。" },
+          { level: "遵守", text: "【遠隔からの高度な専門性を有する医師による診察・診断等】地域においてオンライン診療の必要性が認められる患者を対象に行う。患者は主治医等とともに遠隔地にいる医師の診療を受け、患者の側にいる主治医等の医師と遠隔地にいる医師は事前に診療情報提供書等を通じて連携をとる。" },
+        ],
+      },
+      {
+        label: "(5) 通信環境（情報セキュリティ・プライバシー・利用端末）／医療機関が行うべき対策",
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "医療機関は、オンライン診療に用いるシステムによって講じるべき対策が異なることを理解し、オンライン診療を計画する際には、患者に対してセキュリティリスクを説明し、同意を得る。" },
+          { level: "遵守", text: "【基本事項】医療機関は、オンライン診療に用いるシステムを提供する事業者による説明を受け、十分な情報セキュリティ対策が講じられていることを確認する。確認に際して責任分界点について確認し、システムの導入に当たってはそのリスクを十分に理解する。" },
+          { level: "遵守", text: "医療情報システムに影響を及ぼす可能性があるオンライン診療システムを使用する際は、「医療情報安全管理関連ガイドライン」に沿った対策を併せて実施する。汎用サービスを使用する際は、汎用サービスが医療情報システムに影響を与えない設定とする。" },
+          { level: "遵守", text: "医療機関は、患者に対してオンライン診療の実施に伴うセキュリティリスクを説明し、システムを利用することについての合意を得た上で、双方が合意した旨を診療録に記載し、オンライン診療を実施する。" },
+          { level: "遵守", text: "「診療計画」を作成する際、患者に対して使用するオンライン診療システムに伴うセキュリティリスク等とその対策及び責任の所在について、患者からの問い合わせに対応できるよう、説明文書の準備又は対応者の準備を行う。" },
+          { level: "遵守", text: "OS やソフトウェアのアップデートについて事業者と協議・確認した上で実施する。必要に応じてセキュリティソフトをインストールする。" },
+          { level: "推奨", text: "オンライン診療に用いるシステムを使用する際には、多要素認証を用いる。" },
+          { level: "遵守", text: "オンライン診療を実施する際は、患者がいつでも医師の本人確認及び医師の所属医療機関の確認ができるように必要な情報を準備する。オンライン診療システムを用いる場合は、患者がいつでも医師の本人確認ができる情報及び医療機関の問い合わせ先をオンライン診療システム上に掲載する。" },
+          { level: "遵守", text: "医師がいる空間において診療に関わっていない者が診察情報を知覚できないようにする。また、患者がいる空間に第三者がいないことを確認する。（家族等やオンライン診療支援者の同席に医師及び患者が同意している場合を除く。）" },
+          { level: "遵守", text: "意図しない第三者が通信に紛れ込むような三者通信や患者のなりすましが起こっていないことに留意する。患者側・医師側ともに録音、録画、撮影を同意なしに行うことがないよう確認する。" },
+          { level: "遵守", text: "チャット機能を補助的に用いる場合には、セキュリティリスクとベネフィットを勘案したうえで、使用するソフトウェアやチャット機能の使用方法について患者側に指示する。" },
+          { level: "推奨", text: "患者から提示された二次元バーコードや URL 等のリンク先へのアクセス及びファイルのダウンロード等はセキュリティリスクが高いため行わない（セキュリティリスクが限定的であると合理的に判断できる場合を除く。）。" },
+          { level: "遵守", text: "オンライン診療を実施する医師は、オンライン診療の研修等を通じて、セキュリティリスクに関する情報を適宜アップデートする。" },
+          { level: "遵守", text: "外部の PHR 等の情報を取り扱うことが医療情報システムに影響を与えうる場合は「医療情報安全管理関連ガイドライン」に沿った対策を実施する。影響を与えずに取り扱う場合は、セキュリティリスクについて患者との間で合意を得た上でオンライン診療を実施する。" },
+          { level: "遵守", text: "【汎用サービスを用いる場合の留意事項】意図しない三者通信を防ぐため、医療機関から患者側につなげることを徹底し、通信の管理者権限を患者に委譲しない。汎用サービスのセキュリティポリシーを適宜確認し患者の問い合わせに対応できるようにする。個別の汎用サービスに内在するセキュリティリスクを理解し、必要な対策を講じる責任は医療機関にあることを理解する。端末立ち上げ時、パスワード認証や生体認証などを用いて操作者の認証を行う。" },
+        ],
+      },
+      {
+        label: "(5) 通信環境／オンライン診療システム事業者が行うべき対策（医療機関が確認）",
+        note: "医療機関の医療情報管理責任者は、下記を踏まえて所属する医師が行うべきセキュリティリスク対策を講じます。",
+        items: [
+          { level: "遵守", text: "事業者は、必要な要件を備えたオンライン診療システムを構築し、セキュリティ面で安全な状態を保つ。導入に際し、医療機関が十分に理解できるまでシステムのセキュリティ等に関する説明を行う。" },
+          { level: "遵守", text: "医療機関が負う情報漏洩・不正アクセス等のセキュリティリスク及びシステム障害時の診療への影響を明確に説明する。責任分界点について明確に説明し、合意した範囲において責任を負う。脆弱性等のセキュリティリスク発生時には速やかに状況や対応方法等の情報提供を行う。" },
+          { level: "遵守", text: "オンライン診療システム等が医療情報システムに影響を及ぼし得るかを明らかにする。医療情報システム以外のシステム（端末・サーバー等）における診療にかかる患者個人に関するデータの蓄積・残存を禁止する（該当する場合を除く）。" },
+          { level: "遵守", text: "システムの運用保守を行う職員や事業者、クラウドサービス事業者のアクセス権限を管理する。不正アクセス防止措置（IDS/IPS の設置等）を講じ、患者が医師の本人確認及び所属医療機関の確認を常に行える機能を備える。アクセスログの保全措置を講じる。" },
+          { level: "遵守", text: "端末へのウィルス対策ソフトの導入、OS・ソフトウェアのアップデートを定期的に促す機能を備える。信頼性の高い機関によって発行されたサーバー証明書を用いて通信の暗号化（TLS1.3 以上、やむを得ず 1.2 を用いる場合は十分な暗号強度）を実施する。" },
+          { level: "推奨", text: "複数の患者が同一の施設からネットワークに継続的に接続する場合には、IP VPN や IPsec＋IKE による接続を行う。" },
+          { level: "遵守", text: "遠隔モニタリング等で蓄積された医療情報については、「医療情報安全管理関連ガイドライン」に基づいて安全に取り扱えるシステムを確立する。使用するドメインの不適切な移管や再利用が行われないように留意する。" },
+          { level: "遵守", text: "【医療情報システムに影響を及ぼす可能性があるシステムの場合】法的保存義務のある医療情報を保存するサーバーを国内法の執行が及ぶ場所に設置する。追加的リスクに関して十分な説明を行い、事故発生時の責任分界点を明らかにし、不正侵入防止対策等を講じる。" },
+          { level: "推奨", text: "オンライン診療システムは、上記の要件を満たしているシステムであるかどうか、第三者機関に認証されるのが望ましい。" },
+        ],
+      },
+    ],
+  },
+  {
+    num: "３",
+    title: "その他オンライン診療に関連する事項",
+    groups: [
+      {
+        label: "(1) 医師教育／患者教育",
+        items: [
+          { mark: "ⅰ", level: "遵守", text: "医師は、オンライン診療に責任を有する者として、厚生労働省が定める研修を受講することにより、オンライン診療を実施するために必須となる知識を習得する。" },
+          { mark: "ⅱ", level: "推奨", text: "医師－患者間の信頼関係を構築した上で、さらにオンライン診療の質を向上させるためには、より適切な情報の伝え方について医師－患者間で継続的に協議する。" },
+          { mark: "ⅲ", level: "推奨", text: "患者が情報通信機器の使用に慣れていない場合については、オンライン診療支援者が機器の使用の支援を行ってもよいが、医師は当該支援者に対して、機器の使用方法や情報セキュリティ上のリスク、診療開始のタイミング等についてあらかじめ説明を行う。" },
+        ],
+      },
+      {
+        label: "(2) 質評価／フィードバック",
+        items: [
+          { mark: "ⅰ", level: "推奨", text: "オンライン診療では、質評価やフィードバックの体制の整備が必要である。質評価においては、医学的・医療経済的・社会的観点など、多角的な観点から評価を行う。" },
+          { mark: "ⅱ", level: "遵守", text: "対面診療と同様に診療録の記載は必要であり、対面診療における診療録記載と遜色の無いよう注意を払う。診断等の基礎となる情報（診察時の動画や画像等）を保管する場合は、医療情報安全管理ガイドライン等に準じてセキュリティを講じる。" },
+        ],
+      },
+      {
+        label: "(3) エビデンスの蓄積",
+        items: [
+          { mark: "ⅰ", level: "推奨", text: "医師は、電子カルテ等における記録において、日時や診療内容などについて可能な限り具体的な記載をするよう心掛けるとともに、オンライン診療である旨が容易に判別できるよう努める。" },
+        ],
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="オンライン診療（情報通信機器を用いた診療）について | 勾当台夕方内科クリニック"
+  description="勾当台夕方内科クリニックのオンライン診療（情報通信機器を用いた診療）に関する掲示です。初診における向精神薬の不処方、および「オンライン診療の適切な実施に関する指針」の遵守確認チェックリストを掲載しています。"
+  noindex={true}
+>
+  {/* TODO(2026-08): 公開時に <PasswordGate> ラッパーを外す（中身の Header/main/Footer は残す）。
+      あわせて Layout の noindex={true}、astro.config.mjs のサイトマップ除外、
+      DisclosureLinks／Footer の導線コメントアウトも解除する */}
+  <PasswordGate
+    hash="bca604369ec826ce79d835185e689c20e6b398bcd1c3bde00ed3ea9f9f6fad0e"
+    storageKey="online-medical"
+  >
+  <Header />
+  <main class="legal-page">
+    <div class="container">
+      <h1 class="legal-title">オンライン診療（情報通信機器を用いた診療）について</h1>
+
+      <p class="legal-lead">
+        当院は、厚生労働省「オンライン診療の適切な実施に関する指針」を遵守した上で、情報通信機器を用いた診療（オンライン診療）を実施しています。<br />
+        情報通信機器を用いた診療に係る施設基準に基づき、以下の事項を掲示します。
+      </p>
+
+      <!-- 掲示要件1：初診における向精神薬の不処方 -->
+      <section class="notice-box" aria-labelledby="notice-rx">
+        <h2 id="notice-rx" class="notice-box-title">初診における向精神薬の処方について</h2>
+        <p class="notice-box-text">
+          当院では、<strong>情報通信機器を用いた診療（オンライン診療）の初診において、向精神薬の処方は行いません。</strong>
+        </p>
+        <p class="notice-box-sub">
+          あわせて、初診においては、麻薬の処方、基礎疾患等の情報が把握できていない患者様に対する特に安全管理が必要な医薬品（薬剤管理指導料「１」の対象となる薬剤）の処方、および基礎疾患等の情報が把握できていない患者様に対する8日分以上の処方も行いません。
+        </p>
+      </section>
+
+      <!-- 掲示要件2：オンライン診療指針の遵守確認チェックリスト -->
+      <section class="checklist" aria-labelledby="checklist-title">
+        <h2 id="checklist-title" class="section-heading">「オンライン診療の適切な実施に関する指針」遵守確認チェックリスト</h2>
+        <p class="checklist-intro">
+          厚生労働省が定める「基準等遵守の確認をするためのチェックリスト（医療機関 ver.）」に基づき、当院の対応状況を記載しています。
+        </p>
+
+        <div class="confirm-meta">
+          <div class="confirm-row"><span class="confirm-label">確認日</span><span class="confirm-value">{confirmedDate}</span></div>
+          <div class="confirm-row"><span class="confirm-label">確認者</span><span class="confirm-value">{confirmedBy}</span></div>
+        </div>
+
+        <p class="checklist-note">
+          <span class="check-inline" aria-hidden="true">✓</span> は当院が対応している事項を示します。<span class="na-inline">該当なし</span> は、当院で実施していない診療形態のため対象外となる事項です。
+        </p>
+
+        {sections.map((section) => (
+          <div class="cl-section">
+            <h3 class="cl-section-title"><span class="cl-section-num">{section.num}</span>{section.title}</h3>
+            {section.groups.map((group) => (
+              <div class={`cl-group${group.conditional ? " is-conditional" : ""}`}>
+                <h4 class="cl-group-title">{group.label}</h4>
+                {group.conditional
+                  ? <p class="cl-group-note">※ 当院では実施していない診療形態のため、該当しません。</p>
+                  : group.note && <p class="cl-group-note">{group.note}</p>}
+                <ul class="cl-items">
+                  {group.items.map((item) => (
+                    <li class={`cl-item${group.conditional ? " is-na" : ""}`}>
+                      {group.conditional
+                        ? <span class="cl-na">該当なし</span>
+                        : <span class="cl-check" aria-label="対応済み">✓</span>}
+                      <div class="cl-item-body">
+                        <p class="cl-item-text">{item.mark && <span class="cl-item-mark">{item.mark}</span>}{item.text}</p>
+                        {item.note && <p class="cl-item-note">{item.note}</p>}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ))}
+      </section>
+
+      <p class="legal-notice">
+        当院は、本指針を遵守した上で、患者様に安全で質の高いオンライン診療を提供できるよう取り組んでまいります。<br />
+        ご不明な点がございましたら、お気軽に受付までお問い合わせください。
+      </p>
+
+      <div class="detail-back">
+        <a href="/" class="back-button">ホームに戻る</a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+  </PasswordGate>
+</Layout>
+
+<style>
+  .legal-page {
+    padding: 120px 0 80px;
+    min-height: 100vh;
+  }
+
+  .legal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+
+  .legal-title::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--color-navy);
+    margin: 16px auto 0;
+    opacity: 0.3;
+  }
+
+  .legal-lead {
+    max-width: 820px;
+    margin: 0 auto 40px;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  /* 掲示要件1：向精神薬 */
+  .notice-box {
+    max-width: 820px;
+    margin: 0 auto 56px;
+    background: var(--color-coral-bg);
+    border: 1px solid var(--color-coral);
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+
+  .notice-box-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 14px;
+  }
+
+  .notice-box-text {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--color-text);
+    margin-bottom: 12px;
+  }
+
+  .notice-box-text strong {
+    color: var(--color-coral);
+  }
+
+  .notice-box-sub {
+    font-size: 0.85rem;
+    line-height: 1.85;
+    color: var(--color-text-secondary);
+  }
+
+  /* 掲示要件2：チェックリスト */
+  .checklist {
+    max-width: 820px;
+    margin: 0 auto 48px;
+  }
+
+  .section-heading {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  .checklist-intro {
+    font-size: 0.88rem;
+    line-height: 1.85;
+    color: var(--color-text-secondary);
+    margin-bottom: 24px;
+  }
+
+  .confirm-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+    padding: 16px 20px;
+    background: var(--color-bg-blue);
+    border-radius: 10px;
+    margin-bottom: 24px;
+  }
+
+  .confirm-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .confirm-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-navy);
+  }
+
+  .confirm-value {
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+
+  .checklist-note {
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+    padding: 12px 18px;
+    background: var(--color-turquoise-bg);
+    border-radius: 10px;
+    margin-bottom: 32px;
+  }
+
+  .check-inline {
+    font-weight: 700;
+    color: var(--color-turquoise);
+  }
+
+  .na-inline {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 1px 6px;
+  }
+
+  .cl-section {
+    margin-bottom: 36px;
+  }
+
+  .cl-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    background: var(--color-navy);
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  .cl-section-num {
+    flex-shrink: 0;
+    font-size: 0.95rem;
+  }
+
+  .cl-group {
+    margin-bottom: 24px;
+    padding-left: 4px;
+  }
+
+  .cl-group-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .cl-group.is-conditional .cl-group-title {
+    color: var(--color-text-secondary);
+  }
+
+  .cl-group-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .cl-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cl-item {
+    display: grid;
+    grid-template-columns: 1.4em 1fr;
+    gap: 12px;
+    padding: 14px 16px;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+
+  .cl-check {
+    flex-shrink: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--color-turquoise);
+  }
+
+  /* 「該当なし」項目はバッジを本文の上に積む（横並びだと本文が窮屈になるため）。
+     バッジは左端、本文だけ✓項目の本文と揃うようインデント（チェック列1.4em＋gap12px分）。 */
+  .cl-item.is-na {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .cl-item.is-na .cl-item-body {
+    padding-left: calc(1.4em + 12px);
+  }
+
+  .cl-na {
+    justify-self: start;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    background: var(--color-bg-blue);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 2px 10px;
+  }
+
+  .cl-item-body {
+    min-width: 0;
+  }
+
+  .cl-item-text {
+    font-size: 0.86rem;
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+
+  .cl-item-mark {
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-right: 6px;
+  }
+
+  .cl-item-note {
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--color-bg-blue);
+    border-radius: 6px;
+  }
+
+  .legal-notice {
+    max-width: 820px;
+    margin: 0 auto 48px;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .legal-page {
+      padding: 100px 0 60px;
+    }
+
+    .legal-title {
+      font-size: 1.15rem;
+      margin-bottom: 32px;
+    }
+
+    .notice-box {
+      padding: 22px 20px;
+      margin-bottom: 40px;
+    }
+
+    .confirm-meta {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+</style>

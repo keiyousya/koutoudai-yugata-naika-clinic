@@ -9,9 +9,10 @@ import { LINE_ADD_FRIEND_URL_AD, GOOGLE_ADS_TAG_ID, LINE_CONVERSION_SEND_TO } fr
 interface Props {
   title: string;
   description?: string;
+  noindex?: boolean;
 }
 
-const { title, description = "仙台市で夜21時まで診療の内科クリニック。発熱・咳・風邪症状、健診再検査に対応。仕事帰りに通院できます。勾当台公園駅徒歩2分、土日も診療。" } = Astro.props;
+const { title, description = "仙台市で夜21時まで診療の内科クリニック。発熱・咳・風邪症状、健診再検査に対応。仕事帰りに通院できます。勾当台公園駅徒歩2分、土日も診療。", noindex = false } = Astro.props;
 
 const siteUrl = "https://koutoudai-yugata-naika.clinic";
 const currentPath = Astro.url.pathname;
@@ -159,8 +160,8 @@ const faqStructuredData = {
     <meta name="twitter:image" content={ogImage} />
 
     <!-- Additional SEO -->
-    <meta name="robots" content="index, follow" />
-    <meta name="googlebot" content="index, follow" />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
+    <meta name="googlebot" content={noindex ? "noindex, nofollow" : "index, follow"} />
     <meta name="format-detection" content="telephone=no" />
     <meta name="theme-color" content="#1e3a5f" />
 

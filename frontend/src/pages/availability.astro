@@ -35,7 +35,7 @@ import Footer from "../components/Footer.astro";
         <div class="day-viewport">
           <div class="day-track" id="dayTrack">
             {[0, 1].map((offset) => (
-              <div class="day-panel" data-offset={offset}>
+              <div class={`day-panel${offset === 0 ? " active" : ""}`} data-offset={offset}>
                 <div class="availability-header">
                   <span class="date-label">
                     <span class="date-icon-badge">
@@ -220,25 +220,27 @@ import Footer from "../components/Footer.astro";
     color: var(--color-navy);
   }
 
-  .day-viewport {
-    overflow: hidden;
-  }
-
-  .day-track {
-    display: flex;
-    align-items: flex-start;
-    gap: 24px;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .day-track[data-active="1"] {
-    transform: translateX(calc(-100% - 24px));
-  }
-
   .day-panel {
-    flex: 0 0 100%;
     width: 100%;
     min-width: 0;
+  }
+
+  /* アクティブな日だけ表示（本体はスライドせず切替のみ。タブのインジケーターだけスライド） */
+  .day-panel:not(.active) {
+    display: none;
+  }
+
+  .day-panel.active {
+    animation: day-panel-fade 0.3s ease;
+  }
+
+  @keyframes day-panel-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   .availability-header {
@@ -911,10 +913,11 @@ import Footer from "../components/Footer.astro";
       });
     }
 
-    const track = document.getElementById('dayTrack');
-    if (track) {
-      track.setAttribute('data-active', String(offsetDays));
-    }
+    // 本体はスライドせず、アクティブな日のパネルだけ表示する
+    // （両日の枠数が違っても余白が生まれないよう、高さは表示中パネルに追従）
+    document.querySelectorAll<HTMLElement>('.day-panel').forEach(panel => {
+      panel.classList.toggle('active', Number(panel.dataset.offset) === offsetDays);
+    });
 
     updateSharedChrome(offsetDays);
   }

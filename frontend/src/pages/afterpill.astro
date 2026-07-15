@@ -133,6 +133,12 @@ const faqStructuredData = {
       <TwilightBackground />
     </div>
 
+    <!-- TODO: 8/1に削除 — 臨時休診期間中のみ表示 -->
+    <a href="/news/2026-07-16" class="closure-alert" role="alert">
+      <span class="closure-alert-badge">臨時休診</span>
+      <span class="closure-alert-text">7/16（木）〜 7/31（金）は院長療養のため休診です。8/1（土）より通常診療を再開します。</span>
+    </a>
+
     <section class="page-intro">
       <div class="container">
         <p class="intro-text">
@@ -458,6 +464,56 @@ const faqStructuredData = {
 </Layout>
 
 <style>
+  .closure-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 720px;
+    margin: -20px auto 0;
+    padding: 14px 20px;
+    background: #d03030;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 12px rgba(208, 48, 48, 0.3);
+    transition: background 0.2s;
+  }
+
+  .closure-alert:hover {
+    background: #b82828;
+  }
+
+  .closure-alert-badge {
+    flex-shrink: 0;
+    padding: 3px 10px;
+    background: #fff;
+    color: #d03030;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .closure-alert-text {
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .closure-alert {
+      margin: -12px 16px 0;
+      padding: 12px 16px;
+      gap: 10px;
+    }
+
+    .closure-alert-text {
+      font-size: 0.8rem;
+    }
+  }
+
   .page-header {
     position: relative;
     padding: 120px 0 60px;

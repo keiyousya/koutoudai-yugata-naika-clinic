@@ -19,6 +19,7 @@ import interiorImage03 from "../assets/interior03.jpeg";
     </div>
   </div>
   <div class="hero-content container">
+    <p class="hero-closure-label">本日は臨時休診です</p>
     <p class="hero-catchphrase">夜21時まで診療｜土日も受診できる内科</p>
     <h1 class="hero-title">
       <span class="hero-title-main">勾当台夕方内科<br class="sp-br" />クリニック</span>
@@ -64,7 +65,8 @@ import interiorImage03 from "../assets/interior03.jpeg";
     </div>
     <p class="hero-access">勾当台公園駅から徒歩2分</p>
   </div>
-  <a href="/availability" class="availability-banner">
+  <!-- TODO: 8/1に復元 — 臨時休診期間中は非表示 -->
+  <!-- <a href="/availability" class="availability-banner">
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
       <line x1="16" y1="2" x2="16" y2="6"/>
@@ -72,6 +74,14 @@ import interiorImage03 from "../assets/interior03.jpeg";
       <line x1="3" y1="10" x2="21" y2="10"/>
     </svg>
     <span>本日の予約状況を確認</span>
+  </a> -->
+  <a href="/news/2026-07-16" class="availability-banner">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <span>臨時休診のお知らせ（7/16〜7/31）</span>
   </a>
   <TwilightBackground />
 </section>
@@ -132,6 +142,18 @@ import interiorImage03 from "../assets/interior03.jpeg";
   .hero-content {
     text-align: center;
     z-index: 1;
+  }
+
+  .hero-closure-label {
+    display: inline-block;
+    padding: 6px 24px;
+    background: #d03030;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 6px;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
   }
 
   .hero-catchphrase {
@@ -268,6 +290,11 @@ import interiorImage03 from "../assets/interior03.jpeg";
       padding: 180px 0 60px;
     }
 
+    .hero-closure-label {
+      font-size: 0.95rem;
+      padding: 5px 18px;
+    }
+
     .hero-catchphrase {
       font-size: 0.9rem;
     }
@@ -345,15 +372,21 @@ import interiorImage03 from "../assets/interior03.jpeg";
     align-items: center;
     gap: 8px;
     padding: 12px 24px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(208, 48, 48, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 24px;
     text-decoration: none;
     transition: all 0.2s;
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(208, 48, 48, 0.4); }
+    50% { box-shadow: 0 0 16px 4px rgba(208, 48, 48, 0.3); }
   }
 
   .availability-banner:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(208, 48, 48, 0.95);
     border-color: rgba(255, 255, 255, 0.7);
   }
 
@@ -365,7 +398,7 @@ import interiorImage03 from "../assets/interior03.jpeg";
   .availability-banner span {
     color: white;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
     white-space: nowrap;
   }
 
@@ -382,7 +415,7 @@ import interiorImage03 from "../assets/interior03.jpeg";
     }
 
     .availability-banner span {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
   }
 </style>
@@ -444,4 +477,5 @@ import interiorImage03 from "../assets/interior03.jpeg";
       }, interval);
     }, 200);
   }
+
 </script>

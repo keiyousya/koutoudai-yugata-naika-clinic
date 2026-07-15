@@ -13,12 +13,18 @@ UIで広告文・ポリシー・ターゲティングを確認してから手動
 
 from __future__ import annotations
 
+from datetime import datetime
+
 import click
+from google.protobuf import field_mask_pb2
 from rich.console import Console
 
 from ..client import load_client, resolve_customer_id
 
 console = Console()
+
+# campaign.end_date_time は日時。終了日「当日いっぱい配信」を表すのに使う。
+END_OF_DAY = "23:59:59"
 
 # クリニックの所在地（半径ターゲティングの中心）。構造化データの geo と一致。
 CLINIC_LAT = 38.2682
@@ -292,3 +298,82 @@ def _parse_hhmm(s: str) -> tuple[int, int]:
     if m not in MINUTE_NAME:
         raise click.ClickException("分は 00/15/30/45 のみ指定できます。")
     return h, m
+
+
+@campaign.command("end-date")
+@click.option("--campaign-id", required=True, help="対象キャンペーンID。")
+@click.option(
+    "--date",
+    "end_date",
+    default=None,
+    help="配信終了日 YYYY-MM-DD（この日までは配信し、翌日から停止する）。",
+)
+@click.option("--clear", is_flag=True, help="終了日を解除し、無期限配信に戻す。")
+@click.option("--customer-id", default=None, help="操作対象アカウントID（未指定時は.env）。")
+@click.option("--yes", is_flag=True, help="確認をスキップする。")
+def set_end_date(
+    campaign_id: str,
+    end_date: str | None,
+    clear: bool,
+    customer_id: str | None,
+    yes: bool,
+) -> None:
+    """キャンペーンの配信終了日を設定・解除する。
+
+    休診期間の配信停止に使う。終了日の翌日から自動的に配信が止まるため、
+    当日にPAUSED操作をしなくてよい。再開時は --clear で解除する。
+    """
+    if bool(end_date) == clear:
+        raise click.ClickException("--date と --clear はどちらか一方を指定してください。")
+
+    if end_date:
+        try:
+            datetime.strptime(end_date, "%Y-%m-%d")
+        except ValueError as e:
+            raise click.ClickException(
+                f"日付の形式が不正です: {end_date}（YYYY-MM-DD）"
+            ) from e
+        # 指定日の終業時刻まで配信させるため、その日の23:59:59を終了日時とする。
+        new_value = f"{end_date} {END_OF_DAY}"
+    else:
+        new_value = ""
+
+    client = load_client()
+    cid = resolve_customer_id(customer_id)
+
+    ga_service = client.get_service("GoogleAdsService")
+    query = f"""
+        SELECT campaign.name, campaign.status, campaign.end_date_time
+        FROM campaign
+        WHERE campaign.id = {campaign_id}
+    """
+    result = list(ga_service.search(customer_id=cid, query=query))
+    if not result:
+        raise click.ClickException(f"キャンペーン {campaign_id} が見つかりません。")
+
+    row = result[0]
+    current_label = row.campaign.end_date_time or "なし（無期限）"
+    new_label = new_value or "なし（無期限）"
+
+    console.print(
+        f"[bold]{row.campaign.name}[/bold]（{row.campaign.status.name}）の配信終了日時: "
+        f"{current_label} → [green]{new_label}[/green]"
+    )
+    if end_date:
+        console.print(f"[dim]※ {end_date} までは配信し、翌日から停止します。[/dim]")
+    if not yes:
+        click.confirm("変更しますか？", abort=True)
+
+    campaign_service = client.get_service("CampaignService")
+    operation = client.get_type("CampaignOperation")
+    c = operation.update
+    c.resource_name = campaign_service.campaign_path(cid, campaign_id)
+    if new_value:
+        c.end_date_time = new_value
+    # 解除は「空値 + update_mask に載せる」で行う。空文字は protobuf_helpers.field_mask が
+    # 差分と見なさず落としてしまうため、マスクは常に明示的に組む。
+    client.copy_from(
+        operation.update_mask, field_mask_pb2.FieldMask(paths=["end_date_time"])
+    )
+    campaign_service.mutate_campaigns(customer_id=cid, operations=[operation])
+    console.print(f"[green]✓ 配信終了日時を {new_label} にしました。[/green]")

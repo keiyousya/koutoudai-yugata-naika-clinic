@@ -103,6 +103,22 @@ gads budget status --campaign-id 1234567890 --state ENABLED
 
 変更系は実行前に確認プロンプトが出る（`--yes` でスキップ）。
 
+### 休診期間の配信停止
+
+休診が事前に分かっている場合は、配信終了日を入れておくと当日の操作が要らない。
+終了日の翌日から自動で配信が止まる。
+
+```bash
+# 7/15まで配信し、7/16から自動停止
+gads campaign end-date --campaign-id 1234567890 --date 2026-07-15
+
+# 休診明けに終了日を解除して配信再開
+gads campaign end-date --campaign-id 1234567890 --clear
+```
+
+> 終了日を過ぎたキャンペーンは status が ENABLED のままでも配信されない（UI上は「終了」表示）。
+> `--clear` で終了日を外すと再開する。
+
 ### キーワード管理
 
 ```bash

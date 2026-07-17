@@ -1,4 +1,5 @@
 ---
+import HealthIcon from "./HealthIcon.astro";
 ---
 
 <section class="disclosure-links">
@@ -6,11 +7,7 @@
     <div class="disclosure-grid">
       <a href="/medical-dx" class="disclosure-card is-dx">
         <span class="disclosure-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="4" width="20" height="16" rx="2"/>
-            <path d="M12 9v6"/>
-            <path d="M9 12h6"/>
-          </svg>
+          <HealthIcon name="symbols/healthcare_it" size={20} />
         </span>
         <span class="disclosure-body">
           <span class="disclosure-title">医療DX推進体制について</span>
@@ -20,10 +17,7 @@
 
       <a href="/after-hours" class="disclosure-card is-afterhours">
         <span class="disclosure-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
-          </svg>
+          <HealthIcon name="symbols/i_schedule_school_date_time" size={20} />
         </span>
         <span class="disclosure-body">
           <span class="disclosure-title">時間外対応体制加算について</span>

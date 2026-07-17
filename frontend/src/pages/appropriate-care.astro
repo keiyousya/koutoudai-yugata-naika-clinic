@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
+import HealthIcon from "../components/HealthIcon.astro";
 import LineCta from "../components/LineCta.astro";
 import Footer from "../components/Footer.astro";
 ---
@@ -31,10 +32,7 @@ import Footer from "../components/Footer.astro";
         <div class="benefit-grid">
           <div class="benefit-card">
             <div class="benefit-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
+              <HealthIcon name="symbols/i_schedule_school_date_time" size={28} />
             </div>
             <h3 class="benefit-title">待ち時間の短縮</h3>
             <p class="benefit-text">
@@ -44,11 +42,7 @@ import Footer from "../components/Footer.astro";
 
           <div class="benefit-card">
             <div class="benefit-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="2" ry="2"/>
-                <path d="M12 8v8"/>
-                <path d="M8 12h8"/>
-              </svg>
+              <HealthIcon name="symbols/hospital_symbol" size={28} />
             </div>
             <h3 class="benefit-title">医療費の節約</h3>
             <p class="benefit-text">
@@ -58,12 +52,7 @@ import Footer from "../components/Footer.astro";
 
           <div class="benefit-card">
             <div class="benefit-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
+              <HealthIcon name="people/community_healthworker" size={28} />
             </div>
             <h3 class="benefit-title">地域医療への貢献</h3>
             <p class="benefit-text">
@@ -87,11 +76,7 @@ import Footer from "../components/Footer.astro";
       <div class="container">
         <div class="emergency-notice">
           <div class="emergency-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="8" x2="12" y2="12"/>
-              <line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
+            <HealthIcon name="symbols/alert_circle" size={32} />
           </div>
           <div class="emergency-content">
             <h3 class="emergency-title">ただし、以下の症状は迷わず119番（救急車）を呼んでください</h3>

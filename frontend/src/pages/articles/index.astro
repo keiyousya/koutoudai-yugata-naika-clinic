@@ -1,0 +1,226 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import TwilightBackground from "../../components/TwilightBackground.astro";
+import ArticleIcon from "../../components/ArticleIcon.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+
+const articles = (await getCollection("articles")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Layout
+  title="病気について知る | 勾当台夕方内科クリニック"
+  description="高血圧・糖尿病・熱中症など、さまざまな病気の原因・症状・治療法について、わかりやすく解説しています。"
+>
+  <Header />
+  <main class="articles-main">
+    <div class="articles-header">
+      <div class="container">
+        <p class="page-header-label">Medical Column</p>
+        <h1 class="page-title">病気について知る</h1>
+      </div>
+      <TwilightBackground />
+    </div>
+
+    <section class="articles-content">
+      <div class="container">
+        <div class="articles-grid">
+          {articles.map((article) => (
+            <a href={`/articles/${article.id}`} class="article-card">
+              <h2 class="card-title">{article.data.title}</h2>
+              <p class="card-title-en">{article.data.titleEn}</p>
+              <div class="card-icon">
+                <ArticleIcon icon={article.data.icon} size={56} />
+              </div>
+              <span class="card-more">詳しく見る →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .articles-main {
+    min-height: calc(100vh - 72px);
+    background: white;
+  }
+
+  .articles-header {
+    position: relative;
+    background: var(--color-navy);
+    color: white;
+    padding: 120px 0 60px;
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .articles-header .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .articles-content {
+    padding: 80px 0;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .article-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: white;
+    border: 2px solid var(--color-turquoise);
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(62, 184, 200, 0.15);
+  }
+
+  .card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .card-title-en {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+  }
+
+  .card-icon {
+    color: var(--color-turquoise);
+    margin-bottom: 24px;
+  }
+
+  .card-more {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-turquoise);
+  }
+
+  .back-section {
+    background: white;
+    padding: 40px 0 80px;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .articles-header {
+      padding: 100px 0 48px;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+    }
+
+    .articles-content {
+      padding: 60px 0;
+    }
+
+    .articles-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .article-card {
+      padding: 20px 12px;
+      aspect-ratio: 3 / 4;
+      justify-content: center;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+    }
+
+    .card-title-en {
+      font-size: 0.65rem;
+      margin-bottom: 16px;
+    }
+
+    .card-icon :global(.article-icon) {
+      width: 40px;
+      height: 40px;
+    }
+
+    .card-icon {
+      margin-bottom: 16px;
+    }
+
+    .card-more {
+      font-size: 0.65rem;
+    }
+  }
+</style>

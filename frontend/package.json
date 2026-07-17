@@ -8,9 +8,11 @@
     "preview": "astro preview"
   },
   "dependencies": {
+    "@astrojs/mdx": "^4.3.14",
     "@astrojs/sitemap": "^3.7.0",
     "@fontsource/m-plus-1p": "^5.2.9",
     "astro": "^5.17.1",
+    "healthicons": "^2.0.0",
     "sharp": "^0.34.5"
   }
 }

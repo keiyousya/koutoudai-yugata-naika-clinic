@@ -1,0 +1,372 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import ArticleIcon from "../../components/ArticleIcon.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+---
+
+<Layout
+  title={`${article.data.title} | 勾当台夕方内科クリニック`}
+  description={article.data.description}
+>
+  <Header />
+  <main class="article-main">
+    <div class="article-header">
+      <div class="container">
+        <div class="hero-card">
+          <h1 class="card-title">{article.data.title}</h1>
+          <p class="card-title-en">{article.data.titleEn}</p>
+          <div class="card-icon">
+            <ArticleIcon icon={article.data.icon} size={56} />
+          </div>
+          <p class="card-catchphrase">{article.data.catchphrase}</p>
+        </div>
+      </div>
+    </div>
+
+    <section class="article-content">
+      <div class="container">
+        <div class="article-body">
+          <Content />
+        </div>
+
+        <div class="detail-back">
+          <a href="/articles" class="back-button">記事一覧に戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .article-main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 72px);
+  }
+
+  .article-header {
+    background: white;
+    padding: 80px 0 0;
+  }
+
+  .article-header .container {
+    max-width: 720px;
+  }
+
+  .hero-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 2px solid var(--color-turquoise);
+    border-radius: 20px;
+    padding: 40px 32px;
+  }
+
+  .card-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .card-title-en {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 28px;
+  }
+
+  .card-icon {
+    color: var(--color-turquoise);
+    margin-bottom: 28px;
+  }
+
+  .card-catchphrase {
+    font-size: 0.85rem;
+    color: var(--color-text);
+    line-height: 1.8;
+  }
+
+  .article-content {
+    padding: 60px 0 80px;
+    background: white;
+    flex: 1;
+  }
+
+  .article-content .container {
+    max-width: 720px;
+  }
+
+  .article-body {
+    margin-bottom: 48px;
+  }
+
+  /* MDX rendered content styles */
+  .article-body :global(h2) {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin: 48px 0 20px;
+    padding-left: 20px;
+    border-left: 4px solid var(--color-turquoise);
+  }
+
+  .article-body :global(h3) {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin: 36px 0 16px;
+  }
+
+  .article-body :global(p) {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 24px;
+  }
+
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    margin-bottom: 24px;
+    padding-left: 1.2em;
+  }
+
+  .article-body :global(ul) {
+    list-style: disc;
+  }
+
+  .article-body :global(ol) {
+    list-style: decimal;
+  }
+
+  .article-body :global(li) {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 8px;
+  }
+
+  .article-body :global(a) {
+    color: var(--color-turquoise);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .article-body :global(strong) {
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .article-body :global(table) {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 24px;
+    font-size: 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .article-body :global(th) {
+    background: var(--color-turquoise-bg);
+    color: var(--color-navy);
+    font-weight: 600;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 2px solid var(--color-turquoise);
+  }
+
+  .article-body :global(td) {
+    padding: 12px 16px;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .article-body :global(tr:last-child td) {
+    border-bottom: none;
+  }
+
+  .article-body :global(tr:nth-child(even) td) {
+    background: var(--color-turquoise-bg);
+  }
+
+  .article-body :global(tr.highlight td) {
+    background: var(--color-turquoise);
+    color: white;
+    font-weight: 600;
+  }
+
+  .article-body :global(.cause-grid) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .article-body :global(.cause-card) {
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .article-body :global(.cause-grid--negative .cause-card) {
+    border-color: #e8908a;
+    background: white;
+  }
+
+  .article-body :global(.cause-grid--negative .cause-icon) {
+    color: #d9685e;
+  }
+
+  .article-body :global(.cause-grid--negative .cause-card strong) {
+    color: #c55a50;
+  }
+
+  .article-body :global(.cause-grid--positive .cause-card) {
+    border-color: #6eb8d6;
+    background: white;
+  }
+
+  .article-body :global(.cause-grid--positive .cause-icon) {
+    color: #4a9cc0;
+  }
+
+  .article-body :global(.cause-grid--positive .cause-card strong) {
+    color: #3d8aad;
+  }
+
+  .article-body :global(.cause-icon) {
+    display: block;
+    margin: 0 auto 10px;
+    color: var(--color-turquoise);
+    line-height: 0;
+  }
+
+  .article-body :global(.cause-card strong) {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-navy);
+    margin-bottom: 8px;
+  }
+
+  .article-body :global(.cause-card p) {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+
+  .article-body :global(blockquote) {
+    border-left: 4px solid var(--color-turquoise);
+    padding: 16px 20px;
+    margin: 24px 0;
+    background: var(--color-turquoise-bg);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .article-body :global(blockquote p) {
+    margin-bottom: 0;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .article-header {
+      padding: 72px 0 0;
+    }
+
+    .hero-card {
+      padding: 28px 20px;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+    }
+
+    .article-content {
+      padding: 48px 0 64px;
+    }
+
+    .article-body :global(h2) {
+      font-size: 1.1rem;
+      margin: 40px 0 16px;
+    }
+
+    .article-body :global(h3) {
+      font-size: 1rem;
+      margin: 28px 0 12px;
+    }
+
+    .article-body :global(p),
+    .article-body :global(li) {
+      font-size: 0.9rem;
+    }
+
+    .article-body :global(.cause-grid) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .article-body :global(.cause-card) {
+      padding: 16px 12px;
+    }
+
+    .article-body :global(.cause-card strong) {
+      font-size: 0.8rem;
+    }
+
+    .article-body :global(.cause-card p) {
+      font-size: 0.7rem;
+    }
+
+    .article-body :global(table) {
+      font-size: 0.8rem;
+    }
+
+    .article-body :global(th),
+    .article-body :global(td) {
+      padding: 8px 10px;
+    }
+  }
+</style>

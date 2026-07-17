@@ -1,0 +1,23 @@
+---
+import HealthIcon from "./HealthIcon.astro";
+
+interface Props {
+  icon: string;
+  size?: number;
+}
+
+const { icon, size = 64 } = Astro.props;
+
+const healthIconMap: Record<string, string> = {
+  "heart-pulse": "symbols/heart_cardiogram",
+  "droplet": "body/blood_drop",
+  "thermometer": "devices/thermometer",
+  "lungs": "body/lungs",
+  "stomach": "body/stomach",
+  "pill": "medications/pill_1",
+};
+
+const healthIconName = healthIconMap[icon] || healthIconMap["heart-pulse"];
+---
+
+<HealthIcon name={healthIconName} size={size} class="article-icon" />

@@ -1,0 +1,50 @@
+---
+/**
+ * healthicons パッケージの SVG アイコンをインライン表示するコンポーネント。
+ * 使い方: <HealthIcon name="body/heart_organ" size={28} />
+ *   name は "カテゴリ/ファイル名（拡張子なし）" で指定。
+ *   style は "outline"（デフォルト）または "filled" を指定可能。
+ *
+ * カテゴリ一覧: blood, body, conditions, contraceptives, devices, diagnostics,
+ *   emotions, exercise, graphs, medications, nutrition, objects, people, places,
+ *   ppe, shapes, specialties, symbols, typography, vehicles
+ */
+import fs from "node:fs";
+import path from "node:path";
+
+interface Props {
+  name: string;
+  size?: number;
+  style?: "outline" | "filled";
+  class?: string;
+}
+
+const { name, size = 24, style = "outline", class: className } = Astro.props;
+
+const svgPath = path.resolve(
+  `node_modules/healthicons/public/icons/svg/${style}/${name}.svg`,
+);
+
+let svgContent = "";
+try {
+  const raw = fs.readFileSync(svgPath, "utf-8");
+  // width/height を props から設定し、色を currentColor で制御可能にする
+  svgContent = raw
+    .replace(/width="[^"]*"/, `width="${size}"`)
+    .replace(/height="[^"]*"/, `height="${size}"`)
+    .replace(/fill="#333"/, 'fill="currentColor"');
+} catch {
+  svgContent = `<svg width="${size}" height="${size}" viewBox="0 0 48 48"></svg>`;
+}
+---
+
+<span class:list={["health-icon", className]} set:html={svgContent} />
+
+<style>
+  .health-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+  }
+</style>

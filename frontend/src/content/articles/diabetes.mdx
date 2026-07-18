@@ -1,12 +1,179 @@
 ---
 title: "糖尿病"
 titleEn: "Diabetes"
-catchphrase: "合併症予防のためにできること、一緒に考えていきましょう。"
-description: "糖尿病の原因・症状・治療法について解説します。"
-icon: "droplet"
+catchphrase: "健診で血糖値が高いと言われた方、ご家族に糖尿病の方がいる方も、早めにご相談ください。"
+description: "糖尿病の原因・症状・合併症・治療法についてわかりやすく解説します。早期発見と適切な治療で、合併症を防ぐことが大切です。"
+icon: "symbols/diabetes"
 order: 2
 category: "生活習慣病"
-date: "2026.07.17"
+date: "2026.07.18"
 ---
+import HealthIcon from '../../components/HealthIcon.astro';
 
-このページは現在準備中です。
+糖尿病とは、<ruby>膵臓<rp>（</rp><rt>すいぞう</rt><rp>）</rp></ruby>から分泌される**インスリン**というホルモンの働きが不足し、血液中のブドウ糖（血糖）が慢性的に高くなる病気です。
+
+日本では糖尿病が強く疑われる人と予備群を合わせると約2,000万人にのぼり、非常に身近な生活習慣病のひとつです。
+
+## 診断の基準
+
+以下のいずれかに該当する場合、「糖尿病型」と判定されます。
+
+<table>
+  <thead>
+    <tr><th>検査項目</th><th>糖尿病型</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>空腹時血糖値</td><td>126mg/dL以上</td></tr>
+    <tr><td>75g経口ブドウ糖負荷試験（OGTT）2時間値</td><td>200mg/dL以上</td></tr>
+    <tr><td>随時血糖値</td><td>200mg/dL以上</td></tr>
+    <tr class="highlight"><td>HbA1c（ヘモグロビンA1c）</td><td>6.5%以上</td></tr>
+  </tbody>
+</table>
+
+HbA1cは過去1〜2か月間の血糖の平均を反映する指標で、日々の変動に左右されにくいため、糖尿病の診断や治療効果の評価に広く使われています。
+
+## 糖尿病のタイプ
+
+<div class="cause-grid">
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="body/pancreas" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>1型糖尿病</strong>
+    <p>膵臓のβ細胞が壊れ、インスリンがほとんど分泌されなくなるタイプです。年齢を問わず発症し、インスリン注射が必要になります</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="people/diabetes" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>2型糖尿病</strong>
+    <p>インスリンの分泌が減ったり、効きが悪くなったりするタイプです。糖尿病の約90%を占め、遺伝的な体質に生活習慣が重なって発症します</p></div>
+  </div>
+</div>
+
+このほか、他の病気や薬の影響で発症するタイプや、妊娠中に血糖値が高くなる**妊娠糖尿病**もあります。
+
+## 糖尿病の原因（2型）
+
+2型糖尿病は、遺伝的な体質に以下のような生活習慣が重なることで発症します。
+
+<div class="cause-grid cause-grid--negative">
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="nutrition/unhealthy_food" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>食べすぎ・偏った食事</strong>
+    <p>糖質や脂質の多い食事が続くと、膵臓に負担がかかります</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="exercise/walking" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>運動不足</strong>
+    <p>筋肉でのブドウ糖消費が減り、インスリンの効きも悪くなります</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="conditions/overweight" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>肥満（特に内臓脂肪型）</strong>
+    <p>内臓脂肪が増えるとインスリンの効きが低下します（インスリン抵抗性）</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="emotions/nervous" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>ストレス・睡眠不足</strong>
+    <p>血糖値を上げるホルモンが増え、血糖コントロールが乱れやすくなります</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="body/dna" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>遺伝的な体質</strong>
+    <p>ご家族に糖尿病の方がいる場合、発症リスクが高まります</p></div>
+  </div>
+</div>
+
+## 糖尿病の症状
+
+初期には**自覚症状がほとんどありません**。健康診断で血糖値やHbA1cの異常を指摘されて初めて気づくケースが多いです。
+
+血糖値が高い状態が続くと、以下のような症状が現れることがあります。
+
+- のどが渇き、水分を多く摂る
+- トイレが近くなる（多尿）
+- 食べているのに体重が減る
+- 疲れやすい・だるい
+- 傷が治りにくい
+
+これらの症状がある方は、早めに医療機関を受診してください。
+
+## 糖尿病を放置すると
+
+高血糖の状態が続くと、全身の血管が少しずつ傷つきます。特に細い血管がダメージを受けやすく、以下のような**三大合併症**が起こることがあります。
+
+<div class="cause-grid cause-grid--negative">
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="body/eye" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>糖尿病網膜症（目）</strong>
+    <p>網膜の血管が傷つき、進行すると視力低下や失明の原因になります。自覚症状がないまま進行するため、定期的な眼底検査が大切です</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="body/kidneys" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>糖尿病性腎症（腎臓）</strong>
+    <p>腎臓の細い血管が障害され、進行すると腎不全や人工透析が必要になることがあります</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="body/nerve" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>糖尿病性神経障害（神経）</strong>
+    <p>手足のしびれ・ピリピリ感、足の感覚低下などが起こります。足の傷に気づきにくくなり、<ruby>壊疽<rp>（</rp><rt>えそ</rt><rp>）</rp></ruby>の原因になることもあります</p></div>
+  </div>
+</div>
+
+さらに、太い血管の動脈硬化も進行し、<strong>心筋梗塞</strong>・<strong>脳卒中</strong>・<strong><ruby>末梢動脈疾患<rp>（</rp><rt>まっしょうどうみゃくしっかん</rt><rp>）</rp></ruby></strong>のリスクも高まります。
+
+## 治療について
+
+### 食事療法
+
+治療の基本は食事の見直しです。「特別な食事」ではなく、バランスのよい食事を適切な量で摂ることが大切です。
+
+<div class="cause-grid cause-grid--positive">
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="nutrition/nutrition" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>適切なエネルギー量</strong>
+    <p>年齢・体格・活動量に合わせた摂取カロリーを守りましょう</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="nutrition/fruits" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>バランスのよい食事</strong>
+    <p>主食・主菜・副菜をそろえ、野菜を多めに摂りましょう</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="nutrition/sugar" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>糖質の摂りすぎに注意</strong>
+    <p>清涼飲料水や菓子パンなど、血糖値が急上昇しやすい食品は控えめに</p></div>
+  </div>
+</div>
+
+### 運動療法
+
+運動には、ブドウ糖を消費して血糖値を下げる効果と、インスリンの効きをよくする効果があります。
+
+- **有酸素運動**（ウォーキング・軽いジョギングなど）を1日20〜30分程度
+- 週2〜3回の**筋力トレーニング**も効果的です
+- 食後1〜2時間に行うと、食後血糖の上昇を抑えやすくなります
+
+※運動の種類や強度は、合併症の有無によって異なります。始める前に医師にご相談ください。
+
+### 薬物療法
+
+食事・運動療法だけでは血糖コントロールが不十分な場合、お薬による治療を行います。
+
+- **飲み薬** — インスリンの分泌を促す薬、効きをよくする薬、糖の吸収を遅らせる薬、尿から糖を排泄する薬など、さまざまな種類があります
+- **注射薬** — インスリン注射や、インスリンの分泌を促す注射薬（GLP-1受容体作動薬）があります
+
+お薬は患者さんの状態に合わせて選択します。副作用や低血糖への対策も含め、丁寧にご説明いたします。
+
+### HbA1cの治療目標
+
+合併症の予防のために、**HbA1c 7.0%未満**を目標にコントロールすることが大切です。ただし、年齢や合併症の状況によって個別に目標を設定します。
+
+## 当院でできること
+
+当院では、糖尿病の診断・治療・経過観察を行っています。
+
+- 血液検査によるHbA1c・血糖値の測定
+- 食事・運動に関する生活指導
+- 飲み薬の処方・調整
+- 合併症のスクリーニング（尿検査・血液検査・心電図など）
+- 専門医療機関への紹介（必要に応じて）
+
+**夜21時まで診療**しておりますので、仕事帰りにも通院いただけます。健康診断で血糖値やHbA1cの異常を指摘された方、糖尿病が気になる方は、お気軽にご相談ください。

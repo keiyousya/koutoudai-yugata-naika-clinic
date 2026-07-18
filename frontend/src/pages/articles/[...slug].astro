@@ -344,20 +344,35 @@ const { Content } = await render(article);
     }
 
     .article-body :global(.cause-grid) {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr;
       gap: 10px;
     }
 
     .article-body :global(.cause-card) {
-      padding: 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      text-align: left;
+    }
+
+    .article-body :global(.cause-card .cause-card__icon) {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+    }
+
+    .article-body :global(.cause-card .cause-card__body) {
+      flex: 1;
+      min-width: 0;
     }
 
     .article-body :global(.cause-card strong) {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
     }
 
     .article-body :global(.cause-card p) {
-      font-size: 0.7rem;
+      font-size: 0.8rem;
     }
 
     .article-body :global(table) {

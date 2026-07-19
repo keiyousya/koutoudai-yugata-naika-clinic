@@ -1,0 +1,166 @@
+---
+title: "熱中症"
+titleEn: "Heatstroke"
+catchphrase: "屋外でも室内でも起こる熱中症。正しい知識と早めの対応で重症化を防ぎましょう。"
+description: "熱中症の原因・重症度分類・応急処置・予防法をわかりやすく解説。暑い時期に気をつけたい症状と、クリニックでの対応について紹介します。"
+icon: "thermometer"
+order: 3
+category: "救急・季節性疾患"
+date: "2026.07.19"
+---
+import HealthIcon from '../../components/HealthIcon.astro';
+
+熱中症とは、高温多湿な環境下で体温調節機能がうまく働かなくなり、体内に熱がこもることで起こるさまざまな症状の総称です。屋外だけでなく、**室内でも発症**します。
+
+日本では毎年1,000人以上が熱中症で亡くなっており、そのうち約8割以上が65歳以上の高齢者です。適切な予防と早期の対応で、重症化を防ぐことができます。
+
+## 熱中症はなぜ起こるのか
+
+熱中症の病態は大きく<strong>「暑熱障害」</strong>と<strong>「脱水」</strong>に分けられます。
+
+<div class="cause-grid cause-grid--negative">
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="devices/thermometer" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>暑熱障害</strong>
+    <p>高温環境で体温が上昇し、放熱が追いつかなくなった状態です。中枢温が40.5℃を超えて持続すると臓器障害が進行し、予後が悪化します</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="body/blood_drop" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>脱水</strong>
+    <p>大量の発汗により水分と電解質（ナトリウムなど）が失われ、循環血液量が減少します。めまいや頭痛、筋肉のけいれんの原因になります</p></div>
+  </div>
+</div>
+
+暑熱障害が進行すると、<ruby>横紋筋融解症<rp>（</rp><rt>おうもんきんゆうかいしょう</rt><rp>）</rp></ruby>（筋肉の細胞が壊れ、不整脈や腎障害など全身に影響を及ぼす）や、<ruby>肝障害<rp>（</rp><rt>かんしょうがい</rt><rp>）</rp></ruby>・<ruby>血液凝固異常<rp>（</rp><rt>けつえきぎょうこいじょう</rt><rp>）</rp></ruby>（DIC）など全身の臓器障害に至ることがあります。
+
+## WBGT（暑さ指数）
+
+WBGT（湿球黒球温度）は、気温・湿度・輻射熱の3つを取り入れた熱中症予防のための指標です。気温だけでなく**湿度**の影響が大きい点がポイントです。日本生気象学会が「<a href="https://seikishou.jp/cms/wp-content/uploads/20220523-v4.pdf" target="_blank" rel="noopener noreferrer">日常生活における熱中症予防指針</a>」として以下の行動指針を定めています。
+
+<table>
+  <thead>
+    <tr><th>WBGT</th><th>危険度</th><th>行動の目安</th></tr>
+  </thead>
+  <tbody>
+    <tr class="highlight"><td>31以上</td><td>危険</td><td>運動は原則中止。外出を避け涼しい室内へ</td></tr>
+    <tr><td>28〜31</td><td>厳重警戒</td><td>激しい運動は避ける。炎天下を避ける</td></tr>
+    <tr><td>25〜28</td><td>警戒</td><td>積極的に休息をとる。激しい運動は30分おきに</td></tr>
+    <tr><td>25未満</td><td>注意</td><td>危険性は低いが激しい運動時は注意</td></tr>
+  </tbody>
+</table>
+
+仙台・宮城エリアの暑さ指数は、<a href="https://www.wbgt.env.go.jp/" target="_blank" rel="noopener noreferrer">環境省 熱中症予防情報サイト</a>で確認できます。
+
+## 重症度分類（<a href="https://www.jaam.jp/info/2024/files/20240725_2024.pdf" target="_blank" rel="noopener noreferrer">日本救急医学会</a>）
+
+熱中症は症状の重さによってI〜IV度に分類されます。
+
+<table>
+  <thead>
+    <tr><th>分類</th><th>主な症状</th><th>対応</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>I度</strong>（軽症）</td><td>めまい・立ちくらみ、生あくび、大量の発汗、筋肉痛・こむら返り</td><td>涼しい場所で安静、経口補水液で水分・塩分補給</td></tr>
+    <tr><td><strong>II度</strong>（中等症）</td><td>頭痛、嘔吐、倦怠感、集中力の低下</td><td>医療機関を受診。経口摂取困難なら点滴</td></tr>
+    <tr><td><strong>III度</strong>（重症）</td><td>意識障害、けいれん、肝・腎機能障害、血液凝固異常</td><td>入院治療（Active Cooling）</td></tr>
+    <tr><td><strong>IV度</strong>（最重症）</td><td>体温40.0℃以上＋意識障害</td><td>直ちに救急車を呼び、冷却を開始</td></tr>
+    <tr><td><strong>qIV度</strong></td><td>表面体温40.0℃以上（または皮膚に明らかな熱感）＋呼びかけに応じない</td><td>深部体温の測定不要。IV度として対応</td></tr>
+  </tbody>
+</table>
+
+qIV度は、深部体温を測定できない現場でもIV度に準じて判断するための基準です。意識がない・呼びかけに応じない場合は、ためらわずに救急車（119番）を呼んでください。
+
+## 応急処置
+
+熱中症が疑われたら、以下の3ステップで対応してください。
+
+<div class="cause-grid cause-grid--positive">
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="symbols/assembly_point" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>① 涼しい場所へ移動</strong>
+    <p>エアコンの効いた室内や日陰に移動させ、衣服をゆるめます</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="conditions/chills_fever" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>② 体を冷やす</strong>
+    <p>首の両脇・脇の下・太ももの付け根（鼠径部）に氷嚢や保冷剤をあてます。濡れタオルで体を濡らし扇風機で風をあてる方法も有効です</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="objects/running_water" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>③ 水分・塩分を補給</strong>
+    <p>意識がはっきりしていれば経口補水液やスポーツドリンクを飲ませます。吐き気があるとき・意識がもうろうとしているときは無理に飲ませず救急車を呼んでください</p></div>
+  </div>
+</div>
+
+### 冷却のポイント
+
+- 早期に**深部体温38.0℃以下**まで冷却することが臓器障害の抑制に重要です
+- 冷却速度は0.15℃/分以上が望ましいとされています
+- **解熱薬（NSAIDs・アセトアミノフェンなど）は使用しない**ことが推奨されています（熱中症の発熱は風邪の発熱とは仕組みが異なり、解熱薬では体温が下がりません）
+- 小児患者も可及的速やかに38.0℃以下を目安に冷却することが妥当とされています
+
+## 熱中症になりやすい方
+
+<div class="cause-grid cause-grid--negative">
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="people/elderly" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>高齢者</strong>
+    <p>体温調節機能の低下、のどの渇きを感じにくい、エアコンを使わない傾向があります</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="people/child_care" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>乳幼児・小児</strong>
+    <p>体温調節機能が未熟で、地面からの照り返しの影響を受けやすい（身長が低い）特徴があります</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="medications/pill_1" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>持病のある方・服薬中の方</strong>
+    <p>心疾患、糖尿病、精神疾患のある方、降圧薬・利尿薬・向精神薬を服用中の方はリスクが高まります</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="exercise/walking" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>屋外での作業・運動をする方</strong>
+    <p>農作業、建設作業、スポーツなどで長時間暑い環境にいる方は要注意です</p></div>
+  </div>
+</div>
+
+## 予防のポイント
+
+<div class="cause-grid cause-grid--positive">
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="objects/running_water" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>こまめな水分補給</strong>
+    <p>のどが渇く前に、少量ずつこまめに飲みましょう。汗をたくさんかいた場合は経口補水液や塩分を含む飲料を</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="devices/thermometer" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>エアコンを適切に使用</strong>
+    <p>室温は28℃以下を目安に。「もったいない」と我慢せず使いましょう</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="symbols/alert_triangle" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>暑い時間帯の外出を避ける</strong>
+    <p>10〜14時は特に注意。やむを得ない場合は日傘・帽子・休憩を</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="nutrition/nutrition" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>睡眠・食事をしっかりとる</strong>
+    <p>体調が悪いときは無理をしない。寝不足・朝食抜きはリスクを高めます</p></div>
+  </div>
+  <div class="cause-card">
+    <div class="cause-card__icon"><HealthIcon name="exercise/walking" size={28} class="cause-icon" /></div>
+    <div class="cause-card__body"><strong>暑さに体を慣らす（暑熱順化）</strong>
+    <p>梅雨明けや急に暑くなる時期は特に注意。軽い運動で汗をかく習慣を</p></div>
+  </div>
+</div>
+
+## 当院でできること
+
+当院では、熱中症が疑われる患者さんの診察・初期対応を行っています。
+
+- 症状の評価と重症度判定
+- 冷却処置
+- 経口補水液や点滴による水分・電解質の補給
+- 重症の場合は高次医療機関への紹介
+
+「少しおかしいな」と感じたら我慢せず受診してください。**夜21時まで診療**しておりますので、日中の外出や仕事後に体調が悪くなった場合もご相談いただけます。

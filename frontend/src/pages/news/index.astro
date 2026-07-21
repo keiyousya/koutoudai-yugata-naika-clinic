@@ -65,7 +65,7 @@ const totalItems = newsItems.length;
     position: relative;
     background: var(--color-navy);
     color: white;
-    padding: 120px 0 60px;
+    padding: 96px 0 28px;
     text-align: center;
     overflow: hidden;
     isolation: isolate;
@@ -103,41 +103,33 @@ const totalItems = newsItems.length;
   .news-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    border-top: 1px solid var(--color-border);
   }
 
   .news-item {
-    background: var(--color-turquoise-bg);
-    border-radius: 16px;
-    transition: background 0.2s;
-  }
-
-  .news-item:hover {
-    background: rgba(62, 184, 200, 0.25);
-  }
-
-  .news-item.important {
-    background: var(--color-turquoise-bg);
-  }
-
-  .news-item:hover {
-    background: rgba(62, 184, 200, 0.25);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .news-item-link {
     display: flex;
     align-items: baseline;
-    gap: 20px;
-    padding: 18px 24px;
+    gap: 24px;
+    padding: 20px 8px;
     text-decoration: none;
     color: inherit;
+    transition: background 0.2s;
+  }
+
+  .news-item-link:hover {
+    background: var(--color-turquoise-bg);
   }
 
   .news-date {
     flex-shrink: 0;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: var(--color-text-muted);
     font-weight: 500;
+    letter-spacing: 0.03em;
   }
 
   .news-text {
@@ -172,7 +164,7 @@ const totalItems = newsItems.length;
     font-size: 1rem;
   }
 
-  .news-item:hover .news-arrow {
+  .news-item-link:hover .news-arrow {
     opacity: 1;
   }
 
@@ -184,7 +176,6 @@ const totalItems = newsItems.length;
   .detail-back {
     text-align: center;
     padding-top: 32px;
-    border-top: 1px solid var(--color-border);
   }
 
   .back-button {
@@ -283,7 +274,7 @@ const totalItems = newsItems.length;
 
   @media (max-width: 768px) {
     .news-list-header {
-      padding: 100px 0 48px;
+      padding: 80px 0 20px;
     }
 
     .page-title {

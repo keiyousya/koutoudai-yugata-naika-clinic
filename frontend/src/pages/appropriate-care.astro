@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
+import TwilightBackground from "../components/TwilightBackground.astro";
 import HealthIcon from "../components/HealthIcon.astro";
 import LineCta from "../components/LineCta.astro";
 import Footer from "../components/Footer.astro";
@@ -12,9 +13,16 @@ import Footer from "../components/Footer.astro";
 >
   <Header />
   <main class="page-main">
-    <section class="page-section bg-warm" style="padding-top: 100px;">
+    <div class="page-header">
       <div class="container">
-        <h2 class="page-section-title">適切な医療機関の受診について</h2>
+        <p class="page-header-label">Appropriate Care</p>
+        <h1 class="page-title">適切な医療機関の受診について</h1>
+      </div>
+      <TwilightBackground />
+    </div>
+
+    <section class="page-section bg-warm">
+      <div class="container">
         <div class="intro-box">
           <p class="intro-box-text">
             昨今、厚生労働省が推進する<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000080850.html" target="_blank" rel="noopener noreferrer" class="external-link">地域医療構想</a>に基づき、地域の医療機関が役割を分担する重要性が高まっています。また、厚生労働省は<a href="https://kakarikata.mhlw.go.jp/kakaritsuke/motou.html" target="_blank" rel="noopener noreferrer" class="external-link">かかりつけ医を持つこと</a>を推奨しています。当院は、夕方・夜間の時間帯におけるかかりつけ医機能として、継続的な健康管理と急な体調不良への対応を行っています。
@@ -116,8 +124,39 @@ import Footer from "../components/Footer.astro";
 </Layout>
 
 <style>
+  .page-header {
+    position: relative;
+    background: var(--color-navy);
+    color: white;
+    padding: 96px 0 28px;
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .page-header .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin: 0;
+  }
+
   .page-section {
-    padding: 80px 0;
+    padding: 48px 0;
   }
 
   .page-section.bg-warm {
@@ -140,6 +179,7 @@ import Footer from "../components/Footer.astro";
     max-width: 720px;
     margin: 0 auto;
     background: white;
+    border: 1px solid var(--color-turquoise);
     border-radius: 12px;
     padding: 28px 32px;
   }
@@ -177,6 +217,7 @@ import Footer from "../components/Footer.astro";
 
   .benefit-card {
     background: var(--color-turquoise-bg);
+    border: 1px solid var(--color-turquoise);
     border-radius: 12px;
     padding: 36px 28px;
     text-align: center;
@@ -220,6 +261,7 @@ import Footer from "../components/Footer.astro";
     max-width: 720px;
     margin: 0 auto;
     background: white;
+    border: 1px solid var(--color-coral);
     border-radius: 12px;
     padding: 36px 32px;
     text-align: center;
@@ -321,6 +363,14 @@ import Footer from "../components/Footer.astro";
   }
 
   @media (max-width: 768px) {
+    .page-header {
+      padding: 80px 0 20px;
+    }
+
+    .page-title {
+      font-size: 1.3rem;
+    }
+
     .sp-only {
       display: inline;
     }
@@ -334,11 +384,11 @@ import Footer from "../components/Footer.astro";
     }
 
     .page-section {
-      padding: 60px 0;
+      padding: 32px 0;
     }
 
     .page-section:first-of-type {
-      padding-top: 80px !important;
+      padding-top: 32px !important;
     }
 
     .benefit-grid {

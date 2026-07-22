@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import TwilightBackground from "../components/TwilightBackground.astro";
 import Footer from "../components/Footer.astro";
+import InfoCard from "../components/InfoCard.astro";
 ---
 
 <Layout
@@ -44,19 +45,21 @@ import Footer from "../components/Footer.astro";
           <p>※ 各年代の割合（%）を表示しています。</p>
         </div>
 
-        <div class="demographics-message">
-          <h2 class="message-title">年代を問わず、お気軽にご相談ください</h2>
-          <p class="message-text">
-            現在は20〜40代の方を中心にご利用いただいていますが、高血圧・糖尿病・脂質異常症など、年代が上がるにつれて有病率の高まる慢性疾患の管理も当院が力を入れる分野です。<br />
-            夕方〜夜間に通いやすい環境を整えていますので、ぜひお気軽にご相談ください。
-          </p>
+        <div class="demographics-card-wrapper">
+          <InfoCard title="年代を問わず、お気軽にご相談ください">
+            <p>
+              現在は20〜40代の方を中心にご利用いただいていますが、高血圧・糖尿病・脂質異常症など、年代が上がるにつれて有病率の高まる慢性疾患の管理も当院が力を入れる分野です。<br />
+              夕方〜夜間に通いやすい環境を整えていますので、ぜひお気軽にご相談ください。
+            </p>
+          </InfoCard>
         </div>
 
-        <div class="demographics-pediatric">
-          <h3 class="pediatric-title">お子さま（中学生以下）の受診について</h3>
-          <p class="pediatric-text">
-            中学生以下のお子さまも、夜間の急な発熱や体調不良などの初期診療に対応しています。錠剤など成人と共通のお薬は院内でも処方できますが、体重に応じて用量を調整する粉薬など、お子さま向けのお薬は院内にご用意がないため、院外処方とさせていただきます。また、より専門的な検査・治療や入院などが必要と判断した場合は、小児科や近隣の基幹病院など、適切な医療機関へご紹介いたします。
-          </p>
+        <div class="demographics-card-wrapper">
+          <InfoCard title="お子さま（中学生以下）の受診について" variant="coral">
+            <p>
+              中学生以下のお子さまも、夜間の急な発熱や体調不良などの初期診療に対応しています。錠剤など成人と共通のお薬は院内でも処方できますが、体重に応じて用量を調整する粉薬など、お子さま向けのお薬は院内にご用意がないため、院外処方とさせていただきます。また、より専門的な検査・治療や入院などが必要と判断した場合は、小児科や近隣の基幹病院など、適切な医療機関へご紹介いたします。
+            </p>
+          </InfoCard>
         </div>
       </div>
     </section>
@@ -213,49 +216,9 @@ import Footer from "../components/Footer.astro";
     text-align: right;
   }
 
-  .demographics-message {
+  .demographics-card-wrapper {
     max-width: 720px;
     margin: 0 auto 32px;
-    padding: 28px 32px;
-    background: var(--color-turquoise-bg);
-    border-radius: 16px;
-    text-align: center;
-  }
-
-  .message-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    margin-bottom: 14px;
-    letter-spacing: 0.02em;
-  }
-
-  .message-text {
-    font-size: 0.9rem;
-    color: var(--color-text);
-    line-height: 1.9;
-  }
-
-  .demographics-pediatric {
-    max-width: 720px;
-    margin: 0 auto 32px;
-    padding: 24px 32px;
-    background: var(--color-coral-bg);
-    border-radius: 16px;
-  }
-
-  .pediatric-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    margin-bottom: 12px;
-    text-align: center;
-  }
-
-  .pediatric-text {
-    font-size: 0.88rem;
-    color: var(--color-text);
-    line-height: 1.9;
   }
 
   .demographics-notes {
@@ -330,25 +293,6 @@ import Footer from "../components/Footer.astro";
       font-size: 0.8rem;
     }
 
-    .demographics-message {
-      padding: 22px 18px;
-    }
-
-    .message-title {
-      font-size: 0.85rem;
-    }
-
-    .message-text {
-      text-align: left;
-    }
-
-    .demographics-pediatric {
-      padding: 20px 18px;
-    }
-
-    .pediatric-title {
-      font-size: 0.85rem;
-    }
   }
 </style>
 

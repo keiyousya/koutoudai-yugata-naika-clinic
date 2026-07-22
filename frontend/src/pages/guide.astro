@@ -1,0 +1,216 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import TwilightBackground from "../components/TwilightBackground.astro";
+import Footer from "../components/Footer.astro";
+import InfoCard from "../components/InfoCard.astro";
+---
+
+<Layout
+  title="ご利用案内 | 勾当台夕方内科クリニック"
+  description="勾当台夕方内科クリニックのご利用案内。お薬の処方、診断書の発行、お支払い方法、地域連携についてご案内します。"
+>
+  <Header />
+  <main class="page-main">
+    <div class="page-header">
+      <div class="container">
+        <p class="page-header-label">Guide</p>
+        <h1 class="page-title">ご利用案内</h1>
+      </div>
+      <TwilightBackground />
+    </div>
+
+    <section class="page-section" id="prescription">
+      <div class="container">
+        <div class="section-content">
+          <InfoCard icon="objects/prescription_document" title="お薬の処方について">
+            <p>
+              当院では原則として<strong>院外処方</strong>となります。<br />
+              近隣の調剤薬局が閉まっている時間帯に限り、急性疾患に対する一部のお薬を<strong>院内でお渡し</strong>できる場合があります。
+            </p>
+            <p class="info-card__note">※ 降圧薬・糖尿病治療薬などの慢性疾患のお薬は院外処方のみとなります。</p>
+          </InfoCard>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-alt" id="certificate">
+      <div class="container">
+        <div class="section-content">
+          <InfoCard icon="objects/i_certificate_paper" title="診断書の発行について" variant="outlined">
+            <p>
+              診断書は自費にて<strong>一律 5,500円（税込）</strong>で発行いたします。
+            </p>
+          </InfoCard>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="payment">
+      <div class="container">
+        <div class="section-content">
+          <InfoCard icon="objects/credit_card" title="お支払いについて">
+            <p>
+              現金・クレジットカード等キャッシュレス決済に対応しています。
+            </p>
+            <p class="info-card__note">※ マイナ保険証または資格確認書をお忘れの場合は10割負担での現金払いとなります。後日お持ちいただければ差額を返金いたします。</p>
+          </InfoCard>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-alt" id="cooperation">
+      <div class="container">
+        <div class="section-content">
+          <InfoCard icon="places/hospital" title="地域連携" variant="outlined">
+            <p class="info-card__description">
+              当院は地域の基幹病院と連携し、より専門的な検査や治療が必要な場合にスムーズにご紹介できる体制を整えています。
+            </p>
+            <p class="cooperation-label">連携医療機関</p>
+            <ul class="cooperation-list">
+              <li><a href="https://www.hosp.tohoku.ac.jp/" target="_blank" rel="noopener noreferrer">東北大学病院</a></li>
+              <li><a href="https://nsmc.hosp.go.jp/" target="_blank" rel="noopener noreferrer">仙台医療センター</a></li>
+              <li><a href="https://hospital.city.sendai.jp/" target="_blank" rel="noopener noreferrer">仙台市立病院</a></li>
+              <li><a href="https://www.hosp.tohoku-mpu.ac.jp/" target="_blank" rel="noopener noreferrer">東北医科薬科大学病院</a></li>
+              <li><a href="https://www.openhp.or.jp/" target="_blank" rel="noopener noreferrer">仙台オープン病院</a></li>
+              <li><a href="https://www.tohokuh.johas.go.jp/" target="_blank" rel="noopener noreferrer">東北労災病院</a></li>
+              <li><a href="https://tohokukosai.kkr.or.jp/" target="_blank" rel="noopener noreferrer">東北公済病院</a></li>
+            </ul>
+          </InfoCard>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-header {
+    position: relative;
+    padding: 96px 0 28px;
+    background: var(--color-navy);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .page-header .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-section {
+    padding: 64px 0;
+  }
+
+  .page-section.bg-alt {
+    background: var(--color-turquoise-bg);
+  }
+
+  .section-content {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .cooperation-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-top: 20px;
+    margin-bottom: 12px;
+  }
+
+  .cooperation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 1.2em;
+    list-style: disc;
+  }
+
+  .cooperation-list li {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .cooperation-list a {
+    color: var(--color-navy);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .cooperation-list a:hover {
+    color: var(--color-navy-medium);
+    text-decoration: underline;
+  }
+
+  .back-section {
+    background: white;
+    padding: 40px 0 80px;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 80px 0 20px;
+    }
+
+    .page-title {
+      font-size: 1.3rem;
+    }
+
+    .page-section {
+      padding: 48px 0;
+    }
+  }
+</style>

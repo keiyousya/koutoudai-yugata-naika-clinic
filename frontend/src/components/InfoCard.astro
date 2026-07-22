@@ -1,0 +1,166 @@
+---
+import HealthIcon from "./HealthIcon.astro";
+
+interface Props {
+  icon?: string;
+  title: string;
+  variant?: "turquoise" | "outlined" | "coral";
+}
+
+const { icon, title, variant = "turquoise" } = Astro.props;
+---
+
+<div class:list={["info-card", `info-card--${variant}`]}>
+  <div class="info-card__header">
+    {icon && (
+      <span class="info-card__icon">
+        <HealthIcon name={icon} size={28} />
+      </span>
+    )}
+    <h4 class="info-card__title">{title}</h4>
+  </div>
+  <div class="info-card__body">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .info-card {
+    border-radius: 16px;
+    padding: 28px 24px;
+  }
+
+  .info-card--turquoise {
+    background: var(--color-turquoise-bg);
+    border: 1px solid var(--color-turquoise);
+  }
+
+  .info-card--outlined {
+    background: white;
+    border: 1px solid var(--color-turquoise);
+  }
+
+  .info-card--coral {
+    background: var(--color-coral-bg);
+    border: 1px solid var(--color-coral);
+  }
+
+  .info-card__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .info-card__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .info-card--turquoise .info-card__icon {
+    background: white;
+    color: var(--color-turquoise);
+  }
+
+  .info-card--outlined .info-card__icon {
+    background: var(--color-turquoise-bg);
+    color: var(--color-turquoise);
+  }
+
+  .info-card--coral .info-card__icon {
+    background: white;
+    color: var(--color-coral);
+  }
+
+  .info-card__title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: 1.4;
+  }
+
+  .info-card__body :global(p) {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+
+  .info-card__body :global(p strong) {
+    color: var(--color-navy);
+    font-weight: 700;
+  }
+
+  .info-card__body :global(.condition-list) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .info-card__body :global(.condition-tag) {
+    display: inline-block;
+    padding: 6px 16px;
+    background: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 20px;
+  }
+
+  .info-card--turquoise .info-card__body :global(.condition-tag),
+  .info-card--outlined .info-card__body :global(.condition-tag) {
+    color: var(--color-turquoise);
+    border: 1px solid var(--color-turquoise);
+  }
+
+  .info-card--coral .info-card__body :global(.condition-tag) {
+    color: var(--color-coral);
+    border: 1px solid var(--color-coral);
+  }
+
+  .info-card__body :global(.info-card__description) {
+    margin-bottom: 18px;
+  }
+
+  .info-card__body :global(.info-card__image) {
+    display: block;
+    width: 70%;
+    max-width: 240px;
+    height: auto;
+    border-radius: 4px;
+    margin: 0 auto 12px;
+  }
+
+  .info-card__body :global(.info-card__device) {
+    display: inline-block;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+    padding-top: 10px;
+    width: 100%;
+  }
+
+  .info-card__body :global(.info-card__note) {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-top: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .info-card {
+      padding: 22px 18px;
+    }
+
+    .info-card__title {
+      font-size: 0.9rem;
+    }
+
+    .info-card__body :global(.condition-tag) {
+      font-size: 0.85rem;
+      padding: 5px 12px;
+    }
+  }
+</style>

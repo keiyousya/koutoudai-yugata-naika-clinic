@@ -6,6 +6,7 @@ import interiorImage03 from "../assets/interior03.jpeg";
 import ecgImage from "../assets/ecg.jpeg";
 import echoImage from "../assets/echo.jpeg";
 import HealthIcon from "./HealthIcon.astro";
+import InfoCard from "./InfoCard.astro";
 ---
 
 <section id="about" class="section about">
@@ -36,38 +37,20 @@ import HealthIcon from "./HealthIcon.astro";
           </div>
         </div>
 
-        <ul class="about-features">
-          <li class="feature-item">
-            <div class="feature-header">
-              <span class="feature-icon">
-                <HealthIcon name="symbols/i_schedule_school_date_time" size={22} />
-              </span>
-              <strong>夕方〜夜間診療</strong>
-            </div>
-            <p class="feature-text">17:00〜21:00まで診療。お仕事帰りにも立ち寄れます。</p>
-          </li>
-          <li class="feature-item">
-            <div class="feature-header">
-              <span class="feature-icon">
-                <HealthIcon name="objects/calendar" size={22} />
-              </span>
-              <strong>土日・週末も診療</strong>
-            </div>
-            <p class="feature-text">平日だけでなく、土曜・日曜も診療を行っています。週末や休日の通院にも対応できます。</p>
-          </li>
-          <li class="feature-item">
-            <div class="feature-header">
-              <span class="feature-icon">
-                <HealthIcon name="symbols/geo_location" size={22} />
-              </span>
-              <strong>駅から徒歩2分</strong>
-            </div>
-            <p class="feature-text">地下鉄南北線 勾当台公園駅から徒歩2分の好アクセス。</p>
-          </li>
-        </ul>
+        <div class="about-features">
+          <InfoCard icon="symbols/i_schedule_school_date_time" title="夕方〜夜間診療" variant="outlined">
+            <p>17:00〜21:00まで診療。お仕事帰りにも立ち寄れます。</p>
+          </InfoCard>
+          <InfoCard icon="objects/calendar" title="土日・週末も診療" variant="outlined">
+            <p>平日だけでなく、土曜・日曜も診療を行っています。週末や休日の通院にも対応できます。</p>
+          </InfoCard>
+          <InfoCard icon="symbols/geo_location" title="駅から徒歩2分" variant="outlined">
+            <p>地下鉄南北線 勾当台公園駅から徒歩2分の好アクセス。</p>
+          </InfoCard>
+        </div>
 
         <div class="demographics-link-row">
-          <a href="/patient-demographics" class="demographics-inline-link">当院の患者層（年代別割合）はこちら</a>
+          <a href="/patient-demographics" class="demographics-inline-link">当院の患者層（年代別割合）はこちら →</a>
         </div>
 
         <div class="medical-area">
@@ -77,14 +60,8 @@ import HealthIcon from "./HealthIcon.astro";
             ※ 健診で指摘を受けた項目の精査をご希望の方は、健診結果をお持ちください。
           </p>
           <div class="medical-columns">
-            <div class="medical-card">
-              <div class="medical-card-header">
-                <span class="medical-card-icon">
-                  <HealthIcon name="symbols/clinical_fe" size={28} />
-                </span>
-                <h4 class="medical-card-title">慢性疾患のかかりつけ</h4>
-              </div>
-              <p class="medical-card-description">
+            <InfoCard icon="symbols/clinical_fe" title="慢性疾患のかかりつけ">
+              <p class="info-card__description">
                 夕方以降の時間帯で継続的に生活習慣病などの管理・治療を行います。
               </p>
               <ul class="condition-list">
@@ -97,16 +74,10 @@ import HealthIcon from "./HealthIcon.astro";
                 <li class="condition-tag">不眠</li>
                 <li class="condition-tag">睡眠時無呼吸症候群</li>
               </ul>
-            </div>
+            </InfoCard>
 
-            <div class="medical-card">
-              <div class="medical-card-header">
-                <span class="medical-card-icon">
-                  <HealthIcon name="people/symptom" size={28} />
-                </span>
-                <h4 class="medical-card-title">夜間の急な症状にも対応</h4>
-              </div>
-              <p class="medical-card-description">
+            <InfoCard icon="people/symptom" title="夜間の急な症状にも対応">
+              <p class="info-card__description">
                 夕方以降の急な発熱や体調不良に対応します。
               </p>
               <ul class="condition-list">
@@ -118,19 +89,17 @@ import HealthIcon from "./HealthIcon.astro";
                 <li class="condition-tag">倦怠感・だるさ</li>
                 <li class="condition-tag">動悸</li>
               </ul>
-            </div>
+            </InfoCard>
           </div>
 
-          <div class="fever-notice">
-            <div class="fever-notice-header">
-              <span class="fever-notice-icon">
-                <HealthIcon name="devices/thermometer" size={28} />
-              </span>
-              <h4 class="fever-notice-title">発熱患者等の受入れについて</h4>
-            </div>
-            <p class="fever-notice-text">
+          <InfoCard icon="devices/thermometer" title="発熱患者等の受入れについて" variant="outlined">
+            <p>
               当院は、<strong>受診歴の有無にかかわらず</strong>、発熱その他感染症を疑わせる症状を呈する患者様の受入れを行っております。感染防止対策として、一般診療と発熱外来で<strong>診療時間帯を分ける</strong>とともに、<strong>別室の診療スペース</strong>をご用意し、必要に応じて発熱患者様の動線を他の患者様と分ける体制を整えております。
             </p>
+          </InfoCard>
+
+          <div class="articles-link-row">
+            <a href="/articles" class="articles-inline-link">病気について知る →</a>
           </div>
         </div>
 
@@ -140,42 +109,24 @@ import HealthIcon from "./HealthIcon.astro";
             院内で実施できる検査のご案内です。
           </p>
           <div class="exam-grid">
-            <div class="exam-item">
-              <div class="exam-item-header">
-                <span class="exam-item-icon">
-                  <HealthIcon name="devices/ultrasound_scanner" size={28} />
-                </span>
-                <h4 class="exam-item-title">超音波検査（エコー）</h4>
-              </div>
-              <p class="exam-item-description">
+            <InfoCard icon="devices/ultrasound_scanner" title="超音波検査（エコー）" variant="coral">
+              <p class="info-card__description">
                 腹部・腎臓・頸動脈・甲状腺などの検査を行います。
               </p>
-              <Image src={echoImage} alt="超音波検査装置" width={400} class="exam-item-image" />
-              <span class="exam-item-device">キャノンメディカルシステムズ Aplio go / LE</span>
-            </div>
+              <Image src={echoImage} alt="超音波検査装置" width={400} class="info-card__image" />
+              <span class="info-card__device">キャノンメディカルシステムズ Aplio go / LE</span>
+            </InfoCard>
 
-            <div class="exam-item">
-              <div class="exam-item-header">
-                <span class="exam-item-icon">
-                  <HealthIcon name="symbols/cardiogram_e" size={28} />
-                </span>
-                <h4 class="exam-item-title">12誘導心電図</h4>
-              </div>
-              <p class="exam-item-description">
+            <InfoCard icon="symbols/cardiogram_e" title="12誘導心電図" variant="coral">
+              <p class="info-card__description">
                 不整脈や狭心症など、心臓に関わる症状の評価に用います。
               </p>
-              <Image src={ecgImage} alt="12誘導心電図" width={400} class="exam-item-image" />
-              <span class="exam-item-device">日本光電 ECG-3250</span>
-            </div>
+              <Image src={ecgImage} alt="12誘導心電図" width={400} class="info-card__image" />
+              <span class="info-card__device">日本光電 ECG-3250</span>
+            </InfoCard>
 
-            <div class="exam-item">
-              <div class="exam-item-header">
-                <span class="exam-item-icon">
-                  <HealthIcon name="symbols/virus" size={28} />
-                </span>
-                <h4 class="exam-item-title">迅速抗原検査</h4>
-              </div>
-              <p class="exam-item-description">
+            <InfoCard icon="symbols/virus" title="迅速抗原検査" variant="coral">
+              <p class="info-card__description">
                 院内で短時間に結果が得られる検査です。
               </p>
               <ul class="condition-list">
@@ -183,16 +134,10 @@ import HealthIcon from "./HealthIcon.astro";
                 <li class="condition-tag">新型コロナウイルス</li>
                 <li class="condition-tag">溶連菌</li>
               </ul>
-            </div>
+            </InfoCard>
 
-            <div class="exam-item">
-              <div class="exam-item-header">
-                <span class="exam-item-icon">
-                  <HealthIcon name="devices/syringe" size={28} />
-                </span>
-                <h4 class="exam-item-title">検体検査</h4>
-              </div>
-              <p class="exam-item-description">
+            <InfoCard icon="devices/syringe" title="検体検査" variant="coral">
+              <p class="info-card__description">
                 血液検査・尿検査などは外部検査機関に委託して実施します。結果は後日お伝えいたします。
               </p>
               <ul class="condition-list">
@@ -204,10 +149,10 @@ import HealthIcon from "./HealthIcon.astro";
                 <li class="condition-tag">アレルギー</li>
                 <li class="condition-tag">性感染症</li>
               </ul>
-              <p class="exam-item-note">※ アレルギー検査は39項目のセット検査が可能です。</p>
-              <p class="exam-item-note">※ 性感染症はクラミジア・淋菌・梅毒・HIVの検査が可能です。</p>
-              <p class="exam-item-note">※ その他、症状に応じて必要な検査を行います。</p>
-            </div>
+              <p class="info-card__note">※ アレルギー検査は39項目のセット検査が可能です。</p>
+              <p class="info-card__note">※ 性感染症はクラミジア・淋菌・梅毒・HIVの検査が可能です。</p>
+              <p class="info-card__note">※ その他、症状に応じて必要な検査を行います。</p>
+            </InfoCard>
           </div>
         </div>
       </div>
@@ -215,88 +160,121 @@ import HealthIcon from "./HealthIcon.astro";
   </div>
 </section>
 
-<section id="immunotherapy" class="section immunotherapy-section">
-  <div class="container">
-    <div class="immunotherapy-content">
-      <div class="immunotherapy-card">
-        <div class="immunotherapy-icon">
-          <HealthIcon name="symbols/cardiogram" size={28} />
-        </div>
-        <h3 class="immunotherapy-title">アレルゲン免疫療法</h3>
-        <p class="immunotherapy-description">
-          当院では、スギ花粉症・ダニアレルギーの根本的な体質改善を目指すアレルゲン免疫療法を行っています。
-        </p>
-        <a href="/allergen-immunotherapy" class="immunotherapy-link">詳しくはこちら</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="about" class="section about">
+<section class="section specialty-section specialty-section--turquoise">
   <div class="container">
     <div class="about-content">
-      <div class="about-text">
+      <a href="/allergen-immunotherapy" class="specialty-card">
+        <div class="specialty-icon specialty-icon--turquoise">
+          <HealthIcon name="symbols/cardiogram" size={28} />
+        </div>
+        <h4 class="specialty-title">アレルゲン免疫療法</h4>
+        <p class="specialty-description">スギ花粉症・ダニアレルギーの根本的な体質改善を目指す治療を行っています。</p>
+        <span class="specialty-link specialty-link--turquoise">詳しくはこちら →</span>
+      </a>
+    </div>
+  </div>
+</section>
 
-        <div class="cooperation-area">
-          <h3 class="medical-heading">地域連携</h3>
-          <div class="cooperation-box">
-            <p class="cooperation-text">
-              当院は地域の基幹病院と連携し、より専門的な検査や治療が必要な場合にスムーズにご紹介できる体制を整えています。
-            </p>
-            <p class="cooperation-label">連携医療機関</p>
-            <ul class="cooperation-list">
-              <li><a href="https://www.hosp.tohoku.ac.jp/" target="_blank" rel="noopener noreferrer">東北大学病院</a></li>
-              <li><a href="https://nsmc.hosp.go.jp/" target="_blank" rel="noopener noreferrer">仙台医療センター</a></li>
-              <li><a href="https://hospital.city.sendai.jp/" target="_blank" rel="noopener noreferrer">仙台市立病院</a></li>
-              <li><a href="https://www.hosp.tohoku-mpu.ac.jp/" target="_blank" rel="noopener noreferrer">東北医科薬科大学病院</a></li>
-              <li><a href="https://www.openhp.or.jp/" target="_blank" rel="noopener noreferrer">仙台オープン病院</a></li>
-              <li><a href="https://www.tohokuh.johas.go.jp/" target="_blank" rel="noopener noreferrer">東北労災病院</a></li>
-              <li><a href="https://tohokukosai.kkr.or.jp/" target="_blank" rel="noopener noreferrer">東北公済病院</a></li>
-            </ul>
+<section class="section specialty-section specialty-section--coral">
+  <div class="container">
+    <div class="about-content">
+      <a href="/afterpill" class="specialty-card">
+        <div class="specialty-icon">
+          <HealthIcon name="devices/medicine_bottle" size={28} />
+        </div>
+        <h4 class="specialty-title">緊急避妊薬（アフターピル）</h4>
+        <p class="specialty-description">避妊に失敗した場合の緊急避妊薬を処方しています。性交後72時間以内の服用が必要です。</p>
+        <span class="specialty-link">詳しくはこちら →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section guide-links-section">
+  <div class="container">
+    <div class="about-content">
+      <h3 class="medical-heading">ご利用案内</h3>
+      <div class="guide-accordion">
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="objects/prescription_document" size={22} />
+            </span>
+            <span class="guide-accordion-label">お薬の処方について</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                当院では原則として<strong>院外処方</strong>となります。<br />
+                近隣の調剤薬局が閉まっている時間帯に限り、急性疾患に対する一部のお薬を<strong>院内でお渡し</strong>できる場合があります。
+              </p>
+              <p class="guide-accordion-note">※ 降圧薬・糖尿病治療薬などの慢性疾患のお薬は院外処方のみとなります。</p>
+            </div>
           </div>
-        </div>
+        </details>
 
-        <div class="prescription-area">
-          <h3 class="medical-heading">お薬の処方について</h3>
-          <div class="prescription-box">
-            <p class="prescription-text">
-              当院では原則として<strong>院外処方</strong>となります。<br />
-              近隣の調剤薬局が閉まっている時間帯に限り、急性疾患に対する一部のお薬を<strong>院内でお渡し</strong>できる場合があります。
-            </p>
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="objects/i_certificate_paper" size={22} />
+            </span>
+            <span class="guide-accordion-label">診断書の発行について</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                診断書は自費にて<strong>一律 5,500円（税込）</strong>で発行いたします。
+              </p>
+            </div>
           </div>
-          <p class="prescription-note">
-            ※ 降圧薬・糖尿病治療薬などの慢性疾患のお薬は院外処方のみとなります。
-          </p>
-        </div>
+        </details>
 
-                <div class="certificate-area">
-          <h3 class="medical-heading">診断書の発行について</h3>
-          <div class="certificate-box">
-            <p class="certificate-text">
-              診断書は自費にて<strong>一律 5,500円（税込）</strong>で発行いたします。
-            </p>
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="objects/credit_card" size={22} />
+            </span>
+            <span class="guide-accordion-label">お支払いについて</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                現金・クレジットカード等キャッシュレス決済に対応しています。
+              </p>
+              <p class="guide-accordion-note">※ マイナ保険証または資格確認書をお忘れの場合は10割負担での現金払いとなります。後日お持ちいただければ差額を返金いたします。</p>
+            </div>
           </div>
-        </div>
+        </details>
 
-        <div class="afterpill-area">
-          <h3 class="medical-heading">緊急避妊薬（アフターピル）について</h3>
-          <div class="afterpill-box">
-            <p class="afterpill-text">
-              避妊に失敗した場合の緊急避妊薬（アフターピル）を処方しています。<br />
-              性交後72時間以内の服用が必要です。
-            </p>
-            <a href="/afterpill" class="afterpill-link">詳しくはこちら</a>
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="places/hospital" size={22} />
+            </span>
+            <span class="guide-accordion-label">地域連携</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                当院は地域の基幹病院と連携し、より専門的な検査や治療が必要な場合にスムーズにご紹介できる体制を整えています。
+              </p>
+              <p class="guide-accordion-sub-label">連携医療機関</p>
+              <ul class="guide-accordion-list">
+                <li><a href="https://www.hosp.tohoku.ac.jp/" target="_blank" rel="noopener noreferrer">東北大学病院</a></li>
+                <li><a href="https://nsmc.hosp.go.jp/" target="_blank" rel="noopener noreferrer">仙台医療センター</a></li>
+                <li><a href="https://hospital.city.sendai.jp/" target="_blank" rel="noopener noreferrer">仙台市立病院</a></li>
+                <li><a href="https://www.hosp.tohoku-mpu.ac.jp/" target="_blank" rel="noopener noreferrer">東北医科薬科大学病院</a></li>
+                <li><a href="https://www.openhp.or.jp/" target="_blank" rel="noopener noreferrer">仙台オープン病院</a></li>
+                <li><a href="https://www.tohokuh.johas.go.jp/" target="_blank" rel="noopener noreferrer">東北労災病院</a></li>
+                <li><a href="https://tohokukosai.kkr.or.jp/" target="_blank" rel="noopener noreferrer">東北公済病院</a></li>
+              </ul>
+            </div>
           </div>
-        </div>
-
-        <div class="payment-area">
-          <h3 class="medical-heading">お支払いについて</h3>
-          <p class="payment-text">
-            現金・クレジットカード等キャッシュレス決済に対応しています。<br />
-            ※ マイナ保険証または資格確認書をお忘れの場合は10割負担での現金払いとなります。後日お持ちいただければ差額を返金いたします。
-          </p>
-        </div>
-
+        </details>
       </div>
     </div>
   </div>
@@ -335,67 +313,39 @@ import HealthIcon from "./HealthIcon.astro";
   }
 
   .demographics-inline-link {
-    display: inline-block;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--color-turquoise);
-    text-decoration: none;
-    padding: 8px 20px;
-    border: 1px solid var(--color-turquoise);
-    border-radius: 20px;
-    transition: background 0.2s, color 0.2s;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: opacity 0.2s;
   }
 
   .demographics-inline-link:hover {
-    background: var(--color-turquoise);
-    color: white;
+    opacity: 0.7;
+  }
+
+  .articles-link-row {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .articles-inline-link {
+    font-size: 0.85rem;
+    color: var(--color-turquoise);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+
+  .articles-inline-link:hover {
+    opacity: 0.7;
   }
 
   .about-features {
     display: grid;
     gap: 20px;
-  }
-
-  .feature-item {
-    padding: 24px 20px;
-    background: white;
-    border-radius: 14px;
-    border: 1px solid var(--color-turquoise);
-  }
-
-  .feature-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .feature-icon {
-    flex-shrink: 0;
-    color: var(--color-turquoise);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: var(--color-turquoise-bg);
-    border-radius: 10px;
-  }
-
-  .feature-icon svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .feature-item strong {
-    font-size: 0.92rem;
-    color: var(--color-navy);
-  }
-
-  .feature-text {
-    color: var(--color-text-muted);
-    font-size: 0.82rem;
-    line-height: 1.7;
-    padding-left: 46px;
   }
 
   .medical-area {
@@ -418,67 +368,6 @@ import HealthIcon from "./HealthIcon.astro";
     margin-bottom: 32px;
   }
 
-  .medical-card {
-    background: var(--color-turquoise-bg);
-    border-radius: 16px;
-    padding: 28px 24px;
-    border: 1px solid var(--color-turquoise);
-  }
-
-  .medical-card-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-
-  .medical-card-icon {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: white;
-    border-radius: 10px;
-    color: var(--color-turquoise);
-  }
-
-  .medical-card-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    line-height: 1.4;
-  }
-
-  .medical-card-description {
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
-    line-height: 1.8;
-    margin-bottom: 18px;
-  }
-
-  .condition-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .condition-tag {
-    display: inline-block;
-    padding: 6px 16px;
-    background: white;
-    color: var(--color-turquoise);
-    font-size: 0.85rem;
-    font-weight: 500;
-    border-radius: 20px;
-    border: 1px solid var(--color-turquoise);
-  }
-
-  .exam-item .condition-tag {
-    color: var(--color-coral);
-    border-color: var(--color-coral);
-  }
 
   .medical-note {
     text-align: center;
@@ -488,21 +377,114 @@ import HealthIcon from "./HealthIcon.astro";
     margin-bottom: 28px;
   }
 
-  .fever-notice {
-    background: white;
-    border: 1px solid var(--color-turquoise);
-    border-radius: 16px;
-    padding: 24px 28px;
+
+  .specialty-section--turquoise {
+    background: var(--color-turquoise-bg);
   }
 
-  .fever-notice-header {
+  .specialty-section--coral {
+    background: var(--color-coral-bg);
+  }
+
+  .specialty-card {
+    display: block;
+    max-width: 640px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow 0.2s;
+  }
+
+  .specialty-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .specialty-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    background: var(--color-coral-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-coral);
+  }
+
+  .specialty-icon--turquoise {
+    background: var(--color-turquoise-bg);
+    color: var(--color-turquoise);
+  }
+
+  .specialty-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 10px;
+  }
+
+  .specialty-description {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .specialty-link {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-coral);
+  }
+
+  .specialty-link--turquoise {
+    color: var(--color-turquoise);
+  }
+
+  .guide-links-section {
+    background: white;
+  }
+
+  .guide-accordion {
+    display: flex;
+    flex-direction: column;
+    margin-top: 24px;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .guide-accordion-item {
+    border-bottom: 1px solid var(--color-turquoise);
+  }
+
+  .guide-accordion-item:last-child {
+    border-bottom: none;
+  }
+
+  .guide-accordion-summary {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 12px;
+    padding: 20px 24px;
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.2s;
   }
 
-  .fever-notice-icon {
+  .guide-accordion-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    .guide-accordion-summary:hover {
+      background: var(--color-turquoise-bg);
+    }
+  }
+
+  .guide-accordion-icon {
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -514,70 +496,91 @@ import HealthIcon from "./HealthIcon.astro";
     color: var(--color-turquoise);
   }
 
-  .fever-notice-title {
+
+  .guide-accordion-label {
+    flex: 1;
     font-size: 0.95rem;
     font-weight: 700;
     color: var(--color-navy);
+    line-height: 1.4;
   }
 
-  .fever-notice-text {
+  .guide-accordion-chevron {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--color-text-muted);
+    border-bottom: 2px solid var(--color-text-muted);
+    transform: rotate(45deg);
+    transition: transform 0.2s;
+  }
+
+  .guide-accordion-item[open] .guide-accordion-chevron {
+    transform: rotate(-135deg);
+  }
+
+  .guide-accordion-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease;
+    padding: 0 24px 0 76px;
+  }
+
+  .guide-accordion-item[open] .guide-accordion-body {
+    grid-template-rows: 1fr;
+  }
+
+  .guide-accordion-body-inner {
+    overflow: hidden;
+  }
+
+  .guide-accordion-item[open] .guide-accordion-body-inner {
+    padding-bottom: 24px;
+  }
+
+  .guide-accordion-body p {
     font-size: 0.9rem;
     color: var(--color-text-muted);
     line-height: 1.8;
   }
 
-  .fever-notice-text strong {
+  .guide-accordion-body p strong {
     color: var(--color-navy);
     font-weight: 700;
   }
 
-  .cooperation-area {
-    margin-top: 64px;
+  .guide-accordion-note {
+    font-size: 0.78rem !important;
+    margin-top: 10px;
   }
 
-  .cooperation-box {
-    max-width: 720px;
-    margin: 0 auto;
-    background: var(--color-turquoise-bg);
-    border-radius: 16px;
-    padding: 28px 32px;
-  }
-
-  .cooperation-text {
-    font-size: 0.9rem;
-    color: var(--color-text);
-    line-height: 1.9;
-    margin-bottom: 20px;
-  }
-
-  .cooperation-label {
-    font-size: 0.85rem;
+  .guide-accordion-sub-label {
+    font-size: 0.82rem !important;
     font-weight: 500;
-    color: var(--color-text-muted);
-    margin-bottom: 12px;
+    margin-top: 16px;
+    margin-bottom: 8px;
   }
 
-  .cooperation-list {
+  .guide-accordion-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     padding-left: 1.2em;
     list-style: disc;
   }
 
-  .cooperation-list li {
+  .guide-accordion-list li {
     color: var(--color-text-muted);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
-  .cooperation-list a {
+  .guide-accordion-list a {
     color: var(--color-navy);
     text-decoration: none;
     transition: color 0.2s;
   }
 
-  .cooperation-list a:hover {
-    color: var(--color-navy-medium);
+  .guide-accordion-list a:hover {
     text-decoration: underline;
   }
 
@@ -625,288 +628,8 @@ import HealthIcon from "./HealthIcon.astro";
     gap: 28px;
   }
 
-  .exam-item {
-    background: var(--color-coral-bg);
-    border-radius: 16px;
-    padding: 24px;
-    border: 1px solid var(--color-coral);
-  }
 
-  .exam-item-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
 
-  .exam-item-icon {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: white;
-    border-radius: 10px;
-    color: var(--color-coral);
-  }
-
-  .exam-item-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-navy);
-  }
-
-  .exam-item-description {
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
-    line-height: 1.8;
-    margin-bottom: 12px;
-  }
-
-  .exam-item-note {
-    font-size: 0.78rem;
-    color: var(--color-text-muted);
-    margin-top: 10px;
-  }
-
-  .exam-item-image {
-    display: block;
-    width: 70%;
-    max-width: 240px;
-    height: auto;
-    border-radius: 4px;
-    margin: 0 auto 12px;
-  }
-
-  .exam-item-device {
-    display: inline-block;
-    font-size: 0.78rem;
-    color: var(--color-text-muted);
-    border-top: 1px solid var(--color-border);
-    padding-top: 10px;
-    width: 100%;
-  }
-
-  .insurance-area {
-    margin-top: 64px;
-    scroll-margin-top: 80px;
-  }
-
-  .insurance-notice {
-    max-width: 720px;
-    margin: 0 auto;
-    background: var(--color-coral-bg);
-    border-radius: 16px;
-    padding: 28px 32px;
-  }
-
-  .insurance-notice-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    margin-bottom: 14px;
-  }
-
-  .insurance-notice-icon {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: white;
-    border-radius: 10px;
-    color: var(--color-coral);
-  }
-
-  .insurance-notice-text {
-    font-size: 0.9rem;
-    color: var(--color-text);
-    line-height: 1.9;
-    margin-bottom: 16px;
-  }
-
-  .insurance-list {
-    font-size: 0.9rem;
-    color: var(--color-text);
-    line-height: 1.9;
-    margin-bottom: 16px;
-    padding-left: 1.2em;
-    list-style: disc;
-  }
-
-  .insurance-list > li {
-    margin-bottom: 10px;
-  }
-
-  .insurance-sublist {
-    padding-left: 1.2em;
-    list-style: circle;
-    margin-top: 4px;
-    color: var(--color-text-muted);
-    font-size: 0.85rem;
-  }
-
-  .insurance-note {
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
-    line-height: 1.8;
-    max-width: 720px;
-    margin: 10px auto 0;
-    text-align: center;
-  }
-
-  .prescription-area {
-    margin-top: 64px;
-  }
-
-  .prescription-box {
-    max-width: 720px;
-    margin: 0 auto;
-    background: var(--color-turquoise-bg);
-    border-radius: 16px;
-    padding: 28px 32px;
-  }
-
-  .prescription-text {
-    font-size: 0.9rem;
-    color: var(--color-text);
-    line-height: 1.9;
-    margin-bottom: 14px;
-  }
-
-  .prescription-note {
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
-    line-height: 1.8;
-    max-width: 720px;
-    margin: 10px auto 0;
-    text-align: center;
-  }
-
-  .payment-area {
-    margin-top: 64px;
-  }
-
-  .certificate-area {
-    margin-top: 64px;
-  }
-
-  .certificate-box {
-    max-width: 720px;
-    margin: 0 auto;
-    background: var(--color-turquoise-bg);
-    border-radius: 16px;
-    padding: 28px 32px;
-  }
-
-  .certificate-text {
-    font-size: 0.9rem;
-    color: var(--color-text);
-    line-height: 1.9;
-  }
-
-  .afterpill-area {
-    margin-top: 64px;
-  }
-
-  .afterpill-box {
-    max-width: 720px;
-    margin: 0 auto;
-    background: var(--color-coral-bg);
-    border-radius: 16px;
-    padding: 28px 32px;
-    text-align: center;
-  }
-
-  .afterpill-text {
-    font-size: 0.9rem;
-    color: var(--color-text);
-    line-height: 1.8;
-    margin-bottom: 16px;
-  }
-
-  .afterpill-link {
-    font-size: 0.9rem;
-    color: var(--color-coral);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    transition: opacity 0.2s;
-  }
-
-  .afterpill-link:hover {
-    opacity: 0.7;
-  }
-
-  .payment-text {
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    line-height: 1.9;
-    text-align: center;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
-  .immunotherapy-section {
-    background: var(--color-coral-bg);
-    padding: 60px 0;
-  }
-
-  .immunotherapy-content {
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  .immunotherapy-card {
-    background: white;
-    border-radius: 16px;
-    padding: 40px 48px;
-    text-align: center;
-  }
-
-  .immunotherapy-icon {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 20px;
-    background: var(--color-coral-bg);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-coral);
-  }
-
-  .immunotherapy-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    margin-bottom: 16px;
-  }
-
-  .immunotherapy-description {
-    font-size: 0.95rem;
-    color: var(--color-text-muted);
-    line-height: 1.9;
-    margin-bottom: 24px;
-  }
-
-  .immunotherapy-link {
-    display: inline-block;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--color-coral);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    transition: opacity 0.2s;
-  }
-
-  .immunotherapy-link:hover {
-    opacity: 0.7;
-  }
 
   .sp-only {
     display: none;
@@ -926,19 +649,6 @@ import HealthIcon from "./HealthIcon.astro";
       text-align: left;
     }
 
-    .about-features {
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-
-    .feature-item {
-      padding: 16px 14px;
-    }
-
-    .feature-text {
-      padding-left: 46px;
-    }
-
     .medical-area {
       margin-top: 40px;
     }
@@ -953,43 +663,9 @@ import HealthIcon from "./HealthIcon.astro";
       gap: 28px;
     }
 
-    .medical-card {
-      padding: 22px 18px;
-    }
-
-    .medical-card-title {
-      font-size: 0.9rem;
-    }
-
-    .condition-tag {
-      font-size: 0.85rem;
-      padding: 5px 12px;
-    }
-
     .medical-note {
       text-align: left;
       font-size: 0.9rem;
-    }
-
-    .fever-notice {
-      padding: 20px 18px;
-      gap: 12px;
-    }
-
-    .immunotherapy-section {
-      padding: 48px 0;
-    }
-
-    .immunotherapy-card {
-      padding: 32px 24px;
-    }
-
-    .cooperation-area {
-      margin-top: 40px;
-    }
-
-    .cooperation-box {
-      padding: 22px 18px;
     }
 
     .interior-gallery {
@@ -1007,52 +683,30 @@ import HealthIcon from "./HealthIcon.astro";
       gap: 20px;
     }
 
-    .exam-item {
-      padding: 20px 18px;
+
+    .specialty-card {
+      padding: 24px 18px;
     }
 
-    .exam-item-title {
-      font-size: 0.9rem;
+    .specialty-title {
+      font-size: 0.92rem;
     }
 
-    .insurance-area {
-      margin-top: 40px;
+    .specialty-description {
+      font-size: 0.82rem;
     }
 
-    .insurance-notice {
-      padding: 22px 18px;
+    .guide-accordion-summary {
+      padding: 16px 18px;
     }
 
-    .prescription-area {
-      margin-top: 40px;
+    .guide-accordion-body {
+      padding-left: 18px;
+      padding-right: 18px;
     }
 
-    .prescription-box {
-      padding: 22px 18px;
-    }
-
-    .payment-area {
-      margin-top: 40px;
-    }
-
-    .certificate-area {
-      margin-top: 40px;
-    }
-
-    .certificate-box {
-      padding: 22px 18px;
-    }
-
-    .afterpill-area {
-      margin-top: 40px;
-    }
-
-    .afterpill-box {
-      padding: 22px 18px;
-    }
-
-    .payment-text {
-      text-align: left;
+    .guide-accordion-item[open] .guide-accordion-body-inner {
+      padding-bottom: 18px;
     }
   }
 </style>

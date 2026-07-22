@@ -1,22 +1,18 @@
 ---
-import HealthIcon from "./HealthIcon.astro";
+import InfoCard from "./InfoCard.astro";
 ---
 
 <section class="appropriate-care-banner">
   <div class="container">
-    <div class="banner-content">
-      <div class="banner-icon">
-        <HealthIcon name="devices/stethoscope" size={32} />
-      </div>
-      <div class="banner-text">
-        <h3 class="banner-title">夜間の急な体調不良で、救急病院に行くか迷われている方へ</h3>
-        <p class="banner-description">
+    <div class="banner-wrapper">
+      <InfoCard icon="devices/stethoscope" title="夜間の急な体調不良で、救急病院に行くか迷われている方へ" variant="outlined">
+        <p>
           仙台市内の救急外来の混雑緩和と、患者様の待ち時間短縮のため、当院は「初期診療の窓口」としての役割を担っています。
         </p>
         <a href="/appropriate-care" class="banner-link">
           詳しくはこちら →
         </a>
-      </div>
+      </InfoCard>
     </div>
   </div>
 </section>
@@ -27,59 +23,22 @@ import HealthIcon from "./HealthIcon.astro";
     padding: 48px 0;
   }
 
-  .banner-content {
+  .banner-wrapper {
     max-width: 900px;
     margin: 0 auto;
-    display: flex;
-    align-items: flex-start;
-    gap: 28px;
-    background: white;
-    border: 1px solid var(--color-turquoise);
-    border-radius: 16px;
-    padding: 36px 40px;
   }
 
-  .banner-icon {
-    flex-shrink: 0;
-    width: 56px;
-    height: 56px;
-    background: var(--color-turquoise-bg);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-turquoise);
-  }
-
-  .banner-text {
-    flex: 1;
-  }
-
-  .banner-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    margin-bottom: 12px;
-    line-height: 1.6;
-  }
-
-  .banner-description {
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    line-height: 1.8;
-    margin-bottom: 18px;
-  }
-
-  .banner-link {
+  .banner-wrapper :global(.banner-link) {
     display: inline-block;
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--color-turquoise);
     text-decoration: none;
     transition: opacity 0.2s;
+    margin-top: 12px;
   }
 
-  .banner-link:hover {
+  .banner-wrapper :global(.banner-link:hover) {
     opacity: 0.7;
   }
 
@@ -88,34 +47,9 @@ import HealthIcon from "./HealthIcon.astro";
       padding: 32px 0;
     }
 
-    .banner-content {
-      flex-direction: column;
-      gap: 20px;
-      padding: 28px 24px;
-    }
-
-    .banner-icon {
-      width: 48px;
-      height: 48px;
-    }
-
-    .banner-icon svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    .banner-title {
-      font-size: 1rem;
-    }
-
-    .banner-description {
-      font-size: 0.88rem;
-    }
-
-    .banner-link {
+    .banner-wrapper :global(.banner-link) {
       display: block;
       text-align: right;
-      margin-top: 8px;
     }
   }
 </style>

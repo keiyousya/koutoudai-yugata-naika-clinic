@@ -1,0 +1,43 @@
+---
+interface Props {
+  variant?: 'negative' | 'positive' | 'default';
+}
+
+const { variant = 'default' } = Astro.props;
+const className = `cause-grid${variant !== 'default' ? ` cause-grid--${variant}` : ''}`;
+---
+
+<div class={className}>
+  <slot />
+</div>
+
+<style>
+  .cause-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+    --card-border-color: var(--color-border);
+    --card-icon-color: var(--color-turquoise);
+    --card-title-color: var(--color-navy);
+  }
+
+  .cause-grid--negative {
+    --card-border-color: #e8908a;
+    --card-icon-color: #d9685e;
+    --card-title-color: #c55a50;
+  }
+
+  .cause-grid--positive {
+    --card-border-color: #6eb8d6;
+    --card-icon-color: #4a9cc0;
+    --card-title-color: #3d8aad;
+  }
+
+  @media (max-width: 768px) {
+    .cause-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+  }
+</style>

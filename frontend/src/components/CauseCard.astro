@@ -1,0 +1,80 @@
+---
+import HealthIcon from './HealthIcon.astro';
+
+interface Props {
+  icon: string;
+  title: string;
+}
+
+const { icon, title } = Astro.props;
+---
+
+<div class="cause-card">
+  <div class="cause-card__icon">
+    <HealthIcon name={icon} size={28} class="cause-icon" />
+  </div>
+  <div class="cause-card__body">
+    <strong set:html={title} />
+    <p><slot /></p>
+  </div>
+</div>
+
+<style>
+  .cause-card {
+    border: 1px solid var(--card-border-color, var(--color-border));
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+    background: white;
+  }
+
+  .cause-card :global(.cause-icon) {
+    display: block;
+    margin: 0 auto 10px;
+    color: var(--card-icon-color, var(--color-turquoise));
+    line-height: 0;
+  }
+
+  .cause-card strong {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--card-title-color, var(--color-navy));
+    margin-bottom: 8px;
+  }
+
+  .cause-card p {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .cause-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      text-align: left;
+    }
+
+    .cause-card .cause-card__icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+    }
+
+    .cause-card .cause-card__body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cause-card strong {
+      font-size: 0.9rem;
+    }
+
+    .cause-card p {
+      font-size: 0.8rem;
+    }
+  }
+</style>

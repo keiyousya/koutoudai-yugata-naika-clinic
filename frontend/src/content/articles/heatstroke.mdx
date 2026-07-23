@@ -8,7 +8,9 @@ order: 4
 category: "救急・季節性疾患"
 date: "2026.07.19"
 ---
-import HealthIcon from '../../components/HealthIcon.astro';
+import CauseGrid from '../../components/CauseGrid.astro';
+import CauseCard from '../../components/CauseCard.astro';
+import ArticleTable from '../../components/ArticleTable.astro';
 
 熱中症とは、高温多湿な環境下で体温調節機能がうまく働かなくなり、体内に熱がこもることで起こるさまざまな症状の総称です。屋外だけでなく、**室内でも発症**します。
 
@@ -18,18 +20,10 @@ import HealthIcon from '../../components/HealthIcon.astro';
 
 熱中症の病態は大きく<strong>「暑熱障害」</strong>と<strong>「脱水」</strong>に分けられます。
 
-<div class="cause-grid cause-grid--negative">
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="devices/thermometer" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>暑熱障害</strong>
-    <p>高温環境で体温が上昇し、放熱が追いつかなくなった状態です。中枢温が40.5℃を超えて持続すると臓器障害が進行し、予後が悪化します</p></div>
-  </div>
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="body/blood_drop" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>脱水</strong>
-    <p>大量の発汗により水分と電解質（ナトリウムなど）が失われ、循環血液量が減少します。めまいや頭痛、筋肉のけいれんの原因になります</p></div>
-  </div>
-</div>
+<CauseGrid variant="negative">
+  <CauseCard icon="devices/thermometer" title="暑熱障害">高温環境で体温が上昇し、放熱が追いつかなくなった状態です。中枢温が40.5℃を超えて持続すると臓器障害が進行し、予後が悪化します</CauseCard>
+  <CauseCard icon="body/blood_drop" title="脱水">大量の発汗により水分と電解質（ナトリウムなど）が失われ、循環血液量が減少します。めまいや頭痛、筋肉のけいれんの原因になります</CauseCard>
+</CauseGrid>
 
 暑熱障害が進行すると、<ruby>横紋筋融解症<rp>（</rp><rt>おうもんきんゆうかいしょう</rt><rp>）</rp></ruby>（筋肉の細胞が壊れ、不整脈や腎障害など全身に影響を及ぼす）や、<ruby>肝障害<rp>（</rp><rt>かんしょうがい</rt><rp>）</rp></ruby>・<ruby>血液凝固異常<rp>（</rp><rt>けつえきぎょうこいじょう</rt><rp>）</rp></ruby>（DIC）など全身の臓器障害に至ることがあります。
 
@@ -37,6 +31,7 @@ import HealthIcon from '../../components/HealthIcon.astro';
 
 WBGT（湿球黒球温度）は、気温・湿度・輻射熱の3つを取り入れた熱中症予防のための指標です。気温だけでなく**湿度**の影響が大きい点がポイントです。日本生気象学会が「<a href="https://seikishou.jp/cms/wp-content/uploads/20220523-v4.pdf" target="_blank" rel="noopener noreferrer">日常生活における熱中症予防指針</a>」として以下の行動指針を定めています。
 
+<ArticleTable>
 <table>
   <thead>
     <tr><th>WBGT</th><th>危険度</th><th>行動の目安</th></tr>
@@ -48,6 +43,7 @@ WBGT（湿球黒球温度）は、気温・湿度・輻射熱の3つを取り入
     <tr><td>25未満</td><td>注意</td><td>危険性は低いが激しい運動時は注意</td></tr>
   </tbody>
 </table>
+</ArticleTable>
 
 仙台・宮城エリアの暑さ指数は、<a href="https://www.wbgt.env.go.jp/" target="_blank" rel="noopener noreferrer">環境省 熱中症予防情報サイト</a>で確認できます。
 
@@ -55,6 +51,7 @@ WBGT（湿球黒球温度）は、気温・湿度・輻射熱の3つを取り入
 
 熱中症は症状の重さによってI〜IV度に分類されます。
 
+<ArticleTable>
 <table>
   <thead>
     <tr><th>分類</th><th>主な症状</th><th>対応</th></tr>
@@ -67,6 +64,7 @@ WBGT（湿球黒球温度）は、気温・湿度・輻射熱の3つを取り入
     <tr><td><strong>qIV度</strong></td><td>表面体温40.0℃以上（または皮膚に明らかな熱感）＋呼びかけに応じない</td><td>深部体温の測定不要。IV度として対応</td></tr>
   </tbody>
 </table>
+</ArticleTable>
 
 qIV度は、深部体温を測定できない現場でもIV度に準じて判断するための基準です。意識がない・呼びかけに応じない場合は、ためらわずに救急車（119番）を呼んでください。
 
@@ -74,23 +72,11 @@ qIV度は、深部体温を測定できない現場でもIV度に準じて判断
 
 熱中症が疑われたら、以下の3ステップで対応してください。
 
-<div class="cause-grid cause-grid--positive">
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="symbols/assembly_point" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>① 涼しい場所へ移動</strong>
-    <p>エアコンの効いた室内や日陰に移動させ、衣服をゆるめます</p></div>
-  </div>
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="conditions/chills_fever" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>② 体を冷やす</strong>
-    <p>首の両脇・脇の下・太ももの付け根（鼠径部）に氷嚢や保冷剤をあてます。濡れタオルで体を濡らし扇風機で風をあてる方法も有効です</p></div>
-  </div>
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="objects/running_water" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>③ 水分・塩分を補給</strong>
-    <p>意識がはっきりしていれば経口補水液やスポーツドリンクを飲ませます。吐き気があるとき・意識がもうろうとしているときは無理に飲ませず救急車を呼んでください</p></div>
-  </div>
-</div>
+<CauseGrid variant="positive">
+  <CauseCard icon="symbols/assembly_point" title="① 涼しい場所へ移動">エアコンの効いた室内や日陰に移動させ、衣服をゆるめます</CauseCard>
+  <CauseCard icon="conditions/chills_fever" title="② 体を冷やす">首の両脇・脇の下・太ももの付け根（鼠径部）に氷嚢や保冷剤をあてます。濡れタオルで体を濡らし扇風機で風をあてる方法も有効です</CauseCard>
+  <CauseCard icon="objects/running_water" title="③ 水分・塩分を補給">意識がはっきりしていれば経口補水液やスポーツドリンクを飲ませます。吐き気があるとき・意識がもうろうとしているときは無理に飲ませず救急車を呼んでください</CauseCard>
+</CauseGrid>
 
 ### 冷却のポイント
 
@@ -101,58 +87,22 @@ qIV度は、深部体温を測定できない現場でもIV度に準じて判断
 
 ## 熱中症になりやすい方
 
-<div class="cause-grid cause-grid--negative">
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="people/elderly" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>高齢者</strong>
-    <p>体温調節機能の低下、のどの渇きを感じにくい、エアコンを使わない傾向があります</p></div>
-  </div>
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="people/child_care" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>乳幼児・小児</strong>
-    <p>体温調節機能が未熟で、地面からの照り返しの影響を受けやすい（身長が低い）特徴があります</p></div>
-  </div>
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="medications/pill_1" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>持病のある方・服薬中の方</strong>
-    <p>心疾患、糖尿病、精神疾患のある方、降圧薬・利尿薬・向精神薬を服用中の方はリスクが高まります</p></div>
-  </div>
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="exercise/walking" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>屋外での作業・運動をする方</strong>
-    <p>農作業、建設作業、スポーツなどで長時間暑い環境にいる方は要注意です</p></div>
-  </div>
-</div>
+<CauseGrid variant="negative">
+  <CauseCard icon="people/elderly" title="高齢者">体温調節機能の低下、のどの渇きを感じにくい、エアコンを使わない傾向があります</CauseCard>
+  <CauseCard icon="people/child_care" title="乳幼児・小児">体温調節機能が未熟で、地面からの照り返しの影響を受けやすい（身長が低い）特徴があります</CauseCard>
+  <CauseCard icon="medications/pill_1" title="持病のある方・服薬中の方">心疾患、糖尿病、精神疾患のある方、降圧薬・利尿薬・向精神薬を服用中の方はリスクが高まります</CauseCard>
+  <CauseCard icon="exercise/walking" title="屋外での作業・運動をする方">農作業、建設作業、スポーツなどで長時間暑い環境にいる方は要注意です</CauseCard>
+</CauseGrid>
 
 ## 予防のポイント
 
-<div class="cause-grid cause-grid--positive">
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="objects/running_water" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>こまめな水分補給</strong>
-    <p>のどが渇く前に、少量ずつこまめに飲みましょう。汗をたくさんかいた場合は経口補水液や塩分を含む飲料を</p></div>
-  </div>
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="devices/thermometer" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>エアコンを適切に使用</strong>
-    <p>室温は28℃以下を目安に。「もったいない」と我慢せず使いましょう</p></div>
-  </div>
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="symbols/alert_triangle" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>暑い時間帯の外出を避ける</strong>
-    <p>10〜14時は特に注意。やむを得ない場合は日傘・帽子・休憩を</p></div>
-  </div>
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="nutrition/nutrition" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>睡眠・食事をしっかりとる</strong>
-    <p>体調が悪いときは無理をしない。寝不足・朝食抜きはリスクを高めます</p></div>
-  </div>
-  <div class="cause-card">
-    <div class="cause-card__icon"><HealthIcon name="exercise/walking" size={28} class="cause-icon" /></div>
-    <div class="cause-card__body"><strong>暑さに体を慣らす（暑熱順化）</strong>
-    <p>梅雨明けや急に暑くなる時期は特に注意。軽い運動で汗をかく習慣を</p></div>
-  </div>
-</div>
+<CauseGrid variant="positive">
+  <CauseCard icon="objects/running_water" title="こまめな水分補給">のどが渇く前に、少量ずつこまめに飲みましょう。汗をたくさんかいた場合は経口補水液や塩分を含む飲料を</CauseCard>
+  <CauseCard icon="devices/thermometer" title="エアコンを適切に使用">室温は28℃以下を目安に。「もったいない」と我慢せず使いましょう</CauseCard>
+  <CauseCard icon="symbols/alert_triangle" title="暑い時間帯の外出を避ける">10〜14時は特に注意。やむを得ない場合は日傘・帽子・休憩を</CauseCard>
+  <CauseCard icon="nutrition/nutrition" title="睡眠・食事をしっかりとる">体調が悪いときは無理をしない。寝不足・朝食抜きはリスクを高めます</CauseCard>
+  <CauseCard icon="exercise/walking" title="暑さに体を慣らす（暑熱順化）">梅雨明けや急に暑くなる時期は特に注意。軽い運動で汗をかく習慣を</CauseCard>
+</CauseGrid>
 
 ## 当院でできること
 

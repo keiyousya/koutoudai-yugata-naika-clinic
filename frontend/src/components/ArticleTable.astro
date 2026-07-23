@@ -1,0 +1,68 @@
+---
+---
+
+<div class="article-table">
+  <slot />
+</div>
+
+<style>
+  .article-table :global(table) {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 24px;
+    font-size: 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .article-table :global(th) {
+    background: var(--color-turquoise-bg);
+    color: var(--color-navy);
+    font-weight: 600;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 2px solid var(--color-turquoise);
+  }
+
+  .article-table :global(td) {
+    padding: 12px 16px;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .article-table :global(tr:last-child td) {
+    border-bottom: none;
+  }
+
+  .article-table :global(tr:nth-child(even) td) {
+    background: var(--color-turquoise-bg);
+  }
+
+  .article-table :global(tr.highlight td) {
+    background: var(--color-turquoise);
+    color: white;
+    font-weight: 600;
+  }
+
+  .article-table :global(.table-group-label) {
+    background: var(--color-turquoise-bg);
+    color: var(--color-navy);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 16px;
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 768px) {
+    .article-table :global(table) {
+      font-size: 0.8rem;
+    }
+
+    .article-table :global(th),
+    .article-table :global(td) {
+      padding: 8px 10px;
+    }
+  }
+</style>

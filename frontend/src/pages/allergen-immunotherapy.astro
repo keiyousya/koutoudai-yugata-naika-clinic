@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
-import TwilightBackground from "../components/TwilightBackground.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
 import LineCta from "../components/LineCta.astro";
 import Footer from "../components/Footer.astro";
 ---
@@ -12,13 +12,7 @@ import Footer from "../components/Footer.astro";
 >
   <Header />
   <main class="page-main">
-    <div class="page-header">
-      <div class="container">
-        <p class="page-header-label">Allergen Immunotherapy</p>
-        <h1 class="page-title">アレルゲン免疫療法</h1>
-      </div>
-      <TwilightBackground />
-    </div>
+    <SubPageHeader label="Allergen Immunotherapy" title="アレルゲン免疫療法" />
 
     <section class="page-section">
       <div class="container">
@@ -194,38 +188,6 @@ import Footer from "../components/Footer.astro";
 </Layout>
 
 <style>
-  .page-header {
-    position: relative;
-    padding: 96px 0 28px;
-    background: var(--color-navy);
-    color: white;
-    text-align: center;
-    overflow: hidden;
-    isolation: isolate;
-  }
-
-  .page-header .container {
-    position: relative;
-    z-index: 1;
-  }
-
-  .page-header-label {
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    opacity: 0.7;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-  }
-
-  .page-title {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: white;
-    text-align: center;
-    margin: 0;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  }
-
   .pc-only {
     display: inline;
   }
@@ -564,14 +526,6 @@ import Footer from "../components/Footer.astro";
   }
 
   @media (max-width: 768px) {
-    .page-header {
-      padding: 80px 0 20px;
-    }
-
-    .page-title {
-      font-size: 1.3rem;
-    }
-
     .pc-only {
       display: none;
     }

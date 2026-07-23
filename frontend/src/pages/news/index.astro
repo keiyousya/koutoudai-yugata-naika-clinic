@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
-import TwilightBackground from "../../components/TwilightBackground.astro";
+import SubPageHeader from "../../components/SubPageHeader.astro";
 import Footer from "../../components/Footer.astro";
 import { newsItems } from "../../data/news";
 
@@ -17,13 +17,7 @@ const totalItems = newsItems.length;
 >
   <Header />
   <main class="news-list-main">
-    <div class="news-list-header">
-      <div class="container">
-        <p class="page-header-label">News</p>
-        <h1 class="page-title">お知らせ</h1>
-      </div>
-      <TwilightBackground />
-    </div>
+    <SubPageHeader label="News" title="お知らせ" />
 
     <section class="news-list-content">
       <div class="container">
@@ -61,39 +55,8 @@ const totalItems = newsItems.length;
     background: white;
   }
 
-  .news-list-header {
-    position: relative;
-    background: var(--color-navy);
-    color: white;
-    padding: 96px 0 28px;
-    text-align: center;
-    overflow: hidden;
-    isolation: isolate;
-  }
-
-  .news-list-header .container {
-    position: relative;
-    z-index: 1;
-  }
-
-  .page-header-label {
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    opacity: 0.7;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-  }
-
-  .page-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: white;
-    margin: 0;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  }
-
   .news-list-content {
-    padding: 80px 0;
+    padding: 0 0 80px;
   }
 
   .news-list-content .container {
@@ -273,16 +236,8 @@ const totalItems = newsItems.length;
   }
 
   @media (max-width: 768px) {
-    .news-list-header {
-      padding: 80px 0 20px;
-    }
-
-    .page-title {
-      font-size: 1.5rem;
-    }
-
     .news-list-content {
-      padding: 60px 0;
+      padding: 0 0 60px;
     }
 
     .news-item-link {

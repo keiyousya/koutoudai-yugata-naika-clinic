@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
-import TwilightBackground from "../components/TwilightBackground.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
 import Footer from "../components/Footer.astro";
 import { Image } from "astro:assets";
 import ecgImage from "../assets/ecg.jpeg";
@@ -16,13 +16,7 @@ import InfoCard from "../components/InfoCard.astro";
 >
   <Header />
   <main class="page-main">
-    <div class="page-header">
-      <div class="container">
-        <p class="page-header-label">Medical Services</p>
-        <h1 class="page-title">診療内容</h1>
-      </div>
-      <TwilightBackground />
-    </div>
+    <SubPageHeader label="Medical Services" title="診療内容" />
 
     <section class="page-intro">
       <div class="container">
@@ -143,38 +137,6 @@ import InfoCard from "../components/InfoCard.astro";
 </Layout>
 
 <style>
-  .page-header {
-    position: relative;
-    padding: 96px 0 28px;
-    background: var(--color-navy);
-    color: white;
-    text-align: center;
-    overflow: hidden;
-    isolation: isolate;
-  }
-
-  .page-header .container {
-    position: relative;
-    z-index: 1;
-  }
-
-  .page-header-label {
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    opacity: 0.7;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-  }
-
-  .page-title {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: white;
-    text-align: center;
-    margin: 0;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  }
-
   .page-intro {
     padding: 48px 0;
     background: var(--color-turquoise-bg);
@@ -312,14 +274,6 @@ import InfoCard from "../components/InfoCard.astro";
   }
 
   @media (max-width: 768px) {
-    .page-header {
-      padding: 80px 0 20px;
-    }
-
-    .page-title {
-      font-size: 1.3rem;
-    }
-
     .page-intro {
       padding: 36px 0;
     }

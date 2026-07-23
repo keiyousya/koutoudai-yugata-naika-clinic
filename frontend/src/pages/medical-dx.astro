@@ -1,14 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
 import Footer from "../components/Footer.astro";
 ---
 
 <Layout title="医療DX推進体制について | 勾当台夕方内科クリニック" description="当院の医療DX推進体制整備に関する掲示です。オンライン資格確認、電子処方箋、マイナ保険証の対応について。">
   <Header />
+  <SubPageHeader label="Medical DX" title="医療DX推進体制について" />
   <main class="legal-page">
     <div class="container">
-      <h1 class="legal-title">医療DX推進体制について</h1>
 
       <p class="legal-lead">
         当院では、医療DX推進体制整備について以下の通り対応を行っています。
@@ -72,27 +73,8 @@ import Footer from "../components/Footer.astro";
 
 <style>
   .legal-page {
-    padding: 120px 0 80px;
+    padding: 0 0 80px;
     min-height: 100vh;
-  }
-
-  .legal-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    text-align: center;
-    margin-bottom: 48px;
-    letter-spacing: 0.04em;
-  }
-
-  .legal-title::after {
-    content: "";
-    display: block;
-    width: 40px;
-    height: 1px;
-    background: var(--color-navy);
-    margin: 16px auto 0;
-    opacity: 0.3;
   }
 
   .legal-lead {
@@ -172,12 +154,7 @@ import Footer from "../components/Footer.astro";
 
   @media (max-width: 768px) {
     .legal-page {
-      padding: 100px 0 60px;
-    }
-
-    .legal-title {
-      font-size: 1.3rem;
-      margin-bottom: 36px;
+      padding: 0 0 60px;
     }
 
     .legal-row {

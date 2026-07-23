@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
 import Footer from "../components/Footer.astro";
 ---
 
@@ -9,9 +10,9 @@ import Footer from "../components/Footer.astro";
   description="勾当台夕方内科クリニックの時間外対応体制加算3に関する掲示です。診療時間外の緊急時の連絡方法、連携医療機関（東北労災病院）のご案内について。"
 >
   <Header />
+  <SubPageHeader label="After Hours" title="時間外対応体制加算について" />
   <main class="legal-page">
     <div class="container">
-      <h1 class="legal-title">時間外対応体制加算について</h1>
 
       <p class="legal-lead">
         当院では、地域における「かかりつけ医」として、通院されている患者様が診療時間外に緊急の相談を必要とされる場合に対応できるよう、「時間外対応体制加算3」の施設基準を満たす体制を整えております。
@@ -77,27 +78,8 @@ import Footer from "../components/Footer.astro";
 
 <style>
   .legal-page {
-    padding: 120px 0 80px;
+    padding: 0 0 80px;
     min-height: 100vh;
-  }
-
-  .legal-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    text-align: center;
-    margin-bottom: 48px;
-    letter-spacing: 0.04em;
-  }
-
-  .legal-title::after {
-    content: "";
-    display: block;
-    width: 40px;
-    height: 1px;
-    background: var(--color-navy);
-    margin: 16px auto 0;
-    opacity: 0.3;
   }
 
   .legal-lead {
@@ -250,12 +232,7 @@ import Footer from "../components/Footer.astro";
 
   @media (max-width: 768px) {
     .legal-page {
-      padding: 100px 0 60px;
-    }
-
-    .legal-title {
-      font-size: 1.3rem;
-      margin-bottom: 36px;
+      padding: 0 0 60px;
     }
 
     .ah-heading {

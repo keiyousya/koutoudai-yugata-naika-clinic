@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
-import TwilightBackground from "../components/TwilightBackground.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
 import LineCta from "../components/LineCta.astro";
 import Footer from "../components/Footer.astro";
 
@@ -125,13 +125,7 @@ const faqStructuredData = {
   <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
   <Header />
   <main class="page-main">
-    <div class="page-header">
-      <div class="container">
-        <p class="page-header-label">Emergency Contraception</p>
-        <h1 class="page-title">緊急避妊薬（アフターピル）</h1>
-      </div>
-      <TwilightBackground />
-    </div>
+    <SubPageHeader label="Emergency Contraception" title="緊急避妊薬（アフターピル）" />
 
     <!-- TODO: 8/1に削除 — 臨時休診期間中のみ表示 -->
     <a href="/news/2026-07-16" class="closure-alert" role="alert">
@@ -512,38 +506,6 @@ const faqStructuredData = {
     .closure-alert-text {
       font-size: 0.8rem;
     }
-  }
-
-  .page-header {
-    position: relative;
-    padding: 96px 0 28px;
-    background: var(--color-navy);
-    color: white;
-    text-align: center;
-    overflow: hidden;
-    isolation: isolate;
-  }
-
-  .page-header .container {
-    position: relative;
-    z-index: 1;
-  }
-
-  .page-header-label {
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    opacity: 0.7;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-  }
-
-  .page-title {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: white;
-    text-align: center;
-    margin: 0;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   }
 
   .page-intro {
@@ -1075,14 +1037,6 @@ const faqStructuredData = {
   }
 
   @media (max-width: 768px) {
-    .page-header {
-      padding: 80px 0 20px;
-    }
-
-    .page-title {
-      font-size: 1.3rem;
-    }
-
     .page-intro {
       padding: 36px 0;
     }

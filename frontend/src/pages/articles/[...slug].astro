@@ -213,6 +213,15 @@ const { Content } = await render(article);
     font-weight: 600;
   }
 
+  .article-body :global(.table-group-label) {
+    background: var(--color-turquoise-bg);
+    color: var(--color-navy);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 16px;
+    letter-spacing: 0.03em;
+  }
+
   .article-body :global(.cause-grid) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -275,15 +284,41 @@ const { Content } = await render(article);
   }
 
   .article-body :global(blockquote) {
-    border-left: 4px solid var(--color-turquoise);
-    padding: 16px 20px;
-    margin: 24px 0;
-    background: var(--color-turquoise-bg);
-    border-radius: 0 12px 12px 0;
+    position: relative;
+    border: 2px solid var(--color-turquoise);
+    padding: 32px 24px 24px;
+    margin: 40px 0;
+    background: white;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+
+  .article-body :global(blockquote::before) {
+    content: "ワンポイント";
+    position: absolute;
+    top: -14px;
+    left: 20px;
+    background: var(--color-turquoise);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 14px 4px 32px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='24' cy='24' r='16' fill='white'/%3E%3Cpath d='M22 35C22 36.1046 22.8954 37 24 37C25.1046 37 26 36.1046 26 35V21C26 19.8954 25.1046 19 24 19C22.8954 19 22 19.8954 22 21V35Z' fill='%233eb8c8'/%3E%3Cpath d='M24 15C22.8954 15 22 14.1046 22 13C22 11.8954 22.8954 11 24 11C25.1046 11 26 11.8954 26 13C26 14.1046 25.1046 15 24 15Z' fill='%233eb8c8'/%3E%3C/svg%3E");
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: 8px center;
   }
 
   .article-body :global(blockquote p) {
     margin-bottom: 0;
+  }
+
+  .article-body :global(blockquote strong) {
+    color: var(--color-turquoise-dark);
   }
 
   .detail-back {

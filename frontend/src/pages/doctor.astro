@@ -1,0 +1,191 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="院長紹介 | 勾当台夕方内科クリニック"
+  description="勾当台夕方内科クリニック院長 田村慧人のご紹介。経歴・所属学会・ご挨拶をご覧いただけます。"
+>
+  <Header />
+  <main class="page-main">
+    <SubPageHeader label="Doctor" title="院長紹介" />
+
+    <section class="section doctor">
+      <div class="container">
+        <div class="doctor-content">
+          <div class="doctor-info">
+            <div class="doctor-card">
+              <div class="doctor-name">
+                <span class="position">院長</span>
+                <h3>田村　慧人<span class="name-kana">たむら けいと</span></h3>
+              </div>
+
+              <div class="doctor-career">
+                <h4>経歴</h4>
+                <ul>
+                  <li>東北大学医学部医学科 卒業</li>
+                  <li>独立行政法人地域医療機能推進機構仙台病院</li>
+                  <li>勾当台夕方内科クリニック 開院</li>
+                </ul>
+              </div>
+
+              <div class="doctor-qualifications">
+                <h4>所属学会</h4>
+                <ul>
+                  <li>日本内科学会</li>
+                </ul>
+                <ul>
+                  <li>日本超音波医学会</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="doctor-card">
+              <div class="doctor-message">
+                <h4>ご挨拶</h4>
+                <p>
+                  当院のホームページをご覧いただき、ありがとうございます。
+                </p>
+                <p>
+                  日中の受診が難しい現役世代の方々がストレスなく通院できるよう、夕方・土日に診療を行うクリニックを開院いたしました。急な発熱や体調不良はもちろん、高血圧や糖尿病といった慢性疾患の継続的な治療にも対応いたします。
+                </p>
+                <p>
+                  健診で指摘を受けた項目があるけれど仕事や学校でなかなか受診できないという方も、元々通院していたけれど日中は忙しくて途切れてしまったという方も、ライフスタイルに合わせた無理のない通院を行っていただけると思います。些細なことでも構いませんので、地域のかかりつけ医としてお気軽にご相談ください。
+                </p>
+                <p>
+                  小さなクリニックではありますが、市民の皆さまの健やかな生活をサポートできるよう、スタッフ一同努めてまいります。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .doctor {
+    background: var(--color-turquoise-bg);
+  }
+
+  .doctor-content {
+    display: block;
+  }
+
+  .doctor-info {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .doctor-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--color-turquoise);
+  }
+
+  .doctor-name {
+    text-align: center;
+    padding-bottom: 20px;
+  }
+
+  .position {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: var(--color-turquoise);
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 0.16em;
+  }
+
+  .doctor-name h3 {
+    font-size: 1.6rem;
+    color: var(--color-navy);
+    letter-spacing: 0.12em;
+    font-weight: 700;
+  }
+
+  .name-kana {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    margin-top: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  .doctor-qualifications {
+    margin-top: 20px;
+  }
+
+  .doctor-career h4,
+  .doctor-qualifications h4,
+  .doctor-message h4 {
+    font-size: 0.9rem;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.03em;
+  }
+
+  .doctor-career ul,
+  .doctor-qualifications ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 16px;
+  }
+
+  .doctor-career li,
+  .doctor-qualifications li {
+    position: relative;
+    padding-left: 16px;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .doctor-career li::before,
+  .doctor-qualifications li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    background: var(--color-navy-medium);
+    border-radius: 50%;
+  }
+
+  .doctor-message p {
+    color: var(--color-text-secondary);
+    line-height: 1.85;
+    margin-bottom: 14px;
+    font-size: 0.9rem;
+  }
+
+  .doctor-message p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .doctor-content {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .doctor-info {
+      padding: 0 4px;
+    }
+
+    .doctor-name h3 {
+      font-size: 1.3rem;
+    }
+  }
+</style>

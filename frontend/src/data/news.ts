@@ -1,7 +1,6 @@
-export interface NewsItem {
-  /** URLに使うスラッグ（例: "2026-06-09"） */
-  slug: string;
-  /** 表示用の日付（例: "2026.06.09"） */
+/** データ定義用（slugは日付から自動生成） */
+interface NewsItemInput {
+  /** お知らせの日付（例: "2026.06.09"）— URLスラッグも自動生成 */
   date: string;
   /** 見出し（詳細ページのタイトル） */
   title: string;
@@ -17,9 +16,18 @@ export interface NewsItem {
   linkText?: string;
 }
 
-export const newsItems: NewsItem[] = [
+export interface NewsItem extends NewsItemInput {
+  /** URLに使うスラッグ（例: "2026-06-09"）— dateから自動生成 */
+  slug: string;
+}
+
+/** "2026.06.09" → "2026-06-09" */
+function dateToSlug(date: string): string {
+  return date.replaceAll(".", "-");
+}
+
+const newsItemInputs: NewsItemInput[] = [
   {
-    slug: "2026-07-16",
     date: "2026.07.01",
     title: "7月16日（木）〜31日（金）臨時休診のお知らせ",
     content: "院長療養のため、7月16日（木）〜31日（金）は臨時休診となります。",
@@ -27,7 +35,6 @@ export const newsItems: NewsItem[] = [
     isImportant: true,
   },
   {
-    slug: "2026-08-07",
     date: "2026.06.21",
     title: "8月7日（金）の診療時間変更のお知らせ",
     content: "8月7日（金）は院長研修会参加のため17:00〜19:00の診療となります。",
@@ -35,7 +42,6 @@ export const newsItems: NewsItem[] = [
     isImportant: true,
   },
   {
-    slug: "2026-06-09",
     date: "2026.06.09",
     title: "7月から診療時間を拡大します",
     content: "7月から診療時間を拡大します。",
@@ -43,7 +49,6 @@ export const newsItems: NewsItem[] = [
     isImportant: true,
   },
   {
-    slug: "2026-06-04",
     date: "2026.06.04",
     title: "6月7日（日）臨時休診のお知らせ",
     content: "6月7日（日）は臨時休診となります。",
@@ -51,7 +56,6 @@ export const newsItems: NewsItem[] = [
     isImportant: true,
   },
   {
-    slug: "2026-05-07",
     date: "2026.05.07",
     title: "アレルゲン免疫療法の取り扱い開始",
     content: "アレルゲン免疫療法の取り扱いを開始しました。",
@@ -61,7 +65,6 @@ export const newsItems: NewsItem[] = [
     isImportant: true,
   },
   {
-    slug: "2026-04-29",
     date: "2026.04.29",
     title: "ゴールデンウィーク期間中の診療について",
     content: "5月3日（日）・5月6日（水）は祝日ですが、通常通り診療いたします。",
@@ -69,7 +72,6 @@ export const newsItems: NewsItem[] = [
     isImportant: true,
   },
   {
-    slug: "2026-04-12",
     date: "2026.04.12",
     title: "5月9日（土）臨時休診のお知らせ",
     content: "5月9日（土）は臨時休診となります。",
@@ -77,3 +79,8 @@ export const newsItems: NewsItem[] = [
     isImportant: true,
   },
 ];
+
+export const newsItems: NewsItem[] = newsItemInputs.map((item) => ({
+  ...item,
+  slug: dateToSlug(item.date),
+}));

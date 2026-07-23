@@ -19,8 +19,11 @@ const { newsItem } = Astro.props;
   <main class="news-detail-main">
     <div class="news-detail-header">
       <div class="container">
-        <p class="news-detail-date">{newsItem.date}</p>
+        <p class="news-detail-label">NEWS</p>
         <h1 class="news-detail-title">{newsItem.title}</h1>
+        <div class="news-detail-meta">
+          <time class="news-detail-date">{newsItem.date}</time>
+        </div>
       </div>
     </div>
 
@@ -60,27 +63,59 @@ const { newsItem } = Astro.props;
   }
 
   .news-detail-header {
-    background: var(--color-navy);
-    color: white;
-    padding: 100px 0 60px;
+    padding: 72px 0 0;
+    background: white;
   }
 
-  .news-detail-date {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 12px;
+  .news-detail-header .container {
+    max-width: 720px;
+    padding-bottom: 24px;
+    position: relative;
+  }
+
+  .news-detail-header .container::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 24px;
+    right: 24px;
+    height: 2px;
+    background: var(--color-turquoise);
+    border-radius: 1px;
+  }
+
+  .news-detail-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-turquoise);
+    margin-bottom: 8px;
   }
 
   .news-detail-title {
-    font-size: 1.6rem;
+    font-size: 1.25rem;
     font-weight: 700;
-    color: white;
-    line-height: 1.5;
-    margin: 0;
+    color: var(--color-navy);
+    line-height: 1.6;
+    margin: 0 0 12px;
+  }
+
+  .news-detail-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .news-detail-date {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
   }
 
   .news-detail-content {
-    padding: 60px 0 80px;
+    padding: 40px 0 80px;
     background: white;
     flex: 1;
   }
@@ -162,15 +197,15 @@ const { newsItem } = Astro.props;
 
   @media (max-width: 768px) {
     .news-detail-header {
-      padding: 80px 0 48px;
+      padding: 64px 0 0;
     }
 
     .news-detail-title {
-      font-size: 1.3rem;
+      font-size: 1.1rem;
     }
 
     .news-detail-content {
-      padding: 48px 0 64px;
+      padding: 32px 0 64px;
     }
 
     .detail-body p {

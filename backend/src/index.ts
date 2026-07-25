@@ -280,6 +280,7 @@ app.get("/api/availability/:date", async (c) => {
 });
 
 // Procyon Helix API へのプロキシ（公開）
+// APIスキーマ: https://github.com/keiyousya/helix/blob/main/procyon/openapi-public.yaml
 app.get("/api/procyon/availability", async (c) => {
   try {
     const response = await fetch(

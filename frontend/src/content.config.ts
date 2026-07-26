@@ -16,4 +16,14 @@ const articles = defineCollection({
   }),
 });
 
-export const collections = { articles };
+const articleDetails = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/article-details" }),
+  schema: z.object({
+    title: z.string(),
+    parentTitle: z.string(),
+    subtitle: z.string().optional(),
+    description: z.string(),
+  }),
+});
+
+export const collections = { articles, "article-details": articleDetails };

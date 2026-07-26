@@ -1,0 +1,84 @@
+---
+title: "高血圧の病態と降圧薬の選択"
+parentTitle: "高血圧"
+subtitle: "病態に応じた降圧薬の使い分けについて、より専門的な内容を解説します。"
+description: "高血圧の病態分類と、それに適した降圧薬（ARNI・MR拮抗薬など）の選択について専門的に解説します。"
+---
+import CauseGrid from '../../../components/CauseGrid.astro';
+import CauseCard from '../../../components/CauseCard.astro';
+import ArticleTable from '../../../components/ArticleTable.astro';
+
+## 降圧薬の選び方
+
+高血圧の治療では、患者さんの病態に合った降圧薬を選ぶことが重要です。<a href="https://www.jpnsh.jp/guideline.html" target="_blank" rel="noopener noreferrer">JSH2025（日本高血圧学会ガイドライン）</a>では、従来の4種類の基本薬に加え、新しいグループの薬剤が位置づけられています。
+
+### 基本の降圧薬（Group 1）
+
+<ArticleTable>
+<table>
+  <thead>
+    <tr><th>薬剤</th><th>代表的な薬</th><th>主な作用</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>ARB / ACE阻害薬</td><td>オルメサルタン、テルミサルタンなど</td><td>レニン・アンジオテンシン（RA）系を抑え、血管を広げる</td></tr>
+    <tr><td>Ca拮抗薬</td><td>アムロジピン、ニフェジピンなど</td><td>血管の筋肉を弛緩させ、血管を広げる</td></tr>
+    <tr><td>利尿薬</td><td>トリクロルメチアジド、インダパミドなど</td><td>体内の余分な水分・塩分を排出する</td></tr>
+    <tr><td>β遮断薬</td><td>ビソプロロール、カルベジロールなど</td><td>心拍数を抑え、心臓の負担を軽くする</td></tr>
+  </tbody>
+</table>
+</ArticleTable>
+
+### 新しい降圧薬（Group 2）
+
+JSH2025で新たに位置づけられた薬剤群です。基本薬だけでは治療が難しい場合や、特定の病態に対してより効果的な選択肢となります。
+
+<ArticleTable>
+<table>
+  <thead>
+    <tr><th>薬剤</th><th>代表的な薬</th><th>主な作用</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>ARNI</td><td>エンレスト®</td><td>RA系抑制に加え、利尿・血管拡張を促すナトリウム利尿ペプチドの分解を抑制</td></tr>
+    <tr><td>MR拮抗薬</td><td>エサキセレノン（ミネブロ®）</td><td>鉱質コルチコイド受容体（MR）をブロックし、塩分・水分の貯留を抑える</td></tr>
+  </tbody>
+</table>
+</ArticleTable>
+
+## Group 2 降圧薬が適した病態
+
+これらの新しい降圧薬は、以下のような病態に特に効果が期待できます。
+
+### 表現型からみた適応
+
+<CauseGrid variant="navy">
+  <CauseCard icon="emotions/sleepy" title="早朝・夜間高血圧">夜間や早朝に血圧が下がりにくいタイプ。ARNIとMR拮抗薬の両方が有効です</CauseCard>
+  <CauseCard icon="body/heart_organ" title="治療抵抗性高血圧">3剤以上使っても血圧が目標に達しない場合。特にMR拮抗薬の追加が有効とされています</CauseCard>
+</CauseGrid>
+
+### 病態からみた適応
+
+<CauseGrid variant="navy">
+  <CauseCard icon="body/kidneys" title="体液貯留型高血圧">食塩摂取過剰・食塩感受性が高い方に。水分過剰の是正にARNI、塩分貯留の是正にMR拮抗薬が適しています</CauseCard>
+  <CauseCard icon="body/kidneys" title="CKD合併高血圧">eGFR低下や尿蛋白陽性の方に。腎保護効果も期待できます</CauseCard>
+</CauseGrid>
+
+<CauseGrid variant="navy">
+  <CauseCard icon="body/heart_organ" title="前心不全合併高血圧">無症候性の弁膜症や心機能低下がある場合。ARNIは心不全の進行予防にも効果があります</CauseCard>
+  <CauseCard icon="body/body" title="MR関連高血圧">肥満・メタボ・糖尿病、原発性アルドステロン症、睡眠時無呼吸症候群など。MR拮抗薬が特に有効です</CauseCard>
+</CauseGrid>
+
+### その他の合併症
+
+<CauseGrid variant="navy">
+  <CauseCard icon="body/blood_vessel" title="痛風・高尿酸血症合併">尿酸値が高い方の高血圧。利尿薬は尿酸を上げやすいため、ARNIやMR拮抗薬への切り替えが検討されます</CauseCard>
+  <CauseCard icon="body/blood_vessel" title="Ca拮抗薬による浮腫">Ca拮抗薬でむくみが出た場合の代替薬としても活用されます</CauseCard>
+</CauseGrid>
+
+## 当院での治療方針
+
+当院では、患者さんの血圧のパターン（家庭血圧・24時間血圧）や合併症を踏まえ、病態に応じた降圧薬の選択を行っています。
+
+- 家庭血圧の記録をもとに、夜間・早朝のパターンを評価
+- 血液検査・尿検査で腎機能やホルモンの状態を確認
+- 既存の薬で効果が不十分な場合、Group 2 降圧薬の導入を検討
+- 合併症（CKD・心不全・糖尿病など）に配慮した薬剤選択

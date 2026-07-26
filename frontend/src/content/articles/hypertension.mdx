@@ -11,6 +11,7 @@ date: "2026.07.17"
 import CauseGrid from '../../components/CauseGrid.astro';
 import CauseCard from '../../components/CauseCard.astro';
 import ArticleTable from '../../components/ArticleTable.astro';
+import DetailLink from '../../components/DetailLink.astro';
 
 高血圧とは、血管にかかる圧力が慢性的に高い状態をいいます。日本では約4,300万人が高血圧と推定されており、最も多い生活習慣病のひとつです。
 
@@ -53,6 +54,26 @@ import ArticleTable from '../../components/ArticleTable.astro';
 </CauseGrid>
 
 残りの約10%は<strong><ruby>二次性高血圧<rp>（</rp><rt>にじせいこうけつあつ</rt><rp>）</rp></ruby></strong>で、腎臓病やホルモン異常など特定の病気が原因です。こちらは原因疾患の治療で血圧が改善することがあります。
+
+## 高血圧の<ruby>病態<rp>（</rp><rt>びょうたい</rt><rp>）</rp></ruby>（4つのタイプ）
+
+血圧は「**<ruby>心拍出量<rp>（</rp><rt>しんはくしゅつりょう</rt><rp>）</rp></ruby>**（心臓が送り出す血液の量）」×「**<ruby>血管抵抗<rp>（</rp><rt>けっかんていこう</rt><rp>）</rp></ruby>**（血管の収縮の程度）」で決まります。このどちらが上昇しているかによって、高血圧は大きく4つのタイプに分けられます。
+
+### 血管抵抗が上昇するタイプ
+
+<CauseGrid variant="negative">
+  <CauseCard icon="body/blood_vessel" title="ガチガチ型高血圧（血管硬化）">高齢者に多く、<ruby>動脈硬化<rp>（</rp><rt>どうみゃくこうか</rt><rp>）</rp></ruby>により血管が硬くなることで血圧が上昇します。<ruby>脈圧<rp>（</rp><rt>みゃくあつ</rt><rp>）</rp></ruby>増大・血圧変動が大きいのが特徴です</CauseCard>
+  <CauseCard icon="body/blood_vessel" title="ぎゅうぎゅう型高血圧（トーヌス<ruby>亢進<rp>（</rp><rt>こうしん</rt><rp>）</rp></ruby>）">ストレスや<ruby>寒冷<rp>（</rp><rt>かんれい</rt><rp>）</rp></ruby>刺激により血管が過度に収縮するタイプです。血管の<ruby>交感神経過緊張<rp>（</rp><rt>こうかんしんけいかきんちょう</rt><rp>）</rp></ruby>やRA系亢進が関与しています</CauseCard>
+</CauseGrid>
+
+### 心拍出量が増大するタイプ
+
+<CauseGrid variant="negative">
+  <CauseCard icon="body/kidneys" title="パンパン型高血圧（<ruby>体液貯留<rp>（</rp><rt>たいえきちょりゅう</rt><rp>）</rp></ruby>）"><ruby>食塩感受性<rp>（</rp><rt>しょくえんかんじゅせい</rt><rp>）</rp></ruby>が高い方、CKD・肥満・メタボ・糖尿病の方に多く、食塩摂取過剰などで体液が増えることで血圧が上がります</CauseCard>
+  <CauseCard icon="body/heart_organ" title="心臓ガンバリ型高血圧（交感神経過剰<ruby>亢進<rp>（</rp><rt>こうしん</rt><rp>）</rp></ruby>）">若年者やストレスが<ruby>誘因<rp>（</rp><rt>ゆういん</rt><rp>）</rp></ruby>となりやすく、心臓が過剰に頑張ることで血圧が上昇します。<ruby>頻脈<rp>（</rp><rt>ひんみゃく</rt><rp>）</rp></ruby>を伴うことが特徴です</CauseCard>
+</CauseGrid>
+
+ご自身の高血圧がどのタイプに当てはまるかによって、適した治療法も異なります。当院では病態に合わせた<ruby>降圧薬<rp>（</rp><rt>こうあつやく</rt><rp>）</rp></ruby>の選択を行っています。
 
 ## 高血圧の症状
 
@@ -103,6 +124,13 @@ import ArticleTable from '../../components/ArticleTable.astro';
 生活習慣の改善だけでは血圧が下がらない場合や、すでにリスクが高い場合には、降圧薬による治療を行います。目標に達しない場合は**早期にステップアップ**（薬の追加・増量）することが大切です。
 
 薬を飲み始めると「一生飲み続けなければならない」と心配される方もいますが、生活習慣の改善と合わせて血圧が安定すれば、減薬できるケースもあります。
+
+<DetailLink
+  href="/articles/hypertension/detail/medication-selection"
+  title="病態に応じた降圧薬の選択について"
+  description="ARNI・MR拮抗薬など、新しい降圧薬の使い分けを詳しく解説します"
+  badge="専門的な内容を含みます"
+/>
 
 ## 当院でできること
 

@@ -1,0 +1,115 @@
+---
+interface Props {
+  href: string;
+  title?: string;
+  description?: string;
+  badge?: string;
+}
+
+const {
+  href,
+  title = 'さらに詳しく見る',
+  description,
+  badge,
+} = Astro.props;
+---
+
+<div class="detail-link-wrap">
+  {badge && <span class="detail-link__badge">{badge}</span>}
+  <a href={href} class="detail-link">
+    <div class="detail-link__body">
+      <span class="detail-link__title">{title}</span>
+      {description && <span class="detail-link__desc">{description}</span>}
+    </div>
+    <span class="detail-link__arrow" aria-hidden="true">→</span>
+  </a>
+</div>
+
+<style>
+  .detail-link-wrap {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .detail-link__badge {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    z-index: 1;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: white;
+    background: var(--color-navy);
+    border-radius: 20px;
+    padding: 3px 14px;
+    white-space: nowrap;
+  }
+
+  .detail-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 24px 20px;
+    border: 2px solid var(--color-navy);
+    border-radius: 14px;
+    background: linear-gradient(135deg, #e2e8f0 0%, #f3f5f9 100%);
+    text-decoration: none !important;
+    color: inherit !important;
+    transition: all 0.2s;
+  }
+
+  .detail-link:hover {
+    background: linear-gradient(135deg, #e8ecf2 0%, #f0f3f7 100%);
+    box-shadow: 0 2px 12px rgba(30, 58, 95, 0.12);
+    transform: translateY(-1px);
+  }
+
+  .detail-link__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .detail-link__title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-navy) !important;
+    line-height: 1.5;
+  }
+
+  .detail-link__desc {
+    font-size: 0.78rem;
+    color: var(--color-text-muted) !important;
+    line-height: 1.6;
+  }
+
+  .detail-link__arrow {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-navy);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .detail-link {
+      padding: 22px 20px 16px;
+    }
+
+    .detail-link__title {
+      font-size: 0.85rem;
+    }
+
+    .detail-link__badge {
+      left: 16px;
+    }
+  }
+</style>

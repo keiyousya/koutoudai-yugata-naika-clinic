@@ -1,0 +1,274 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const details = await getCollection("article-details");
+  return details.map((detail) => {
+    const [slug, detailSlug] = detail.id.split("/");
+    return {
+      params: { slug, detail: detailSlug },
+      props: { detail },
+    };
+  });
+}
+
+const { detail } = Astro.props;
+const { Content } = await render(detail);
+const parentSlug = detail.id.split("/")[0];
+const parentHref = `/articles/${parentSlug}`;
+---
+
+<Layout
+  title={`${detail.data.title} | 勾当台夕方内科クリニック`}
+  description={detail.data.description}
+>
+  <Header />
+  <main class="detail-main">
+    <div class="detail-header">
+      <div class="container">
+        <a href={parentHref} class="detail-breadcrumb">
+          ← 「{detail.data.parentTitle}」の記事に戻る
+        </a>
+        <div class="hero-card-wrap">
+          <div class="detail-badge">専門的な内容を含みます</div>
+          <div class="hero-card">
+            <h1 class="detail-title">{detail.data.title}</h1>
+            {detail.data.subtitle && (
+              <p class="detail-subtitle">{detail.data.subtitle}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="detail-content">
+      <div class="container">
+        <div class="detail-body">
+          <Content />
+        </div>
+
+        <div class="detail-back">
+          <a href={parentHref} class="back-button">
+            「{detail.data.parentTitle}」の記事に戻る
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .detail-main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 72px);
+  }
+
+  /* Navy theme overrides */
+  .detail-main {
+    --color-turquoise: var(--color-navy);
+    --color-turquoise-bg: #eef1f5;
+  }
+
+  .detail-header {
+    background: white;
+    padding: 80px 0 0;
+  }
+
+  .detail-header .container {
+    max-width: 720px;
+  }
+
+  .detail-breadcrumb {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--color-navy);
+    text-decoration: none;
+    margin-bottom: 36px;
+    transition: opacity 0.2s;
+  }
+
+  .detail-breadcrumb:hover {
+    opacity: 0.7;
+  }
+
+  .hero-card-wrap {
+    position: relative;
+  }
+
+  .detail-badge {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    z-index: 1;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    background: var(--color-navy);
+    border-radius: 20px;
+    padding: 5px 16px;
+  }
+
+  .hero-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 2px solid var(--color-navy);
+    border-radius: 20px;
+    padding: 40px 32px 36px;
+    background: linear-gradient(135deg, #e2e8f0 0%, #f3f5f9 100%);
+  }
+
+  .detail-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  .detail-subtitle {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+
+  .detail-content {
+    padding: 20px 0 80px;
+    background: white;
+    flex: 1;
+  }
+
+  .detail-content .container {
+    max-width: 720px;
+  }
+
+  .detail-body {
+    margin-bottom: 48px;
+  }
+
+  /* MDX rendered content styles */
+  .detail-body :global(h2) {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin: 48px 0 20px;
+    padding-left: 20px;
+    border-left: 4px solid var(--color-turquoise);
+  }
+
+  .detail-body :global(h3) {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin: 36px 0 16px;
+  }
+
+  .detail-body :global(p) {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 24px;
+  }
+
+  .detail-body :global(ul),
+  .detail-body :global(ol) {
+    margin-bottom: 24px;
+    padding-left: 1.2em;
+  }
+
+  .detail-body :global(ul) {
+    list-style: disc;
+  }
+
+  .detail-body :global(ol) {
+    list-style: decimal;
+  }
+
+  .detail-body :global(li) {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 8px;
+  }
+
+  .detail-body :global(a) {
+    color: var(--color-turquoise);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .detail-body :global(strong) {
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 2px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .detail-header {
+      padding: 72px 0 0;
+    }
+
+    .hero-card {
+      padding: 36px 20px 28px;
+    }
+
+    .detail-badge {
+      left: 20px;
+    }
+
+    .detail-title {
+      font-size: 1.2rem;
+    }
+
+    .detail-content {
+      padding: 16px 0 64px;
+    }
+
+    .detail-body :global(h2) {
+      font-size: 1.1rem;
+      margin: 40px 0 16px;
+    }
+
+    .detail-body :global(h3) {
+      font-size: 1rem;
+      margin: 28px 0 12px;
+    }
+
+    .detail-body :global(p),
+    .detail-body :global(li) {
+      font-size: 0.9rem;
+    }
+  }
+</style>

@@ -1,6 +1,6 @@
 ---
 interface Props {
-  variant?: 'negative' | 'positive' | 'default';
+  variant?: 'negative' | 'positive' | 'navy' | 'default';
 }
 
 const { variant = 'default' } = Astro.props;
@@ -32,6 +32,12 @@ const className = `cause-grid${variant !== 'default' ? ` cause-grid--${variant}`
     --card-border-color: #6eb8d6;
     --card-icon-color: #4a9cc0;
     --card-title-color: #3d8aad;
+  }
+
+  .cause-grid--navy {
+    --card-border-color: #1e3a5f;
+    --card-icon-color: #1e3a5f;
+    --card-title-color: #1e3a5f;
   }
 
   @media (max-width: 768px) {

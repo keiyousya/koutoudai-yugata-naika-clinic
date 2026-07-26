@@ -609,10 +609,6 @@ type WeekendStartMinutes = number;
 const DEFAULT_WEEKDAY_START = 1020; // 17:00
 const DEFAULT_WEEKEND_START = 840;  // 14:00
 
-function minutesToTimeStr(m: number): string {
-  return `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
-}
-
 function computeStaffSummary(
   records: TimecardRecord[],
   weekendStarts: Record<string, WeekendStartMinutes>

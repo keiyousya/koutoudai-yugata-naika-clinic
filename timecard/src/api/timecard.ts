@@ -229,3 +229,33 @@ export async function fetchEditLog(authKey: AuthKey, recordId: number): Promise<
   });
   return handleResponse<EditLogEntry[]>(res);
 }
+
+// ========================================
+// 土日入り時間
+// ========================================
+
+export interface WeekendShift {
+  date: string;
+  staff_id: number;
+  staff_name: string;
+  start_minutes: number;
+}
+
+export async function fetchWeekendShifts(month: string, authKey: AuthKey): Promise<WeekendShift[]> {
+  const res = await fetch(`${API_BASE}/api/timecard/weekend-shifts?month=${month}`, {
+    headers: authKeyToHeaders(authKey),
+  });
+  return handleResponse<WeekendShift[]>(res);
+}
+
+export async function saveWeekendShift(
+  adminKey: string,
+  data: { date: string; staff_id: number; start_minutes: number }
+): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/timecard/weekend-shifts`, {
+    method: "PUT",
+    headers: adminHeaders(adminKey),
+    body: JSON.stringify(data),
+  });
+  await handleResponse(res);
+}

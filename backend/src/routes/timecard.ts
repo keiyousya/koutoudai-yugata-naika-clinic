@@ -230,6 +230,20 @@ timecard.get("/export", viewerOrAdminAuth, async (c) => {
     args: [month],
   });
 
+  // 土日入り時間を取得
+  const wsResult = await db.execute({
+    sql: `SELECT date, staff_id, start_minutes FROM weekend_shifts
+          WHERE strftime('%Y-%m', date) = ?`,
+    args: [month],
+  });
+  const weekendShiftMap: Record<string, number> = {};
+  for (const ws of wsResult.rows) {
+    weekendShiftMap[`${ws.date}|${ws.staff_id}`] = ws.start_minutes as number;
+  }
+
+  const DEFAULT_WEEKDAY_START = 1020; // 17:00
+  const DEFAULT_WEEKEND_START = 840;  // 14:00
+
   // スタッフごとの集計データ
   const staffSummary: Record<string, { totalMinutes: number; workDays: Set<string> }> = {};
 
@@ -254,11 +268,15 @@ timecard.get("/export", viewerOrAdminAuth, async (c) => {
       staffSummary[staffName].workDays.add(date);
     }
 
-    // 勤務時間計算（退勤時刻 - 17:00）
-    if (row.type === "out" && time) {
+    // 勤務時間計算（土日は weekend_shifts の入り時間、平日は 17:00）
+    if (row.type === "out" && time && date) {
       const [hours, minutes] = time.split(":").map(Number);
       const endMinutes = hours * 60 + minutes;
-      const startMinutes = 17 * 60; // 17:00
+      const dayOfWeek = new Date(date + "T00:00:00").getDay();
+      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+      const startMinutes = isWeekend
+        ? (weekendShiftMap[`${date}|${row.staff_id}`] ?? DEFAULT_WEEKEND_START)
+        : DEFAULT_WEEKDAY_START;
       if (endMinutes > startMinutes) {
         staffSummary[staffName].totalMinutes += endMinutes - startMinutes;
       }
@@ -638,6 +656,54 @@ timecard.delete("/staff/:id", adminAuth, async (c) => {
   });
 
   return c.json({ success: true, message: "スタッフを無効化しました" });
+});
+
+// ========================================
+// 土日入り時間 API
+// ========================================
+
+// 取得（月単位）
+timecard.get("/weekend-shifts", viewerOrAdminAuth, async (c) => {
+  const db = getDb(c.env);
+  const month = c.req.query("month");
+
+  if (!month || !/^\d{4}-\d{2}$/.test(month)) {
+    return c.json({ error: "month パラメータ (YYYY-MM) が必要です" }, 400);
+  }
+
+  const result = await db.execute({
+    sql: `SELECT ws.date, ws.staff_id, s.name as staff_name, ws.start_minutes
+          FROM weekend_shifts ws
+          JOIN staff s ON ws.staff_id = s.id
+          WHERE strftime('%Y-%m', ws.date) = ?
+          ORDER BY ws.date`,
+    args: [month],
+  });
+
+  return c.json(result.rows);
+});
+
+// 設定（upsert）
+timecard.put("/weekend-shifts", adminAuth, async (c) => {
+  const db = getDb(c.env);
+  const body = await c.req.json();
+  const { date, staff_id, start_minutes } = body;
+
+  if (!date || !staff_id || start_minutes === undefined) {
+    return c.json({ error: "date, staff_id, start_minutes は必須です" }, 400);
+  }
+  if (typeof start_minutes !== "number" || start_minutes < 0 || start_minutes > 1440) {
+    return c.json({ error: "start_minutes は 0〜1440 の整数です" }, 400);
+  }
+
+  await db.execute({
+    sql: `INSERT INTO weekend_shifts (date, staff_id, start_minutes)
+          VALUES (?, ?, ?)
+          ON CONFLICT(date, staff_id) DO UPDATE SET start_minutes = excluded.start_minutes`,
+    args: [date, staff_id, start_minutes],
+  });
+
+  return c.json({ success: true });
 });
 
 export default timecard;

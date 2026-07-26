@@ -69,6 +69,19 @@ async function setup() {
     )
   `);
 
+  // 土日入り時間テーブル作成（start_minutes: 分単位、例 840=14:00, 1020=17:00）
+  console.log("Creating weekend_shifts table...");
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS weekend_shifts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      date TEXT NOT NULL,
+      staff_id INTEGER NOT NULL,
+      start_minutes INTEGER NOT NULL DEFAULT 840,
+      FOREIGN KEY (staff_id) REFERENCES staff(id),
+      UNIQUE(date, staff_id)
+    )
+  `);
+
   console.log("Creating indexes...");
 
   await db.execute(`

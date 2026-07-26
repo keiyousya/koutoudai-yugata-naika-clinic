@@ -2,7 +2,7 @@ import { createRoute } from "@tanstack/react-router";
 import { Route as rootRoute } from "./__root";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useCallback, useEffect, useRef } from "react";
-import { Calendar, Download, LogIn, Nfc, Lock, User, LogOut, Keyboard, Eye, EyeOff, Pencil, Trash2, Plus, X, Check, ShieldCheck, History, AlertTriangle } from "lucide-react";
+import { Calendar, Download, LogIn, Nfc, Lock, User, LogOut, Keyboard, Eye, EyeOff, Pencil, Trash2, Plus, X, Check, ShieldCheck, History, AlertTriangle, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +12,7 @@ import {
 import {
   fetchMonthlyRecords, fetchMyHistory, downloadExport,
   validateHistoryKey, updateRecord, deleteRecord, createRecord,
-  fetchEditLog, fetchStaff,
+  fetchEditLog, fetchStaff, fetchWeekendShifts, saveWeekendShift,
 } from "@/api/timecard";
 import type { TimecardRecord, AuthKey, EditLogEntry, Staff } from "@/api/timecard";
 import { useNfc } from "@/hooks/NfcContext";
@@ -281,6 +281,7 @@ function FullHistoryView({ authKey, onLogout }: { authKey: AuthKey; onLogout: ()
   const [newTime, setNewTime] = useState("");
   const [newStaffId, setNewStaffId] = useState<number | "">("");
   const [newType, setNewType] = useState<"in" | "out">("in");
+  const [weekendStarts, setWeekendStarts] = useState<Record<string, WeekendStartMinutes>>({});
   const queryClient = useQueryClient();
   const isAdmin = authKey.type === "admin";
 
@@ -295,6 +296,46 @@ function FullHistoryView({ authKey, onLogout }: { authKey: AuthKey; onLogout: ()
     queryFn: () => fetchStaff(authKey.key),
     enabled: isAdmin,
   });
+
+  const { data: weekendShiftsData } = useQuery({
+    queryKey: ["weekend-shifts", month],
+    queryFn: () => fetchWeekendShifts(month, authKey),
+  });
+
+  // DB から取得した土日入り時間を state に反映
+  useEffect(() => {
+    if (!weekendShiftsData) return;
+    const map: Record<string, WeekendStartMinutes> = {};
+    for (const ws of weekendShiftsData) {
+      map[`${ws.date}|${ws.staff_name}`] = ws.start_minutes;
+    }
+    setWeekendStarts(map);
+  }, [weekendShiftsData]);
+
+  // staffList から staff_name → staff_id のマップを作成
+  const staffIdByName: Record<string, number> = {};
+  if (staffList) {
+    for (const s of staffList) staffIdByName[s.name] = s.id;
+  }
+  // records からも補完
+  if (records) {
+    for (const r of records) {
+      if (!staffIdByName[r.staff_name]) staffIdByName[r.staff_name] = r.staff_id;
+    }
+  }
+
+  const handleWeekendStartChange = async (key: string, value: WeekendStartMinutes) => {
+    setWeekendStarts((prev) => ({ ...prev, [key]: value }));
+    if (!isAdmin) return;
+    const [date, staffName] = key.split("|");
+    const staffId = staffIdByName[staffName];
+    if (!staffId) return;
+    try {
+      await saveWeekendShift(authKey.key, { date, staff_id: staffId, start_minutes: value });
+    } catch {
+      // ロールバックはしない（UIは反映済み）
+    }
+  };
 
   // 401 の場合はキーが無効 → 認証ゲートに戻す
   if (error?.message?.includes("認証に失敗しました")) {
@@ -364,127 +405,134 @@ function FullHistoryView({ authKey, onLogout }: { authKey: AuthKey; onLogout: ()
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              出退勤履歴
-            </CardTitle>
-            <Button variant="ghost" size="sm" onClick={onLogout}>
-              <LogOut className="h-4 w-4 mr-1" />
-              ログアウト
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-wrap gap-3 items-end">
-            <div>
-              <label className="text-sm font-medium block mb-1">月</label>
-              <input
-                type="month"
-                value={month}
-                onChange={(e) => setMonth(e.target.value)}
-                className="px-3 py-2 border rounded-md text-sm"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium block mb-1">スタッフ</label>
-              <select
-                value={staffFilter}
-                onChange={(e) => setStaffFilter(e.target.value)}
-                className="px-3 py-2 border rounded-md text-sm"
-              >
-                <option value="">全員</option>
-                {staffNames.map((name) => (
-                  <option key={name} value={name}>{name}</option>
-                ))}
-              </select>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleExport}
-              disabled={isExporting}
-            >
-              <Download className="h-4 w-4 mr-1" />
-              {isExporting ? "出力中..." : "CSV"}
-            </Button>
-            {isAdmin && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowNewRecord(!showNewRecord)}
-              >
-                <Plus className="h-4 w-4 mr-1" />
-                新規記録
-              </Button>
-            )}
-          </div>
+    <div className="max-w-7xl mx-auto space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="flex items-center gap-2 text-xl font-semibold">
+          <Calendar className="h-5 w-5" />
+          出退勤履歴
+        </h2>
+        <Button variant="ghost" size="sm" onClick={onLogout}>
+          <LogOut className="h-4 w-4 mr-1" />
+          ログアウト
+        </Button>
+      </div>
 
-          {isAdmin && showNewRecord && (
-            <div className="flex flex-wrap items-center gap-2 p-3 bg-purple-50 border border-purple-200 rounded-md">
-              <input
-                type="date"
-                value={newDate}
-                onChange={(e) => setNewDate(e.target.value)}
-                className="px-2 py-1.5 border rounded text-sm"
-              />
-              <input
-                type="time"
-                value={newTime}
-                onChange={(e) => setNewTime(e.target.value)}
-                className="px-2 py-1.5 border rounded text-sm font-mono"
-              />
-              <select
-                value={newStaffId}
-                onChange={(e) => setNewStaffId(e.target.value ? Number(e.target.value) : "")}
-                className="px-2 py-1.5 border rounded text-sm"
-              >
-                <option value="">スタッフ</option>
-                {staffList?.filter(s => s.is_active).map((s) => (
-                  <option key={s.id} value={s.id}>{s.name}</option>
-                ))}
-              </select>
-              <select
-                value={newType}
-                onChange={(e) => setNewType(e.target.value as "in" | "out")}
-                className="px-2 py-1.5 border rounded text-sm"
-              >
-                <option value="in">出勤</option>
-                <option value="out">退勤</option>
-              </select>
-              <Button
-                size="sm"
-                disabled={!newDate || !newTime || !newStaffId}
-                onClick={handleNewRecord}
-              >
-                <Check className="h-4 w-4 mr-1" />
-                作成
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowNewRecord(false)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          )}
-
-          <RecordsTable
-            records={filtered}
-            isLoading={isLoading}
-            grouped={grouped}
-            month={month}
-            isAdmin={isAdmin}
-            authKey={authKey}
-            staffList={staffList}
-            onMutate={invalidateRecords}
+      <div className="flex flex-wrap gap-3 items-end">
+        <div>
+          <label className="text-sm font-medium block mb-1">月</label>
+          <input
+            type="month"
+            value={month}
+            onChange={(e) => setMonth(e.target.value)}
+            className="px-3 py-2 border rounded-md text-sm"
           />
-        </CardContent>
-      </Card>
+        </div>
+        <div>
+          <label className="text-sm font-medium block mb-1">スタッフ</label>
+          <select
+            value={staffFilter}
+            onChange={(e) => setStaffFilter(e.target.value)}
+            className="px-3 py-2 border rounded-md text-sm"
+          >
+            <option value="">全員</option>
+            {staffNames.map((name) => (
+              <option key={name} value={name}>{name}</option>
+            ))}
+          </select>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleExport}
+          disabled={isExporting}
+        >
+          <Download className="h-4 w-4 mr-1" />
+          {isExporting ? "出力中..." : "CSV"}
+        </Button>
+        {isAdmin && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowNewRecord(!showNewRecord)}
+          >
+            <Plus className="h-4 w-4 mr-1" />
+            新規記録
+          </Button>
+        )}
+      </div>
+
+      {isAdmin && showNewRecord && (
+        <div className="flex flex-wrap items-center gap-2 p-3 bg-purple-50 border border-purple-200 rounded-md">
+          <input
+            type="date"
+            value={newDate}
+            onChange={(e) => setNewDate(e.target.value)}
+            className="px-2 py-1.5 border rounded text-sm"
+          />
+          <input
+            type="time"
+            value={newTime}
+            onChange={(e) => setNewTime(e.target.value)}
+            className="px-2 py-1.5 border rounded text-sm font-mono"
+          />
+          <select
+            value={newStaffId}
+            onChange={(e) => setNewStaffId(e.target.value ? Number(e.target.value) : "")}
+            className="px-2 py-1.5 border rounded text-sm"
+          >
+            <option value="">スタッフ</option>
+            {staffList?.filter(s => s.is_active).map((s) => (
+              <option key={s.id} value={s.id}>{s.name}</option>
+            ))}
+          </select>
+          <select
+            value={newType}
+            onChange={(e) => setNewType(e.target.value as "in" | "out")}
+            className="px-2 py-1.5 border rounded text-sm"
+          >
+            <option value="in">出勤</option>
+            <option value="out">退勤</option>
+          </select>
+          <Button
+            size="sm"
+            disabled={!newDate || !newTime || !newStaffId}
+            onClick={handleNewRecord}
+          >
+            <Check className="h-4 w-4 mr-1" />
+            作成
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowNewRecord(false)}
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
+        <Card>
+          <CardContent className="pt-6 space-y-4">
+            <RecordsTable
+              records={filtered}
+              isLoading={isLoading}
+              grouped={grouped}
+              month={month}
+              isAdmin={isAdmin}
+              authKey={authKey}
+              staffList={staffList}
+              onMutate={invalidateRecords}
+              weekendStarts={weekendStarts}
+              onWeekendStartChange={handleWeekendStartChange}
+            />
+          </CardContent>
+        </Card>
+
+        <div className="lg:sticky lg:top-4 lg:self-start">
+          <StaffSummaryTable records={records} weekendStarts={weekendStarts} />
+        </div>
+      </div>
     </div>
   );
 }
@@ -546,6 +594,97 @@ function MyHistoryView({
 }
 
 // ========================================
+// スタッフ別集計テーブル
+// ========================================
+
+function isWeekend(dateStr: string): boolean {
+  const d = new Date(dateStr + "T00:00:00");
+  const day = d.getDay();
+  return day === 0 || day === 6;
+}
+
+// 土日の入り時間（分単位: 840=14:00, 1020=17:00）
+type WeekendStartMinutes = number;
+
+const DEFAULT_WEEKDAY_START = 1020; // 17:00
+const DEFAULT_WEEKEND_START = 840;  // 14:00
+
+function minutesToTimeStr(m: number): string {
+  return `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
+}
+
+function computeStaffSummary(
+  records: TimecardRecord[],
+  weekendStarts: Record<string, WeekendStartMinutes>
+) {
+  const staffSummary: Record<string, { totalMinutes: number; workDays: Set<string> }> = {};
+
+  for (const r of records) {
+    if (!staffSummary[r.staff_name]) {
+      staffSummary[r.staff_name] = { totalMinutes: 0, workDays: new Set() };
+    }
+    const date = r.timestamp.slice(0, 10);
+    const time = r.timestamp.slice(11, 16);
+    const weekend = isWeekend(date);
+
+    if (r.type === "in" && date) {
+      staffSummary[r.staff_name].workDays.add(date);
+    }
+
+    if (r.type === "out" && time) {
+      const [hours, minutes] = time.split(":").map(Number);
+      const endMinutes = hours * 60 + minutes;
+      const startMinutes = weekend
+        ? (weekendStarts[`${date}|${r.staff_name}`] ?? DEFAULT_WEEKEND_START)
+        : DEFAULT_WEEKDAY_START;
+      if (endMinutes > startMinutes) {
+        staffSummary[r.staff_name].totalMinutes += endMinutes - startMinutes;
+      }
+    }
+  }
+
+  return staffSummary;
+}
+
+function StaffSummaryTable({ records, weekendStarts }: { records: TimecardRecord[] | undefined; weekendStarts: Record<string, WeekendStartMinutes> }) {
+  if (!records || records.length === 0) return null;
+
+  const staffSummary = computeStaffSummary(records, weekendStarts);
+  const entries = Object.entries(staffSummary).sort(([a], [b]) => a.localeCompare(b));
+
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-base">
+          <BarChart3 className="h-4 w-4" />
+          スタッフ別集計
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="pt-0">
+        <div className="space-y-3">
+          {entries.map(([name, data]) => {
+            const totalHours = Math.floor(data.totalMinutes / 60);
+            const totalMins = data.totalMinutes % 60;
+            return (
+              <div key={name} className="flex items-center justify-between py-2 border-b last:border-0">
+                <span className="font-medium text-sm">{name}</span>
+                <div className="text-right text-sm text-muted-foreground space-y-0.5">
+                  <div>{data.workDays.size}日</div>
+                  <div>{totalHours}時間{totalMins}分</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p className="text-xs text-muted-foreground mt-3">
+          平日: 17:00起算 / 土日: 左の入り時間で計算
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ========================================
 // 共通: 記録テーブル
 // ========================================
 
@@ -558,6 +697,8 @@ function RecordsTable({
   authKey,
   staffList,
   onMutate,
+  weekendStarts,
+  onWeekendStartChange,
 }: {
   records: TimecardRecord[] | undefined;
   isLoading: boolean;
@@ -567,6 +708,8 @@ function RecordsTable({
   authKey?: AuthKey;
   staffList?: Staff[];
   onMutate?: () => void;
+  weekendStarts?: Record<string, WeekendStartMinutes>;
+  onWeekendStartChange?: (key: string, value: WeekendStartMinutes) => void;
 }) {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editTime, setEditTime] = useState("");
@@ -668,11 +811,17 @@ function RecordsTable({
       {[...grouped.entries()].map(([date, dayRecords]) => {
         const anomalies = dayAnomalies.get(date);
         const anomalyStaff = new Set(anomalies?.map((a) => a.staffName));
+        const weekend = isWeekend(date);
+        const dayOfWeek = ["日", "月", "火", "水", "木", "金", "土"][new Date(date + "T00:00:00").getDay()];
+        const dayStaffNames = weekend
+          ? [...new Set(dayRecords.map((r) => r.staff_name))].sort()
+          : [];
         return (
         <div key={date}>
           <div className="flex items-center gap-2 mt-4 mb-1">
             <h3 className="font-medium text-sm text-muted-foreground">
               {date}
+              <span className={weekend ? "ml-1 text-blue-600" : "ml-1"}>({dayOfWeek})</span>
             </h3>
             {isAdmin && (
               <Button
@@ -686,6 +835,27 @@ function RecordsTable({
               </Button>
             )}
           </div>
+          {weekend && onWeekendStartChange && dayStaffNames.length > 0 && (
+            <div className="flex flex-wrap items-center gap-3 mb-2 px-2 py-1.5 bg-blue-50 border border-blue-200 rounded-md text-xs">
+              <span className="text-blue-700 font-medium shrink-0">入り時間:</span>
+              {dayStaffNames.map((name) => {
+                const key = `${date}|${name}`;
+                return (
+                  <div key={name} className="flex items-center gap-1">
+                    <span className="text-blue-900">{name}</span>
+                    <select
+                      value={weekendStarts?.[key] ?? DEFAULT_WEEKEND_START}
+                      onChange={(e) => onWeekendStartChange(key, Number(e.target.value))}
+                      className="px-1.5 py-0.5 border border-blue-300 rounded text-xs bg-white"
+                    >
+                      <option value={840}>14:00</option>
+                      <option value={1020}>17:00</option>
+                    </select>
+                  </div>
+                );
+              })}
+            </div>
+          )}
           {isAdmin && addingDate === date && (
             <div className="flex flex-wrap items-center gap-2 mb-2 p-2 bg-purple-50 border border-purple-200 rounded-md">
               <select

@@ -16,6 +16,8 @@
     "dev:manuals": "pnpm --filter manuals dev",
     "dev:mixer": "pnpm --filter mixer dev",
     "build:mixer": "pnpm --filter mixer build",
+    "dev:inventory": "concurrently \"pnpm --filter backend run dev:inventory\" \"pnpm --filter inventory dev\"",
+    "build:inventory": "pnpm --filter inventory build",
     "deploy:api": "pnpm --filter backend run deploy"
   },
   "devDependencies": {

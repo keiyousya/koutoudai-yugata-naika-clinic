@@ -4,6 +4,7 @@ import { createClient } from "@libsql/client";
 import { z } from "zod";
 import timecard from "./routes/timecard";
 import shift from "./routes/shift";
+import inventory from "./routes/inventory";
 
 type Bindings = {
   TURSO_URL: string;
@@ -389,5 +390,10 @@ app.route("/api/timecard", timecard);
 // シフト管理 API
 // ========================================
 app.route("/api/shift", shift);
+
+// ========================================
+// 在庫管理 API
+// ========================================
+app.route("/api/inventory", inventory);
 
 export default app;

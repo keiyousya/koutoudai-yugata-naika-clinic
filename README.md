@@ -12,6 +12,7 @@
 ├── timecard/    # タイムカード打刻・閲覧画面（React + Vite）
 ├── shift/       # シフト管理システム（React + Vite）
 ├── shift-cli/   # シフト管理CLI（Node + Commander）
+├── inventory/   # 在庫管理システム（React + Vite）
 ├── google-ads/  # Google広告運用CLI（Python + google-ads）
 ├── finance/     # 初期費用・月額費用の見積書
 ├── instagram/   # Instagram投稿用HTML
@@ -31,6 +32,7 @@
 | timecard | React, Vite, TanStack Router, TailwindCSS | タイムカード打刻・閲覧画面 |
 | shift | React, Vite, TanStack Router, TailwindCSS | シフト希望提出・確定シフト閲覧・管理画面 |
 | shift-cli | Node, Commander, TypeScript | シフト管理CLI（AI連携用） |
+| inventory | React, Vite, TanStack Router, TailwindCSS | 医薬品・備品の在庫管理・発注管理 |
 | google-ads | Python, click, google-ads | Google広告運用CLI（レポート取得・予算/入札変更・キーワード管理） |
 
 ### 業務ドキュメント

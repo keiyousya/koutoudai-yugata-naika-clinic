@@ -11,7 +11,10 @@
     "db:setup": "node scripts/setup-db.js",
     "db:setup-timecard": "node scripts/setup-timecard-db.js",
     "db:setup-shift": "node scripts/setup-shift-db.js",
-    "db:migrate-shift-unlocked": "node scripts/migrate-shift-unlocked.js"
+    "db:migrate-shift-unlocked": "node scripts/migrate-shift-unlocked.js",
+    "dev:inventory": "wrangler dev --config wrangler.inventory.toml",
+    "deploy:inventory": "wrangler deploy --config wrangler.inventory.toml",
+    "db:setup-inventory": "node scripts/setup-inventory-db.js"
   },
   "dependencies": {
     "@holiday-jp/holiday_jp": "^2.5.1",

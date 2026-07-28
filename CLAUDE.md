@@ -17,7 +17,7 @@
 
 ## Cloudflare Workers
 
-- **アカウント**: tamurakeito@keiyousya.com（Account ID: b0c1ef333c5f849d72e79434ae51e562）
+- **アカウント**: kit_tamtam@icloud.com（Account ID: ad2580c6aef7859a99719a4cc65419d7）
 - **認証**: `npx wrangler login` でOAuth認証（ブラウザ操作が必要、Claude Code内では実行不可）
 - **GitHub Actions**: `CLOUDFLARE_API_TOKEN` シークレットで自動デプロイ
 

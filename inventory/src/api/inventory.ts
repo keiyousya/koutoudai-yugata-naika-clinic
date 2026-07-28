@@ -2,8 +2,20 @@ const API_BASE = import.meta.env.PROD
   ? "https://koutoudai-inventory-api.kit-tamtam.workers.dev"
   : "http://localhost:8791";
 
+function getAuthHeaders(): Record<string, string> {
+  const auth = sessionStorage.getItem("inventory_auth");
+  if (!auth) return {};
+  const { staffId, passcode } = JSON.parse(auth);
+  return {
+    "X-Staff-Id": String(staffId),
+    "X-Staff-Passcode": passcode,
+  };
+}
+
 async function handleResponse<T>(res: Response): Promise<T> {
   if (res.status === 401) {
+    sessionStorage.removeItem("inventory_auth");
+    window.location.reload();
     throw new Error("認証に失敗しました");
   }
   if (!res.ok) {
@@ -13,6 +25,33 @@ async function handleResponse<T>(res: Response): Promise<T> {
     );
   }
   return res.json();
+}
+
+// ========================================
+// 認証
+// ========================================
+
+export interface Staff {
+  id: number;
+  name: string;
+  role: string;
+}
+
+export async function fetchStaffList(): Promise<Staff[]> {
+  const res = await fetch(`${API_BASE}/api/inventory/auth/staff`);
+  return handleResponse<Staff[]>(res);
+}
+
+export async function login(
+  staffId: number,
+  passcode: string
+): Promise<{ staff_id: number; name: string; role: string }> {
+  const res = await fetch(`${API_BASE}/api/inventory/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ staff_id: staffId, passcode }),
+  });
+  return handleResponse(res);
 }
 
 // ========================================
@@ -117,7 +156,7 @@ export async function saveRecords(
 ): Promise<{ success: boolean; count: number }> {
   const res = await fetch(`${API_BASE}/api/inventory/records`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...getAuthHeaders() },
     body: JSON.stringify({ date, records, recorded_by: recordedBy }),
   });
   return handleResponse(res);
@@ -133,7 +172,7 @@ export async function updateRecord(
     `${API_BASE}/api/inventory/records/${itemId}/${date}`,
     {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
       body: JSON.stringify({ quantity, recorded_by: recordedBy }),
     }
   );
@@ -160,7 +199,7 @@ export async function createExpiry(data: {
 }): Promise<{ success: boolean; id: number }> {
   const res = await fetch(`${API_BASE}/api/inventory/expiry`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...getAuthHeaders() },
     body: JSON.stringify(data),
   });
   return handleResponse(res);
@@ -177,7 +216,7 @@ export async function updateExpiry(
 ): Promise<{ success: boolean }> {
   const res = await fetch(`${API_BASE}/api/inventory/expiry/${id}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...getAuthHeaders() },
     body: JSON.stringify(data),
   });
   return handleResponse(res);
@@ -186,6 +225,7 @@ export async function updateExpiry(
 export async function deleteExpiry(id: number): Promise<{ success: boolean }> {
   const res = await fetch(`${API_BASE}/api/inventory/expiry/${id}`, {
     method: "DELETE",
+    headers: getAuthHeaders(),
   });
   return handleResponse(res);
 }

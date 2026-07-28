@@ -17,6 +17,15 @@ function getDb(env: Bindings) {
   });
 }
 
+// SHA-256ハッシュ
+async function sha256(text: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 // 管理者認証ミドルウェア
 const adminAuth = async (c: any, next: any) => {
   const apiKey = c.req.header("X-Admin-API-Key");
@@ -27,6 +36,84 @@ const adminAuth = async (c: any, next: any) => {
   }
   return next();
 };
+
+// スタッフ認証ミドルウェア（shift_staffテーブルを共用）
+const staffAuth = async (c: any, next: any) => {
+  const staffIdHeader = c.req.header("X-Staff-Id");
+  const passcode = c.req.header("X-Staff-Passcode");
+
+  if (!staffIdHeader || !passcode) {
+    return c.json({ error: "認証情報が不足しています" }, 401);
+  }
+
+  const staffId = parseInt(staffIdHeader, 10);
+  const db = getDb(c.env);
+
+  const result = await db.execute({
+    sql: "SELECT id, name, role, passcode_hash FROM shift_staff WHERE id = ? AND is_active = 1",
+    args: [staffId],
+  });
+
+  if (result.rows.length === 0) {
+    return c.json({ error: "スタッフが見つかりません" }, 401);
+  }
+
+  const staff = result.rows[0];
+  const passcodeHash = await sha256(passcode);
+
+  if (passcodeHash !== staff.passcode_hash) {
+    return c.json({ error: "パスコードが正しくありません" }, 401);
+  }
+
+  c.set("staffId", staff.id);
+  c.set("staffName", staff.name);
+  return next();
+};
+
+// ========================================
+// 認証
+// ========================================
+
+// スタッフ一覧（ログインフォーム用、公開）
+inventory.get("/auth/staff", async (c) => {
+  const db = getDb(c.env);
+  const result = await db.execute(
+    "SELECT id, name, role FROM shift_staff WHERE is_active = 1 ORDER BY sort_order"
+  );
+  return c.json(result.rows);
+});
+
+// ログイン
+inventory.post("/auth/login", async (c) => {
+  const db = getDb(c.env);
+  const { staff_id, passcode } = await c.req.json();
+
+  if (!staff_id || !passcode) {
+    return c.json({ error: "スタッフIDとパスコードは必須です" }, 400);
+  }
+
+  const result = await db.execute({
+    sql: "SELECT id, name, role, passcode_hash FROM shift_staff WHERE id = ? AND is_active = 1",
+    args: [staff_id],
+  });
+
+  if (result.rows.length === 0) {
+    return c.json({ error: "スタッフが見つかりません" }, 401);
+  }
+
+  const staff = result.rows[0];
+  const passcodeHash = await sha256(passcode);
+
+  if (passcodeHash !== staff.passcode_hash) {
+    return c.json({ error: "パスコードが正しくありません" }, 401);
+  }
+
+  return c.json({
+    staff_id: staff.id,
+    name: staff.name,
+    role: staff.role,
+  });
+});
 
 // ========================================
 // カテゴリ
@@ -193,7 +280,7 @@ const saveRecordsSchema = z.object({
   recorded_by: z.string().optional(),
 });
 
-inventory.post("/records", async (c) => {
+inventory.post("/records", staffAuth, async (c) => {
   const db = getDb(c.env);
   const body = await c.req.json();
   const parsed = saveRecordsSchema.safeParse(body);
@@ -222,7 +309,7 @@ inventory.post("/records", async (c) => {
 });
 
 // 単一在庫記録の更新
-inventory.put("/records/:itemId/:date", async (c) => {
+inventory.put("/records/:itemId/:date", staffAuth, async (c) => {
   const db = getDb(c.env);
   const itemId = c.req.param("itemId");
   const date = c.req.param("date");
@@ -279,7 +366,7 @@ const expirySchema = z.object({
   note: z.string().nullable().optional(),
 });
 
-inventory.post("/expiry", async (c) => {
+inventory.post("/expiry", staffAuth, async (c) => {
   const db = getDb(c.env);
   const body = await c.req.json();
   const parsed = expirySchema.safeParse(body);
@@ -304,7 +391,7 @@ inventory.post("/expiry", async (c) => {
   );
 });
 
-inventory.put("/expiry/:id", async (c) => {
+inventory.put("/expiry/:id", staffAuth, async (c) => {
   const db = getDb(c.env);
   const id = c.req.param("id");
   const body = await c.req.json();
@@ -341,7 +428,7 @@ inventory.put("/expiry/:id", async (c) => {
   return c.json({ success: true });
 });
 
-inventory.delete("/expiry/:id", adminAuth, async (c) => {
+inventory.delete("/expiry/:id", staffAuth, async (c) => {
   const db = getDb(c.env);
   const id = c.req.param("id");
 

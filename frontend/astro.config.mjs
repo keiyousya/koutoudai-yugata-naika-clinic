@@ -10,8 +10,11 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      // TODO(2026-08): オンライン診療ページ公開時にこの除外を解除する
-      filter: (page) => !page.includes('/online-medical'),
+      filter: (page) => {
+        // リダイレクト専用ページとnoindexページをサイトマップから除外
+        const excluded = ['/online-medical', '/about', '/checkup', '/fever', '/hay-fever', '/std', '/guide', '/thanks'];
+        return !excluded.some((path) => page.includes(path));
+      },
     }),
   ],
   build: {

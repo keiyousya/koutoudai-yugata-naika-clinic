@@ -1,0 +1,21 @@
+---
+/**
+ * 旧 /hay-fever → /allergen-immunotherapy へのリダイレクト
+ * 花粉症ページはアレルゲン免疫療法ページに統合済み。
+ */
+const destination = "/allergen-immunotherapy";
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={`https://koutoudai-yugata-naika.clinic${destination}`} />
+    <meta http-equiv="refresh" content={`0;url=${destination}`} />
+    <title>リダイレクト中...</title>
+  </head>
+  <body>
+    <p><a href={destination}>こちらのページに移動しました</a></p>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="ページが見つかりません | 勾当台夕方内科クリニック" noindex={true}>
+  <Header />
+  <main class="not-found">
+    <div class="container">
+      <p class="not-found-code">404</p>
+      <h1 class="not-found-title">ページが見つかりません</h1>
+      <p class="not-found-message">お探しのページは移動または削除された可能性があります。</p>
+      <a href="/" class="not-found-link">トップページへ戻る</a>
+    </div>
+  </main>
+  <Footer />
+
+  {/* GitHub Pages SPA routing fallback（管理系サブアプリのみ） */}
+  <script is:inline>
+    (function() {
+      var path = window.location.pathname;
+      var appPath = null;
+      if (path.startsWith('/shift/')) appPath = '/shift/';
+      else if (path.startsWith('/timecard/')) appPath = '/timecard/';
+      else if (path.startsWith('/manuals/')) appPath = '/manuals/';
+      else if (path.startsWith('/slides/')) appPath = '/slides/';
+
+      if (appPath) {
+        fetch(appPath)
+          .then(function(r) { return r.text(); })
+          .then(function(html) {
+            document.open();
+            document.write(html);
+            document.close();
+          })
+          .catch(function() { window.location.replace(appPath); });
+      }
+    })();
+  </script>
+</Layout>
+
+<style>
+  .not-found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: 60px 24px;
+  }
+
+  .not-found-code {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    opacity: 0.2;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .not-found-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 16px;
+  }
+
+  .not-found-message {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 32px;
+  }
+
+  .not-found-link {
+    display: inline-block;
+    background: var(--color-navy);
+    color: #fff;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  .not-found-link:hover {
+    background: var(--color-navy-light);
+  }
+</style>

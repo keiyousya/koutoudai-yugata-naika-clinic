@@ -1,0 +1,21 @@
+---
+/**
+ * 旧 /about → /#about へのリダイレクト
+ * 削除済みページ。トップページの「当院について」セクションに統合。
+ */
+const destination = "/#about";
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="https://koutoudai-yugata-naika.clinic/" />
+    <meta http-equiv="refresh" content={`0;url=${destination}`} />
+    <title>リダイレクト中...</title>
+  </head>
+  <body>
+    <p><a href={destination}>こちらのページに移動しました</a></p>
+  </body>
+</html>

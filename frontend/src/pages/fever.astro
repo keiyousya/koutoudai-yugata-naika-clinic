@@ -1,0 +1,21 @@
+---
+/**
+ * 旧 /fever → /#reservation へのリダイレクト
+ * 発熱外来ページは削除済み。トップページの予約セクションに誘導。
+ */
+const destination = "/#reservation";
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href="https://koutoudai-yugata-naika.clinic/" />
+    <meta http-equiv="refresh" content={`0;url=${destination}`} />
+    <title>リダイレクト中...</title>
+  </head>
+  <body>
+    <p><a href={destination}>こちらのページに移動しました</a></p>
+  </body>
+</html>

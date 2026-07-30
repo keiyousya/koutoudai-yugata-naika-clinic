@@ -18,7 +18,12 @@ export default defineConfig({
     }),
   ],
   build: {
-    // Inline all CSS to eliminate render-blocking requests
-    inlineStylesheets: 'always',
+    // 'auto' inlines small CSS but externalizes large ones (like fontsource ~495KB)
+    // This reduces HTML size from ~617KB to ~120KB, improving FCP/LCP
+    inlineStylesheets: 'auto',
+  },
+  image: {
+    // Limit generated image widths to what's actually used
+    deviceSizes: [640, 750, 828, 1080, 1200],
   },
 });

@@ -9,13 +9,13 @@ import interiorImage03 from "../assets/interior03.jpeg";
 <section class="hero">
   <div class="hero-slideshow" id="heroSlideshow">
     <div class="hero-slide-wrapper">
-      <Image src={interiorImage01} alt="" width={1600} class="hero-slide" />
+      <Image src={interiorImage01} alt="院内の様子" width={1200} loading="eager" fetchpriority="high" class="hero-slide" />
     </div>
     <div class="hero-slide-wrapper">
-      <Image src={interiorImage02} alt="" width={1600} class="hero-slide" />
+      <Image src={interiorImage02} alt="院内の様子" width={1200} loading="lazy" class="hero-slide" />
     </div>
     <div class="hero-slide-wrapper">
-      <Image src={interiorImage03} alt="" width={1600} class="hero-slide" />
+      <Image src={interiorImage03} alt="院内の様子" width={1200} loading="lazy" class="hero-slide" />
     </div>
   </div>
   <div class="hero-content container">
@@ -458,24 +458,19 @@ import interiorImage03 from "../assets/interior03.jpeg";
       wrappers[index].classList.add("active");
     }
 
-    // Start with twilight
-    showTwilight();
+    // 最初のスライドを即座に表示
+    current = 0;
+    showSlide(current);
 
-    // 最初の夕方背景は1秒だけ表示
-    setTimeout(() => {
-      current = 0;
-      showSlide(current);
-
-      setInterval(() => {
-        current++;
-        if (current >= total) {
-          current = -1;
-          showTwilight();
-        } else {
-          showSlide(current);
-        }
-      }, interval);
-    }, 200);
+    setInterval(() => {
+      current++;
+      if (current >= total) {
+        current = -1;
+        showTwilight();
+      } else {
+        showSlide(current);
+      }
+    }, interval);
   }
 
 </script>

@@ -1,7 +1,11 @@
 ---
-import '@fontsource/m-plus-1p/400.css';
-import '@fontsource/m-plus-1p/500.css';
-import '@fontsource/m-plus-1p/700.css';
+// 日本語+ラテン文字のみインポート（全言語版の126ブロック×3→6ブロックに削減）
+import '@fontsource/m-plus-1p/japanese-400.css';
+import '@fontsource/m-plus-1p/latin-400.css';
+import '@fontsource/m-plus-1p/japanese-500.css';
+import '@fontsource/m-plus-1p/latin-500.css';
+import '@fontsource/m-plus-1p/japanese-700.css';
+import '@fontsource/m-plus-1p/latin-700.css';
 import brandFontUrl from '../fonts/noto-sans-jp-brand.woff2?url';
 import FixedLineButton from '../components/FixedLineButton.astro';
 import { LINE_ADD_FRIEND_URL_AD, GOOGLE_ADS_TAG_ID, LINE_CONVERSION_SEND_TO } from '../config/line';

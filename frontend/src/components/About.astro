@@ -24,15 +24,15 @@ import InfoCard from "./InfoCard.astro";
 
         <div class="interior-gallery">
           <div class="interior-image-wrapper">
-            <Image src={interiorImage01} alt="受付・待合室" width={560} class="interior-image" />
+            <Image src={interiorImage01} alt="受付・待合室" width={480} loading="lazy" class="interior-image" />
             <span class="interior-label">受付・待合室</span>
           </div>
           <div class="interior-image-wrapper">
-            <Image src={interiorImage02} alt="診察室" width={560} class="interior-image" />
+            <Image src={interiorImage02} alt="診察室" width={480} loading="lazy" class="interior-image" />
             <span class="interior-label">診察室</span>
           </div>
           <div class="interior-image-wrapper">
-            <Image src={interiorImage03} alt="処置室" width={560} class="interior-image" />
+            <Image src={interiorImage03} alt="処置室" width={480} loading="lazy" class="interior-image" />
             <span class="interior-label">処置室</span>
           </div>
         </div>
@@ -113,7 +113,7 @@ import InfoCard from "./InfoCard.astro";
               <p class="info-card__description">
                 腹部・腎臓・頸動脈・甲状腺などの検査を行います。
               </p>
-              <Image src={echoImage} alt="超音波検査装置" width={400} class="info-card__image" />
+              <Image src={echoImage} alt="超音波検査装置" width={320} loading="lazy" class="info-card__image" />
               <span class="info-card__device">キャノンメディカルシステムズ Aplio go / LE</span>
             </InfoCard>
 
@@ -121,7 +121,7 @@ import InfoCard from "./InfoCard.astro";
               <p class="info-card__description">
                 不整脈や狭心症など、心臓に関わる症状の評価に用います。
               </p>
-              <Image src={ecgImage} alt="12誘導心電図" width={400} class="info-card__image" />
+              <Image src={ecgImage} alt="12誘導心電図" width={320} loading="lazy" class="info-card__image" />
               <span class="info-card__device">日本光電 ECG-3250</span>
             </InfoCard>
 

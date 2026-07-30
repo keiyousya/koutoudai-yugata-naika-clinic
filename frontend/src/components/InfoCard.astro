@@ -149,6 +149,17 @@ const { icon, title, variant = "turquoise" } = Astro.props;
     margin-top: 10px;
   }
 
+  .info-card__body :global(.info-card__link--inline) {
+    color: var(--color-coral);
+    font-weight: 600;
+    text-decoration: underline;
+    transition: opacity 0.2s;
+  }
+
+  .info-card__body :global(.info-card__link--inline:hover) {
+    opacity: 0.7;
+  }
+
   @media (max-width: 768px) {
     .info-card {
       padding: 22px 18px;

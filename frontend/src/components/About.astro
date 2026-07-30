@@ -138,7 +138,7 @@ import InfoCard from "./InfoCard.astro";
 
             <InfoCard icon="devices/syringe" title="検体検査" variant="coral">
               <p class="info-card__description">
-                血液検査・尿検査などは外部検査機関に委託して実施します。結果は後日お伝えいたします。
+                血液検査・尿検査などは外部検査機関に委託して実施します。<a href="#blood-test" class="info-card__link--inline">結果は後日お伝えいたします。</a>
               </p>
               <ul class="condition-list">
                 <li class="condition-tag">糖尿病</li>
@@ -234,6 +234,25 @@ import InfoCard from "./InfoCard.astro";
           </div>
         </details>
 
+        <details class="guide-accordion-item" id="blood-test">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="devices/test_tubes" size={22} />
+            </span>
+            <span class="guide-accordion-label">採血検査について</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                当院では採血検体検査をすべて外部検査機関に委託しているため、<strong>検査結果は即日には出ません</strong>。
+              </p>
+              <p class="guide-accordion-note">※ 基本的な項目は翌日以降に結果が出ますが、項目によっては数日かかる場合があります。</p>
+              <p class="guide-accordion-note">※ 検体の回収時間は平日19時・土曜17時です。回収後の検体は次回の回収となるため、結果のお届けまでお時間をいただく場合があります。</p>
+            </div>
+          </div>
+        </details>
+
         <details class="guide-accordion-item">
           <summary class="guide-accordion-summary">
             <span class="guide-accordion-icon">
@@ -299,6 +318,21 @@ import InfoCard from "./InfoCard.astro";
     </div>
   </div>
 </section>
+
+<script>
+  document.querySelectorAll('a[href="#blood-test"]').forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const details = document.getElementById("blood-test");
+      if (details) {
+        details.open = true;
+        setTimeout(() => {
+          details.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 100);
+      }
+    });
+  });
+</script>
 
 <style>
   .about {

@@ -26,6 +26,13 @@ import LineCta from "./LineCta.astro";
       <p class="reservation-notice">
         ※ ご予約時間に遅れてご来院された場合、診療の順番が前後し、お待ちいただく場合がございます。
       </p>
+      <div class="cancel-policy-box">
+        <p class="cancel-policy-title">予約キャンセルについて</p>
+        <p class="cancel-policy-text">
+          ご予約の変更・キャンセルは<strong>LINE</strong>または<strong>お電話</strong>にて承ります。<br />
+          ご都合が悪くなった際は、お早めにご連絡をお願いいたします。
+        </p>
+      </div>
     </div>
   </div>
 </section>
@@ -80,10 +87,32 @@ import LineCta from "./LineCta.astro";
   }
 
   .reservation-notice {
-    font-size: 0.75rem;
+    font-size: 0.82rem;
     color: var(--color-text-muted);
     line-height: 1.7;
     margin-top: 12px;
+  }
+
+  .cancel-policy-box {
+    margin-top: 28px;
+    padding: 20px 24px;
+    background: var(--color-turquoise-bg);
+    border: 2px solid var(--color-turquoise);
+    border-radius: 24px;
+    text-align: left;
+  }
+
+  .cancel-policy-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 8px;
+  }
+
+  .cancel-policy-text {
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
   }
 
   .sp-only {

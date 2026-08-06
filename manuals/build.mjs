@@ -281,7 +281,7 @@ async function main() {
   const listItems = manuals.map((m) => `<li><a href="./${m.slug}.html">${m.title}</a></li>`).join("\n");
   const indexHtml = wrapHtml(
     "院内マニュアル",
-    `<h1>院内マニュアル</h1>\n<p class="subtitle">勾当台夕方内科クリニック</p>\n<div class="emergency-banner">\n<a href="./emergency/index.html">🚨 緊急時マニュアル<span>急変・救急セットはこちら（パスワード不要）</span></a>\n</div>\n<h2>操作マニュアル</h2>\n<div class="external-links">\n<a href="https://www.notion.so/3356e8ba85c58016818ed588fda40651?source=copy_link" target="_blank">📋 電子カルテ・レセコン操作マニュアル</a>\n</div>\n<h2>院内マニュアル</h2>\n<ul class="manual-list">\n${listItems}\n</ul>`,
+    `<h1>院内マニュアル</h1>\n<p class="subtitle">勾当台夕方内科クリニック</p>\n<div class="emergency-banner">\n<a href="./emergency/index.html">🚨 緊急時マニュアル<span>急変・救急セットはこちら</span></a>\n</div>\n<h2>操作マニュアル</h2>\n<div class="external-links">\n<a href="https://www.notion.so/3356e8ba85c58016818ed588fda40651?source=copy_link" target="_blank">📋 電子カルテ・レセコン操作マニュアル</a>\n</div>\n<h2>院内マニュアル</h2>\n<ul class="manual-list">\n${listItems}\n</ul>`,
     { isIndex: true },
   );
   await writeFile(join(DIST_DIR.pathname, "index.html"), indexHtml);

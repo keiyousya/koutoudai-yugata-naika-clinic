@@ -14,7 +14,8 @@
     "db:migrate-shift-unlocked": "node scripts/migrate-shift-unlocked.js",
     "dev:inventory": "wrangler dev --config wrangler.inventory.toml",
     "deploy:inventory": "wrangler deploy --config wrangler.inventory.toml",
-    "db:setup-inventory": "node scripts/setup-inventory-db.js"
+    "db:setup-inventory": "node scripts/setup-inventory-db.js",
+    "db:migrate-inventory-order-settings": "node scripts/migrate-inventory-order-settings.js"
   },
   "dependencies": {
     "@holiday-jp/holiday_jp": "^2.5.1",

@@ -1,17 +1,26 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import {
   fetchItems,
   fetchRecords,
+  fetchLatestRecords,
   fetchExpiry,
   updateRecord,
   createExpiry,
   updateExpiry,
   deleteExpiry,
 } from "@/api/inventory";
-import type { InventoryItem, InventoryRecord, ExpiryRecord } from "@/api/inventory";
+import type {
+  InventoryItem,
+  InventoryRecord,
+  LatestRecord,
+  ExpiryRecord,
+} from "@/api/inventory";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, Check, Minus, Plus } from "lucide-react";
+
+/** 入力してから自動保存するまでの待ち時間（±連打を1リクエストにまとめる） */
+const SAVE_DEBOUNCE_MS = 700;
 
 function formatDate(date: Date) {
   const y = date.getFullYear();
@@ -20,10 +29,10 @@ function formatDate(date: Date) {
   return `${y}-${m}-${d}`;
 }
 
-function getPrevDate(dateStr: string) {
-  const d = new Date(dateStr);
-  d.setDate(d.getDate() - 1);
-  return formatDate(d);
+/** 2026-08-02 → 8/2 */
+function formatShortDate(dateStr: string) {
+  const [, m, d] = dateStr.split("-");
+  return `${Number(m)}/${Number(d)}`;
 }
 
 function getExpiryStatus(expiryDate: string, today: string): "expired" | "warning" | "ok" {
@@ -41,13 +50,18 @@ interface Props {
   showExpiry?: boolean;
 }
 
+type SaveStatus = "saving" | "saved";
+
 export function InventoryCheckList({ title, categoryId, notice, showExpiry = true }: Props) {
   const queryClient = useQueryClient();
   const [selectedDate, setSelectedDate] = useState(formatDate(new Date()));
   const currentMonth = selectedDate.slice(0, 7);
-  const prevDate = getPrevDate(selectedDate);
-  const prevMonth = prevDate.slice(0, 7);
   const today = formatDate(new Date());
+
+  // 入力中の値（サーバーの値より優先して表示する）
+  const [drafts, setDrafts] = useState<Record<number, string>>({});
+  const [saveStatus, setSaveStatus] = useState<Record<number, SaveStatus>>({});
+  const saveTimers = useRef<Record<number, ReturnType<typeof setTimeout>>>({});
 
   const { data: allItems } = useQuery({
     queryKey: ["items"],
@@ -63,10 +77,10 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
     queryFn: () => fetchRecords(currentMonth, categoryId),
   });
 
-  const { data: prevMonthRecords } = useQuery({
-    queryKey: ["records", prevMonth, categoryId],
-    queryFn: () => fetchRecords(prevMonth, categoryId),
-    enabled: prevMonth !== currentMonth,
+  // 選択日より前の直近の記録（品目ごと）
+  const { data: latestRecords } = useQuery({
+    queryKey: ["records-latest", selectedDate, categoryId],
+    queryFn: () => fetchLatestRecords(selectedDate, categoryId),
   });
 
   const { data: expiryData } = useQuery({
@@ -87,6 +101,7 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
     }) => updateRecord(itemId, date, quantity),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["records", currentMonth, categoryId] });
+      queryClient.invalidateQueries({ queryKey: ["records-latest"] });
     },
   });
 
@@ -120,13 +135,14 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
     }
   });
 
-  // 前日のレコード
-  const prevRecordMap = new Map<number, number | null>();
-  const prevSource = prevMonth === currentMonth ? records : prevMonthRecords;
-  (prevSource ?? []).forEach((r: InventoryRecord) => {
-    if (r.date === prevDate) {
-      prevRecordMap.set(r.item_id, r.quantity);
-    }
+  // 保存判定は遅延実行時の最新値を見る必要があるため ref に持つ
+  const recordMapRef = useRef(recordMap);
+  recordMapRef.current = recordMap;
+
+  // 直近の記録（選択日より前で最も新しいもの）
+  const latestRecordMap = new Map<number, LatestRecord>();
+  (latestRecords ?? []).forEach((r: LatestRecord) => {
+    latestRecordMap.set(r.item_id, r);
   });
 
   // 使用期限: item_id → ExpiryRecord（最も近い期限を代表として表示）
@@ -140,6 +156,77 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
     });
   }
 
+  // 日付を切り替えたら入力中の値をリセット
+  useEffect(() => {
+    Object.values(saveTimers.current).forEach(clearTimeout);
+    saveTimers.current = {};
+    setDrafts({});
+    setSaveStatus({});
+  }, [selectedDate]);
+
+  useEffect(() => {
+    const timers = saveTimers.current;
+    return () => Object.values(timers).forEach(clearTimeout);
+  }, []);
+
+  const commit = useCallback(
+    (itemId: number, raw: string) => {
+      clearTimeout(saveTimers.current[itemId]);
+
+      const quantity = raw === "" ? null : parseFloat(raw);
+      if (quantity !== null && Number.isNaN(quantity)) return;
+
+      const existing = recordMapRef.current.get(itemId);
+      if (quantity === existing) return;
+      if (quantity === null && existing == null) return;
+
+      setSaveStatus((s) => ({ ...s, [itemId]: "saving" }));
+      updateMutation.mutate(
+        { itemId, date: selectedDate, quantity },
+        {
+          onSuccess: () => {
+            setSaveStatus((s) => ({ ...s, [itemId]: "saved" }));
+            setTimeout(() => {
+              setSaveStatus((s) => {
+                if (s[itemId] !== "saved") return s;
+                const next = { ...s };
+                delete next[itemId];
+                return next;
+              });
+            }, 1500);
+          },
+          onError: () => {
+            setSaveStatus((s) => {
+              const next = { ...s };
+              delete next[itemId];
+              return next;
+            });
+          },
+        }
+      );
+    },
+    [selectedDate, updateMutation]
+  );
+
+  const scheduleSave = useCallback(
+    (itemId: number, raw: string) => {
+      clearTimeout(saveTimers.current[itemId]);
+      saveTimers.current[itemId] = setTimeout(
+        () => commit(itemId, raw),
+        SAVE_DEBOUNCE_MS
+      );
+    },
+    [commit]
+  );
+
+  const setValue = useCallback(
+    (itemId: number, raw: string) => {
+      setDrafts((d) => ({ ...d, [itemId]: raw }));
+      scheduleSave(itemId, raw);
+    },
+    [scheduleSave]
+  );
+
   const prevDay = useCallback(() => {
     const d = new Date(selectedDate);
     d.setDate(d.getDate() - 1);
@@ -151,19 +238,6 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
     d.setDate(d.getDate() + 1);
     setSelectedDate(formatDate(d));
   }, [selectedDate]);
-
-  const handleBlur = useCallback(
-    (itemId: number, value: string) => {
-      const quantity = value === "" ? null : parseFloat(value);
-      const existing = recordMap.get(itemId);
-
-      if (quantity === existing) return;
-      if (quantity === null && existing === undefined) return;
-
-      updateMutation.mutate({ itemId, date: selectedDate, quantity });
-    },
-    [selectedDate, recordMap, updateMutation]
-  );
 
   const handleExpiryChange = useCallback(
     (itemId: number, value: string) => {
@@ -183,6 +257,13 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
     [expiryMap, createExpiryMutation, updateExpiryMutation, deleteExpiryMutation]
   );
 
+  // 未入力の品目数（当日分）
+  const unfilledCount = items.filter((item: InventoryItem) => {
+    const draft = drafts[item.id];
+    if (draft !== undefined) return draft === "";
+    return recordMap.get(item.id) == null;
+  }).length;
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -193,7 +274,7 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
           </Button>
           <input
             type="date"
-            className="flex-1 rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium sm:flex-none"
+            className="flex-1 rounded-md border border-input bg-background px-3 py-1.5 text-base font-medium sm:flex-none"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
           />
@@ -207,6 +288,14 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
         <p className="text-xs text-muted-foreground">{notice}</p>
       )}
 
+      {items.length > 0 && (
+        <p className="text-xs text-muted-foreground">
+          {unfilledCount === 0
+            ? `全${items.length}品目の記録が完了しています`
+            : `未入力 ${unfilledCount} / ${items.length} 品目`}
+        </p>
+      )}
+
       {items.length === 0 ? (
         <div className="rounded-lg border p-8 text-center text-muted-foreground">
           品目が登録されていません
@@ -214,45 +303,97 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
       ) : (
         <div className="space-y-2">
           {items.map((item: InventoryItem) => {
-            const value = recordMap.get(item.id);
-            const prevValue = prevRecordMap.get(item.id);
+            const stored = recordMap.get(item.id);
+            const draft = drafts[item.id];
+            const inputValue =
+              draft !== undefined ? draft : stored != null ? String(stored) : "";
+            const numericValue = inputValue === "" ? null : parseFloat(inputValue);
+            const latestRecord = latestRecordMap.get(item.id);
+            const status = saveStatus[item.id];
             const expiry = expiryMap.get(item.id);
             const expiryStatus = expiry ? getExpiryStatus(expiry.expiry_date, today) : null;
 
             return (
               <div
                 key={item.id}
-                className="rounded-lg border p-3 space-y-2"
+                className={`rounded-lg border p-3 space-y-2 ${
+                  inputValue === "" ? "" : "border-primary/30 bg-primary/[0.03]"
+                }`}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-sm">{item.name}</div>
                     <div className="text-xs text-muted-foreground">
                       {item.dosage || "-"} / {item.unit}
                     </div>
                   </div>
-                  <div className="text-center shrink-0 w-12">
-                    <div className="text-[10px] text-muted-foreground">前日</div>
+                  <div className="shrink-0 text-right">
+                    <div className="text-[10px] text-muted-foreground">
+                      {latestRecord ? formatShortDate(latestRecord.date) : " "}
+                    </div>
                     <div className="text-sm text-muted-foreground">
-                      {prevValue != null ? prevValue : "-"}
+                      {latestRecord ? latestRecord.quantity : "-"}
                     </div>
                   </div>
-                  <input
-                    type="number"
-                    className="w-16 h-10 shrink-0 rounded-md border border-input bg-background text-center text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                    defaultValue={value ?? ""}
-                    key={`${item.id}-${selectedDate}`}
-                    onBlur={(e) => handleBlur(item.id, e.target.value)}
-                    inputMode="decimal"
-                    placeholder="-"
-                  />
                 </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    aria-label="1減らす"
+                    disabled={numericValue === null || numericValue <= 0}
+                    className="h-12 w-12 shrink-0 rounded-lg border border-input bg-background flex items-center justify-center active:bg-muted disabled:opacity-30"
+                    onClick={() => {
+                      const base = numericValue ?? 0;
+                      setValue(item.id, String(Math.max(0, base - 1)));
+                    }}
+                  >
+                    <Minus className="h-5 w-5" />
+                  </button>
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    enterKeyHint="done"
+                    placeholder="-"
+                    className="h-12 flex-1 min-w-0 rounded-lg border border-input bg-background text-center text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-ring"
+                    value={inputValue}
+                    onFocus={(e) => e.currentTarget.select()}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (v === "" || /^\d*\.?\d*$/.test(v)) setValue(item.id, v);
+                    }}
+                    onBlur={(e) => commit(item.id, e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.currentTarget.blur();
+                    }}
+                  />
+                  <button
+                    type="button"
+                    aria-label="1増やす"
+                    className="h-12 w-12 shrink-0 rounded-lg border border-input bg-background flex items-center justify-center active:bg-muted"
+                    onClick={() => {
+                      const base = numericValue ?? 0;
+                      setValue(item.id, String(base + 1));
+                    }}
+                  >
+                    <Plus className="h-5 w-5" />
+                  </button>
+                  <div className="w-5 shrink-0 text-center">
+                    {status === "saving" && (
+                      <span className="inline-block h-2 w-2 rounded-full bg-muted-foreground/50 animate-pulse" />
+                    )}
+                    {status === "saved" && (
+                      <Check className="h-4 w-4 text-green-600" />
+                    )}
+                  </div>
+                </div>
+
                 {showExpiry && (
                   <div className="flex items-center gap-2 pl-0.5">
                     <span className="text-[10px] text-muted-foreground shrink-0">期限</span>
                     <input
                       type="month"
-                      className={`h-7 rounded border px-2 text-xs focus:outline-none focus:ring-1 focus:ring-ring ${
+                      className={`h-9 rounded border px-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring ${
                         expiryStatus === "expired"
                           ? "border-red-400 bg-red-50 text-red-700"
                           : expiryStatus === "warning"
@@ -265,11 +406,11 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
                     />
                     {expiry && (
                       <button
-                        className="text-muted-foreground hover:text-destructive"
+                        className="p-2 text-muted-foreground hover:text-destructive"
                         onClick={() => deleteExpiryMutation.mutate(expiry.id)}
                         title="期限を削除"
                       >
-                        <X className="h-3.5 w-3.5" />
+                        <X className="h-4 w-4" />
                       </button>
                     )}
                     {expiryStatus === "expired" && (

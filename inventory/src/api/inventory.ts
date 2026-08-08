@@ -73,6 +73,10 @@ export interface InventoryItem {
   unit: string;
   sort_order: number;
   is_active: number;
+  /** 発注の規定量（この数を下回ると発注対象） */
+  order_threshold: number;
+  /** 発注管理の対象にするか（1: 対象） */
+  is_orderable: number;
 }
 
 export interface InventoryRecord {
@@ -133,6 +137,21 @@ export async function fetchItems(categoryId?: number): Promise<InventoryItem[]> 
   return handleResponse<InventoryItem[]>(res);
 }
 
+export async function updateItemOrderSettings(
+  itemId: number,
+  data: { order_threshold?: number; is_orderable?: number }
+): Promise<{ success: boolean }> {
+  const res = await fetch(
+    `${API_BASE}/api/inventory/items/${itemId}/order-settings`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify(data),
+    }
+  );
+  return handleResponse(res);
+}
+
 // ========================================
 // 在庫記録
 // ========================================
@@ -147,6 +166,25 @@ export async function fetchRecords(
     `${API_BASE}/api/inventory/records?${params.toString()}`
   );
   return handleResponse<InventoryRecord[]>(res);
+}
+
+/** 指定日より前の直近記録（品目ごとに1件） */
+export interface LatestRecord {
+  item_id: number;
+  date: string;
+  quantity: number;
+}
+
+export async function fetchLatestRecords(
+  date: string,
+  categoryId?: number
+): Promise<LatestRecord[]> {
+  const params = new URLSearchParams({ date });
+  if (categoryId) params.set("category_id", String(categoryId));
+  const res = await fetch(
+    `${API_BASE}/api/inventory/records/latest?${params.toString()}`
+  );
+  return handleResponse<LatestRecord[]>(res);
 }
 
 export async function saveRecords(

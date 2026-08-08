@@ -233,6 +233,46 @@ inventory.put("/items/:id", adminAuth, async (c) => {
   return c.json({ success: true });
 });
 
+// 発注設定の更新（規定量・発注対象）
+const orderSettingsSchema = z.object({
+  order_threshold: z.number().int().min(0, "規定量は0以上").optional(),
+  is_orderable: z.number().int().min(0).max(1).optional(),
+});
+
+inventory.put("/items/:id/order-settings", staffAuth, async (c) => {
+  const db = getDb(c.env);
+  const id = c.req.param("id");
+  const body = await c.req.json();
+  const parsed = orderSettingsSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: parsed.error.issues[0].message }, 400);
+  }
+
+  const fields: string[] = [];
+  const args: any[] = [];
+
+  for (const [key, value] of Object.entries(parsed.data)) {
+    if (value !== undefined) {
+      fields.push(`${key} = ?`);
+      args.push(value);
+    }
+  }
+
+  if (fields.length === 0) {
+    return c.json({ error: "更新するフィールドがありません" }, 400);
+  }
+
+  fields.push("updated_at = datetime('now')");
+  args.push(id);
+
+  await db.execute({
+    sql: `UPDATE inventory_items SET ${fields.join(", ")} WHERE id = ?`,
+    args,
+  });
+
+  return c.json({ success: true });
+});
+
 // ========================================
 // 在庫記録（日別チェックシート）
 // ========================================
@@ -263,6 +303,39 @@ inventory.get("/records", async (c) => {
   }
 
   sql += " ORDER BY c.sort_order, i.sort_order, r.date";
+
+  const result = await db.execute({ sql, args });
+  return c.json(result.rows);
+});
+
+// 指定日より前の直近の在庫記録（品目ごとに1件）
+inventory.get("/records/latest", async (c) => {
+  const db = getDb(c.env);
+  const date = c.req.query("date"); // YYYY-MM-DD（この日より前の記録が対象）
+  const categoryId = c.req.query("category_id");
+
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return c.json({ error: "dateパラメータ（YYYY-MM-DD形式）は必須です" }, 400);
+  }
+
+  let sql = `
+    SELECT r.item_id, r.date, r.quantity
+    FROM inventory_records r
+    JOIN inventory_items i ON r.item_id = i.id
+    WHERE i.is_active = 1
+      AND r.quantity IS NOT NULL
+      AND r.date < ?
+      AND r.date = (
+        SELECT MAX(r2.date) FROM inventory_records r2
+        WHERE r2.item_id = r.item_id AND r2.quantity IS NOT NULL AND r2.date < ?
+      )
+  `;
+  const args: any[] = [date, date];
+
+  if (categoryId) {
+    sql += " AND i.category_id = ?";
+    args.push(categoryId);
+  }
 
   const result = await db.execute({ sql, args });
   return c.json(result.rows);

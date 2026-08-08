@@ -20,15 +20,26 @@ import InfoCard from "../components/InfoCard.astro";
         <div class="demographics-header">
           <div class="period-display" id="periodDisplay">
             <div class="period-label">集計期間</div>
-            <div class="period-value">読み込み中...</div>
+            <div class="period-value">
+              <span class="skeleton period-value-skeleton" aria-hidden="true"></span>
+            </div>
           </div>
           <div class="last-updated">
             <span id="lastUpdated">--:--</span> 時点
           </div>
         </div>
 
-        <div class="status-message" id="statusMessage">
-          <div class="loading">患者層データを読み込んでいます...</div>
+        <div class="status-message status-message--skeleton" id="statusMessage" role="status">
+          <span class="sr-only">患者層データを読み込んでいます</span>
+          <div class="chart chart-skeleton" aria-hidden="true">
+            {Array.from({ length: 7 }).map(() => (
+              <div class="bar-row">
+                <span class="skeleton bar-label-skeleton"></span>
+                <span class="skeleton bar-track-skeleton"></span>
+                <span class="skeleton bar-value-skeleton"></span>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div class="chart-container" id="chartContainer" style="display: none;">
@@ -120,6 +131,44 @@ import InfoCard from "../components/InfoCard.astro";
     text-align: center;
     padding: 48px 24px;
     margin-bottom: 32px;
+  }
+
+  /* 初期表示のスケルトンは .chart-container と同じ余白で置く */
+  .status-message--skeleton {
+    padding: 0;
+    margin-bottom: 40px;
+  }
+
+  .chart-skeleton {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .chart-skeleton .bar-label-skeleton {
+    width: 70%;
+    height: 0.9rem;
+    border-radius: 4px;
+    justify-self: end;
+  }
+
+  .chart-skeleton .bar-track-skeleton {
+    height: 24px;
+    border-radius: 6px;
+  }
+
+  .chart-skeleton .bar-value-skeleton {
+    width: 80%;
+    height: 0.9rem;
+    border-radius: 4px;
+    justify-self: end;
+  }
+
+  .period-value .period-value-skeleton {
+    display: inline-block;
+    vertical-align: middle;
+    width: 12em;
+    height: 1em;
+    border-radius: 4px;
   }
 
   .loading {
@@ -339,6 +388,7 @@ import InfoCard from "../components/InfoCard.astro";
     if (!statusMessage || !chartContainer) return;
 
     statusMessage.style.display = 'block';
+    statusMessage.classList.remove('status-message--skeleton');
     statusMessage.innerHTML = `<div class="${type}">${message}</div>`;
     chartContainer.style.display = 'none';
 

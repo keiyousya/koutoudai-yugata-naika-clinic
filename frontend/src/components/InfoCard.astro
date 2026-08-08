@@ -134,6 +134,21 @@ const { icon, title, variant = "turquoise" } = Astro.props;
     margin: 0 auto 12px;
   }
 
+  /* 遅延読み込み中のスケルトンを敷くための枠。サイズ指定は枠側が持つ */
+  .info-card__body :global(.info-card__image-frame) {
+    width: 70%;
+    max-width: 240px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 auto 12px;
+  }
+
+  .info-card__body :global(.info-card__image-frame .info-card__image) {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
   .info-card__body :global(.info-card__device) {
     display: inline-block;
     font-size: 0.78rem;

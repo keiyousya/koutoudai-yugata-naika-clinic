@@ -407,7 +407,28 @@ import interiorImage03 from "../assets/interior03.jpeg";
       if (skyline) skyline.style.opacity = "";
     }
 
+    // 遅延読み込みの画像がまだ届いていないスライドは飛ばす
+    // （読み込み途中の枠を出さず、背景のトワイライトを見せ続ける）
+    function isSlideReady(index: number): boolean {
+      const img = wrappers[index].querySelector<HTMLImageElement>(".hero-slide");
+      return !!img && img.complete && img.naturalWidth > 0;
+    }
+
     function showSlide(index: number) {
+      if (!isSlideReady(index)) {
+        showTwilight();
+        const img = wrappers[index].querySelector<HTMLImageElement>(".hero-slide");
+        // 読み込みが終わった時点でまだ同じスライドの番なら、そこで切り替える
+        img?.addEventListener(
+          "load",
+          () => {
+            if (current === index) showSlide(index);
+          },
+          { once: true }
+        );
+        return;
+      }
+
       wrappers.forEach((w) => w.classList.remove("active"));
       if (twilight) twilight.style.opacity = "0";
       if (stars) stars.style.opacity = "0";

@@ -4,11 +4,15 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import SubPageHeader from "../components/SubPageHeader.astro";
 import Footer from "../components/Footer.astro";
+
+// 表示する日数。0 = 本日, 1 = 明日, 2 = 明後日（スクリプト側の DAY_LABELS と対応）
+const DAY_LABELS = ["本日", "明日", "明後日"];
+const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
 ---
 
 <Layout
   title="予約状況 | 勾当台夕方内科クリニック"
-  description="本日・明日の予約空き状況をリアルタイムで確認できます。仙台で夜21時まで診療、勾当台公園駅徒歩2分。"
+  description="本日・明日・明後日の予約空き状況をリアルタイムで確認できます。仙台で夜21時まで診療、勾当台公園駅徒歩2分。"
 >
   <Header />
   <main class="page-main">
@@ -19,8 +23,15 @@ import Footer from "../components/Footer.astro";
         <div class="availability-topbar">
           <div class="day-tabs" id="dayTabs">
             <span class="day-tab-indicator" aria-hidden="true"></span>
-            <button class="day-tab active" type="button" data-offset="0">本日</button>
-            <button class="day-tab" type="button" data-offset="1">明日</button>
+            {DAY_OFFSETS.map((offset) => (
+              <button
+                class={`day-tab${offset === 0 ? " active" : ""}`}
+                type="button"
+                data-offset={offset}
+              >
+                {DAY_LABELS[offset]}
+              </button>
+            ))}
           </div>
           <div class="last-updated">
             <span id="lastUpdated">--/-- --:--:--</span> 時点
@@ -29,7 +40,7 @@ import Footer from "../components/Footer.astro";
 
         <div class="day-viewport">
           <div class="day-track" id="dayTrack">
-            {[0, 1].map((offset) => (
+            {DAY_OFFSETS.map((offset) => (
               <div class={`day-panel${offset === 0 ? " active" : ""}`} data-offset={offset}>
                 <div class="availability-header">
                   <span class="date-label">
@@ -41,16 +52,26 @@ import Footer from "../components/Footer.astro";
                         <line x1="16" y1="2" x2="16" y2="6"></line>
                       </svg>
                     </span>
-                    {offset === 0 ? "本日の診療" : "明日の診療"}
+                    {`${DAY_LABELS[offset]}の診療`}
                   </span>
                   <div class="date-row">
-                    <span class="date-value">読み込み中...</span>
+                    <span class="date-value">
+                      <span class="skeleton date-value-skeleton" aria-hidden="true"></span>
+                    </span>
                     <span class="date-hours"></span>
                   </div>
                 </div>
 
-                <div class="status-message">
-                  <div class="loading">予約状況を読み込んでいます...</div>
+                <div class="status-message status-message--skeleton" role="status">
+                  <span class="sr-only">予約状況を読み込んでいます</span>
+                  <div class="slots-grid slots-skeleton" aria-hidden="true">
+                    {Array.from({ length: 12 }).map(() => (
+                      <div class="slot-card slot-card--skeleton">
+                        <span class="skeleton slot-time-skeleton"></span>
+                        <span class="skeleton slot-status-skeleton"></span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div class="slots-container" style="display: none;">
@@ -145,12 +166,13 @@ import Footer from "../components/Footer.astro";
     border-radius: 12px;
   }
 
+  /* タブ3つぶん: 左右パディング 6px×2 + タブ間 gap 8px×2 = 28px を差し引く */
   .day-tab-indicator {
     position: absolute;
     top: 6px;
     bottom: 6px;
     left: 6px;
-    width: calc((100% - 20px) / 2);
+    width: calc((100% - 28px) / 3);
     background: white;
     border-radius: 8px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
@@ -161,6 +183,10 @@ import Footer from "../components/Footer.astro";
 
   .day-tabs[data-active="1"] .day-tab-indicator {
     transform: translateX(calc(100% + 8px));
+  }
+
+  .day-tabs[data-active="2"] .day-tab-indicator {
+    transform: translateX(calc((100% + 8px) * 2));
   }
 
   .day-tab {
@@ -289,9 +315,49 @@ import Footer from "../components/Footer.astro";
     margin-bottom: 32px;
   }
 
+  /* 初期表示のスケルトンは .slots-container と同じ余白で置く */
+  .status-message--skeleton {
+    padding: 0;
+    margin-bottom: 40px;
+  }
+
+  .slots-skeleton {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .slots-skeleton .slot-card--skeleton {
+    /* 実データの .slot-card と同じ高さにして、描画時のガタつきを防ぐ */
+    min-height: 67px;
+    background: #fcfcfc;
+  }
+
+  .slot-card--skeleton .slot-time-skeleton {
+    display: block;
+    width: 3.4em;
+    height: 1rem;
+    border-radius: 4px;
+  }
+
+  .slot-card--skeleton .slot-status-skeleton {
+    display: block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
   .loading {
     font-size: 0.95rem;
     color: var(--color-text-muted);
+  }
+
+  .date-value .date-value-skeleton {
+    display: inline-block;
+    vertical-align: middle;
+    width: 6.5em;
+    height: 1em;
+    border-radius: 4px;
   }
 
   .error {
@@ -563,6 +629,13 @@ import Footer from "../components/Footer.astro";
       text-align: right;
     }
 
+    /* タブ3つでも横幅に収まるよう最小幅を外す */
+    .day-tab {
+      min-width: 0;
+      padding: 12px 8px;
+      font-size: 0.9rem;
+    }
+
     .availability-header {
       gap: 12px;
       padding: 16px 18px;
@@ -596,6 +669,19 @@ import Footer from "../components/Footer.astro";
       font-size: 0.8rem;
     }
 
+    .slots-skeleton .slot-card--skeleton {
+      min-height: 60px;
+    }
+
+    .slot-card--skeleton .slot-time-skeleton {
+      height: 0.9rem;
+    }
+
+    .slot-card--skeleton .slot-status-skeleton {
+      width: 24px;
+      height: 24px;
+    }
+
     .availability-legend {
       flex-direction: row;
       flex-wrap: wrap;
@@ -613,6 +699,10 @@ import Footer from "../components/Footer.astro";
 <script>
   const API_URL = 'https://api.procyon.helix.keiyousya.com/koutoudai-yugata-naika/v1/availability';
   const UPDATE_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+  // 表示する日（0 = 本日）。テンプレート側の DAY_LABELS と対応させる
+  const DAY_LABELS = ['本日', '明日', '明後日'];
+  const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
 
   interface ApiSlot {
     time: string;
@@ -752,6 +842,7 @@ import Footer from "../components/Footer.astro";
     if (!statusMessage || !slotsContainer) return;
 
     statusMessage.style.display = 'block';
+    statusMessage.classList.remove('status-message--skeleton');
     statusMessage.innerHTML = `<div class="${type}">${message}</div>`;
     slotsContainer.style.display = 'none';
   }
@@ -765,10 +856,9 @@ import Footer from "../components/Footer.astro";
     slotsContainer.style.display = 'block';
   }
 
-  // 0 = 本日, 1 = 明日
   let selectedOffset = 0;
   let cachedDates: ApiDateData[] | null = null;
-  const dayStates: DayState[] = ['loading', 'loading'];
+  const dayStates: DayState[] = DAY_OFFSETS.map(() => 'loading');
 
   // ローカル日付を YYYY-MM-DD で取得（offsetDays 日後）
   function getDateStr(offsetDays: number): string {
@@ -793,10 +883,10 @@ import Footer from "../components/Footer.astro";
     const panel = getPanel(offsetDays);
     if (!panel) return;
 
-    const dayLabel = offsetDays === 0 ? '本日' : '明日';
+    const dayLabel = DAY_LABELS[offsetDays];
     const apiData = findDateData(cachedDates, offsetDays);
 
-    // ラベル（本日/明日の診療）はサーバ描画のまま（アイコンを保持）
+    // ラベル（本日/明日/明後日の診療）はサーバ描画のまま（アイコンを保持）
     const dateValue = panel.querySelector('.date-value');
     const dateHours = panel.querySelector('.date-hours');
 
@@ -861,7 +951,7 @@ import Footer from "../components/Footer.astro";
     }
   }
 
-  // 本日/明日の切替（スライド）— データはキャッシュ済みなので再取得不要
+  // 表示日の切替 — データはキャッシュ済みなので再取得不要
   function selectDay(offsetDays: number): void {
     selectedOffset = offsetDays;
 
@@ -893,15 +983,14 @@ import Footer from "../components/Footer.astro";
       const data: ApiResponse = await response.json();
       cachedDates = data.dates;
 
-      // 両日ぶんを描画しておく（切替時は即スライド表示）
-      renderDay(0);
-      renderDay(1);
+      // 全日ぶんを描画しておく（切替時は即表示）
+      DAY_OFFSETS.forEach(renderDay);
       updateSharedChrome(selectedOffset);
       updateLastUpdated();
 
     } catch (error) {
       console.error('Error fetching availability:', error);
-      [0, 1].forEach(offset => {
+      DAY_OFFSETS.forEach(offset => {
         const panel = getPanel(offset);
         if (panel) {
           dayStates[offset] = 'error';

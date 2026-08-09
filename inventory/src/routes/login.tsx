@@ -44,7 +44,7 @@ function LoginPage() {
     try {
       const result = await login(selectedStaffId, passcode);
       authLogin(result.staff_id, passcode, result.name);
-      navigate({ to: "/" });
+      navigate({ to: "/medicine" });
     } catch (err: any) {
       setError(err.message || "ログインに失敗しました");
       setPasscode("");

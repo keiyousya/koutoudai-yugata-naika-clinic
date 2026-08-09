@@ -43,7 +43,6 @@ function RootComponent() {
   }
 
   const navItems = [
-    { to: "/" as const, label: "ダッシュボード", exact: true },
     { to: "/medicine" as const, label: "医薬品" },
     { to: "/supplies" as const, label: "備品" },
     { to: "/orders" as const, label: "発注管理" },
@@ -54,7 +53,7 @@ function RootComponent() {
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="text-xl font-bold hover:opacity-80">
+            <Link to="/medicine" className="text-xl font-bold hover:opacity-80">
               在庫管理
             </Link>
             {isLoggedIn && (
@@ -82,9 +81,7 @@ function RootComponent() {
                 key={item.to}
                 to={item.to}
                 className={`text-sm hover:text-primary ${
-                  (item.exact
-                    ? location.pathname === "/" || location.pathname === ""
-                    : location.pathname.startsWith(item.to))
+                  location.pathname.startsWith(item.to)
                     ? "text-primary font-bold"
                     : "text-muted-foreground"
                 }`}

@@ -3,23 +3,20 @@ import { join, parse } from "node:path";
 import { marked } from "marked";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
+import { pathToFileURL } from "node:url";
 
 const execFileAsync = promisify(execFile);
 
-const DOCS_DIR = new URL("./docs/", import.meta.url);
-const DIST_DIR = new URL("./dist/", import.meta.url);
-const EMERGENCY_DOCS_DIR = new URL("./emergency-docs/", import.meta.url);
+export const DOCS_DIR = new URL("./docs/", import.meta.url);
+export const DIST_DIR = new URL("./dist/", import.meta.url);
+export const EMERGENCY_DOCS_DIR = new URL("./emergency-docs/", import.meta.url);
 const EMERGENCY_DIST_DIR = new URL("./dist/emergency/", import.meta.url);
 const EMERGENCY_IMAGES_DIR = new URL("./emergency-docs/images/", import.meta.url);
-const noEncrypt = process.argv.includes("--no-encrypt");
-const password = process.env.MANUALS_PASSWORD;
-
-if (!noEncrypt && !password) {
-  console.error("Error: MANUALS_PASSWORD env var is required (or use --no-encrypt)");
-  process.exit(1);
-}
 
 const IMAGES_DIR = new URL("./docs/images/", import.meta.url);
+
+// dev サーバ（dev.mjs）から呼ばれたときだけ、ライブリロード用のスクリプトを埋め込む
+let liveReload = false;
 
 // Minimal clinic-style CSS
 const CSS = `
@@ -121,6 +118,19 @@ p { margin-bottom: 0.3rem; }
 // 掲示用ページの目印
 const POSTER_MARKER = "<!-- layout: poster -->";
 
+// dev サーバのSSEを購読して、再ビルドされたらリロードする
+const LIVE_RELOAD_SCRIPT = `
+<script>
+(() => {
+  const connect = () => {
+    const es = new EventSource("/__reload");
+    es.onmessage = (e) => { if (e.data === "reload") location.reload(); };
+    es.onerror = () => { es.close(); setTimeout(connect, 1000); };
+  };
+  connect();
+})();
+</script>`;
+
 function wrapHtml(title, bodyHtml, opts = {}) {
   const { isIndex = false, emergency = false, poster = false, backHref, backLabel } = opts;
   const href = backHref ?? "./index.html";
@@ -152,6 +162,7 @@ ${robots}<title>${title} - ${suffix}</title>
 </head>
 <body>
 ${backLink}${printBtn}${bodyHtml}
+${liveReload ? LIVE_RELOAD_SCRIPT : ""}
 </body>
 </html>`;
 }
@@ -224,7 +235,10 @@ async function buildEmergency() {
   console.log(`  emergency/index.html (${pages.length} manuals listed)`);
 }
 
-async function main() {
+export async function build(options = {}) {
+  const { encrypt = true, password, liveReload: enableLiveReload = false } = options;
+  liveReload = enableLiveReload;
+
   // Clean and create dist
   await rm(DIST_DIR, { recursive: true, force: true });
   await mkdir(DIST_DIR, { recursive: true });
@@ -290,7 +304,7 @@ async function main() {
   await buildEmergency();
 
   // Encrypt with Staticrypt
-  if (!noEncrypt) {
+  if (encrypt) {
     console.log("\nEncrypting with Staticrypt...");
     const htmlFiles = [...manuals.map((m) => join(DIST_DIR.pathname, `${m.slug}.html`)), join(DIST_DIR.pathname, "index.html")];
     const staticryptBin = new URL("./node_modules/.bin/staticrypt", import.meta.url).pathname;
@@ -318,4 +332,15 @@ async function main() {
   console.log("\nDone! Output in manuals/dist/");
 }
 
-main();
+// CLI として直接実行されたときだけ引数・env を読む（dev.mjs からは build() を直接呼ぶ）
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const encrypt = !process.argv.includes("--no-encrypt");
+  const cliPassword = process.env.MANUALS_PASSWORD;
+
+  if (encrypt && !cliPassword) {
+    console.error("Error: MANUALS_PASSWORD env var is required (or use --no-encrypt)");
+    process.exit(1);
+  }
+
+  await build({ encrypt, password: cliPassword });
+}

@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "dev": "node build.mjs --no-encrypt && open dist/index.html"
+    "dev": "node dev.mjs"
   },
   "dependencies": {
     "marked": "^15.0.0",

@@ -9,3 +9,7 @@ packages:
   - slides
   - mixer
   - inventory
+allowBuilds:
+  esbuild: false
+  sharp: false
+  workerd: false

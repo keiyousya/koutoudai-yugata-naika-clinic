@@ -1,5 +1,6 @@
 ---
 import LineCta from "./LineCta.astro";
+import { LINE_ADD_FRIEND_URL } from "../config/line";
 ---
 
 <section id="reservation" class="section reservation">
@@ -29,7 +30,7 @@ import LineCta from "./LineCta.astro";
       <div class="cancel-policy-box">
         <p class="cancel-policy-title">予約キャンセルについて</p>
         <p class="cancel-policy-text">
-          ご予約の変更・キャンセルは<a href="https://lin.ee/o8VUXOX" target="_blank" rel="noopener noreferrer" class="cancel-policy-link">LINE</a>または<a href="tel:022-393-8689" class="cancel-policy-link">お電話</a>にて承ります。<br />
+          ご予約の変更・キャンセルは<a href={LINE_ADD_FRIEND_URL} target="_blank" rel="noopener noreferrer" class="cancel-policy-link">LINE</a>または<a href="tel:022-393-8689" class="cancel-policy-link">お電話</a>にて承ります。<br />
           ご都合が悪くなった際は、お早めにご連絡をお願いいたします。
         </p>
       </div>

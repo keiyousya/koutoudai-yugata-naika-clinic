@@ -85,14 +85,12 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
 
         <div class="hours-note" id="hoursNote">
           <div class="hours-card hours-card--general">
-            <span class="hours-dot"></span>
             <div class="hours-card-body">
               <span class="hours-card-label">一般診療</span>
               <span class="hours-card-time" data-kind="general">--</span>
             </div>
           </div>
           <div class="hours-card hours-card--fever">
-            <span class="hours-dot"></span>
             <div class="hours-card-body">
               <span class="hours-card-label">発熱外来</span>
               <span class="hours-card-time" data-kind="fever">--</span>
@@ -405,9 +403,11 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     border-color: var(--color-turquoise);
   }
 
+  /* 満席はくすみローズ。ブランドの --color-coral より彩度を落として、
+     空き枠（ターコイズ）より目立たないようにしている */
   .slot-card.unavailable {
-    background: #fafafa;
-    border-color: #e8e8e8;
+    background: #fdf2f5;
+    border-color: #eecfd8;
   }
 
   .slot-card.past {
@@ -422,7 +422,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
   }
 
   .slot-card.unavailable .slot-time {
-    color: #999;
+    color: var(--color-navy);
   }
 
   .slot-card.past .slot-time {
@@ -446,8 +446,8 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
   }
 
   .slot-card.unavailable .slot-status {
-    background: #e0e0e0;
-    color: #999;
+    background: #d1808f;
+    color: white;
   }
 
   .slot-card.past .slot-status {
@@ -466,22 +466,6 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
   .hours-card {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-  }
-
-  .hours-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .hours-card--general .hours-dot {
-    background: var(--color-turquoise);
-  }
-
-  .hours-card--fever .hours-dot {
-    background: #ef8f4c;
   }
 
   .hours-card-body {
@@ -538,8 +522,8 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
   }
 
   .legend-badge.unavailable {
-    background: #e0e0e0;
-    color: #999;
+    background: #d1808f;
+    color: white;
   }
 
   .legend-badge.past {

@@ -149,7 +149,9 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
         </div>
 
         <div class="hours-last-reception">
+          <span class="last-reception-text">受付開始 <strong>平日 17:00</strong> / <strong>土日 14:00</strong></span>
           <span class="last-reception-text">最終受付 <strong>20:45</strong><br class="sp-only" />（LINE・電話予約の当日最終）</span>
+          <span class="reception-note">※ 診療開始前は院内でお待ちいただけません</span>
         </div>
 
         <!-- 6月の診療日カレンダー -->
@@ -480,6 +482,10 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   }
 
   .hours-last-reception {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
     text-align: center;
     margin-bottom: 24px;
   }
@@ -487,6 +493,14 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   .last-reception-text {
     font-size: 1rem;
     color: var(--color-text-muted);
+  }
+
+  /* 折り返しても「ん」だけが次行に落ちないよう、行長を均等に割る */
+  .reception-note {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+    text-wrap: balance;
   }
 
   .last-reception-text strong {

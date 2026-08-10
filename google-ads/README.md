@@ -11,11 +11,6 @@ Google 公式 Python ライブラリ（`google-ads`）を利用する。
 
 > このディレクトリは `shift-cli` などと違い pnpm workspace には含めない（Python 独立環境）。
 
-**運用の判断材料は [docs/operations.md](docs/operations.md) にまとめてある。**
-キャンペーン構成とその理由、実測で確かめた知見（何が効いて何が効かなかったか）、
-効果測定の仕組み、採算の目安、トラブルシュートを載せている。
-数字を動かす前に一読すること。
-
 ## セットアップ
 
 ### 1. Python 環境

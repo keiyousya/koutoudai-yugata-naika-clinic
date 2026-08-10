@@ -9,3 +9,4 @@
 - [Google Ads CLI セットアップ手順](ads-env-setup-procedure.md) — OAuthクライアント作成→.env→refresh token取得の全手順
 - [procyon広告分析APIエンドポイント](procyon-ad-metrics-api.md) — listing-performanceで予約数・LINE友だち追加を取得。予約数はキャンセル込み・全流入込みで鈍い指標。lineFollowGoogleAdsCountが0件の不具合あり(helix#1745)
 - [広告CV計測の2系統構成](ads-conversion-tracking-architecture.md) — HP側gtagとprocyon側acquisition_sourceは別物。Astroのdefine:varsでgtagが40日間発火せずCV0件だった
+- [広告の採算前提](ads-unit-economics.md) — 単価5,000円・再診率10%・キャパ20人。損益分岐CPA約4,400円で実測1,930円。保険診療なのでROASより損益分岐CPA

@@ -8,3 +8,4 @@
 - [7月広告パフォーマンス実績](july-2026-ads-performance.md) — CPA158円(6月570円から大幅改善)、CV168件/13日稼働。設定変更不要
 - [Google Ads CLI セットアップ手順](ads-env-setup-procedure.md) — OAuthクライアント作成→.env→refresh token取得の全手順
 - [procyon広告分析APIエンドポイント](procyon-ad-metrics-api.md) — listing-performanceで予約数・LINE友だち追加を取得。予約数はキャンセル込み・全流入込みで鈍い指標。lineFollowGoogleAdsCountが0件の不具合あり(helix#1745)
+- [広告CV計測の2系統構成](ads-conversion-tracking-architecture.md) — HP側gtagとprocyon側acquisition_sourceは別物。Astroのdefine:varsでgtagが40日間発火せずCV0件だった

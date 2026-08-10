@@ -195,11 +195,14 @@ const faqStructuredData = {
 
     <!-- Google tag (gtag.js) — Google広告コンバージョン計測 -->
     <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_TAG_ID}`}></script>
+    {/* define:vars 付きのスクリプトはAstroがIIFEで包むため、`function gtag()` と
+        宣言してもグローバルにならず window.gtag が undefined になる。
+        コンバージョン送信側は window.gtag の存在を見て発火するので、明示的に代入する。 */}
     <script define:vars={{ tagId: GOOGLE_ADS_TAG_ID }}>
       window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', tagId);
+      window.gtag = function gtag() { dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', tagId);
     </script>
 
     <!-- Structured Data (JSON-LD) -->

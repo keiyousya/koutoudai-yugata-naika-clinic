@@ -5,22 +5,24 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 61d606ec-8eb5-41fd-8338-dbb35e06da2b
-  modified: 2026-08-08T16:40:32.128Z
+  modified: 2026-08-10T07:13:58.906Z
 ---
 
 procyon (helix) の診療システムに広告パフォーマンス分析用の公開エンドポイントがある。
 
-**エンドポイント:**
+**エンドポイント（2026-08-10のサーバー移行でパスにクリニックのスラッグが入った）:**
 
 ```
-GET https://api.procyon.helix.keiyousya.com/v1/ad-metrics/listing-performance?from=YYYY-MM-DD&to=YYYY-MM-DD
+GET https://api.procyon.helix.keiyousya.com/koutoudai-yugata-naika/v1/ad-metrics/listing-performance?from=YYYY-MM-DD&to=YYYY-MM-DD
 ```
+
+**⚠️ 旧パス `/v1/ad-metrics/...`（スラッグなし）は404を返す。** しかも中身はS3の `<Error><Code>NoSuchKey>` というXMLなので、APIの認証エラーやサーバー障害と紛らわしい。**404が返ったらまずパスのスラッグを疑う。** APIキーは移行後も同じものが通る。
 
 **認証:** APIキーをヘッダーに付与。キーは `google-ads/.env` の `PROCYON_API_KEY`（gitignore済）。
 
 ```bash
 export $(grep PROCYON_API_KEY .env)
-curl -H "X-API-Key: $PROCYON_API_KEY" "https://api.procyon.helix.keiyousya.com/v1/ad-metrics/listing-performance?from=2026-08-01&to=2026-08-01"
+curl -H "X-API-Key: $PROCYON_API_KEY" "https://api.procyon.helix.keiyousya.com/koutoudai-yugata-naika/v1/ad-metrics/listing-performance?from=2026-08-01&to=2026-08-01"
 ```
 
 ※ `PK='...' curl -H "X-API-Key: $PK"` と書くと $PK がコマンド実行前に展開されて空になり401になる。`export` してから使う。

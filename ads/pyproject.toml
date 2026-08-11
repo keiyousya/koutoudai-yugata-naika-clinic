@@ -1,21 +1,23 @@
 [project]
-name = "gads"
+name = "ads"
 version = "0.0.0"
-description = "勾当台夕方内科クリニックの Google 広告運用CLI（レポート取得・予算/入札変更・キーワード管理）"
+description = "勾当台夕方内科クリニックのリスティング広告運用CLI（Google 広告 / LINEヤフー広告）"
 requires-python = ">=3.10"
 dependencies = [
     "google-ads>=25.1.0",
     "click>=8.1.7",
     "rich>=13.9.0",
     "python-dotenv>=1.0.1",
+    "requests>=2.32.0",
 ]
 
 [project.scripts]
 gads = "gads.cli:cli"
+lyads = "lyads.cli:cli"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/gads"]
+packages = ["src/gads", "src/lyads"]

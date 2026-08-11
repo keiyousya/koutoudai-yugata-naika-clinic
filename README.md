@@ -13,7 +13,7 @@
 ├── shift/       # シフト管理システム（React + Vite）
 ├── shift-cli/   # シフト管理CLI（Node + Commander）
 ├── inventory/   # 在庫管理システム（React + Vite）
-├── google-ads/  # Google広告運用CLI（Python + google-ads）
+├── ads/         # リスティング広告運用CLI（Python / gads・lyads）
 ├── finance/     # 初期費用・月額費用の見積書
 ├── instagram/   # Instagram投稿用HTML
 ├── line/        # LINEリッチメニュー用HTML
@@ -33,7 +33,7 @@
 | shift | React, Vite, TanStack Router, TailwindCSS | シフト希望提出・確定シフト閲覧・管理画面 |
 | shift-cli | Node, Commander, TypeScript | シフト管理CLI（AI連携用） |
 | inventory | React, Vite, TanStack Router, TailwindCSS | 医薬品・備品の在庫管理・発注管理 |
-| google-ads | Python, click, google-ads | Google広告運用CLI（レポート取得・予算/入札変更・キーワード管理） |
+| ads | Python, click, google-ads | リスティング広告運用CLI。`gads`（Google広告）と `lyads`（LINEヤフー広告）の2コマンド |
 
 ### 業務ドキュメント
 

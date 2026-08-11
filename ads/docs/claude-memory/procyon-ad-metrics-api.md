@@ -18,7 +18,7 @@ GET https://api.procyon.helix.keiyousya.com/koutoudai-yugata-naika/v1/ad-metrics
 
 **⚠️ 旧パス `/v1/ad-metrics/...`（スラッグなし）は404を返す。** しかも中身はS3の `<Error><Code>NoSuchKey>` というXMLなので、APIの認証エラーやサーバー障害と紛らわしい。**404が返ったらまずパスのスラッグを疑う。** APIキーは移行後も同じものが通る。
 
-**認証:** APIキーをヘッダーに付与。キーは `google-ads/.env` の `PROCYON_API_KEY`（gitignore済）。
+**認証:** APIキーをヘッダーに付与。キーは `ads/.env` の `PROCYON_API_KEY`（gitignore済）。
 
 ```bash
 export $(grep PROCYON_API_KEY .env)

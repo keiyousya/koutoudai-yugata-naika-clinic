@@ -8,5 +8,7 @@
 - [7月広告パフォーマンス実績](july-2026-ads-performance.md) — CPA158円(6月570円から大幅改善)、CV168件/13日稼働。設定変更不要
 - [Google Ads CLI セットアップ手順](ads-env-setup-procedure.md) — OAuthクライアント作成→.env→refresh token取得の全手順
 - [procyon広告分析APIエンドポイント](procyon-ad-metrics-api.md) — listing-performanceで予約数・LINE友だち追加を取得。予約数はキャンセル込み・全流入込みで鈍い指標。lineFollowGoogleAdsCountが0件の不具合あり(helix#1745)
-- [広告CV計測の2系統構成](ads-conversion-tracking-architecture.md) — HP側gtagとprocyon側acquisition_sourceは別物。Astroのdefine:varsでgtagが40日間発火せずCV0件だった
+- [広告CV計測の2系統構成](ads-conversion-tracking-architecture.md) — HP側gtag/ytagとprocyon側acquisition_sourceは別物。Google・ヤフー両媒体のタグ値と設置場所。Astroのdefine:varsでgtagが40日間発火せずCV0件だった
 - [広告の採算前提](ads-unit-economics.md) — 単価5,000円・再診率10%・キャパ20人。損益分岐CPA約4,400円で実測1,930円。保険診療なのでROASより損益分岐CPA
+- [LINEヤフー広告の導入状況](lineyahoo-ads-setup.md) — LINE広告は日本で終了(API新規受付終了済)。ヤフー面は LINEヤフー広告 で。API利用申請〜疎通確認まで2026-08-11に完了。テストアカウントあり
+- [広告CLIは ads/ の2コマンド構成](ads-cli-two-command-layout.md) — google-ads/ → ads/ に改名。gads(Google) と lyads(LINEヤフー) が同居

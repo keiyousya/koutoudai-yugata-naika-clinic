@@ -14,3 +14,10 @@ export const LINE_ADD_FRIEND_URL_AD = "https://lin.ee/u6iGqFj";
 // 値は `gads conversion create` で発行されたもの。
 export const GOOGLE_ADS_TAG_ID = "AW-17984414455";
 export const LINE_CONVERSION_SEND_TO = "AW-17984414455/C3GbCNSDn8ccEPfF0f9C";
+
+// LINEヤフー広告（検索広告）のコンバージョン計測。
+// Google側と同じLINE友だち追加ボタンのクリックを計測する。
+// サイトジェネラルタグ（ytag.js）はアカウント共通なので値を持たず、
+// アカウント固有なのはこの2つだけ。`lyads conversion tag` で再表示できる。
+export const YAHOO_CONVERSION_ID = "1001408947";
+export const YAHOO_CONVERSION_LABEL = "qpA3CPiE0d8cEKjp0rtE";

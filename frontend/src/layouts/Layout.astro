@@ -8,7 +8,13 @@ import '@fontsource/m-plus-1p/japanese-700.css';
 import '@fontsource/m-plus-1p/latin-700.css';
 import brandFontUrl from '../fonts/noto-sans-jp-brand.woff2?url';
 import FixedLineButton from '../components/FixedLineButton.astro';
-import { LINE_ADD_FRIEND_URL_AD, GOOGLE_ADS_TAG_ID, LINE_CONVERSION_SEND_TO } from '../config/line';
+import {
+  LINE_ADD_FRIEND_URL_AD,
+  GOOGLE_ADS_TAG_ID,
+  LINE_CONVERSION_SEND_TO,
+  YAHOO_CONVERSION_ID,
+  YAHOO_CONVERSION_LABEL,
+} from '../config/line';
 
 interface Props {
   title: string;
@@ -141,6 +147,20 @@ const faqStructuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- サイトジェネラルタグ — LINEヤフー広告のコンバージョン計測の土台。
+         広告アカウント固有の値を持たない共通タグで、全ページの head のなるべく上に置く。
+         ycl_use_non_cookie_storage は yclid を localStorage にも保存する設定で、
+         ITPでcookieが落ちる環境（Safari等）の計測漏れを埋める。 -->
+    <script is:inline async src="https://s.yimg.jp/images/listing/tool/cv/ytag.js"></script>
+    <script is:inline>
+      window.yjDataLayer = window.yjDataLayer || [];
+      // Google側と同じ理由で window に明示代入する（bundle/scope次第で
+      // グローバル関数宣言が届かなくなるのを避ける）。
+      window.ytag = function ytag() { yjDataLayer.push(arguments); };
+      window.ytag({ type: "ycl_cookie", config: { ycl_use_non_cookie_storage: true } });
+    </script>
+
     <meta name="description" content={description} />
     <meta name="google-site-verification" content="rRO1_K380rEa8DbtwGNE4SchqnFJB6Sdjjd-u7ovGcQ" />
 
@@ -233,10 +253,16 @@ const faqStructuredData = {
          サイト内の他ページでも広告用URLを維持する。
 
          あわせて、同じLINEアンカーのクリックを「LINE友だち追加」コンバージョンとして
-         Google広告に送る。全ボタン共通で発火させ、広告経由（gclidあり）のクリックだけ
-         Google側で自動的にコンバージョンとして帰属される。ボタンはすべて target="_blank"
-         なのでページは残り、計測ビーコンは確実に送られる（遷移を遅らせる必要はない）。 */}
-    <script define:vars={{ adUrl: LINE_ADD_FRIEND_URL_AD, sendTo: LINE_CONVERSION_SEND_TO }}>
+         Google広告とLINEヤフー広告の両方に送る。全ボタン共通で発火させ、広告経由
+         （gclid / yclid あり）のクリックだけ各媒体側で自動的にコンバージョンとして
+         帰属される。ボタンはすべて target="_blank" なのでページは残り、計測ビーコンは
+         確実に送られる（遷移を遅らせる必要はない）。 */}
+    <script define:vars={{
+      adUrl: LINE_ADD_FRIEND_URL_AD,
+      sendTo: LINE_CONVERSION_SEND_TO,
+      yahooConversionId: YAHOO_CONVERSION_ID,
+      yahooConversionLabel: YAHOO_CONVERSION_LABEL,
+    }}>
       (function () {
         var KEY = "lineAdRoute";
         try {
@@ -256,6 +282,18 @@ const faqStructuredData = {
                     send_to: sendTo,
                     value: 1.0,
                     currency: "JPY",
+                  });
+                }
+                // LINEヤフー広告（検索広告）。yss_conversion は検索広告用の型で、
+                // ディスプレイ広告に出稿するときは別アカウント・別タグになる。
+                if (typeof window.ytag === "function") {
+                  window.ytag({
+                    type: "yss_conversion",
+                    config: {
+                      yahoo_conversion_id: yahooConversionId,
+                      yahoo_conversion_label: yahooConversionLabel,
+                      yahoo_conversion_value: "0",
+                    },
                   });
                 }
               });

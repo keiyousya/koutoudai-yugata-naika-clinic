@@ -8,7 +8,7 @@ from .commands import ad, budget, campaign, conversion, keyword, report
 
 
 @click.group()
-@click.version_option(package_name="gads", message="gads %(version)s")
+@click.version_option(package_name="ads", message="gads %(version)s")
 def cli() -> None:
     """勾当台夕方内科クリニックの Google 広告運用CLI。"""
 

@@ -2,12 +2,13 @@
 interface Props {
   label: string;
   title: string;
+  variant?: "turquoise" | "coral";
 }
 
-const { label, title } = Astro.props;
+const { label, title, variant = "turquoise" } = Astro.props;
 ---
 
-<div class="sub-page-header">
+<div class={`sub-page-header ${variant}`}>
   <div class="container">
     <p class="sub-page-header-label">{label}</p>
     <h1 class="sub-page-header-title">{title}</h1>
@@ -28,7 +29,14 @@ const { label, title } = Astro.props;
     height: 2px;
     margin: 10px auto 30px;
     border-radius: 1px;
+  }
+
+  .sub-page-header.turquoise::after {
     background: var(--color-turquoise);
+  }
+
+  .sub-page-header.coral::after {
+    background: var(--color-coral);
   }
 
   .sub-page-header-label {
@@ -36,8 +44,15 @@ const { label, title } = Astro.props;
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-turquoise);
     margin-bottom: 4px;
+  }
+
+  .sub-page-header.turquoise .sub-page-header-label {
+    color: var(--color-turquoise);
+  }
+
+  .sub-page-header.coral .sub-page-header-label {
+    color: var(--color-coral);
   }
 
   .sub-page-header-title {

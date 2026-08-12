@@ -125,7 +125,7 @@ const faqStructuredData = {
   <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
   <Header />
   <main class="page-main">
-    <SubPageHeader label="Emergency Contraception" title="緊急避妊薬（アフターピル）" />
+    <SubPageHeader label="Emergency Contraception" title="緊急避妊薬（アフターピル）" variant="coral" />
 
     <section class="page-intro">
       <div class="container">
@@ -403,43 +403,6 @@ const faqStructuredData = {
       </div>
     </section>
 
-    <section class="page-section bg-turquoise">
-      <div class="container">
-        <h2 class="page-section-title">医療機関情報</h2>
-        <div class="clinic-info-box">
-          <dl class="clinic-info-list">
-            <div class="clinic-info-row">
-              <dt>医療機関名</dt>
-              <dd>勾当台夕方内科クリニック</dd>
-            </div>
-            <div class="clinic-info-row">
-              <dt>管理者（院長）</dt>
-              <dd>田村 慧人</dd>
-            </div>
-            <div class="clinic-info-row">
-              <dt>診療科目</dt>
-              <dd>内科</dd>
-            </div>
-            <div class="clinic-info-row">
-              <dt>所在地</dt>
-              <dd>〒980-0803 宮城県仙台市青葉区国分町3丁目8-1 勾当台ビル4階</dd>
-            </div>
-            <div class="clinic-info-row">
-              <dt>電話番号</dt>
-              <dd><a href="tel:022-393-8689">022-393-8689</a></dd>
-            </div>
-            <div class="clinic-info-row">
-              <dt>診療形態</dt>
-              <dd>対面診療（自費診療）／医師の診察のもとで処方します</dd>
-            </div>
-          </dl>
-          <p class="clinic-info-note">
-            当院は医療機関として、医師の対面診察に基づき緊急避妊薬を処方する診療を行っています。お薬のみの販売・郵送・オンラインでの調剤や販売は行っておりません。
-          </p>
-        </div>
-      </div>
-    </section>
-
     <section class="page-section back-section">
       <div class="container">
         <div class="detail-back">
@@ -453,15 +416,21 @@ const faqStructuredData = {
 
 <style>
   .page-intro {
-    padding: 48px 0;
+    padding: 36px 0 !important;
     background: var(--color-coral-bg);
   }
 
   .intro-text {
+    max-width: 720px;
+    margin: 0 auto;
     font-size: 0.95rem;
     color: var(--color-text-secondary);
     line-height: 2;
     text-align: center;
+    background: white;
+    border: 2px solid var(--color-coral);
+    border-radius: 16px;
+    padding: 28px 32px;
   }
 
   .pc-only {
@@ -605,6 +574,7 @@ const faqStructuredData = {
     background: white;
     padding: 24px;
     border-radius: 12px;
+    border: 2px solid var(--color-turquoise);
   }
 
   .condition-number {
@@ -640,6 +610,7 @@ const faqStructuredData = {
     background: var(--color-turquoise-bg);
     border-radius: 16px;
     padding: 32px;
+    border: 2px solid var(--color-turquoise);
   }
 
   .info-text {
@@ -672,6 +643,7 @@ const faqStructuredData = {
     background: white;
     padding: 24px;
     border-radius: 12px;
+    border: 2px solid var(--color-coral);
   }
 
   .attention-icon {
@@ -705,7 +677,7 @@ const faqStructuredData = {
     max-width: 720px;
     margin: 0 auto 40px;
     background: #fef2f2;
-    border: 1px solid #fecaca;
+    border: 2px solid var(--color-coral);
     border-radius: 16px;
     padding: 28px 32px;
   }
@@ -769,7 +741,7 @@ const faqStructuredData = {
     align-items: flex-start;
     gap: 14px;
     background: white;
-    border: 1px solid var(--color-border);
+    border: 2px solid var(--color-turquoise);
     border-radius: 12px;
     padding: 20px 24px;
   }
@@ -793,6 +765,7 @@ const faqStructuredData = {
     border-radius: 16px;
     padding: 32px;
     text-align: center;
+    border: 2px solid var(--color-turquoise);
   }
 
   .minor-notice-text {
@@ -862,6 +835,7 @@ const faqStructuredData = {
     background: var(--color-coral-bg);
     padding: 24px;
     border-radius: 12px;
+    border: 2px solid var(--color-coral);
   }
 
   .flow-number {
@@ -891,73 +865,14 @@ const faqStructuredData = {
     line-height: 1.8;
   }
 
-  .clinic-info-box {
-    max-width: 720px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 16px;
-    padding: 32px;
-  }
-
-  .clinic-info-list {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .clinic-info-row {
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 16px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .clinic-info-row:first-child {
-    padding-top: 0;
-  }
-
-  .clinic-info-row dt {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--color-navy);
-  }
-
-  .clinic-info-row dd {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    line-height: 1.8;
-  }
-
-  .clinic-info-row dd a {
-    color: var(--color-turquoise);
-  }
-
-  .clinic-info-note {
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    line-height: 1.9;
-    margin-top: 24px;
-  }
-
   .back-section {
     background: white;
-    padding: 40px 0 80px;
-  }
-
-  @media (max-width: 768px) {
-    .clinic-info-box {
-      padding: 24px 20px;
-    }
-
-    .clinic-info-row {
-      grid-template-columns: 1fr;
-      gap: 4px;
-    }
+    padding: 20px 0 40px !important;
   }
 
   .detail-back {
     text-align: center;
-    padding-top: 32px;
+    padding-top: 20px;
     border-top: 1px solid var(--color-border);
   }
 

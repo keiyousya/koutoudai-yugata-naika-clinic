@@ -114,8 +114,8 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
         </div>
 
         <div class="availability-notes" id="availabilityNotes">
-          <p>※ 実際の予約受付状況と若干のタイムラグが生じる場合があります。</p>
-          <p>※ 予約はLINEからお願いいたします。</p>
+          <p>※ ご予約はLINEから承ります。満席でも受診いただける場合がありますので、<a href="tel:022-393-8689">お電話</a>でご相談ください。</p>
+          <p>※ ご予約なしでも受診いただけますが、ご予約の方を優先するためお待たせする場合があります。</p>
         </div>
 
         <div class="reservation-cta" id="reservationCta">
@@ -532,15 +532,30 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
   }
 
   .availability-notes {
-    text-align: center;
-    margin-bottom: 32px;
+    /* 中央寄せの多行は折り返しがガタつくので左寄せ。「※」はぶら下げにする */
+    text-align: left;
+    max-width: 520px;
+    margin: 0 auto 32px;
   }
 
   .availability-notes p {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--color-text-muted);
-    line-height: 1.8;
-    margin-bottom: 4px;
+    line-height: 1.7;
+    margin-bottom: 6px;
+    padding-left: 1.3em;
+    text-indent: -1.3em;
+  }
+
+  .availability-notes p:last-child {
+    margin-bottom: 0;
+  }
+
+  .availability-notes a {
+    color: var(--color-navy);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .reservation-cta {

@@ -697,7 +697,9 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
 </style>
 
 <script>
-  const API_URL = 'https://api.procyon.helix.keiyousya.com/koutoudai-yugata-naika/v1/availability';
+  const PROCYON_BASE = import.meta.env.PUBLIC_PROCYON_BASE_URL || 'https://api.procyon.helix.keiyousya.com';
+  const PROCYON_TENANT = import.meta.env.PUBLIC_PROCYON_TENANT || 'koutoudai-yugata-naika';
+  const API_URL = `${PROCYON_BASE}/${PROCYON_TENANT}/v1/availability`;
   const UPDATE_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
   // 表示する日（0 = 本日）。テンプレート側の DAY_LABELS と対応させる

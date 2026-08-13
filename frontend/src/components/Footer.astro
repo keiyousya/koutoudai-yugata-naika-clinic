@@ -50,7 +50,6 @@ const currentYear = new Date().getFullYear();
     <div class="footer-bottom">
       <p class="footer-legal">
         <a href="/privacy">個人情報の取扱いについて</a>
-        <span class="footer-legal-sep" aria-hidden="true">|</span>
         <a href="/tokushoho">特定商取引法に基づく表記</a>
         {/* TODO(2026-08): オンライン診療ページを8月に公開する際、下記リンクのコメントアウトを解除する */}
         {/*
@@ -185,6 +184,8 @@ const currentYear = new Date().getFullYear();
     font-size: 0.85rem;
     color: var(--color-text-muted);
     transition: color 0.2s;
+    white-space: nowrap;
+    margin: 0 8px;
   }
 
   .footer-legal a:hover {

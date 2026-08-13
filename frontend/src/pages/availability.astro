@@ -75,9 +75,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
                   </div>
                 </div>
 
-                <div class="slots-container" style="display: none;">
-                  <div class="slots-grid all-slots"></div>
-                </div>
+                <div class="slots-container" style="display: none;"></div>
               </div>
             ))}
           </div>
@@ -380,6 +378,22 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
   .slots-container {
     max-width: 900px;
     margin: 0 auto 40px;
+  }
+
+  .slot-group {
+    margin-bottom: 28px;
+  }
+
+  .slot-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .slot-group-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+    padding-left: 2px;
   }
 
   .slots-grid {
@@ -710,18 +724,31 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     time: string;
     endTime: string;
     status: 'available' | 'booked';
-    consultationSlotName: string;
+  }
+
+  interface ApiConsultationSlot {
     consultationSlotKey: string;
+    consultationSlotName: string;
+    slots: ApiSlot[];
+  }
+
+  interface ApiDepartment {
     medicalDepartmentKey: string;
     medicalDepartmentName: string;
+    consultationSlots: ApiConsultationSlot[];
   }
 
   interface Slot {
     time: string;
     endTime: string;
     available: boolean;
-    consultationSlotName: string;
     isPast: boolean;
+  }
+
+  interface SlotGroup {
+    consultationSlotName: string;
+    consultationSlotKey: string;
+    slots: Slot[];
   }
 
   interface ApiDateData {
@@ -729,7 +756,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     dayOfWeek: number;
     isClosed: boolean;
     isHoliday: boolean;
-    slots: ApiSlot[];
+    departments: ApiDepartment[];
   }
 
   interface DateData {
@@ -737,7 +764,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     dayOfWeek: number;
     isClosed: boolean;
     isHoliday: boolean;
-    slots: Slot[];
+    slotGroups: SlotGroup[];
   }
 
   interface ApiResponse {
@@ -757,9 +784,22 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
       time: apiSlot.time,
       endTime: apiSlot.endTime,
       available: apiSlot.status === 'available',
-      consultationSlotName: apiSlot.consultationSlotName,
       isPast: now >= cutoffTime,
     };
+  }
+
+  function buildSlotGroups(apiData: ApiDateData): SlotGroup[] {
+    const groups: SlotGroup[] = [];
+    for (const dept of apiData.departments) {
+      for (const cs of dept.consultationSlots) {
+        groups.push({
+          consultationSlotName: cs.consultationSlotName,
+          consultationSlotKey: cs.consultationSlotKey,
+          slots: cs.slots.map(s => convertSlot(s, apiData.date)),
+        });
+      }
+    }
+    return groups;
   }
 
   function convertDateData(apiData: ApiDateData): DateData {
@@ -768,7 +808,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
       dayOfWeek: apiData.dayOfWeek,
       isClosed: apiData.isClosed,
       isHoliday: apiData.isHoliday,
-      slots: apiData.slots.map(slot => convertSlot(slot, apiData.date)),
+      slotGroups: buildSlotGroups(apiData),
     };
   }
 
@@ -879,6 +919,30 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     return dates.find(d => d.date === target) ?? dates[offsetDays] ?? null;
   }
 
+  function renderSlotGroups(groups: SlotGroup[], container: HTMLElement): void {
+    container.innerHTML = '';
+
+    groups.forEach(group => {
+      const section = document.createElement('div');
+      section.className = 'slot-group';
+
+      // グループが2つ以上あるときだけラベルを表示
+      if (groups.length > 1) {
+        const label = document.createElement('div');
+        label.className = 'slot-group-label';
+        label.textContent = group.consultationSlotName;
+        section.appendChild(label);
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'slots-grid';
+      renderSlots(group.slots, grid);
+      section.appendChild(grid);
+
+      container.appendChild(section);
+    });
+  }
+
   function renderDay(offsetDays: number): void {
     if (!cachedDates) return;
 
@@ -904,25 +968,26 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     if (dateValue) dateValue.textContent = formatDate(dayData.date);
 
     // 休診日チェック
-    if (dayData.isClosed || dayData.slots.length === 0) {
+    const allSlots = dayData.slotGroups.flatMap(g => g.slots);
+    if (dayData.isClosed || allSlots.length === 0) {
       if (dateHours) dateHours.textContent = '';
       dayStates[offsetDays] = 'closed';
       showMessage(panel, `${dayLabel}は休診日です`, 'closed');
       return;
     }
 
-    // 一般診療・発熱外来をまとめて時刻順に1つのリストで表示
-    const sortByTime = (a: Slot, b: Slot) => a.time.localeCompare(b.time);
-    const allSlots = [...dayData.slots].sort(sortByTime);
-
     // 実際の枠から診療時間帯（最初の枠〜最後の枠）を算出して表示
     if (dateHours) {
-      const openTime = allSlots[0].time;
-      const closeTime = allSlots[allSlots.length - 1].endTime;
+      const sorted = [...allSlots].sort((a, b) => a.time.localeCompare(b.time));
+      const openTime = sorted[0].time;
+      const closeTime = sorted[sorted.length - 1].endTime;
       dateHours.textContent = `${openTime} - ${closeTime}`;
     }
 
-    renderSlots(allSlots, panel.querySelector<HTMLElement>('.all-slots'));
+    const slotsContainer = panel.querySelector<HTMLElement>('.slots-container');
+    if (slotsContainer) {
+      renderSlotGroups(dayData.slotGroups, slotsContainer);
+    }
 
     dayStates[offsetDays] = 'open';
     hideMessage(panel);

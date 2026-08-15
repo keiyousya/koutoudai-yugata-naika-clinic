@@ -18,6 +18,7 @@ from datetime import datetime
 import click
 from google.protobuf import field_mask_pb2
 from rich.console import Console
+from rich.table import Table
 
 from ..client import load_client, resolve_customer_id
 
@@ -377,3 +378,189 @@ def set_end_date(
     )
     campaign_service.mutate_campaigns(customer_id=cid, operations=[operation])
     console.print(f"[green]✓ 配信終了日時を {new_label} にしました。[/green]")
+
+
+# --- コンバージョン目標 -------------------------------------------------------
+#
+# コンバージョン目標には「アカウント既定（customer_conversion_goal）」と
+# 「キャンペーン個別（campaign_conversion_goal）」の2層がある。キャンペーン個別が
+# 設定されているとアカウント既定より優先され、biddable=False の目標は
+# conversions 列に計上されず、入札の最適化対象からも外れる（計測は all_conversions
+# に残るので「CV0なのにクリックはある」という見え方になる）。
+#
+# 目標は (category, origin) の組で識別する。resource_name は
+# campaignConversionGoals/{campaign_id}~{category}~{origin}。
+
+
+def _goal_key(row_goal) -> tuple[str, str]:
+    return (row_goal.category.name, row_goal.origin.name)
+
+
+def _fetch_account_goals(ga_service, cid: str) -> dict[tuple[str, str], bool]:
+    """アカウント既定のコンバージョン目標を {(category, origin): biddable} で返す。"""
+    query = """
+        SELECT
+          customer_conversion_goal.category,
+          customer_conversion_goal.origin,
+          customer_conversion_goal.biddable
+        FROM customer_conversion_goal
+    """
+    return {
+        _goal_key(row.customer_conversion_goal): row.customer_conversion_goal.biddable
+        for row in ga_service.search(customer_id=cid, query=query)
+    }
+
+
+def _fetch_campaign_goals(ga_service, cid: str, campaign_id: int | None):
+    """キャンペーン個別の目標を返す。campaign_id 未指定なら全キャンペーン分。"""
+    where = f"WHERE campaign.id = {campaign_id}" if campaign_id else ""
+    query = f"""
+        SELECT
+          campaign.id,
+          campaign.name,
+          campaign_conversion_goal.category,
+          campaign_conversion_goal.origin,
+          campaign_conversion_goal.biddable
+        FROM campaign_conversion_goal
+        {where}
+    """
+    return list(ga_service.search(customer_id=cid, query=query))
+
+
+def _fetch_action_labels(ga_service, cid: str) -> dict[tuple[str, str], list[str]]:
+    """(category, origin) → コンバージョンアクション名。表示を人間が読める形にするだけ。"""
+    query = """
+        SELECT
+          conversion_action.name,
+          conversion_action.category,
+          conversion_action.origin
+        FROM conversion_action
+        WHERE conversion_action.status = 'ENABLED'
+    """
+    labels: dict[tuple[str, str], list[str]] = {}
+    for row in ga_service.search(customer_id=cid, query=query):
+        key = (row.conversion_action.category.name, row.conversion_action.origin.name)
+        labels.setdefault(key, []).append(row.conversion_action.name)
+    return labels
+
+
+def _mark(biddable: bool) -> str:
+    return "[green]主要[/green]" if biddable else "[dim]副次[/dim]"
+
+
+@campaign.command("goals")
+@click.option("--campaign-id", type=int, help="対象キャンペーンID（未指定なら全件）。")
+@click.option("--customer-id", help="操作対象アカウントID（未指定時は.env）。")
+def goals(campaign_id: int | None, customer_id: str | None) -> None:
+    """コンバージョン目標をアカウント既定と比較して表示する。
+
+    「主要」だけが conversions 列に計上され、入札の最適化対象になる。
+    アカウント既定と食い違う行には差分マークが付く。
+    """
+    client = load_client()
+    cid = resolve_customer_id(customer_id)
+    ga_service = client.get_service("GoogleAdsService")
+
+    account = _fetch_account_goals(ga_service, cid)
+    labels = _fetch_action_labels(ga_service, cid)
+    rows = _fetch_campaign_goals(ga_service, cid, campaign_id)
+    if not rows:
+        raise click.ClickException("コンバージョン目標が取得できませんでした。")
+
+    by_campaign: dict[str, list] = {}
+    for row in rows:
+        by_campaign.setdefault(f"{row.campaign.name}（{row.campaign.id}）", []).append(row)
+
+    total_diff = 0
+    for title, campaign_rows in by_campaign.items():
+        table = Table(title=title, title_justify="left")
+        table.add_column("目標（カテゴリ / 発生元）")
+        table.add_column("コンバージョンアクション")
+        table.add_column("アカウント既定")
+        table.add_column("このキャンペーン")
+        table.add_column("差分")
+
+        for row in sorted(campaign_rows, key=lambda r: r.campaign_conversion_goal.category.name):
+            goal = row.campaign_conversion_goal
+            key = _goal_key(goal)
+            default = account.get(key)
+            differs = default is not None and default != goal.biddable
+            total_diff += 1 if differs else 0
+            table.add_row(
+                f"{key[0]} / {key[1]}",
+                "、".join(labels.get(key, [])) or "[dim]—[/dim]",
+                "[dim]—[/dim]" if default is None else _mark(default),
+                _mark(goal.biddable),
+                "[red]![/red]" if differs else "",
+            )
+        console.print(table)
+
+    if total_diff:
+        console.print(
+            f"[yellow]アカウント既定と異なる目標が {total_diff} 件あります。"
+            "揃えるには gads campaign sync-goals --campaign-id … [/yellow]"
+        )
+    else:
+        console.print("[green]すべてアカウント既定と一致しています。[/green]")
+
+
+@campaign.command("sync-goals")
+@click.option("--campaign-id", required=True, type=int, help="対象キャンペーンID。")
+@click.option("--customer-id", help="操作対象アカウントID（未指定時は.env）。")
+@click.option("--yes", is_flag=True, help="確認プロンプトを省略する。")
+def sync_goals(campaign_id: int, customer_id: str | None, yes: bool) -> None:
+    """キャンペーン個別のコンバージョン目標をアカウント既定に揃える。
+
+    キャンペーンごとに目標がずれていると、同じアカウントなのに計上されるCVの
+    種類が変わってしまい、キャンペーン間の比較ができなくなる。入札戦略が
+    「コンバージョン数の最大化」の場合は最適化の向き先そのものがずれる。
+    """
+    client = load_client()
+    cid = resolve_customer_id(customer_id)
+    ga_service = client.get_service("GoogleAdsService")
+
+    account = _fetch_account_goals(ga_service, cid)
+    labels = _fetch_action_labels(ga_service, cid)
+    rows = _fetch_campaign_goals(ga_service, cid, campaign_id)
+    if not rows:
+        raise click.ClickException(f"キャンペーン {campaign_id} が見つかりません。")
+
+    campaign_name = rows[0].campaign.name
+    changes = []
+    for row in rows:
+        goal = row.campaign_conversion_goal
+        key = _goal_key(goal)
+        default = account.get(key)
+        if default is not None and default != goal.biddable:
+            changes.append((key, goal.biddable, default))
+
+    if not changes:
+        console.print(
+            f"[green]✓ {campaign_name} の目標はすでにアカウント既定と一致しています。[/green]"
+        )
+        return
+
+    console.print(f"[bold]{campaign_name}（{campaign_id}）[/bold] の変更内容:")
+    for key, before, after in changes:
+        name = "、".join(labels.get(key, [])) or f"{key[0]} / {key[1]}"
+        console.print(f"  {name}: {_mark(before)} → {_mark(after)}")
+    if not yes:
+        click.confirm("変更しますか？", abort=True)
+
+    goal_service = client.get_service("CampaignConversionGoalService")
+    operations = []
+    for key, _before, after in changes:
+        operation = client.get_type("CampaignConversionGoalOperation")
+        g = operation.update
+        g.resource_name = goal_service.campaign_conversion_goal_path(
+            cid, campaign_id, key[0], key[1]
+        )
+        g.biddable = after
+        # biddable は False にも倒すため、差分検出まかせにせずマスクを明示する。
+        client.copy_from(
+            operation.update_mask, field_mask_pb2.FieldMask(paths=["biddable"])
+        )
+        operations.append(operation)
+
+    goal_service.mutate_campaign_conversion_goals(customer_id=cid, operations=operations)
+    console.print(f"[green]✓ {len(changes)} 件の目標をアカウント既定に揃えました。[/green]")

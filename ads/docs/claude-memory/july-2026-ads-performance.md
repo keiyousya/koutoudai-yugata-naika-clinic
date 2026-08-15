@@ -1,8 +1,11 @@
 ---
 name: july-2026-ads-performance
 description: 2026年7月(7/1-7/15稼働)の広告パフォーマンス実績。CPA158円で大幅改善。
-metadata:
+metadata: 
+  node_type: memory
   type: project
+  originSessionId: 14206ceb-a17f-463f-a6df-639a54b4022e
+  modified: 2026-08-15T18:39:37.834Z
 ---
 
 7月は休診(7/16-7/31)のため実質13日間の稼働。
@@ -24,5 +27,15 @@ metadata:
 - procyon対面予約160件 vs Google Ads CV168件 — ほぼ一致
 - `lineFollowGoogleAdsCount` が全て0件 → アトリビューション不具合の可能性あり（helix#1745で追跡中）
 
-**How to apply:** CPAが大幅改善しているので、現行設定（日予算1,800円・TARGET_SPEND・既存キーワード）
-は変更不要。次月も同水準なら安定運用フェーズ。
+**【2026-08-16 追記・重要】この158円は「経路案内」のCPAであり、LINE友だち追加のCPAではない。**
+7月のCV内訳を `segments.conversion_action_name` で引き直したところ、計上された168件は
+実質すべて「ローカル アクション - 経路」(173件)だった。LINE友だち追加は7月中0件
+（gtagが発火していなかった期間と一致。[[ads-conversion-tracking-architecture]]）。
+経路案内はGoogleビジネスプロフィール側の「道順を見た」イベントで、来院と直結しない緩い指標。
+
+したがって **158円をLINE友だち追加ベースのCPA（8月実績で500〜950円）と比較してはいけない。**
+「8月はCPAが6倍悪化した」という読み方は誤り。指標そのものが別物。
+「procyon対面予約160件とCV168件がほぼ一致」も、母数が経路案内である以上は偶然の一致とみなすべき。
+
+**How to apply:** 月次比較をするときは必ずコンバージョンアクション別に分解してから比べる。
+全体のCV/CPAだけを見ると、計上対象の変化を実績の変化と誤読する。

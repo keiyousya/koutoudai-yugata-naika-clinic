@@ -816,10 +816,13 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     // 5分前に受付終了
     const cutoffTime = new Date(slotDate.getTime() - 5 * 60 * 1000);
 
+    const forcedTimes = FORCED_FULL[dateStr] || [];
+    const isForcedFull = forcedTimes.includes(apiSlot.time);
+
     return {
       time: apiSlot.time,
       endTime: apiSlot.endTime,
-      available: apiSlot.status === 'available',
+      available: isForcedFull ? false : apiSlot.status === 'available',
       isPast: now >= cutoffTime,
     };
   }
@@ -957,6 +960,11 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
 
   // 画面に出す診療枠は default（一般内科）のみ。
   // 他の枠が増えても表示は変えず、default が無い日だけ全枠にフォールバックする
+  // 特定日時を強制的に満席にするオーバーライド（date -> time[]）
+  const FORCED_FULL: Record<string, string[]> = {
+    '2026-08-17': ['19:10', '19:20'],
+  };
+
   const VISIBLE_SLOT_KEYS = ['default'];
 
   function getVisibleSlotGroups(groups: SlotGroup[]): SlotGroup[] {

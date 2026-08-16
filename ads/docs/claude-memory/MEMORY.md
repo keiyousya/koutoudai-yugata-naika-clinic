@@ -6,6 +6,7 @@
 - [オンライン診療ページは8月まで非公開ゲート](online-medical-page-gated-until-aug.md) — 完成済だが2026-08公開予定でパスワードゲート中。公開時の解除箇所一覧あり
 - [Google Ads API v24の落とし穴](google-ads-api-v24-notes.md) — campaign.end_dateは廃止（end_date_time）、解除はFieldMask明示、トークン失効しやすい
 - [7月広告パフォーマンス実績](july-2026-ads-performance.md) — CPA158円/CV168件だが中身は全て「経路案内」。LINE友だち追加ベースの8月CPAと比較不可
+- [8月中旬の広告設定変更](clinic-ad-schedule-ops.md) — 8/17に土日CPC上限100円・平日予算4000円・半径6km統一・ディスプレイOFF。CV目標はLINE+電話
 - [Google Ads CLI セットアップ手順](ads-env-setup-procedure.md) — OAuthクライアント作成→.env→refresh token取得の全手順
 - [procyon広告分析APIエンドポイント](procyon-ad-metrics-api.md) — listing-performanceで予約数・LINE友だち追加を取得。予約数はキャンセル込み・全流入込みで鈍い指標。lineFollowGoogleAdsCountが0件の不具合あり(helix#1745)
 - [広告CV計測の2系統構成](ads-conversion-tracking-architecture.md) — HP側gtag/ytagとprocyon側acquisition_sourceは別物。Google・ヤフー両媒体のタグ値と設置場所。Astroのdefine:varsでgtagが40日間発火せずCV0件だった

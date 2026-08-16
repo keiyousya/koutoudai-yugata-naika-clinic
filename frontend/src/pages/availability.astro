@@ -65,11 +65,21 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
 
                 <div class="status-message status-message--skeleton" role="status">
                   <span class="sr-only">予約状況を読み込んでいます</span>
-                  <div class="slots-grid slots-skeleton" aria-hidden="true">
-                    {Array.from({ length: 12 }).map(() => (
-                      <div class="slot-card slot-card--skeleton">
-                        <span class="skeleton slot-time-skeleton"></span>
-                        <span class="skeleton slot-status-skeleton"></span>
+                  {/* 実データと同じ「時間ラベル + 3列グリッド」の形で置く */}
+                  <div class="slots-skeleton" aria-hidden="true">
+                    {Array.from({ length: 3 }).map(() => (
+                      <div class="slot-hour-block">
+                        <div class="slot-hour-label">
+                          <span class="skeleton slot-hour-skeleton"></span>
+                        </div>
+                        <div class="slots-grid">
+                          {Array.from({ length: 6 }).map(() => (
+                            <div class="slot-card slot-card--skeleton">
+                              <span class="skeleton slot-time-skeleton"></span>
+                              <span class="skeleton slot-status-skeleton"></span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -329,6 +339,13 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     background: #fcfcfc;
   }
 
+  .slot-hour-label .slot-hour-skeleton {
+    display: block;
+    width: 2.6em;
+    height: 0.7rem;
+    border-radius: 4px;
+  }
+
   .slot-card--skeleton .slot-time-skeleton {
     display: block;
     width: 3.4em;
@@ -396,9 +413,32 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     padding-left: 2px;
   }
 
+  /* 時間帯（〜時）ごとの区切り */
+  .slot-hour-block + .slot-hour-block {
+    margin-top: 16px;
+  }
+
+  .slot-hour-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .slot-hour-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+  }
+
   .slots-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
   }
 
@@ -433,6 +473,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     font-size: 1rem;
     font-weight: 700;
     color: var(--color-navy);
+    font-variant-numeric: tabular-nums;
   }
 
   .slot-card.unavailable .slot-time {
@@ -626,12 +667,6 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     box-shadow: 0 6px 16px rgba(6, 199, 85, 0.4);
   }
 
-  @media (max-width: 900px) {
-    .slots-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
   @media (max-width: 768px) {
     .availability-topbar {
       flex-direction: column;
@@ -664,17 +699,18 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
       font-size: 1.1rem;
     }
 
+    /* 3列は維持したまま、カードだけ詰める */
     .slots-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      gap: 6px;
     }
 
     .slot-card {
-      padding: 12px 14px;
+      padding: 10px 8px;
+      gap: 4px;
     }
 
     .slot-time {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     .slot-status {
@@ -919,6 +955,34 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     return dates.find(d => d.date === target) ?? dates[offsetDays] ?? null;
   }
 
+  // 画面に出す診療枠は default（一般内科）のみ。
+  // 他の枠が増えても表示は変えず、default が無い日だけ全枠にフォールバックする
+  const VISIBLE_SLOT_KEYS = ['default'];
+
+  function getVisibleSlotGroups(groups: SlotGroup[]): SlotGroup[] {
+    const visible = groups.filter(
+      g => VISIBLE_SLOT_KEYS.includes(g.consultationSlotKey) && g.slots.length > 0
+    );
+    return visible.length > 0 ? visible : groups;
+  }
+
+  // 「14時」のような時間帯単位にまとめる（枠は時刻順）
+  function groupSlotsByHour(slots: Slot[]): { hour: number; slots: Slot[] }[] {
+    const blocks: { hour: number; slots: Slot[] }[] = [];
+    [...slots]
+      .sort((a, b) => a.time.localeCompare(b.time))
+      .forEach(slot => {
+        const hour = Number(slot.time.split(':')[0]);
+        const last = blocks[blocks.length - 1];
+        if (last && last.hour === hour) {
+          last.slots.push(slot);
+        } else {
+          blocks.push({ hour, slots: [slot] });
+        }
+      });
+    return blocks;
+  }
+
   function renderSlotGroups(groups: SlotGroup[], container: HTMLElement): void {
     container.innerHTML = '';
 
@@ -934,10 +998,22 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
         section.appendChild(label);
       }
 
-      const grid = document.createElement('div');
-      grid.className = 'slots-grid';
-      renderSlots(group.slots, grid);
-      section.appendChild(grid);
+      groupSlotsByHour(group.slots).forEach(block => {
+        const hourBlock = document.createElement('div');
+        hourBlock.className = 'slot-hour-block';
+
+        const hourLabel = document.createElement('div');
+        hourLabel.className = 'slot-hour-label';
+        hourLabel.textContent = `${block.hour}時`;
+        hourBlock.appendChild(hourLabel);
+
+        const grid = document.createElement('div');
+        grid.className = 'slots-grid';
+        renderSlots(block.slots, grid);
+        hourBlock.appendChild(grid);
+
+        section.appendChild(hourBlock);
+      });
 
       container.appendChild(section);
     });
@@ -986,7 +1062,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
 
     const slotsContainer = panel.querySelector<HTMLElement>('.slots-container');
     if (slotsContainer) {
-      renderSlotGroups(dayData.slotGroups, slotsContainer);
+      renderSlotGroups(getVisibleSlotGroups(dayData.slotGroups), slotsContainer);
     }
 
     dayStates[offsetDays] = 'open';

@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 1b47f8dd-3dec-437b-a42f-7daa3de3896b
-  modified: 2026-08-10T14:18:43.932Z
+  modified: 2026-08-17T00:00:00.000Z
 ---
 
 オーナーから直接聞いた数字（2026-08-10）。リポジトリやDBには存在しないので、ここにしかない。

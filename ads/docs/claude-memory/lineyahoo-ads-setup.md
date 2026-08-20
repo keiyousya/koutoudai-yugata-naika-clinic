@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 6481b813-ddef-4e1b-b573-03b910f879c6
-  modified: 2026-08-10T15:53:02.420Z
+  modified: 2026-08-11T04:29:21.157Z
 ---
 
 ヤフー面への出稿は **LINEヤフー広告（旧Yahoo!広告）** で行う。`LINE広告`（LINE Ads Platform）は選択肢にならない。

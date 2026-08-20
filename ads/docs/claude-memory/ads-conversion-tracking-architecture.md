@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 1b47f8dd-3dec-437b-a42f-7daa3de3896b
-  modified: 2026-08-10T13:59:29.740Z
+  modified: 2026-08-11T04:27:58.338Z
 ---
 
 広告の効果測定は**HP側（このリポジトリ）と procyon 側（keiyousya/helix）の2系統**に分かれている。混同しないこと。

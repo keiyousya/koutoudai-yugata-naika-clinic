@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import click
+from google.protobuf import field_mask_pb2
 from rich.console import Console
 from rich.table import Table
 
@@ -138,3 +139,75 @@ def remove_keyword(
     )
     criterion_service.mutate_ad_group_criteria(customer_id=cid, operations=[operation])
     console.print("[green]✓ キーワードを削除しました。[/green]")
+
+
+def _set_status(
+    ad_group_id: str,
+    criterion_ids: tuple[str, ...],
+    status: str,
+    customer_id: str | None,
+    yes: bool,
+) -> None:
+    """キーワードの status を一括で切り替える。"""
+    client = load_client()
+    cid = resolve_customer_id(customer_id)
+
+    label = "一時停止" if status == "PAUSED" else "再開"
+    if not yes:
+        click.confirm(
+            f"{len(criterion_ids)}件のキーワードを{label}しますか？", abort=True
+        )
+
+    criterion_service = client.get_service("AdGroupCriterionService")
+    operations = []
+    for criterion_id in criterion_ids:
+        operation = client.get_type("AdGroupCriterionOperation")
+        criterion = operation.update
+        criterion.resource_name = criterion_service.ad_group_criterion_path(
+            cid, ad_group_id, criterion_id
+        )
+        criterion.status = client.enums.AdGroupCriterionStatusEnum[status]
+        # FieldMask を明示しないと status の変更が通らない
+        client.copy_from(
+            operation.update_mask, field_mask_pb2.FieldMask(paths=["status"])
+        )
+        operations.append(operation)
+
+    criterion_service.mutate_ad_group_criteria(customer_id=cid, operations=operations)
+    console.print(f"[green]✓ {len(criterion_ids)}件のキーワードを{label}しました。[/green]")
+
+
+@keyword.command("pause")
+@click.option("--ad-group-id", required=True, help="対象の広告グループID。")
+@click.option(
+    "--criterion-id",
+    "criterion_ids",
+    required=True,
+    multiple=True,
+    help="一時停止するキーワードのcriterion_id（複数指定可）。",
+)
+@click.option("--customer-id", default=None, help="操作対象アカウントID（未指定時は.env）。")
+@click.option("--yes", is_flag=True, help="確認をスキップする。")
+def pause_keyword(
+    ad_group_id: str, criterion_ids: tuple[str, ...], customer_id: str | None, yes: bool
+) -> None:
+    """キーワードを一時停止する（remove と違い enable で戻せる）。"""
+    _set_status(ad_group_id, criterion_ids, "PAUSED", customer_id, yes)
+
+
+@keyword.command("enable")
+@click.option("--ad-group-id", required=True, help="対象の広告グループID。")
+@click.option(
+    "--criterion-id",
+    "criterion_ids",
+    required=True,
+    multiple=True,
+    help="再開するキーワードのcriterion_id（複数指定可）。",
+)
+@click.option("--customer-id", default=None, help="操作対象アカウントID（未指定時は.env）。")
+@click.option("--yes", is_flag=True, help="確認をスキップする。")
+def enable_keyword(
+    ad_group_id: str, criterion_ids: tuple[str, ...], customer_id: str | None, yes: bool
+) -> None:
+    """一時停止したキーワードを再開する。"""
+    _set_status(ad_group_id, criterion_ids, "ENABLED", customer_id, yes)

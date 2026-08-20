@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import click
 
-from .commands import account, campaign, conversion, report
+from .commands import account, campaign, conversion, keyword, report
 
 
 @click.group()
@@ -16,6 +16,7 @@ def cli() -> None:
 cli.add_command(account.account)
 cli.add_command(campaign.campaign)
 cli.add_command(conversion.conversion)
+cli.add_command(keyword.keyword)
 cli.add_command(report.report)
 
 

@@ -181,3 +181,50 @@ def set_end_date(
         else f"キャンペーン {campaign_id} を {value} で配信終了にします。よろしいですか？"
     )
     _set(LyAdsClient(product=product), aid, {"campaignId": campaign_id, "endDate": value}, summary, yes)
+
+
+@campaign.command("geo-target")
+@product_option
+@account_option
+@click.option("--campaign-id", required=True, type=int, help="対象キャンペーンID")
+@click.option(
+    "--positive",
+    required=True,
+    type=click.Choice(["LOCATION_OF_PRESENCE", "DONT_CARE"]),
+    help="配信対象地域の解釈。LOCATION_OF_PRESENCE=所在地のみ / DONT_CARE=所在地または関心のある地域",
+)
+@click.option("--yes", is_flag=True, help="確認プロンプトをスキップ")
+@test_option
+def set_geo_target(
+    product: str,
+    account_id: str | None,
+    campaign_id: int,
+    positive: str,
+    yes: bool,
+    test: bool,
+) -> None:
+    """地域ターゲティングを「所在地のみ」に絞る / 「関心のある地域」も含める。
+
+    既定の DONT_CARE は圏外の利用者にも配信されうる。半径指定をしていても
+    圏外の地名を含む検索に出てしまうのはこの設定が理由。
+    """
+    aid = resolve_account_id(account_id, product, test)
+    label = "所在地のみ" if positive == "LOCATION_OF_PRESENCE" else "所在地または関心のある地域"
+    _set(
+        LyAdsClient(product=product),
+        aid,
+        {
+            "campaignId": campaign_id,
+            "settings": [
+                {
+                    "settingType": "GEO_TARGET_TYPE_SETTING",
+                    "geoTargetTypeSetting": {
+                        "positiveGeoTargetType": positive,
+                        "negativeGeoTargetType": "LOCATION_OF_PRESENCE",
+                    },
+                }
+            ],
+        },
+        f"キャンペーン {campaign_id} の地域ターゲティングを「{label}」にします。よろしいですか？",
+        yes,
+    )

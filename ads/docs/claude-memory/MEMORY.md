@@ -14,3 +14,4 @@
 - [LINEヤフー広告の導入状況](lineyahoo-ads-setup.md) — LINE広告は日本で終了(API新規受付終了済)。ヤフー面は LINEヤフー広告 で。API利用申請〜疎通確認まで2026-08-11に完了。テストアカウントあり
 - [広告CLIは ads/ の2コマンド構成](ads-cli-two-command-layout.md) — google-ads/ → ads/ に改名。gads(Google) と lyads(LINEヤフー) が同居
 - [キャンペーン個別のCV目標がアカウント既定を上書きする](campaign-conversion-goal-override.md) — CV0に見えたら目標設定を疑う。gads campaign goals で診断
+- [LINEヤフー広告APIのcriterion系の癖](lyads-criterion-api-notes.md) — 除外KWは再実行安全、マッチタイプはsetで変更不可、地域はDONT_CAREが既定

@@ -165,6 +165,10 @@ gads keyword add --ad-group-id 9876543210 --text "求人" --negative
 
 # 削除
 gads keyword remove --ad-group-id 9876543210 --criterion-id 111222333
+
+# 一時停止 / 再開（remove と違って戻せるので、様子を見たいときはこちら）
+gads keyword pause  --ad-group-id 9876543210 --criterion-id 111222333 --criterion-id 444555666
+gads keyword enable --ad-group-id 9876543210 --criterion-id 111222333
 ```
 
 全コマンド共通で `--customer-id` を渡すと `.env` の既定アカウントを上書きできる。
@@ -198,6 +202,15 @@ lyads campaign end-date --campaign-id 1234567 --clear
 lyads report --preset campaign --date-range LAST_30_DAYS
 lyads report --preset query --date-range LAST_7_DAYS --csv > out/queries.csv
 
+# キーワードと除外キーワード
+lyads keyword list --campaign-id 1234567              # 配信キーワード（マッチタイプ付き）
+lyads keyword list --negative --campaign-id 1234567   # キャンペーンの除外キーワード
+lyads keyword add-negative --campaign-id 1234567 --text 眼科 --text 皮膚科
+lyads keyword remove-negative --campaign-id 1234567 --criterion-id 135798995
+
+# 地域ターゲティングを「所在地のみ」に絞る（既定の DONT_CARE は圏外にも出る）
+lyads campaign geo-target --campaign-id 1234567 --positive LOCATION_OF_PRESENCE
+
 # コンバージョン測定
 lyads conversion list
 lyads conversion add --name "LINE友だち追加" --category CONTACT
@@ -205,6 +218,13 @@ lyads conversion tag --conversion-id 1234567   # 貼り付け用タグを再表�
 ```
 
 プリセット: `campaign` / `adgroup` / `keyword` / `query`。
+
+> **除外キーワードの追加は再実行しても安全。** 既にあるものは
+> `Exists same text with match type.` でその1件だけスキップされ、残りは追加される。
+>
+> **マッチタイプは変更できない。** `AdGroupCriterionService/set` が `Require.` で拒否するため、
+> `lyads keyword match` は現時点では通らない。変えるなら remove → add で入れ直すことになり、
+> criterionId とキーワードの実績は引き継がれない。
 
 ### コンバージョン測定タグ
 

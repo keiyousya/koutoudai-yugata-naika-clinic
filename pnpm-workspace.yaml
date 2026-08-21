@@ -11,5 +11,6 @@ packages:
   - inventory
 allowBuilds:
   esbuild: false
+  playwright-chromium: false
   sharp: false
   workerd: false

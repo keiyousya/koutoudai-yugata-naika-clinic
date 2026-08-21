@@ -46,6 +46,11 @@
     font-weight: 600;
   }
 
+  /* 記事本文の strong は navy 指定のため、ターコイズ地では白に戻す */
+  .article-table :global(tr.highlight td strong) {
+    color: inherit;
+  }
+
   .article-table :global(.table-group-label) {
     background: var(--color-turquoise-bg);
     color: var(--color-navy);

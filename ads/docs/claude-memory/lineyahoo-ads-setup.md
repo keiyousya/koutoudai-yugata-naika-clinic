@@ -31,7 +31,7 @@ metadata:
 
 **手順（再構築時の参考）:** ①[ビジネスツールアクセスマネージャー](https://btam.line.biz/?layout=otp) で「参加する」→ API管理ツールの権限グループに参加（**これを先にやらないとAPI管理ツールを開けない**） ②[API管理ツール](https://connect-business.yahoo.co.jp/cooperation/) でアプリケーション登録（**リダイレクトURIは `oob`**）→ client_id/secret 発行 ③`python scripts/lyads_refresh_token.py` でrefresh token取得 ④`lyads account list --test` で疎通確認。
 
-**クレジットカード登録: 2026-08-11 完了。コンバージョン測定タグも同日設置**（詳細は [[ads-conversion-tracking-architecture]]）。**残るは検索広告キャンペーンの作成のみ。**
+**クレジットカード登録: 2026-08-11 完了。コンバージョン測定タグも同日設置**（詳細は [[ads-conversion-tracking-architecture]]）。**検索広告キャンペーン「検索_内科_全日」も作成済で配信中**（2026-08-21時点で直近30日 214クリック / 13,787円 / CV6 / CPA 2,298円）。ID実値は [[lineyahoo-ads-ids]]。
 
 **キャンペーン特典（開設メール記載、要エントリー）:** ディスプレイ広告10万円分の広告費プレゼント、検索広告Amazonギフト券1万円分。どちらも配信開始前のエントリーが必須。
 

@@ -14,3 +14,5 @@
 - [広告CLIは ads/ の2コマンド構成](ads-cli-two-command-layout.md) — google-ads/ → ads/ に改名。gads(Google) と lyads(LINEヤフー) が同居
 - [キャンペーン個別のCV目標がアカウント既定を上書きする](campaign-conversion-goal-override.md) — CV0に見えたら目標設定を疑う。gads campaign goals で診断
 - [LINEヤフー広告APIのcriterion系の癖](lyads-criterion-api-notes.md) — 除外KWは再実行安全、マッチタイプはsetで変更不可、地域はDONT_CAREが既定
+- [LINEヤフー広告のID一覧と再取得場所](lineyahoo-ads-ids.md) — 開設メールはGmailに無い。管理ツールUIから取り直す
+- [ads の venv が壊れるのはパス移動が原因](ads-venv-editable-path-breakage.md) — venv 再構築ではなく `uv pip install -e .` で直る

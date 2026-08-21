@@ -7,7 +7,11 @@ import {
   fetchRecords,
   updateItemOrderSettings,
 } from "@/api/inventory";
-import type { InventoryItem, InventoryRecord } from "@/api/inventory";
+import type {
+  InventoryItem,
+  InventoryRecord,
+  SupplierId,
+} from "@/api/inventory";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +33,35 @@ function orderUnitLabel(unit: string | null) {
   return "箱";
 }
 
+interface Supplier {
+  id: SupplierId;
+  /** 画面上の短い表示名 */
+  label: string;
+  /** メール宛名の会社名 */
+  company: string;
+  /** メール宛名の担当者 */
+  contact: string;
+}
+
+const SUPPLIERS: Supplier[] = [
+  {
+    id: "toho",
+    label: "東邦薬品",
+    company: "東邦薬品株式会社",
+    contact: "中野様",
+  },
+  {
+    id: "suzuken",
+    label: "スズケン",
+    company: "株式会社スズケン",
+    contact: "齋藤様",
+  },
+];
+
+function supplierOf(item: InventoryItem) {
+  return SUPPLIERS.find((s) => s.id === item.supplier) ?? SUPPLIERS[0];
+}
+
 interface OrderLine {
   item: InventoryItem;
   currentStock: number;
@@ -36,12 +69,37 @@ interface OrderLine {
   orderQuantity: number;
 }
 
+/** 発注先ごとの発注メール本文を組み立てる */
+function buildEmailText(supplier: Supplier, orderLines: OrderLine[]) {
+  return [
+    supplier.company,
+    supplier.contact,
+    "",
+    "いつも大変お世話になっております。",
+    "勾当台夕方内科の田村です。",
+    "",
+    "下記の注文をお願いいたします。",
+    ...orderLines.map(
+      (line) =>
+        `・${line.item.name}${line.item.dosage && line.item.dosage !== "-" ? line.item.dosage : ""} ${line.orderQuantity}${orderUnitLabel(line.item.unit)}`
+    ),
+    "",
+    "また、火曜日は休診のため不在となっております。",
+    "お手数をおかけして恐縮ですが、納品は水曜日以降にご手配いただけますと幸いです。",
+    "",
+    "引き続きよろしくお願いいたします。",
+    "",
+    "勾当台夕方内科クリニック",
+    "田村さつき",
+  ].join("\n");
+}
+
 function OrdersPage() {
   const queryClient = useQueryClient();
   const today = new Date();
   const currentMonth = formatMonth(today);
-  const [copied, setCopied] = useState(false);
-  const [copiedSubject, setCopiedSubject] = useState(false);
+  /** コピー済み表示中の対象（"subject" または発注先ID） */
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const emailSubject = "薬の注文のお願い（勾当台夕方内科　田村）";
 
@@ -69,7 +127,11 @@ function OrdersPage() {
       data,
     }: {
       itemId: number;
-      data: { order_threshold?: number; is_orderable?: number };
+      data: {
+        order_threshold?: number;
+        is_orderable?: number;
+        supplier?: SupplierId;
+      };
     }) => updateItemOrderSettings(itemId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["items"] });
@@ -108,39 +170,20 @@ function OrdersPage() {
       .filter((line): line is OrderLine => line !== null);
   }, [orderableItems, latestStockMap]);
 
-  // メール文面生成
-  const emailText = useMemo(() => {
-    if (orderLines.length === 0) return "";
-
-    const lines = [
-      "東邦薬品株式会社",
-      "中野様",
-      "",
-      "いつも大変お世話になっております。",
-      "勾当台夕方内科の田村です。",
-      "",
-      "下記の注文をお願いいたします。",
-      ...orderLines.map(
-        (line) =>
-          `・${line.item.name}${line.item.dosage && line.item.dosage !== "-" ? line.item.dosage : ""} ${line.orderQuantity}${orderUnitLabel(line.item.unit)}`
-      ),
-      "",
-      "また、火曜日は休診のため不在となっております。",
-      "お手数をおかけして恐縮ですが、納品は水曜日以降にご手配いただけますと幸いです。",
-      "",
-      "引き続きよろしくお願いいたします。",
-      "",
-      "勾当台夕方内科クリニック",
-      "田村さつき",
-    ];
-
-    return lines.join("\n");
+  // 発注先ごとのメール文面（発注が必要な品目がある発注先のみ）
+  const emailsBySupplier = useMemo(() => {
+    return SUPPLIERS.map((supplier) => {
+      const lines = orderLines.filter(
+        (line) => supplierOf(line.item).id === supplier.id
+      );
+      return { supplier, lines, text: buildEmailText(supplier, lines) };
+    }).filter((email) => email.lines.length > 0);
   }, [orderLines]);
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(emailText);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async (key: string, text: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedKey(key);
+    setTimeout(() => setCopiedKey(null), 2000);
   };
 
   // 最新記録日（発注対象品目のみ）
@@ -175,7 +218,7 @@ function OrdersPage() {
       </div>
 
       <p className="text-sm text-muted-foreground">
-        品目ごとの規定量に満たない品目を自動検出します。規定量と発注対象は「発注設定」から変更できます。
+        品目ごとの規定量に満たない品目を自動検出し、発注先ごとにメール文面を作成します。規定量・発注対象・発注先は「発注設定」から変更できます。
       </p>
 
       {/* 発注設定 */}
@@ -190,7 +233,7 @@ function OrdersPage() {
           <CardContent className="p-0">
             <div className="px-3 pb-3">
               <p className="py-2 text-xs text-muted-foreground">
-                チェックを入れた品目が発注管理の対象になります。規定量は品目ごとに設定できます。
+                チェックを入れた品目が発注管理の対象になります。規定量と発注先は品目ごとに設定できます。
               </p>
               <div className="space-y-1">
                 {items.map((item: InventoryItem, index: number) => {
@@ -218,7 +261,7 @@ function OrdersPage() {
                             })
                           }
                         />
-                        <div className="flex-1 min-w-0">
+                        <div className="flex-1 min-w-0 truncate">
                           <span
                             className={`text-sm ${isOrderable ? "font-medium" : "text-muted-foreground"}`}
                           >
@@ -231,6 +274,25 @@ function OrdersPage() {
                           </span>
                         </div>
                         <div className="flex shrink-0 items-center gap-1">
+                          <select
+                            disabled={!isOrderable}
+                            className="h-10 rounded-md border border-input bg-background px-1 text-xs disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-ring"
+                            value={supplierOf(item).id}
+                            onChange={(e) =>
+                              settingsMutation.mutate({
+                                itemId: item.id,
+                                data: {
+                                  supplier: e.target.value as SupplierId,
+                                },
+                              })
+                            }
+                          >
+                            {SUPPLIERS.map((supplier) => (
+                              <option key={supplier.id} value={supplier.id}>
+                                {supplier.label}
+                              </option>
+                            ))}
+                          </select>
                           <span className="text-xs text-muted-foreground">
                             規定量
                           </span>
@@ -314,6 +376,9 @@ function OrdersPage() {
                       <span className="text-xs text-muted-foreground ml-1">
                         {item.dosage || ""}
                       </span>
+                      <span className="ml-1 text-[10px] text-muted-foreground">
+                        / {supplierOf(item).label}
+                      </span>
                     </div>
                     <div className="shrink-0 w-16 text-right text-sm">
                       {noData ? (
@@ -348,23 +413,19 @@ function OrdersPage() {
       </Card>
 
       {/* メール文面 */}
-      {orderLines.length > 0 ? (
+      {emailsBySupplier.length > 0 ? (
         <div className="space-y-4">
-          {/* 件名 */}
+          {/* 件名（発注先で共通） */}
           <Card>
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">件名</CardTitle>
                 <Button
-                  variant={copiedSubject ? "default" : "outline"}
+                  variant={copiedKey === "subject" ? "default" : "outline"}
                   size="sm"
-                  onClick={async () => {
-                    await navigator.clipboard.writeText(emailSubject);
-                    setCopiedSubject(true);
-                    setTimeout(() => setCopiedSubject(false), 2000);
-                  }}
+                  onClick={() => handleCopy("subject", emailSubject)}
                 >
-                  {copiedSubject ? (
+                  {copiedKey === "subject" ? (
                     <>
                       <Check className="h-3.5 w-3.5 mr-1" />
                       コピー済み
@@ -385,36 +446,43 @@ function OrdersPage() {
             </CardContent>
           </Card>
 
-          {/* 本文 */}
-          <Card>
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base">本文</CardTitle>
-                <Button
-                  variant={copied ? "default" : "outline"}
-                  size="sm"
-                  onClick={handleCopy}
-                >
-                  {copied ? (
-                    <>
-                      <Check className="h-3.5 w-3.5 mr-1" />
-                      コピー済み
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3.5 w-3.5 mr-1" />
-                      コピー
-                    </>
-                  )}
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <pre className="whitespace-pre-wrap rounded-lg bg-muted p-4 text-sm leading-relaxed">
-                {emailText}
-              </pre>
-            </CardContent>
-          </Card>
+          {/* 発注先ごとの本文 */}
+          {emailsBySupplier.map(({ supplier, lines, text }) => (
+            <Card key={supplier.id}>
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    {supplier.label}
+                    <Badge variant="secondary" className="text-[10px]">
+                      {lines.length}品目
+                    </Badge>
+                  </CardTitle>
+                  <Button
+                    variant={copiedKey === supplier.id ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleCopy(supplier.id, text)}
+                  >
+                    {copiedKey === supplier.id ? (
+                      <>
+                        <Check className="h-3.5 w-3.5 mr-1" />
+                        コピー済み
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5 mr-1" />
+                        コピー
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <pre className="whitespace-pre-wrap rounded-lg bg-muted p-4 text-sm leading-relaxed">
+                  {text}
+                </pre>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       ) : (
         <Card>

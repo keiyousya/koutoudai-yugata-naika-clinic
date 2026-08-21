@@ -233,10 +233,11 @@ inventory.put("/items/:id", adminAuth, async (c) => {
   return c.json({ success: true });
 });
 
-// 発注設定の更新（規定量・発注対象）
+// 発注設定の更新（規定量・発注対象・発注先）
 const orderSettingsSchema = z.object({
   order_threshold: z.number().int().min(0, "規定量は0以上").optional(),
   is_orderable: z.number().int().min(0).max(1).optional(),
+  supplier: z.enum(["toho", "suzuken"], "発注先が不正です").optional(),
 });
 
 inventory.put("/items/:id/order-settings", staffAuth, async (c) => {

@@ -64,6 +64,9 @@ export interface Category {
   sort_order: number;
 }
 
+/** 発注先の識別子 */
+export type SupplierId = "toho" | "suzuken";
+
 export interface InventoryItem {
   id: number;
   category_id: number;
@@ -77,6 +80,8 @@ export interface InventoryItem {
   order_threshold: number;
   /** 発注管理の対象にするか（1: 対象） */
   is_orderable: number;
+  /** 発注先 */
+  supplier: SupplierId;
 }
 
 export interface InventoryRecord {
@@ -139,7 +144,11 @@ export async function fetchItems(categoryId?: number): Promise<InventoryItem[]> 
 
 export async function updateItemOrderSettings(
   itemId: number,
-  data: { order_threshold?: number; is_orderable?: number }
+  data: {
+    order_threshold?: number;
+    is_orderable?: number;
+    supplier?: SupplierId;
+  }
 ): Promise<{ success: boolean }> {
   const res = await fetch(
     `${API_BASE}/api/inventory/items/${itemId}/order-settings`,

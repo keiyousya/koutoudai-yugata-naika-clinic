@@ -46,7 +46,8 @@ def main() -> None:
         raise SystemExit("refresh_token が返りませんでした。prompt=consent で再試行してください。")
 
     # .env の該当行を書き換え（他行は保持）
-    lines = ENV_PATH.read_text().splitlines()
+    # Windows は既定が cp932 になるので明示する（.env は UTF-8）
+    lines = ENV_PATH.read_text(encoding="utf-8").splitlines()
     key = "GOOGLE_ADS_REFRESH_TOKEN"
     replaced = False
     for i, line in enumerate(lines):
@@ -56,7 +57,7 @@ def main() -> None:
             break
     if not replaced:
         lines.append(f"{key}={creds.refresh_token}")
-    ENV_PATH.write_text("\n".join(lines) + "\n")
+    ENV_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print("✓ .env の GOOGLE_ADS_REFRESH_TOKEN を更新しました（トークンは表示しません）。")
     print("  続けて `gads report --preset campaign --date-range LAST_7_DAYS` で疎通確認できます。")

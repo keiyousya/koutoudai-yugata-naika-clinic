@@ -246,7 +246,7 @@ const faqStructuredData = {
     <FixedLineButton />
 
     {/* 広告効果測定: gclid付き（Google広告経由）でアクセスされた場合、
-         ページ内のLINEへのリンク（lin.ee / line.me）をすべて広告用の経路別URLに差し替える。
+         ページ内のLINEへのリンクをすべて広告用URL（?source=google_ads）に差し替える。
          href基準で自動的に全ボタンを拾うため、コンポーネント／手書きを問わず
          今後追加されるLINEボタンも自動で対象になる（印の付け忘れによる漏れを防止）。
          gclidは着地ページにしか付かないため、判定結果をsessionStorageに保存し
@@ -271,7 +271,7 @@ const faqStructuredData = {
           }
           var isAd = sessionStorage.getItem(KEY) === "1";
           document
-            .querySelectorAll('a[href*="lin.ee/"], a[href*="line.me/"]')
+            .querySelectorAll('a[href*="line.me/"]')
             .forEach(function (el) {
               if (isAd) {
                 el.setAttribute("href", adUrl);

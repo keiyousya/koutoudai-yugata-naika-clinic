@@ -125,6 +125,9 @@ function OrdersPage() {
           `・${line.item.name}${line.item.dosage && line.item.dosage !== "-" ? line.item.dosage : ""} ${line.orderQuantity}${orderUnitLabel(line.item.unit)}`
       ),
       "",
+      "また、火曜日は休診のため不在となっております。",
+      "お手数をおかけして恐縮ですが、納品は水曜日以降にご手配いただけますと幸いです。",
+      "",
       "引き続きよろしくお願いいたします。",
       "",
       "勾当台夕方内科クリニック",

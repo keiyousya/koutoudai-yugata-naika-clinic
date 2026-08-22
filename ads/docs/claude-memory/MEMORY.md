@@ -16,4 +16,6 @@
 - [LINEヤフー広告APIのcriterion系の癖](lyads-criterion-api-notes.md) — 除外KWは再実行安全、マッチタイプはsetで変更不可、地域はDONT_CAREが既定
 - [LINEヤフー広告のID一覧と再取得場所](lineyahoo-ads-ids.md) — 開設メールはGmailに無い。管理ツールUIから取り直す
 - [ads の venv が壊れるのはパス移動が原因](ads-venv-editable-path-breakage.md) — venv 再構築ではなく `uv pip install -e .` で直る
+- [Google Ads当日レポートの遅延](google-ads-same-day-reporting-lag.md) — 直近1〜2時間は大幅に過少表示。落ち込みを予算枯渇と誤読しない
+- [ヤフー広告はGoogleに劣後](yahoo-ads-underperformance.md) — CPA倍・CTR半分。除外は効いているが「クリニック 予約」が競合指名の受け皿
 - [予約数の読み方の落とし穴](reservation-count-reading-traps.md) — 「今週少ない」はだいたい時刻・週末未到来・前日が突出、の3つ

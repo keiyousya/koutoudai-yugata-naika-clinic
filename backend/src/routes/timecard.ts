@@ -244,6 +244,21 @@ timecard.get("/export", viewerOrAdminAuth, async (c) => {
   const DEFAULT_WEEKDAY_START = 1020; // 17:00
   const DEFAULT_WEEKEND_START = 840;  // 14:00
 
+  // 日付+スタッフごとの最初の出勤打刻（遅刻分を差し引くために使う）
+  const firstInMinutes: Record<string, number> = {};
+  for (const row of result.rows) {
+    if (row.type !== "in") continue;
+    const ts = String(row.timestamp).replace("T", " ").replace(/\.\d+Z?$/, "");
+    const [d, t] = ts.split(" ");
+    if (!d || !t) continue;
+    const [h, m] = t.split(":").map(Number);
+    const key = `${d}|${row.staff_id}`;
+    const mins = h * 60 + m;
+    if (firstInMinutes[key] === undefined || mins < firstInMinutes[key]) {
+      firstInMinutes[key] = mins;
+    }
+  }
+
   // スタッフごとの集計データ
   const staffSummary: Record<string, { totalMinutes: number; workDays: Set<string> }> = {};
 
@@ -274,9 +289,13 @@ timecard.get("/export", viewerOrAdminAuth, async (c) => {
       const endMinutes = hours * 60 + minutes;
       const dayOfWeek = new Date(date + "T00:00:00").getDay();
       const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-      const startMinutes = isWeekend
+      const scheduledStart = isWeekend
         ? (weekendShiftMap[`${date}|${row.staff_id}`] ?? DEFAULT_WEEKEND_START)
         : DEFAULT_WEEKDAY_START;
+      // 規定より早い打刻は規定時刻起算、遅刻した場合は実際の打刻時刻起算
+      const actualIn = firstInMinutes[`${date}|${row.staff_id}`];
+      const startMinutes =
+        actualIn !== undefined ? Math.max(scheduledStart, actualIn) : scheduledStart;
       if (endMinutes > startMinutes) {
         staffSummary[staffName].totalMinutes += endMinutes - startMinutes;
       }

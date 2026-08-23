@@ -30,15 +30,18 @@ metadata:
 - Google と同じ `a[href*="line.me/"]` のクリックで、`gtag` と `ytag` を両方発火させている
 - `type` は検索広告 `yss_conversion` / ディスプレイ広告 `yjad_conversion`。アカウントが別なのでタグも別物
 
-**未対応: yclid 流入時のURL差し替え。** URL差し替えは `gclid` のみ見ている。ヤフー広告経由の友だち追加は procyon 側では organic に混ざる（媒体側のCV計測は yclid ベースなので正しく取れる）。`acquisition_source` に yahoo_ads を足せば分離できる（helix側のenum・CHECK制約の追加が必要）。
+**未対応: yclid 流入時のURL差し替え。** URL差し替えは `gclid` のみ見ている。ヤフー広告経由の友だち追加は procyon 側では **organic（自然流入）として計上される**（媒体側のCV計測は yclid ベースなので正しく取れる）。分離するには `acquisition_source` に `yahoo_ads` を足す必要があり、helix側の TypeSpec enum・CHECK制約のマイグレーション・Goの許可値・procyon-line の許可値と、HP側の yclid 判定をまとめて触ることになる。
 
 ## 系統2: procyon 側の流入元記録（keiyousya/helix）
 
 - `line_users.acquisition_source` (organic/google_ads) に記録し、`/ad-metrics/listing-performance` の `lineFollowGoogleAdsCount` として返す
 - 受け口は実装済み（`procyon-line/src/lib/liff.ts` の `captureAcquisitionSource()` が LIFF URL の `?source=` を localStorage へ退避）
-- **2026-08-21修正: HP側のLINEボタンを `lin.ee` から LIFF URL + `?source=` に切り替えた（helix#1745 / #1778）。** それまでは `lin.ee` の経路別URLで分けており、これはLINE公式アカウント側の友だち追加経路なので、その後LIFFが開かれるときのURLにクエリが引き継がれず常にNULLだった
-- **LIFFの「友だち追加オプション」を Aggressive にしておくこと。** Normal だと未フォローのユーザーが友だち追加をスキップしてLIFFに入れてしまう
-- 引き換えに LINE公式アカウントの経路別URL統計（`lin.ee/<AD_ROUTE>`）は使わなくなった。実追加数の答え合わせは procyon `lineFollowGoogleAdsCount` で行う
+- **常にNULLだった。** HP側のLINEボタンが `lin.ee`（LINE公式アカウントの友だち追加経路）でLIFFを経由せず、その後LIFFが開かれるときのURLにクエリが引き継がれないため
+- **対応中（2026-08-23時点で未マージ）:** HPのLINEボタンを LIFF URL + `?source=` に切り替える。helix#1851 / infra#120 と合わせて3リポジトリで進める（helix#1745 / #1778）
+- **`lin.ee` が導線として担保していた「予約には友だち追加が必須」が失われるため、procyon-line 側に `liff.getFriendship()` のゲートを入れる**（helix#1851）。友だち追加オプションは Normal / Aggressive の**どちらも強制はできず**、表示もチャネルへの初回同意時のみなので、コード側で止めるしかない。Aggressive は専用の確認画面が出るぶん見落としにくいので設定はする
+- ゲートは `/line/auth` の後、未登録（`linkStatus=pending`）のユーザーだけに掛ける。`friendFlag` は未追加とブロック中を区別しないため、全員に課すと既存患者がブロック中というだけで予約できなくなる
+- 引き換えに LINE公式アカウントの経路別URL統計（`lin.ee/<AD_ROUTE>`）は使わなくなる。実追加数の答え合わせは procyon `lineFollowGoogleAdsCount` で行う
+- **ヤフー広告経由は `organic` に混ざる。** URL差し替えは `gclid` しか見ておらず `yclid` 流入は `?source=organic` になる。`acquisition_source` の許可値も `organic` / `google_ads` の2値だけ（helix側のenum・CHECK制約）
 
 ## 計測の使い分け
 
@@ -46,9 +49,9 @@ metadata:
 |---|---|---|
 | 広告クリック→LINE追加意思 | Google Ads「LINE友だち追加」CV | PR #21マージ後から有効 |
 | 同上（ヤフー面） | LINEヤフー広告「LINE友だち追加」CV | 2026-08-11設置 |
-| 実際の友だち追加数 | procyon `lineFollowCount` | 動作中 |
+| 実際の友だち追加数 | procyon `lineFollowCount` | 友だち追加せずLIFFに入った新規も含むため厳密には上振れる |
 | 予約総数 | procyon `reservationCount` | 全流入・キャンセル込みで鈍い |
-| 広告経由の友だち追加 | procyon `lineFollowGoogleAdsCount` | 2026-08-21のLIFF URL化以降のみ有効 |
+| 広告経由の友だち追加 | procyon `lineFollowGoogleAdsCount` | LIFF URL化のリリース以降のみ有効。**ヤフー分は含まれず organic に混ざる** |
 
 「ローカルアクション-経路」CVは経路タップであって来院でも予約でもない。判断材料にしない。
 

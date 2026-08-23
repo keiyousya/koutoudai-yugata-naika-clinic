@@ -615,6 +615,21 @@ function computeStaffSummary(
 ) {
   const staffSummary: Record<string, { totalMinutes: number; workDays: Set<string> }> = {};
 
+  // 日付+スタッフごとの最初の出勤打刻（遅刻分を差し引くために使う）
+  const firstInMinutes: Record<string, number> = {};
+  for (const r of records) {
+    if (r.type !== "in") continue;
+    const d = r.timestamp.slice(0, 10);
+    const t = r.timestamp.slice(11, 16);
+    if (!d || !t) continue;
+    const [h, m] = t.split(":").map(Number);
+    const key = d + "|" + r.staff_name;
+    const mins = h * 60 + m;
+    if (firstInMinutes[key] === undefined || mins < firstInMinutes[key]) {
+      firstInMinutes[key] = mins;
+    }
+  }
+
   for (const r of records) {
     if (!staffSummary[r.staff_name]) {
       staffSummary[r.staff_name] = { totalMinutes: 0, workDays: new Set() };
@@ -630,9 +645,13 @@ function computeStaffSummary(
     if (r.type === "out" && time) {
       const [hours, minutes] = time.split(":").map(Number);
       const endMinutes = hours * 60 + minutes;
-      const startMinutes = weekend
+      const scheduledStart = weekend
         ? (weekendStarts[`${date}|${r.staff_name}`] ?? DEFAULT_WEEKEND_START)
         : DEFAULT_WEEKDAY_START;
+      // 規定より早い打刻は規定時刻起算、遅刻した場合は実際の打刻時刻起算
+      const actualIn = firstInMinutes[`${date}|${r.staff_name}`];
+      const startMinutes =
+        actualIn !== undefined ? Math.max(scheduledStart, actualIn) : scheduledStart;
       if (endMinutes > startMinutes) {
         staffSummary[r.staff_name].totalMinutes += endMinutes - startMinutes;
       }
@@ -673,7 +692,7 @@ function StaffSummaryTable({ records, weekendStarts }: { records: TimecardRecord
           })}
         </div>
         <p className="text-xs text-muted-foreground mt-3">
-          平日: 17:00起算 / 土日: 左の入り時間で計算
+          平日: 17:00起算 / 土日: 左の入り時間で計算（遅刻時は実際の出勤打刻から）
         </p>
       </CardContent>
     </Card>

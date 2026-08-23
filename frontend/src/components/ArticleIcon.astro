@@ -18,7 +18,10 @@ const healthIconMap: Record<string, string> = {
   "blood-drop": "body/blood_drop",
 };
 
-const healthIconName = healthIconMap[icon] || healthIconMap["heart-pulse"];
+// "カテゴリ/ファイル名" 形式はそのまま healthicons のパスとして扱う
+const healthIconName = icon.includes("/")
+  ? icon
+  : healthIconMap[icon] || healthIconMap["heart-pulse"];
 ---
 
 <HealthIcon name={healthIconName} size={size} class="article-icon" />

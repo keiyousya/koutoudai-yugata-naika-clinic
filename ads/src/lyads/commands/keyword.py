@@ -233,6 +233,130 @@ def remove_negative(
     console.print(f"[green]✓ 除外キーワードを{len(criterion_ids)}件削除しました。[/green]")
 
 
+def _find_criteria(client: LyAdsClient, aid: int, criterion_ids: tuple[int, ...]) -> dict:
+    """criterionId から adGroupId / text / マッチタイプを引く。
+
+    set は adGroupId と keyword.text が必須で、text を省くと "Require." で拒否される。
+    """
+    rval = client.call(
+        "AdGroupCriterionService",
+        "get",
+        {"accountId": aid, "use": "BIDDABLE", "numberResults": 500, "startIndex": 1},
+    )
+    found: dict[int, dict] = {}
+    for v in values_of(rval):
+        agc = v.get("adGroupCriterion") or {}
+        c = agc.get("criterion") or {}
+        cid = c.get("criterionId")
+        if cid is None:
+            continue
+        kw = c.get("keyword") or {}
+        found[int(cid)] = {
+            "adGroupId": agc.get("adGroupId"),
+            "campaignId": agc.get("campaignId"),
+            "text": kw.get("text", ""),
+            "match": kw.get("keywordMatchType", "BROAD"),
+            "status": (agc.get("biddableAdGroupCriterion") or {}).get("userStatus", ""),
+        }
+    missing = [cid for cid in criterion_ids if cid not in found]
+    if missing:
+        raise click.ClickException(
+            "アカウント内に見つからない criterionId があります: "
+            + ", ".join(str(m) for m in missing)
+        )
+    return found
+
+
+def _set_user_status(
+    product: str, account_id: str | None, criterion_ids: tuple[int, ...],
+    status: str, yes: bool, test: bool,
+) -> None:
+    aid = resolve_account_id(account_id, product, test)
+    client = LyAdsClient(product=product)
+    found = _find_criteria(client, aid, criterion_ids)
+
+    table = Table(title=f"配信状態を {status} に変更")
+    table.add_column("criterionId", justify="right")
+    table.add_column("キーワード")
+    table.add_column("マッチ")
+    table.add_column("現在")
+    for cid in criterion_ids:
+        f = found[cid]
+        table.add_row(str(cid), f["text"], f["match"], f["status"])
+    console.print(table)
+    if not yes:
+        click.confirm(f"{len(criterion_ids)}件を {status} にします。よろしいですか？", abort=True)
+
+    # ⚠️ campaignId は set の必須フィールド。省くと理由の分からない "Require." で弾かれる。
+    # マッチタイプは現在値をそのまま送り、触るのは userStatus だけにしている。
+    operand = [
+        {
+            "accountId": aid,
+            "campaignId": found[cid]["campaignId"],
+            "adGroupId": found[cid]["adGroupId"],
+            "criterion": {
+                "criterionId": cid,
+                "criterionType": "KEYWORD",
+                "keyword": {
+                    "text": found[cid]["text"],
+                    "keywordMatchType": found[cid]["match"],
+                },
+            },
+            "use": "BIDDABLE",
+            "biddableAdGroupCriterion": {"userStatus": status},
+        }
+        for cid in criterion_ids
+    ]
+    rval = client.call(
+        "AdGroupCriterionService", "set", {"accountId": aid, "operand": operand}
+    )
+
+    changed, failed = 0, []
+    for v in values_of(rval):
+        if v.get("errors"):
+            failed.append("; ".join(e.get("message", "") for e in v["errors"]))
+        else:
+            changed += 1
+    if changed:
+        console.print(f"[green]✓ {changed}件を {status} にしました。[/green]")
+    for message in failed:
+        console.print(f"[red]失敗: {message}[/red]")
+
+
+@keyword.command("pause")
+@product_option
+@account_option
+@click.option(
+    "--criterion-id", "criterion_ids", required=True, multiple=True, type=int,
+    help="停止するキーワードの criterionId（複数指定可）",
+)
+@click.option("--yes", is_flag=True, help="確認プロンプトをスキップ")
+@test_option
+def pause_keyword(
+    product: str, account_id: str | None, criterion_ids: tuple[int, ...],
+    yes: bool, test: bool,
+) -> None:
+    """配信キーワードを一時停止する（remove と違って実績を残したまま戻せる）。"""
+    _set_user_status(product, account_id, criterion_ids, "PAUSED", yes, test)
+
+
+@keyword.command("enable")
+@product_option
+@account_option
+@click.option(
+    "--criterion-id", "criterion_ids", required=True, multiple=True, type=int,
+    help="再開するキーワードの criterionId（複数指定可）",
+)
+@click.option("--yes", is_flag=True, help="確認プロンプトをスキップ")
+@test_option
+def enable_keyword(
+    product: str, account_id: str | None, criterion_ids: tuple[int, ...],
+    yes: bool, test: bool,
+) -> None:
+    """一時停止した配信キーワードを再開する。"""
+    _set_user_status(product, account_id, criterion_ids, "ACTIVE", yes, test)
+
+
 @keyword.command("match")
 @product_option
 @account_option

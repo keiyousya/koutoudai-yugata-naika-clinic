@@ -1,6 +1,6 @@
 ---
 name: lyads-criterion-api-notes
-description: LINEヤフー広告APIのcriterion系サービスの癖。除外キーワードの入れ方とマッチタイプ変更不可の件。
+description: LINEヤフー広告APIのcriterion系サービスの癖。setの Require. の正体は campaignId 欠落だった。
 metadata:
   node_type: memory
   type: reference
@@ -21,13 +21,36 @@ metadata:
 配信キーワードの状態は `biddableAdGroupCriterion.userStatus` の中にあり、
 `adGroupCriterion` 直下ではない。
 
-## ⚠️ マッチタイプは set で変更できない
+## ⭐ AdGroupCriterionService/set の `Require.` の正体は **campaignId の欠落**
 
-`AdGroupCriterionService/set` に `keywordMatchType` を渡すと `[0001] Require.` で拒否される。
-`criterion.text` を足しても `biddableAdGroupCriterion` を足しても同じ。**Google広告と同様に
-マッチタイプは不変**とみなすのが妥当で、変えるなら remove → add で入れ直すしかない
-（criterionId が変わり、キーワードの実績も引き継がれない）。
-`lyads keyword match` は仕様変更に備えて残してあるが、現時点では通らない。
+2026-08-22に判明。`set` の operand には **`campaignId` が必須**。無いと、どのフィールドが
+足りないのか一切示さない `[0001] Require.` だけが返る（`field` も空）。
+
+通る最小構成:
+
+```json
+{
+  "accountId": <ACCOUNT_ID>, "campaignId": <CAMPAIGN_ID>, "adGroupId": <AD_GROUP_ID>,
+  "criterion": {"criterionId": <CRITERION_ID>, "criterionType": "KEYWORD",
+                "keyword": {"text": "...", "keywordMatchType": "BROAD"}},
+  "use": "BIDDABLE",
+  "biddableAdGroupCriterion": {"userStatus": "PAUSED"}
+}
+```
+
+`criterion` を `{criterionId}` だけに削ると再び `Require.` になるので、**text と
+keywordMatchType も現在値を丸ごと送り直す**必要がある。
+
+**⚠️ これまで「マッチタイプは set で変更できない」と記録していたが、その根拠は崩れた。**
+`lyads keyword match` が `Require.` で失敗していたのは campaignId を送っていなかったためで、
+マッチタイプ固有の制約とは限らない。**未検証**（実キーワードを書き換えることになるので試していない）。
+試すならテストアカウント（`--test`）で先に確認すること。
+
+## 配信キーワードの停止は `lyads keyword pause` / `enable`
+
+2026-08-22に追加。`userStatus` を `PAUSED` / `ACTIVE` に切り替えるだけなので、
+remove と違って **criterionId と実績を残したまま戻せる**。criterionId を渡すだけで
+adGroupId / campaignId / text / マッチタイプは自動で引く。
 
 ## 地域ターゲティングの「関心のある地域」
 

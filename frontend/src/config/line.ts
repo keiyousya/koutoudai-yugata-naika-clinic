@@ -8,11 +8,10 @@ const LIFF_URL = "https://liff.line.me/2009473908-qpttVFi9";
 // 通常の友だち追加URL（オーガニック流入）
 export const LINE_ADD_FRIEND_URL = `${LIFF_URL}?source=organic`;
 
-// Google広告経由用の友だち追加URL
-// gclid 付きでアクセスされた場合にこちらへ差し替える（広告効果測定用）。
-// ヤフー広告(yclid)は判定に入れていないため organic 側に混ざる。
-// 分離するには procyon の acquisition_source に yahoo_ads を足す必要がある
-export const LINE_ADD_FRIEND_URL_AD = `${LIFF_URL}?source=google_ads`;
+// 広告経由用の友だち追加URL。着地時のクリックIDで媒体を判定して差し替える
+// （Google広告は gclid、ヤフー広告は yclid を自動付与する）
+export const LINE_ADD_FRIEND_URL_GOOGLE_AD = `${LIFF_URL}?source=google_ads`;
+export const LINE_ADD_FRIEND_URL_YAHOO_AD = `${LIFF_URL}?source=yahoo_ads`;
 
 // Google広告のコンバージョン計測タグ。
 // LINE友だち追加ボタンのクリックを「LINE友だち追加」コンバージョンとして計測する。

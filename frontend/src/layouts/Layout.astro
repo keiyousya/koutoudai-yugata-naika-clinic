@@ -9,7 +9,8 @@ import '@fontsource/m-plus-1p/latin-700.css';
 import brandFontUrl from '../fonts/noto-sans-jp-brand.woff2?url';
 import FixedLineButton from '../components/FixedLineButton.astro';
 import {
-  LINE_ADD_FRIEND_URL_AD,
+  LINE_ADD_FRIEND_URL_GOOGLE_AD,
+  LINE_ADD_FRIEND_URL_YAHOO_AD,
   GOOGLE_ADS_TAG_ID,
   LINE_CONVERSION_SEND_TO,
   YAHOO_CONVERSION_ID,
@@ -245,11 +246,11 @@ const faqStructuredData = {
     <slot />
     <FixedLineButton />
 
-    {/* 広告効果測定: gclid付き（Google広告経由）でアクセスされた場合、
-         ページ内のLINEへのリンクをすべて広告用URL（?source=google_ads）に差し替える。
+    {/* 広告効果測定: gclid（Google広告）/ yclid（ヤフー広告）付きでアクセスされた場合、
+         ページ内のLINEへのリンクをすべて媒体別の広告用URL（?source=）に差し替える。
          href基準で自動的に全ボタンを拾うため、コンポーネント／手書きを問わず
          今後追加されるLINEボタンも自動で対象になる（印の付け忘れによる漏れを防止）。
-         gclidは着地ページにしか付かないため、判定結果をsessionStorageに保存し
+         クリックIDは着地ページにしか付かないため、判定結果をsessionStorageに保存し
          サイト内の他ページでも広告用URLを維持する。
 
          あわせて、同じLINEアンカーのクリックを「LINE友だち追加」コンバージョンとして
@@ -258,22 +259,29 @@ const faqStructuredData = {
          帰属される。ボタンはすべて target="_blank" なのでページは残り、計測ビーコンは
          確実に送られる（遷移を遅らせる必要はない）。 */}
     <script define:vars={{
-      adUrl: LINE_ADD_FRIEND_URL_AD,
+      googleAdUrl: LINE_ADD_FRIEND_URL_GOOGLE_AD,
+      yahooAdUrl: LINE_ADD_FRIEND_URL_YAHOO_AD,
       sendTo: LINE_CONVERSION_SEND_TO,
       yahooConversionId: YAHOO_CONVERSION_ID,
       yahooConversionLabel: YAHOO_CONVERSION_LABEL,
     }}>
       (function () {
-        var KEY = "lineAdRoute";
+        var KEY = "lineAdSource";
         try {
-          if (new URLSearchParams(window.location.search).has("gclid")) {
-            sessionStorage.setItem(KEY, "1");
+          var params = new URLSearchParams(window.location.search);
+          if (params.has("gclid")) {
+            sessionStorage.setItem(KEY, "google_ads");
+          } else if (params.has("yclid")) {
+            sessionStorage.setItem(KEY, "yahoo_ads");
           }
-          var isAd = sessionStorage.getItem(KEY) === "1";
+          var stored = sessionStorage.getItem(KEY);
+          var adUrl =
+            stored === "google_ads" ? googleAdUrl :
+            stored === "yahoo_ads" ? yahooAdUrl : null;
           document
             .querySelectorAll('a[href*="line.me/"]')
             .forEach(function (el) {
-              if (isAd) {
+              if (adUrl) {
                 el.setAttribute("href", adUrl);
               }
               el.addEventListener("click", function () {

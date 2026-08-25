@@ -18,6 +18,7 @@ import interiorImage03 from "../assets/interior03.jpeg";
       <Image src={interiorImage03} alt="院内の様子" width={1200} loading="lazy" class="hero-slide" />
     </div>
   </div>
+  <p class="hero-closure-label">現在 臨時休診中です</p>
   <div class="hero-content container">
     <p class="hero-catchphrase">夜21時まで診療｜土日も受診できる内科</p>
     <h1 class="hero-title">
@@ -64,7 +65,8 @@ import interiorImage03 from "../assets/interior03.jpeg";
     </div>
     <p class="hero-access">勾当台公園駅から徒歩2分</p>
   </div>
-  <a href="/availability" class="availability-banner">
+  <!-- TODO: 再開時に復元 — 臨時休診期間中は非表示 -->
+  <!-- <a href="/availability" class="availability-banner">
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
       <line x1="16" y1="2" x2="16" y2="6"/>
@@ -72,6 +74,14 @@ import interiorImage03 from "../assets/interior03.jpeg";
       <line x1="3" y1="10" x2="21" y2="10"/>
     </svg>
     <span>本日の予約状況を確認</span>
+  </a> -->
+  <a href="/news/2026-08-04" class="availability-banner">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <span>臨時休診のお知らせ（8/26〜9月中旬）</span>
   </a>
   <TwilightBackground />
 </section>
@@ -132,6 +142,22 @@ import interiorImage03 from "../assets/interior03.jpeg";
   .hero-content {
     text-align: center;
     z-index: 1;
+  }
+
+  .hero-closure-label {
+    position: absolute;
+    top: 88px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    padding: 8px 32px;
+    background: #d03030;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 6px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
   }
 
   .hero-catchphrase {

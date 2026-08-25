@@ -72,6 +72,44 @@ const august2026 = [
   { day: 31, open: false, temporary: true },
 ];
 
+// 2026年9月の診療カレンダー（日曜始まり）
+// 9/1〜9/14 臨時休診、9/15以降通常（火曜・祝日休診）
+const september2026 = [
+  // 9/1(火)〜 … 先頭2マス空き
+  { day: null }, { day: null },
+  { day: 1, open: false },  // 火曜（定休）
+  { day: 2, open: false, temporary: true },
+  { day: 3, open: false, temporary: true },
+  { day: 4, open: false, temporary: true },
+  { day: 5, open: false, temporary: true },
+  { day: 6, open: false, temporary: true },
+  { day: 7, open: false, temporary: true },
+  { day: 8, open: false },  // 火曜（定休）
+  { day: 9, open: false, temporary: true },
+  { day: 10, open: false, temporary: true },
+  { day: 11, open: false, temporary: true },
+  { day: 12, open: false, temporary: true },
+  { day: 13, open: false, temporary: true },
+  { day: 14, open: false, temporary: true },
+  { day: 15, open: false },  // 火曜（定休）
+  { day: 16, open: true },
+  { day: 17, open: true },
+  { day: 18, open: true },
+  { day: 19, open: true },
+  { day: 20, open: true },
+  { day: 21, open: false, holiday: true },  // 敬老の日
+  { day: 22, open: false },  // 火曜（定休）
+  { day: 23, open: false, holiday: true },  // 秋分の日
+  { day: 24, open: true },
+  { day: 25, open: true },
+  { day: 26, open: true },
+  { day: 27, open: true },
+  { day: 28, open: true },
+  { day: 29, open: false },  // 火曜（定休）
+  { day: 30, open: true },
+  { day: null }, { day: null }, { day: null },
+];
+
 const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 ---
 
@@ -81,27 +119,73 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     <div class="hours-layout">
       <!-- 左側：カレンダー -->
       <div class="calendar-side">
-        <div class="monthly-calendar">
-          <div class="monthly-header">
-            <span>2026年8月</span>
-          </div>
-          <div class="monthly-weekdays">
-            {weekdays.map((day, i) => (
-              <div class={`weekday ${i === 0 ? "sunday" : ""} ${i === 6 ? "saturday" : ""}`}>{day}</div>
-            ))}
-          </div>
-          <div class="monthly-grid">
-            {august2026.map((item, i) => (
-              <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""} ${item.temporary ? "temporary" : ""}`}>
-                {item.day !== null && (
-                  <>
-                    <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
-                    <span class="status">{item.open ? "○" : "休"}</span>
-                  </>
-                )}
+        <div class="month-tabs">
+          <button class="month-tab active" data-month="0">8月</button>
+          <button class="month-tab" data-month="1">9月</button>
+        </div>
+
+        <div class="calendar-container">
+          <button class="calendar-nav prev" id="prevMonth" aria-label="前の月">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+
+          <div class="calendar-slider">
+            <div class="calendar-track" id="calendarTrack">
+              <div class="monthly-calendar">
+                <div class="monthly-header">
+                  <span>2026年8月</span>
+                </div>
+                <div class="monthly-weekdays">
+                  {weekdays.map((day, i) => (
+                    <div class={`weekday ${i === 0 ? "sunday" : ""} ${i === 6 ? "saturday" : ""}`}>{day}</div>
+                  ))}
+                </div>
+                <div class="monthly-grid">
+                  {august2026.map((item, i) => (
+                    <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""} ${item.temporary ? "temporary" : ""}`}>
+                      {item.day !== null && (
+                        <>
+                          <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
+                          <span class="status">{item.open ? "○" : "休"}</span>
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
+
+              <div class="monthly-calendar">
+                <div class="monthly-header">
+                  <span>2026年9月</span>
+                </div>
+                <div class="monthly-weekdays">
+                  {weekdays.map((day, i) => (
+                    <div class={`weekday ${i === 0 ? "sunday" : ""} ${i === 6 ? "saturday" : ""}`}>{day}</div>
+                  ))}
+                </div>
+                <div class="monthly-grid">
+                  {september2026.map((item, i) => (
+                    <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""} ${item.temporary ? "temporary" : ""}`}>
+                      {item.day !== null && (
+                        <>
+                          <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
+                          <span class="status">{item.open ? "○" : "休"}</span>
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
+
+          <button class="calendar-nav next" id="nextMonth" aria-label="次の月">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
         </div>
 
         <div class="calendar-legend">
@@ -224,11 +308,6 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
           </div>
         </div>
 
-        <div class="hours-notice">
-          <p>
-            ※急な休診の場合は、当院ウェブサイトにてお知らせいたします。
-          </p>
-        </div>
       </div>
     </div>
   </div>
@@ -257,12 +336,95 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     width: 100%;
   }
 
+  .month-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+
+  .month-tab {
+    padding: 10px 28px;
+    background: white;
+    border: 2px solid var(--color-border);
+    border-radius: 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .month-tab:hover {
+    border-color: var(--color-turquoise);
+    color: var(--color-turquoise);
+  }
+
+  .month-tab.active {
+    background: var(--color-turquoise);
+    border-color: var(--color-turquoise);
+    color: white;
+  }
+
+  .calendar-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .calendar-slider {
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .calendar-track {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+  }
+
   .monthly-calendar {
+    min-width: 100%;
+    flex-shrink: 0;
     background: white;
     border: 1px solid #d0e8ec;
     border-radius: 16px;
     overflow: hidden;
-    margin-bottom: 20px;
+  }
+
+  .calendar-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 1px solid #d0e8ec;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-navy);
+    transition: all 0.2s;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .calendar-nav:hover:not(:disabled) {
+    background: var(--color-turquoise-bg);
+    border-color: var(--color-turquoise);
+    color: var(--color-turquoise);
+  }
+
+  .calendar-nav:disabled {
+    cursor: not-allowed;
+  }
+
+  .calendar-nav.prev {
+    left: -22px;
+  }
+
+  .calendar-nav.next {
+    right: -22px;
   }
 
   .monthly-header {
@@ -747,6 +909,85 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
       flex-direction: row;
       gap: 20px;
     }
+
+    .calendar-nav.prev {
+      left: -16px;
+    }
+
+    .calendar-nav.next {
+      right: -16px;
+    }
+
+    .calendar-nav {
+      width: 36px;
+      height: 36px;
+    }
+
+    .calendar-nav svg {
+      width: 20px;
+      height: 20px;
+    }
   }
 </style>
+
+<script>
+  let currentMonth = 0;
+  const totalMonths = 2;
+  const track = document.getElementById('calendarTrack');
+  const prevBtn = document.getElementById('prevMonth');
+  const nextBtn = document.getElementById('nextMonth');
+  const monthTabs = document.querySelectorAll('.month-tab');
+
+  function updateCalendar() {
+    if (track) {
+      track.style.transform = `translateX(-${currentMonth * 100}%)`;
+    }
+
+    if (prevBtn) {
+      prevBtn.disabled = currentMonth === 0;
+      prevBtn.style.opacity = currentMonth === 0 ? '0.3' : '1';
+    }
+
+    if (nextBtn) {
+      nextBtn.disabled = currentMonth === totalMonths - 1;
+      nextBtn.style.opacity = currentMonth === totalMonths - 1 ? '0.3' : '1';
+    }
+
+    monthTabs.forEach((tab, index) => {
+      if (index === currentMonth) {
+        tab.classList.add('active');
+      } else {
+        tab.classList.remove('active');
+      }
+    });
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentMonth > 0) {
+        currentMonth--;
+        updateCalendar();
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (currentMonth < totalMonths - 1) {
+        currentMonth++;
+        updateCalendar();
+      }
+    });
+  }
+
+  monthTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const monthIndex = parseInt(tab.getAttribute('data-month') || '0');
+      currentMonth = monthIndex;
+      updateCalendar();
+    });
+  });
+
+  updateCalendar();
+</script>
 

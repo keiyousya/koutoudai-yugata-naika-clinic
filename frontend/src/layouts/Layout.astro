@@ -505,7 +505,8 @@ const faqStructuredData = {
     letter-spacing: 0.04em;
   }
 
-  .section-title::after {
+  .section-title::after,
+  .page-section-title::after {
     content: "";
     display: block;
     width: 40px;
@@ -513,6 +514,14 @@ const faqStructuredData = {
     background: var(--color-navy);
     margin: 16px auto 0;
     opacity: 0.3;
+  }
+
+  .page-section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--color-navy);
   }
 
   @media (max-width: 768px) {
@@ -531,6 +540,11 @@ const faqStructuredData = {
     .section-title {
       font-size: 1.3rem;
       margin-bottom: 36px;
+    }
+
+    .page-section-title {
+      font-size: 1.15rem;
+      margin-bottom: 32px;
     }
   }
 </style>

@@ -4,17 +4,10 @@
 <section id="doctor" class="section doctor">
   <div class="container">
     <h2 class="section-title">院長紹介</h2>
-    <a href="/doctor" class="doctor-card">
-      <div class="doctor-card-header">
-        <span class="position">院長</span>
-        <h3 class="doctor-card-name">田村　慧人</h3>
-        <span class="name-kana">たむら けいと</span>
-      </div>
-      <p class="doctor-card-summary">
-        日中の受診が難しい現役世代の方々がストレスなく通院できるよう、夕方・土日に診療を行うクリニックを開院いたしました。
-      </p>
-      <span class="doctor-card-link">経歴・ご挨拶はこちら →</span>
-    </a>
+    <p class="doctor-summary">
+      日中の受診が難しい現役世代の方々がストレスなく通院できるよう、夕方・土日に診療を行うクリニックを開院いたしました。
+    </p>
+    <a href="/doctor" class="doctor-link">経歴・ご挨拶はこちら →</a>
   </div>
 </section>
 
@@ -23,69 +16,22 @@
     background: var(--color-turquoise-bg);
   }
 
-  .doctor-card {
-    display: block;
-    max-width: 640px;
-    margin: 0 auto;
-    background: white;
-    border: 1px solid var(--color-turquoise);
-    border-radius: 16px;
-    padding: 32px 24px;
+  .doctor-summary {
     text-align: center;
-    text-decoration: none;
-    transition: box-shadow 0.2s;
-  }
-
-  .doctor-card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  }
-
-  .doctor-card-header {
-    margin-bottom: 16px;
-  }
-
-  .position {
-    display: inline-block;
-    font-size: 0.75rem;
-    color: var(--color-turquoise);
-    font-weight: 600;
-    margin-bottom: 8px;
-    letter-spacing: 0.16em;
-  }
-
-  .doctor-card-name {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    letter-spacing: 0.12em;
-    margin: 0;
-  }
-
-  .name-kana {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-    margin-top: 6px;
-    letter-spacing: 0.1em;
-  }
-
-  .doctor-card-summary {
     color: var(--color-text-secondary);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     line-height: 1.8;
-    margin-bottom: 16px;
+    max-width: 540px;
+    margin: 0 auto 20px;
   }
 
-  .doctor-card-link {
+  .doctor-link {
+    display: block;
+    text-align: center;
     color: var(--color-turquoise);
     font-size: 0.9rem;
     font-weight: 600;
+    text-decoration: none;
     letter-spacing: 0.03em;
-  }
-
-  @media (max-width: 768px) {
-    .doctor-card-name {
-      font-size: 1.3rem;
-    }
   }
 </style>

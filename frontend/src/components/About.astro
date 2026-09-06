@@ -19,8 +19,11 @@ import InfoCard from "./InfoCard.astro";
         </p>
         <p class="about-description">
           健診での指摘の精査、生活習慣病など慢性疾患の管理から急な発熱・体調不良まで、<br />
-          夕方以降のかかりつけ医として、お気軽にご相談ください。
+          夕方以降のかかりつけ医として、お気軽にご相談ください。<br />
         </p>
+        <div class="about-doctor-link-row">
+          <a href="/doctor" class="about-doctor-link">院長紹介（経歴・ご挨拶）はこちら →</a>
+        </div>
 
         <div class="interior-gallery">
           <div class="interior-image-wrapper media-skeleton">
@@ -39,10 +42,10 @@ import InfoCard from "./InfoCard.astro";
 
         <div class="about-features">
           <InfoCard icon="symbols/i_schedule_school_date_time" title="夕方〜夜間診療" variant="outlined">
-            <p>17:00〜21:00まで診療。お仕事帰りにも立ち寄れます。</p>
+            <p>平日17:00〜21:00まで診療。お仕事帰りにも立ち寄れます。</p>
           </InfoCard>
           <InfoCard icon="objects/calendar" title="土日・週末も診療" variant="outlined">
-            <p>平日だけでなく、土曜・日曜も診療を行っています。週末や休日の通院にも対応できます。</p>
+            <p>平日だけでなく、土曜・日曜も診療を行っています（14:00〜21:00）。週末や休日の通院にも対応できます。</p>
           </InfoCard>
           <InfoCard icon="symbols/geo_location" title="駅から徒歩2分" variant="outlined">
             <p>地下鉄南北線 勾当台公園駅から徒歩2分の好アクセス。</p>
@@ -154,7 +157,7 @@ import InfoCard from "./InfoCard.astro";
                 <li class="condition-tag">性感染症</li>
               </ul>
               <p class="info-card__note">※ アレルギー検査は39項目のセット検査が可能です。</p>
-              <p class="info-card__note">※ 性感染症はクラミジア・淋菌・梅毒・HIVの検査が可能です。</p>
+              <p class="info-card__note">※ 性感染症はクラミジア・淋菌・梅毒・HIV・B型肝炎の検査が可能です。</p>
               <p class="info-card__note">※ その他、症状に応じて必要な検査を行います。</p>
             </InfoCard>
           </div>
@@ -314,6 +317,7 @@ import InfoCard from "./InfoCard.astro";
                 <li><a href="https://www.openhp.or.jp/" target="_blank" rel="noopener noreferrer">仙台オープン病院</a></li>
                 <li><a href="https://www.tohokuh.johas.go.jp/" target="_blank" rel="noopener noreferrer">東北労災病院</a></li>
                 <li><a href="https://tohokukosai.kkr.or.jp/" target="_blank" rel="noopener noreferrer">東北公済病院</a></li>
+                <li><a href="https://www.sendai.jrc.or.jp/" target="_blank" rel="noopener noreferrer">仙台赤十字病院</a></li>
               </ul>
             </div>
           </div>
@@ -363,6 +367,19 @@ import InfoCard from "./InfoCard.astro";
     margin-bottom: 48px;
     line-height: 1.9;
     font-size: 0.9rem;
+  }
+
+  .about-doctor-link-row {
+    text-align: center;
+    margin-top: -36px;
+    margin-bottom: 48px;
+  }
+
+  .about-doctor-link {
+    font-size: 0.85rem;
+    color: var(--color-turquoise);
+    text-decoration: none;
+    font-weight: 600;
   }
 
   .demographics-link-row {

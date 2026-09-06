@@ -16,7 +16,6 @@ import Footer from "../components/Footer.astro";
 
     <section class="page-section">
       <div class="container">
-        <h2 class="page-section-title">アレルゲン免疫療法とは</h2>
         <div class="info-box">
           <p class="info-text">
             アレルゲン免疫療法は、アレルギーの原因となる物質（アレルゲン）を少量から体内に取り込み、徐々に量を増やしていくことで、<strong>アレルギー反応を起こしにくい体質に改善する治療法</strong>です。
@@ -119,8 +118,8 @@ import Footer from "../components/Footer.astro";
             <p class="price-example-title">概算費用（3割負担の場合）</p>
             <ul class="price-list">
               <li>検査料：約700円（アレルゲン1項目の場合・診察料別）</li>
-              <li>初回投与時：約1,500円（再診料・導入指導料・お薬代込み）</li>
-              <li>定期通院（月1回）：約600円（再診料）</li>
+              <li>初回投与時：約2,300円（再診料・治療管理料・導入指導料・お薬代込み）</li>
+              <li>定期通院（月1回）：約700円（再診料・治療管理料）</li>
             </ul>
             <p class="price-note">※ 上記は目安です。他院でのアレルゲン検査結果をお持ちの場合、当院での検査が不要になる場合があります。</p>
           </div>
@@ -204,13 +203,7 @@ import Footer from "../components/Footer.astro";
     background: var(--color-coral-bg);
   }
 
-  .page-section-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 40px;
-    color: var(--color-navy);
-  }
+
 
   .section-lead {
     text-align: center;
@@ -224,6 +217,7 @@ import Footer from "../components/Footer.astro";
     max-width: 720px;
     margin: 0 auto;
     background: var(--color-turquoise-bg);
+    border: 1px solid var(--color-turquoise);
     border-radius: 12px;
     padding: 28px 32px;
   }
@@ -249,6 +243,7 @@ import Footer from "../components/Footer.astro";
 
   .target-card {
     background: white;
+    border: 1px solid var(--color-turquoise);
     border-radius: 12px;
     padding: 24px;
   }
@@ -271,6 +266,7 @@ import Footer from "../components/Footer.astro";
     max-width: 720px;
     margin: 0 auto;
     background: white;
+    border: 1px solid var(--color-turquoise);
     border-radius: 12px;
     padding: 20px 28px;
     text-align: center;
@@ -294,6 +290,7 @@ import Footer from "../components/Footer.astro";
     align-items: flex-start;
     gap: 20px;
     background: var(--color-coral-bg);
+    border: 1px solid var(--color-coral);
     padding: 24px;
     border-radius: 12px;
   }
@@ -340,6 +337,7 @@ import Footer from "../components/Footer.astro";
 
   .price-example {
     background: white;
+    border: 1px solid var(--color-turquoise);
     border-radius: 12px;
     padding: 24px 28px;
   }
@@ -403,6 +401,7 @@ import Footer from "../components/Footer.astro";
     align-items: flex-start;
     gap: 16px;
     background: white;
+    border: 1px solid var(--color-coral);
     padding: 20px 24px;
     border-radius: 12px;
   }
@@ -447,6 +446,7 @@ import Footer from "../components/Footer.astro";
     max-width: 720px;
     margin: 0 auto;
     background: white;
+    border: 1px solid var(--color-coral);
     border-radius: 12px;
     padding: 28px 32px;
   }
@@ -534,10 +534,6 @@ import Footer from "../components/Footer.astro";
       padding: 60px 0;
     }
 
-    .page-section-title {
-      font-size: 1.15rem;
-      margin-bottom: 32px;
-    }
 
     .section-lead {
       text-align: left;

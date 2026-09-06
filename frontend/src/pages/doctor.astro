@@ -7,7 +7,7 @@ import Footer from "../components/Footer.astro";
 
 <Layout
   title="院長紹介 | 勾当台夕方内科クリニック"
-  description="勾当台夕方内科クリニック院長 田村慧人のご紹介。経歴・所属学会・ご挨拶をご覧いただけます。"
+  description="勾当台夕方内科クリニック院長 田村慧人のご紹介。経歴・ご挨拶をご覧いただけます。"
 >
   <Header />
   <main class="page-main">
@@ -32,15 +32,6 @@ import Footer from "../components/Footer.astro";
                 </ul>
               </div>
 
-              <div class="doctor-qualifications">
-                <h4>所属学会</h4>
-                <ul>
-                  <li>日本内科学会</li>
-                </ul>
-                <ul>
-                  <li>日本超音波医学会</li>
-                </ul>
-              </div>
             </div>
 
             <div class="doctor-card">
@@ -56,7 +47,7 @@ import Footer from "../components/Footer.astro";
                   健診で指摘を受けた項目があるけれど仕事や学校でなかなか受診できないという方も、元々通院していたけれど日中は忙しくて途切れてしまったという方も、ライフスタイルに合わせた無理のない通院を行っていただけると思います。些細なことでも構いませんので、地域のかかりつけ医としてお気軽にご相談ください。
                 </p>
                 <p>
-                  小さなクリニックではありますが、市民の皆さまの健やかな生活をサポートできるよう、スタッフ一同努めてまいります。
+                  ビルの中の小さなクリニックではありますが、市民の皆さまの健やかな生活をサポートできるよう、スタッフ一同努めてまいります。
                 </p>
               </div>
             </div>
@@ -75,6 +66,10 @@ import Footer from "../components/Footer.astro";
 <style>
   .doctor {
     background: var(--color-turquoise-bg);
+  }
+
+  .container {
+    max-width: 720px;
   }
 
   .doctor-content {
@@ -124,12 +119,7 @@ import Footer from "../components/Footer.astro";
     letter-spacing: 0.1em;
   }
 
-  .doctor-qualifications {
-    margin-top: 20px;
-  }
-
   .doctor-career h4,
-  .doctor-qualifications h4,
   .doctor-message h4 {
     font-size: 0.9rem;
     color: var(--color-navy);
@@ -139,24 +129,21 @@ import Footer from "../components/Footer.astro";
     letter-spacing: 0.03em;
   }
 
-  .doctor-career ul,
-  .doctor-qualifications ul {
+  .doctor-career ul {
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding-left: 16px;
   }
 
-  .doctor-career li,
-  .doctor-qualifications li {
+  .doctor-career li {
     position: relative;
     padding-left: 16px;
     color: var(--color-text-secondary);
     font-size: 0.9rem;
   }
 
-  .doctor-career li::before,
-  .doctor-qualifications li::before {
+  .doctor-career li::before {
     content: "";
     position: absolute;
     left: 0;

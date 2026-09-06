@@ -51,6 +51,9 @@
               </button>
             </div>
           </div>
+          <div class="map-spinner" id="mapSpinner">
+            <div class="map-spinner-icon"></div>
+          </div>
           <!-- Interactive iframe - loaded on demand -->
           <iframe
             id="mapIframe"
@@ -75,7 +78,7 @@
 
     <div class="access-extra">
       <div class="directions">
-        <h4>ビルへの入り方</h4>
+        <h4>クリニックへの入り方</h4>
         <ol class="directions-list">
           <li>
             <span class="step-num">1</span>
@@ -355,6 +358,33 @@
     display: none;
   }
 
+  .map-spinner {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: var(--color-turquoise-bg);
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .map-spinner.active {
+    display: flex;
+  }
+
+  .map-spinner-icon {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--color-turquoise);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: map-spin 0.8s linear infinite;
+  }
+
+  @keyframes map-spin {
+    to { transform: rotate(360deg); }
+  }
+
   .map-link {
     display: block;
     margin-top: 14px;
@@ -408,14 +438,19 @@
   const mapPlaceholder = document.getElementById("mapPlaceholder");
   const mapIframe = document.getElementById("mapIframe") as HTMLIFrameElement;
   const mapContainer = document.getElementById("mapContainer");
+  const mapSpinner = document.getElementById("mapSpinner");
 
   function loadInteractiveMap() {
-    if (mapIframe && mapPlaceholder && !mapIframe.src) {
+    if (mapIframe && mapPlaceholder && mapSpinner && !mapIframe.src) {
       const src = mapIframe.dataset.src;
       if (src) {
-        mapIframe.src = src;
-        mapIframe.style.display = "block";
         mapPlaceholder.classList.add("hidden");
+        mapSpinner.classList.add("active");
+        mapIframe.addEventListener("load", () => {
+          mapSpinner.classList.remove("active");
+          mapIframe.style.display = "block";
+        }, { once: true });
+        mapIframe.src = src;
       }
     }
   }

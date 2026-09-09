@@ -3,12 +3,6 @@ import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import SubPageHeader from "../../components/SubPageHeader.astro";
 import Footer from "../../components/Footer.astro";
-import { newsItems } from "../../data/news";
-
-// ページネーションは将来的に実装
-// 現在は全件表示
-const displayItems = newsItems;
-const totalItems = newsItems.length;
 ---
 
 <Layout
@@ -21,20 +15,17 @@ const totalItems = newsItems.length;
 
     <section class="news-list-content">
       <div class="container">
-        <ul class="news-list">
-          {displayItems.map((item) => (
-            <li class={`news-item ${item.isImportant ? "important" : ""}`}>
-              <a href={`/news/${item.slug}`} class="news-item-link">
-                <span class="news-date">{item.date}</span>
-                <span class="news-text">{item.content}</span>
-                <span class="news-arrow">
-                  <span class="arrow-text">詳しくはこちら</span>
-                  <span class="arrow-symbol">→</span>
-                </span>
-              </a>
+        <ul class="news-list" id="newsList">
+          {Array.from({ length: 5 }).map(() => (
+            <li class="news-item news-item--skeleton">
+              <span class="news-date"><span class="skeleton skeleton-date"></span></span>
+              <span class="news-text"><span class="skeleton skeleton-text"></span></span>
             </li>
           ))}
         </ul>
+        <div class="load-more-sentinel" id="loadMoreSentinel" style="display: none;">
+          <div class="spinner" aria-label="読み込み中"></div>
+        </div>
       </div>
     </section>
 
@@ -49,31 +40,133 @@ const totalItems = newsItems.length;
   <Footer />
 </Layout>
 
-<style>
+<script>
+  const PROCYON_BASE = import.meta.env.PUBLIC_PROCYON_BASE_URL || 'https://api.procyon.helix.keiyousya.com';
+  const PROCYON_TENANT = import.meta.env.PUBLIC_PROCYON_TENANT || 'koutoudai-yugata-naika';
+  const API_URL = `${PROCYON_BASE}/${PROCYON_TENANT}/v1/notices`;
+  const PAGE_SIZE = 10;
+
+  interface NoticeEntry {
+    id: string;
+    title: string;
+    content: string;
+    publishStartDate: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+
+  interface GetNoticesResponse {
+    notices: NoticeEntry[];
+    hasMore: boolean;
+    nextCursor?: string;
+  }
+
+  function formatDate(dateStr: string): string {
+    return dateStr.replace(/-/g, '.');
+  }
+
+  function renderItems(notices: NoticeEntry[]): string {
+    return notices.map(notice => `
+      <li class="news-item">
+        <a href="/news/detail/?id=${notice.id}" class="news-item-link">
+          <span class="news-date">${formatDate(notice.publishStartDate)}</span>
+          <span class="news-text">${notice.title}</span>
+          <span class="news-arrow">
+            <span class="arrow-text">詳しくはこちら</span>
+            <span class="arrow-symbol">→</span>
+          </span>
+        </a>
+      </li>
+    `).join('');
+  }
+
+  const list = document.getElementById('newsList');
+  const sentinel = document.getElementById('loadMoreSentinel');
+  let nextCursor: string | undefined;
+  let isFirstLoad = true;
+  let isLoading = false;
+  let hasMore = true;
+
+  async function loadPage() {
+    if (!list || isLoading || !hasMore) return;
+    isLoading = true;
+
+    try {
+      const url = new URL(API_URL);
+      url.searchParams.set('pageSize', String(PAGE_SIZE));
+      if (nextCursor) url.searchParams.set('cursor', nextCursor);
+
+      const res = await fetch(url.toString());
+      if (!res.ok) throw new Error('fetch failed');
+      const data: GetNoticesResponse = await res.json();
+
+      if (isFirstLoad) {
+        if (data.notices.length === 0) {
+          list.innerHTML = '<li class="news-item"><span class="news-text news-empty">現在お知らせはありません</span></li>';
+          hasMore = false;
+          return;
+        }
+        list.innerHTML = renderItems(data.notices);
+        isFirstLoad = false;
+      } else {
+        list.insertAdjacentHTML('beforeend', renderItems(data.notices));
+      }
+
+      nextCursor = data.nextCursor;
+      hasMore = data.hasMore;
+
+      if (sentinel) {
+        sentinel.style.display = hasMore ? '' : 'none';
+      }
+    } catch {
+      if (isFirstLoad) {
+        list.innerHTML = '<li class="news-item"><span class="news-text news-error">お知らせの読み込みに失敗しました</span></li>';
+      }
+      hasMore = false;
+      if (sentinel) sentinel.style.display = 'none';
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  // IntersectionObserver で sentinel が見えたら次ページを読み込む
+  if (sentinel) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore && !isLoading) {
+        loadPage();
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(sentinel);
+  }
+
+  loadPage();
+</script>
+
+<style is:global>
   .news-list-main {
     min-height: calc(100vh - 72px);
     background: white;
   }
 
-  .news-list-content {
+  .news-list-main .news-list-content {
     padding: 0 0 80px;
   }
 
-  .news-list-content .container {
+  .news-list-main .news-list-content .container {
     max-width: 800px;
   }
 
-  .news-list {
+  .news-list-main .news-list {
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--color-border);
   }
 
-  .news-item {
+  .news-list-main .news-item {
     border-bottom: 1px solid var(--color-border);
   }
 
-  .news-item-link {
+  .news-list-main .news-item-link {
     display: flex;
     align-items: baseline;
     gap: 24px;
@@ -83,11 +176,11 @@ const totalItems = newsItems.length;
     transition: background 0.2s;
   }
 
-  .news-item-link:hover {
+  .news-list-main .news-item-link:hover {
     background: var(--color-turquoise-bg);
   }
 
-  .news-date {
+  .news-list-main .news-date {
     flex-shrink: 0;
     font-size: 0.78rem;
     color: var(--color-text-muted);
@@ -95,19 +188,22 @@ const totalItems = newsItems.length;
     letter-spacing: 0.03em;
   }
 
-  .news-text {
+  .news-list-main .news-text {
     flex: 1;
     font-size: 0.9rem;
-    color: var(--color-text);
+    color: var(--color-navy);
+    font-weight: 500;
     line-height: 1.7;
   }
 
-  .news-item.important .news-text {
-    color: var(--color-navy);
-    font-weight: 500;
+  .news-list-main .news-empty,
+  .news-list-main .news-error {
+    color: var(--color-text-muted);
+    font-weight: 400;
+    padding: 20px 8px;
   }
 
-  .news-arrow {
+  .news-list-main .news-arrow {
     flex-shrink: 0;
     color: var(--color-turquoise);
     opacity: 0.6;
@@ -117,31 +213,80 @@ const totalItems = newsItems.length;
     gap: 4px;
   }
 
-  .arrow-text {
+  .news-list-main .arrow-text {
     display: none;
     font-size: 0.85rem;
     font-weight: 500;
   }
 
-  .arrow-symbol {
+  .news-list-main .arrow-symbol {
     font-size: 1rem;
   }
 
-  .news-item-link:hover .news-arrow {
+  .news-list-main .news-item-link:hover .news-arrow {
     opacity: 1;
   }
 
-  .back-section {
+  /* スケルトン */
+  .news-list-main .news-item--skeleton {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 20px 8px;
+  }
+
+  .news-list-main .skeleton {
+    display: inline-block;
+    background: #eee;
+    border-radius: 4px;
+    animation: news-list-skeleton-pulse 1.5s ease-in-out infinite;
+  }
+
+  .news-list-main .skeleton-date {
+    width: 5.5em;
+    height: 0.78rem;
+  }
+
+  .news-list-main .skeleton-text {
+    width: 16em;
+    height: 0.9rem;
+  }
+
+  @keyframes news-list-skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .news-list-main .load-more-sentinel {
+    display: flex;
+    justify-content: center;
+    padding: 32px 0;
+  }
+
+  .news-list-main .spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-turquoise);
+    border-radius: 50%;
+    animation: news-spinner 0.7s linear infinite;
+  }
+
+  @keyframes news-spinner {
+    to { transform: rotate(360deg); }
+  }
+
+  .news-list-main .back-section {
     background: white;
     padding: 40px 0 80px;
   }
 
-  .detail-back {
+  .news-list-main .detail-back {
     text-align: center;
     padding-top: 32px;
   }
 
-  .back-button {
+  .news-list-main .back-button {
     display: inline-flex;
     align-items: center;
     padding: 12px 32px;
@@ -155,135 +300,46 @@ const totalItems = newsItems.length;
     transition: all 0.2s;
   }
 
-  .back-button:hover {
+  .news-list-main .back-button:hover {
     background: var(--color-navy);
     color: white;
-  }
-
-  .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 48px;
-    padding-top: 32px;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .pagination-link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 20px;
-    background: white;
-    border: 1px solid var(--color-navy);
-    border-radius: 24px;
-    color: var(--color-navy);
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-
-  .pagination-link:hover {
-    background: var(--color-navy);
-    color: white;
-  }
-
-  .pagination-link svg {
-    transition: transform 0.2s;
-  }
-
-  .pagination-link.prev:hover svg {
-    transform: translateX(-2px);
-  }
-
-  .pagination-link.next:hover svg {
-    transform: translateX(2px);
-  }
-
-  .pagination-numbers {
-    display: flex;
-    gap: 8px;
-  }
-
-  .pagination-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: white;
-    border: 2px solid var(--color-border);
-    color: var(--color-text);
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-
-  .pagination-number:hover {
-    border-color: var(--color-turquoise);
-    color: var(--color-turquoise);
-  }
-
-  .pagination-number.active {
-    background: var(--color-turquoise);
-    border-color: var(--color-turquoise);
-    color: white;
-    font-weight: 700;
   }
 
   @media (max-width: 768px) {
-    .news-list-content {
+    .news-list-main .news-list-content {
       padding: 0 0 60px;
     }
 
-    .news-item-link {
+    .news-list-main .news-item-link {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      padding: 14px 16px;
+    }
+
+    .news-list-main .news-item--skeleton {
       flex-direction: column;
       align-items: flex-start;
       gap: 8px;
       padding: 14px 16px;
     }
 
-    .news-date {
+    .news-list-main .news-date {
       font-size: 0.8rem;
     }
 
-    .news-text {
+    .news-list-main .news-text {
       font-size: 0.9rem;
     }
 
-    .news-arrow {
-      margin-top: 4px;
+    .news-list-main .news-arrow {
+      margin-top: 0;
       opacity: 1;
       align-self: flex-end;
     }
 
-    .arrow-text {
+    .news-list-main .arrow-text {
       display: inline;
-    }
-
-    .pagination {
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 40px;
-    }
-
-    .pagination-link {
-      padding: 8px 16px;
-      font-size: 0.85rem;
-    }
-
-    .pagination-numbers {
-      gap: 6px;
-    }
-
-    .pagination-number {
-      width: 36px;
-      height: 36px;
-      font-size: 0.85rem;
     }
   }
 </style>

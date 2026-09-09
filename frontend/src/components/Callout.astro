@@ -1,12 +1,13 @@
 ---
 interface Props {
   label?: string;
+  variant?: 'default' | 'navy';
 }
 
-const { label = 'ワンポイント' } = Astro.props;
+const { label = 'ワンポイント', variant = 'default' } = Astro.props;
 ---
 
-<div class="callout" data-label={label}>
+<div class:list={["callout", `callout--${variant}`]} data-label={label}>
   <slot />
 </div>
 
@@ -47,5 +48,22 @@ const { label = 'ワンポイント' } = Astro.props;
 
   .callout :global(strong) {
     color: var(--color-turquoise-dark);
+  }
+
+  /* Navy variant */
+  .callout--navy {
+    border-color: var(--color-navy);
+  }
+
+  .callout--navy::before {
+    background: var(--color-navy);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='24' cy='24' r='16' fill='white'/%3E%3Cpath d='M22 35C22 36.1046 22.8954 37 24 37C25.1046 37 26 36.1046 26 35V21C26 19.8954 25.1046 19 24 19C22.8954 19 22 19.8954 22 21V35Z' fill='%231e3a5f'/%3E%3Cpath d='M24 15C22.8954 15 22 14.1046 22 13C22 11.8954 22.8954 11 24 11C25.1046 11 26 11.8954 26 13C26 14.1046 25.1046 15 24 15Z' fill='%231e3a5f'/%3E%3C/svg%3E");
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: 8px center;
+  }
+
+  .callout--navy :global(strong) {
+    color: var(--color-navy);
   }
 </style>

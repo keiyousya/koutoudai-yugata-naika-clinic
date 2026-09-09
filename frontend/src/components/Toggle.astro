@@ -1,0 +1,137 @@
+---
+interface Props {
+  label: string;
+  open?: boolean;
+}
+
+const { label, open = false } = Astro.props;
+---
+
+<div class:list={["toggle", { "is-open": open }]} data-toggle>
+  <button class="toggle-summary" type="button" aria-expanded={open ? "true" : "false"} data-toggle-btn>
+    <span>{label}</span>
+    <svg class="toggle-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </button>
+  <div class="toggle-panel" data-toggle-panel style={open ? "" : "height: 0px;"}>
+    <div class="toggle-content">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-toggle]').forEach((toggle) => {
+    const btn = toggle.querySelector<HTMLButtonElement>('[data-toggle-btn]');
+    const panel = toggle.querySelector<HTMLElement>('[data-toggle-panel]');
+    if (!btn || !panel) return;
+
+    // 初期状態が開いている場合、高さを auto に
+    if (toggle.classList.contains('is-open')) {
+      panel.style.height = 'auto';
+    }
+
+    btn.addEventListener('click', () => {
+      const isOpen = toggle.classList.contains('is-open');
+
+      if (isOpen) {
+        // 閉じる: auto → 具体値 → 0
+        panel.style.height = panel.scrollHeight + 'px';
+        requestAnimationFrame(() => {
+          panel.style.height = '0px';
+        });
+        toggle.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        // 開く: 0 → scrollHeight → auto
+        panel.style.height = panel.scrollHeight + 'px';
+        toggle.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+
+        const onEnd = () => {
+          panel.style.height = 'auto';
+          panel.removeEventListener('transitionend', onEnd);
+        };
+        panel.addEventListener('transitionend', onEnd);
+      }
+    });
+  });
+</script>
+
+<style>
+  .toggle {
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    margin: 24px 0;
+    background: white;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .toggle.is-open {
+    border-color: var(--color-turquoise);
+  }
+
+  .toggle-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    cursor: pointer;
+    user-select: none;
+    background: var(--color-turquoise-bg);
+    border: none;
+    text-align: left;
+    transition: background 0.2s;
+  }
+
+  .toggle-summary:hover {
+    background: #d6eff3;
+  }
+
+  .toggle-chevron {
+    flex-shrink: 0;
+    margin-left: 12px;
+    color: var(--color-turquoise);
+    transition: transform 0.3s;
+  }
+
+  .toggle.is-open .toggle-chevron {
+    transform: rotate(180deg);
+  }
+
+  .toggle-panel {
+    overflow: hidden;
+    transition: height 0.35s ease;
+  }
+
+  .toggle-content {
+    padding: 24px;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+
+  .toggle-content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .toggle-content :global(strong) {
+    color: var(--color-turquoise-dark);
+  }
+
+  @media (max-width: 768px) {
+    .toggle-summary {
+      padding: 14px 18px;
+      font-size: 0.9rem;
+    }
+
+    .toggle-content {
+      padding: 18px;
+      font-size: 0.9rem;
+    }
+  }
+</style>

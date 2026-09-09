@@ -1,15 +1,4 @@
 ---
-// 6月までのスケジュール（1段のみ）
-const scheduleJune = [
-  { day: "月", open: false },
-  { day: "火", open: false },
-  { day: "水", open: true },
-  { day: "木", open: true },
-  { day: "金", open: true },
-  { day: "土", open: true },
-  { day: "日", open: true },
-];
-
 // 7月からのスケジュール（2段）
 const days = ["月", "火", "水", "木", "金", "土", "日"];
 // 14-17時: 土日のみ
@@ -32,96 +21,17 @@ const scheduleJuly17 = [
   { day: "土", open: true },
   { day: "日", open: true },
 ];
-
-// 2026年8月の診療カレンダー（日曜始まり）
-// 火曜のみ休診（7月からの体制）
-const august2026 = [
-  { day: null }, { day: null }, { day: null },
-  { day: null }, { day: null }, { day: null },
-  { day: 1, open: true },
-  { day: 2, open: true },
-  { day: 3, open: true },  // 月曜（診療日）
-  { day: 4, open: false },
-  { day: 5, open: true },
-  { day: 6, open: true },
-  { day: 7, open: true },
-  { day: 8, open: true },
-  { day: 9, open: true },
-  { day: 10, open: true },  // 月曜（診療日）
-  { day: 11, open: false, holiday: true },  // 山の日（祝日・火曜）
-  { day: 12, open: true },
-  { day: 13, open: false, temporary: true },  // お盆休み
-  { day: 14, open: false, temporary: true },  // お盆休み
-  { day: 15, open: true },
-  { day: 16, open: true },
-  { day: 17, open: true },  // 月曜（診療日）
-  { day: 18, open: false },
-  { day: 19, open: true },
-  { day: 20, open: true },
-  { day: 21, open: true },
-  { day: 22, open: true },
-  { day: 23, open: true },
-  { day: 24, open: true },  // 月曜（診療日）
-  { day: 25, open: false },
-  // 8/26以降 臨時休診（院長療養）
-  { day: 26, open: false, temporary: true },
-  { day: 27, open: false, temporary: true },
-  { day: 28, open: false, temporary: true },
-  { day: 29, open: false, temporary: true },
-  { day: 30, open: false, temporary: true },
-  { day: 31, open: false, temporary: true },
-];
-
-// 2026年9月の診療カレンダー（日曜始まり）
-// 9/1〜9/14 臨時休診、9/15以降通常（火曜・祝日休診）
-const september2026 = [
-  // 9/1(火)〜 … 先頭2マス空き
-  { day: null }, { day: null },
-  { day: 1, open: false },  // 火曜（定休）
-  { day: 2, open: false, temporary: true },
-  { day: 3, open: false, temporary: true },
-  { day: 4, open: false, temporary: true },
-  { day: 5, open: false, temporary: true },
-  { day: 6, open: false, temporary: true },
-  { day: 7, open: false, temporary: true },
-  { day: 8, open: false },  // 火曜（定休）
-  { day: 9, open: false, temporary: true },
-  { day: 10, open: false, temporary: true },
-  { day: 11, open: false, temporary: true },
-  { day: 12, open: false, temporary: true },
-  { day: 13, open: false, temporary: true },
-  { day: 14, open: false, temporary: true },
-  { day: 15, open: false },  // 火曜（定休）
-  { day: 16, open: true },
-  { day: 17, open: true },
-  { day: 18, open: true },
-  { day: 19, open: true },
-  { day: 20, open: true },
-  { day: 21, open: false, holiday: true },  // 敬老の日
-  { day: 22, open: false },  // 火曜（定休）
-  { day: 23, open: false, holiday: true },  // 秋分の日
-  { day: 24, open: true },
-  { day: 25, open: true },
-  { day: 26, open: true },
-  { day: 27, open: true },
-  { day: 28, open: true },
-  { day: 29, open: false },  // 火曜（定休）
-  { day: 30, open: true },
-  { day: null }, { day: null }, { day: null },
-];
-
-const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 ---
 
 <section id="hours" class="section hours">
   <div class="container">
     <h2 class="section-title">診療時間</h2>
     <div class="hours-layout">
-      <!-- 左側：カレンダー -->
+      <!-- 左側：カレンダー（APIから動的取得） -->
       <div class="calendar-side">
-        <div class="month-tabs">
-          <button class="month-tab active" data-month="0">8月</button>
-          <button class="month-tab" data-month="1">9月</button>
+        <div class="month-tabs" id="monthTabs">
+          <button class="month-tab active" data-month="0">--月</button>
+          <button class="month-tab" data-month="1">--月</button>
         </div>
 
         <div class="calendar-container">
@@ -133,47 +43,17 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 
           <div class="calendar-slider">
             <div class="calendar-track" id="calendarTrack">
+              <!-- スケルトン（JS描画後に置き換え） -->
               <div class="monthly-calendar">
-                <div class="monthly-header">
-                  <span>2026年8月</span>
-                </div>
+                <div class="monthly-header"><span>&nbsp;</span></div>
                 <div class="monthly-weekdays">
-                  {weekdays.map((day, i) => (
-                    <div class={`weekday ${i === 0 ? "sunday" : ""} ${i === 6 ? "saturday" : ""}`}>{day}</div>
-                  ))}
+                  <div class="weekday sunday">日</div><div class="weekday">月</div><div class="weekday">火</div><div class="weekday">水</div><div class="weekday">木</div><div class="weekday">金</div><div class="weekday saturday">土</div>
                 </div>
                 <div class="monthly-grid">
-                  {august2026.map((item, i) => (
-                    <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""} ${item.temporary ? "temporary" : ""}`}>
-                      {item.day !== null && (
-                        <>
-                          <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
-                          <span class="status">{item.open ? "○" : "休"}</span>
-                        </>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div class="monthly-calendar">
-                <div class="monthly-header">
-                  <span>2026年9月</span>
-                </div>
-                <div class="monthly-weekdays">
-                  {weekdays.map((day, i) => (
-                    <div class={`weekday ${i === 0 ? "sunday" : ""} ${i === 6 ? "saturday" : ""}`}>{day}</div>
-                  ))}
-                </div>
-                <div class="monthly-grid">
-                  {september2026.map((item, i) => (
-                    <div class={`monthly-cell ${item.day === null ? "empty" : ""} ${item.open ? "open" : "closed"} ${item.holiday ? "holiday" : ""} ${item.temporary ? "temporary" : ""}`}>
-                      {item.day !== null && (
-                        <>
-                          <span class={`date ${i % 7 === 0 ? "sunday" : ""} ${i % 7 === 6 ? "saturday" : ""}`}>{item.day}</span>
-                          <span class="status">{item.open ? "○" : "休"}</span>
-                        </>
-                      )}
+                  {Array.from({ length: 35 }).map(() => (
+                    <div class="monthly-cell">
+                      <span class="cal-skeleton cal-skeleton--date"></span>
+                      <span class="cal-skeleton cal-skeleton--status"></span>
                     </div>
                   ))}
                 </div>
@@ -206,19 +86,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 
       <!-- 右側：診療時間 -->
       <div class="info-side">
-        <!-- 6月の診療時間 -->
-        <div class="hours-main hidden" id="hoursJune">
-          <div class="hours-primary">17:00 - 21:00</div>
-          <div class="hours-sub">発熱外来 19:00-21:00</div>
-        </div>
-
-        <!-- 7月からの注意書き -->
-        <div class="new-hours-notice hidden" id="newHoursNotice">
-          <span class="new-hours-badge">NEW</span>
-          <span>7月より診療時間が変わります</span>
-        </div>
-
-        <!-- 7月からの診療時間 -->
+        <!-- 診療時間 -->
         <div class="hours-main" id="hoursJuly">
           <div class="hours-block">
             <span class="hours-block-label">平日（月・水〜金）</span>
@@ -238,24 +106,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
           <span class="reception-note">※ 診療開始前は院内でお待ちいただけません</span>
         </div>
 
-        <!-- 6月の診療日カレンダー -->
-        <div class="schedule-table hidden" id="scheduleJune">
-          <div class="schedule-header">
-            <span>診療日カレンダー</span>
-          </div>
-          <div class="schedule-grid">
-            {
-              scheduleJune.map((item) => (
-                <div class={`schedule-cell ${item.open ? "open" : "closed"}`}>
-                  <span class="day">{item.day}</span>
-                  <span class="status">{item.open ? "○" : "休"}</span>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        <!-- 7月からの診療日カレンダー -->
+        <!-- 診療日カレンダー -->
         <div class="schedule-table two-rows" id="scheduleJuly">
           <div class="schedule-header">
             <span>診療日カレンダー</span>
@@ -288,19 +139,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
           </div>
         </div>
 
-        <!-- 6月の診療日説明 -->
-        <div class="hours-info hidden" id="infoJune">
-          <div class="info-item">
-            <span class="info-icon open">○</span>
-            <span>診療日（水〜日・週末対応）</span>
-          </div>
-          <div class="info-item">
-            <span class="info-icon closed">休</span>
-            <span>休診日（月・火・祝）</span>
-          </div>
-        </div>
-
-        <!-- 7月からの診療日説明 -->
+        <!-- 診療日説明 -->
         <div class="hours-info" id="infoJuly">
           <div class="info-item">
             <span class="info-icon open">○</span>
@@ -313,16 +152,12 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   </div>
 </section>
 
-<style>
-  .hours {
+<style is:global>
+  #hours {
     background: white;
   }
 
-  .hidden {
-    display: none !important;
-  }
-
-  .hours-layout {
+  #hours .hours-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 48px;
@@ -332,18 +167,16 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   }
 
   /* カレンダー側 */
-  .calendar-side {
-    width: 100%;
-  }
+  #hours .calendar-side { width: 100%; }
 
-  .month-tabs {
+  #hours .month-tabs {
     display: flex;
     gap: 12px;
     margin-bottom: 20px;
     justify-content: center;
   }
 
-  .month-tab {
+  #hours .month-tab {
     padding: 10px 28px;
     background: white;
     border: 2px solid var(--color-border);
@@ -355,33 +188,14 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     transition: all 0.2s;
   }
 
-  .month-tab:hover {
-    border-color: var(--color-turquoise);
-    color: var(--color-turquoise);
-  }
+  #hours .month-tab:hover { border-color: var(--color-turquoise); color: var(--color-turquoise); }
+  #hours .month-tab.active { background: var(--color-turquoise); border-color: var(--color-turquoise); color: white; }
 
-  .month-tab.active {
-    background: var(--color-turquoise);
-    border-color: var(--color-turquoise);
-    color: white;
-  }
+  #hours .calendar-container { position: relative; margin-bottom: 20px; }
+  #hours .calendar-slider { overflow: hidden; border-radius: 16px; }
+  #hours .calendar-track { display: flex; transition: transform 0.3s ease-in-out; }
 
-  .calendar-container {
-    position: relative;
-    margin-bottom: 20px;
-  }
-
-  .calendar-slider {
-    overflow: hidden;
-    border-radius: 16px;
-  }
-
-  .calendar-track {
-    display: flex;
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .monthly-calendar {
+  #hours .monthly-calendar {
     min-width: 100%;
     flex-shrink: 0;
     background: white;
@@ -390,7 +204,7 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     overflow: hidden;
   }
 
-  .calendar-nav {
+  #hours .calendar-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -409,25 +223,12 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  .calendar-nav:hover:not(:disabled) {
-    background: var(--color-turquoise-bg);
-    border-color: var(--color-turquoise);
-    color: var(--color-turquoise);
-  }
+  #hours .calendar-nav:hover:not(:disabled) { background: var(--color-turquoise-bg); border-color: var(--color-turquoise); color: var(--color-turquoise); }
+  #hours .calendar-nav:disabled { cursor: not-allowed; }
+  #hours .calendar-nav.prev { left: -22px; }
+  #hours .calendar-nav.next { right: -22px; }
 
-  .calendar-nav:disabled {
-    cursor: not-allowed;
-  }
-
-  .calendar-nav.prev {
-    left: -22px;
-  }
-
-  .calendar-nav.next {
-    right: -22px;
-  }
-
-  .monthly-header {
+  #hours .monthly-header {
     background: var(--color-navy);
     color: white;
     padding: 16px;
@@ -437,35 +238,20 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     letter-spacing: 0.05em;
   }
 
-  .monthly-weekdays {
+  #hours .monthly-weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     background: #f8f8f8;
     border-bottom: 1px solid var(--color-border);
   }
 
-  .monthly-weekdays .weekday {
-    text-align: center;
-    padding: 10px 4px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-  }
+  #hours .monthly-weekdays .weekday { text-align: center; padding: 10px 4px; font-size: 0.85rem; font-weight: 500; color: var(--color-text-muted); }
+  #hours .monthly-weekdays .weekday.sunday { color: #e05a5a; }
+  #hours .monthly-weekdays .weekday.saturday { color: #4a90d9; }
 
-  .monthly-weekdays .weekday.sunday {
-    color: #e05a5a;
-  }
+  #hours .monthly-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
 
-  .monthly-weekdays .weekday.saturday {
-    color: #4a90d9;
-  }
-
-  .monthly-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-  }
-
-  .monthly-cell {
+  #hours .monthly-cell {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -476,133 +262,32 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     min-height: 60px;
   }
 
-  .monthly-cell:nth-child(7n) {
-    border-right: none;
-  }
+  #hours .monthly-cell:nth-child(7n) { border-right: none; }
+  #hours .monthly-cell.empty { background: #fafafa; }
+  #hours .monthly-cell.closed { background: #f9f9f9; }
+  #hours .monthly-cell.holiday { background: #f0f8f9; }
+  #hours .monthly-cell.temporary { background: #fff5e6; }
+  #hours .monthly-cell.temporary .status { color: #e07a30; }
 
-  .monthly-cell.empty {
-    background: #fafafa;
-  }
+  #hours .monthly-cell .date { font-size: 0.95rem; font-weight: 500; color: var(--color-navy); margin-bottom: 4px; }
+  #hours .monthly-cell .date.sunday { color: #e05a5a; }
+  #hours .monthly-cell .date.saturday { color: #4a90d9; }
 
-  .monthly-cell.closed {
-    background: #f9f9f9;
-  }
+  #hours .monthly-cell .status { font-size: 0.85rem; font-weight: 700; }
+  #hours .monthly-cell.open .status { color: var(--color-turquoise); }
+  #hours .monthly-cell.closed .status { color: #888; }
 
-  .monthly-cell.holiday {
-    background: #f0f8f9;
-  }
-
-  .monthly-cell.temporary {
-    background: #fff5e6;
-  }
-
-  .monthly-cell.temporary .status {
-    color: #e07a30;
-  }
-
-  .monthly-cell .date {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--color-navy);
-    margin-bottom: 4px;
-  }
-
-  .monthly-cell .date.sunday {
-    color: #e05a5a;
-  }
-
-  .monthly-cell .date.saturday {
-    color: #4a90d9;
-  }
-
-  .monthly-cell .status {
-    font-size: 0.85rem;
-    font-weight: 700;
-  }
-
-  .monthly-cell.open .status {
-    color: var(--color-turquoise);
-  }
-
-  .monthly-cell.closed .status {
-    color: #888;
-  }
-
-  .calendar-legend {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    padding: 16px 20px;
-    background: #fafafa;
-    border-radius: 12px;
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-  }
-
-  .legend-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    font-size: 0.8rem;
-    font-weight: 700;
-  }
-
-  .legend-icon.open {
-    background: var(--color-turquoise-bg);
-    color: var(--color-turquoise);
-  }
-
-  .legend-icon.closed {
-    background: #f5f5f5;
-    color: #666;
-  }
-
-  .legend-icon.temporary {
-    background: #fff5e6;
-    color: #e07a30;
-  }
+  #hours .calendar-legend { display: flex; justify-content: center; gap: 24px; padding: 16px 20px; background: #fafafa; border-radius: 12px; }
+  #hours .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--color-text-muted); }
+  #hours .legend-icon { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; font-size: 0.8rem; font-weight: 700; }
+  #hours .legend-icon.open { background: var(--color-turquoise-bg); color: var(--color-turquoise); }
+  #hours .legend-icon.closed { background: #f5f5f5; color: #666; }
+  #hours .legend-icon.temporary { background: #fff5e6; color: #e07a30; }
 
   /* 診療時間側 */
-  .info-side {
-    width: 100%;
-  }
+  #hours .info-side { width: 100%; }
 
-  .new-hours-notice {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 12px 20px;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-    border: 1px solid #ffb74d;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #e65100;
-  }
-
-  .new-hours-badge {
-    display: inline-block;
-    padding: 3px 8px;
-    background: #ff6d00;
-    color: white;
-    font-size: 0.7rem;
-    font-weight: 700;
-    border-radius: 4px;
-    letter-spacing: 0.05em;
-  }
-
-  .hours-main {
+  #hours .hours-main {
     text-align: center;
     margin-bottom: 24px;
     padding: 28px;
@@ -611,383 +296,259 @@ const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
     border: 1px solid var(--color-turquoise);
   }
 
-  .hours-primary {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--color-navy);
-    letter-spacing: 0.02em;
-  }
+  #hours .hours-primary { font-size: 1.8rem; font-weight: 700; color: var(--color-navy); letter-spacing: 0.02em; }
+  #hours .hours-sub { font-size: 0.9rem; color: var(--color-text-muted); margin-top: 10px; }
 
-  .hours-sub {
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    margin-top: 10px;
-  }
+  #hours .hours-block { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid rgba(62, 184, 200, 0.3); }
+  #hours .hours-block:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
+  #hours .hours-block-label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--color-navy); margin-bottom: 10px; }
 
-  .hours-block {
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgba(62, 184, 200, 0.3);
-  }
+  #hours .hours-last-reception { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; margin-bottom: 24px; }
+  #hours .last-reception-text { font-size: 1rem; color: var(--color-text-muted); }
+  #hours .reception-note { font-size: 0.82rem; color: var(--color-text-muted); margin-top: 2px; text-wrap: balance; }
+  #hours .last-reception-text strong { font-weight: 700; color: var(--color-navy); }
 
-  .hours-block:last-child {
-    padding-bottom: 0;
-    margin-bottom: 0;
-    border-bottom: none;
-  }
+  #hours .schedule-table { background: white; border-radius: 16px; overflow: hidden; border: 1px solid #d0e8ec; margin-bottom: 20px; }
+  #hours .schedule-header { background: var(--color-navy); color: white; padding: 12px; text-align: center; font-weight: 500; font-size: 0.85rem; letter-spacing: 0.03em; }
+  #hours .schedule-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
 
-  .hours-block-label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-navy);
-    margin-bottom: 10px;
-  }
-
-  .hours-last-reception {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    text-align: center;
-    margin-bottom: 24px;
-  }
-
-  .last-reception-text {
-    font-size: 1rem;
-    color: var(--color-text-muted);
-  }
-
-  /* 折り返しても「ん」だけが次行に落ちないよう、行長を均等に割る */
-  .reception-note {
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
-    margin-top: 2px;
-    text-wrap: balance;
-  }
-
-  .last-reception-text strong {
-    font-weight: 700;
-    color: var(--color-navy);
-  }
-
-  .schedule-table {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid #d0e8ec;
-    margin-bottom: 20px;
-  }
-
-  .schedule-header {
-    background: var(--color-navy);
-    color: white;
-    padding: 12px;
-    text-align: center;
-    font-weight: 500;
-    font-size: 0.85rem;
-    letter-spacing: 0.03em;
-  }
-
-  .schedule-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-  }
-
-  .schedule-cell {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 16px 6px;
-    border-right: 1px solid var(--color-border);
-  }
-
-  .schedule-cell:last-child {
-    border-right: none;
-  }
-
-  .schedule-cell .day {
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    margin-bottom: 6px;
-  }
-
-  .schedule-cell .status {
-    font-size: 1rem;
-    font-weight: 700;
-  }
-
-  .schedule-cell.open .status {
-    color: var(--color-turquoise);
-  }
-
-  .schedule-cell.closed .status {
-    color: #888;
-  }
-
-  .schedule-cell.closed {
-    background: #f9f9f9;
-  }
-
-  .schedule-cell.na {
-    background: #fafafa;
-  }
-
-  .schedule-cell.na .status {
-    color: #ccc;
-  }
+  #hours .schedule-cell { display: flex; flex-direction: column; align-items: center; padding: 16px 6px; border-right: 1px solid var(--color-border); }
+  #hours .schedule-cell:last-child { border-right: none; }
+  #hours .schedule-cell .day { font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 6px; }
+  #hours .schedule-cell .status { font-size: 1rem; font-weight: 700; }
+  #hours .schedule-cell.open .status { color: var(--color-turquoise); }
+  #hours .schedule-cell.closed .status { color: #888; }
+  #hours .schedule-cell.closed { background: #f9f9f9; }
+  #hours .schedule-cell.na { background: #fafafa; }
+  #hours .schedule-cell.na .status { color: #ccc; }
 
   /* 2段レイアウト用 */
-  .schedule-table.two-rows .schedule-days {
-    display: grid;
-    grid-template-columns: 70px repeat(7, 1fr);
-    background: #f8f8f8;
-    border-bottom: 1px solid var(--color-border);
+  #hours .schedule-table.two-rows .schedule-days { display: grid; grid-template-columns: 70px repeat(7, 1fr); background: #f8f8f8; border-bottom: 1px solid var(--color-border); }
+  #hours .schedule-day-spacer { border-right: 1px solid var(--color-border); }
+  #hours .schedule-day-header { text-align: center; padding: 10px 4px; font-size: 0.85rem; font-weight: 500; color: var(--color-text-muted); }
+
+  #hours .schedule-row { display: flex; border-bottom: 1px solid var(--color-border); }
+  #hours .schedule-row:last-child { border-bottom: none; }
+  #hours .schedule-time-label { display: flex; align-items: center; justify-content: center; width: 70px; flex-shrink: 0; font-size: 0.65rem; font-weight: 500; color: var(--color-text-muted); background: #f8f8f8; border-right: 1px solid var(--color-border); }
+  #hours .schedule-grid-row { display: grid; grid-template-columns: repeat(7, 1fr); flex: 1; }
+  #hours .schedule-grid-row .schedule-cell { padding: 12px 4px; }
+
+  #hours .hours-info { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; }
+  #hours .info-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--color-text-muted); }
+  #hours .info-icon { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; font-size: 0.85rem; font-weight: 700; }
+  #hours .info-icon.open { background: var(--color-turquoise-bg); color: var(--color-turquoise); }
+  #hours .info-icon.closed { background: #f5f5f5; color: #666; }
+
+  /* カレンダースケルトン */
+  #hours .cal-skeleton {
+    display: block;
+    background: #eee;
+    border-radius: 4px;
+    animation: cal-skeleton-pulse 1.5s ease-in-out infinite;
   }
 
-  .schedule-day-spacer {
-    border-right: 1px solid var(--color-border);
+  #hours .cal-skeleton--date { width: 1.2em; height: 0.95rem; margin-bottom: 4px; }
+  #hours .cal-skeleton--status { width: 1.2em; height: 0.85rem; }
+
+  @keyframes cal-skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
   }
 
-  .schedule-day-header {
-    text-align: center;
-    padding: 10px 4px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-  }
-
-  .schedule-row {
-    display: flex;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .schedule-row:last-child {
-    border-bottom: none;
-  }
-
-  .schedule-time-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 70px;
-    flex-shrink: 0;
-    font-size: 0.65rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    background: #f8f8f8;
-    border-right: 1px solid var(--color-border);
-  }
-
-  .schedule-grid-row {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    flex: 1;
-  }
-
-  .schedule-grid-row .schedule-cell {
-    padding: 12px 4px;
-  }
-
-  .hours-info {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin-bottom: 20px;
-  }
-
-  .info-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-  }
-
-  .info-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    font-size: 0.85rem;
-    font-weight: 700;
-  }
-
-  .info-icon.open {
-    background: var(--color-turquoise-bg);
-    color: var(--color-turquoise);
-  }
-
-  .info-icon.closed {
-    background: #f5f5f5;
-    color: #666;
-  }
-
-  .hours-notice {
-    text-align: center;
-    padding: 16px 20px;
-    background: var(--color-turquoise-bg);
-    border-radius: 16px;
-    border: 1px solid var(--color-turquoise);
-  }
-
-  .hours-notice p {
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    line-height: 1.7;
-  }
+  #hours .sp-only { display: none; }
 
   @media (max-width: 900px) {
-    .hours-layout {
-      grid-template-columns: 1fr;
-      gap: 32px;
-    }
-
-    .calendar-side {
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .info-side {
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-  }
-
-  .sp-only {
-    display: none;
+    #hours .hours-layout { grid-template-columns: 1fr; gap: 32px; }
+    #hours .calendar-side { max-width: 500px; margin: 0 auto; }
+    #hours .info-side { max-width: 500px; margin: 0 auto; }
   }
 
   @media (max-width: 768px) {
-    .sp-only {
-      display: inline;
-    }
-
-    .time-value {
-      font-size: 1.3rem;
-    }
-
-    .monthly-cell {
-      padding: 8px 2px;
-      min-height: 50px;
-    }
-
-    .monthly-cell .date {
-      font-size: 0.85rem;
-    }
-
-    .monthly-cell .status {
-      font-size: 0.75rem;
-    }
-
-    .schedule-cell {
-      padding: 12px 4px;
-    }
-
-    .schedule-cell .day {
-      font-size: 0.8rem;
-    }
-
-    .schedule-cell .status {
-      font-size: 0.9rem;
-    }
-
-    .hours-info {
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .hours-notice p {
-      text-align: left;
-    }
-
-    .calendar-legend {
-      flex-direction: row;
-      gap: 20px;
-    }
-
-    .calendar-nav.prev {
-      left: -16px;
-    }
-
-    .calendar-nav.next {
-      right: -16px;
-    }
-
-    .calendar-nav {
-      width: 36px;
-      height: 36px;
-    }
-
-    .calendar-nav svg {
-      width: 20px;
-      height: 20px;
-    }
+    #hours .sp-only { display: inline; }
+    #hours .monthly-cell { padding: 8px 2px; min-height: 50px; }
+    #hours .monthly-cell .date { font-size: 0.85rem; }
+    #hours .monthly-cell .status { font-size: 0.75rem; }
+    #hours .schedule-cell { padding: 12px 4px; }
+    #hours .schedule-cell .day { font-size: 0.8rem; }
+    #hours .schedule-cell .status { font-size: 0.9rem; }
+    #hours .hours-info { flex-direction: column; align-items: center; gap: 10px; }
+    #hours .calendar-legend { flex-direction: row; gap: 20px; }
+    #hours .calendar-nav.prev { left: -16px; }
+    #hours .calendar-nav.next { right: -16px; }
+    #hours .calendar-nav { width: 36px; height: 36px; }
+    #hours .calendar-nav svg { width: 20px; height: 20px; }
   }
 </style>
 
 <script>
+  const PROCYON_BASE = import.meta.env.PUBLIC_PROCYON_BASE_URL || 'https://api.procyon.helix.keiyousya.com';
+  const PROCYON_TENANT = import.meta.env.PUBLIC_PROCYON_TENANT || 'koutoudai-yugata-naika';
+
+  interface CalendarDate {
+    date: string;
+    dayOfWeek: number;
+    status: 'open' | 'regular_closed' | 'holiday_closed' | 'temporary_closed';
+    holidayName?: string;
+  }
+
+  interface CalendarMonth {
+    month: string;
+    dates: CalendarDate[];
+  }
+
+  interface CalendarResponse {
+    months: CalendarMonth[];
+  }
+
+  const WEEKDAY_LABELS = ['日', '月', '火', '水', '木', '金', '土'];
+
+  // 当月・翌月の YYYY-MM を取得
+  function getTargetMonths(): string[] {
+    const now = new Date();
+    const m1 = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const next = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    const m2 = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}`;
+    return [m1, m2];
+  }
+
+  function renderMonthCalendar(monthData: CalendarMonth): string {
+    const [year, month] = monthData.month.split('-').map(Number);
+    const label = `${year}年${month}月`;
+
+    // 月の1日の曜日（日曜始まり）
+    const firstDow = new Date(year, month - 1, 1).getDay();
+
+    // 先頭の空セル
+    let cells = '';
+    for (let i = 0; i < firstDow; i++) {
+      cells += '<div class="monthly-cell empty"></div>';
+    }
+
+    // 日付セル
+    for (const d of monthData.dates) {
+      const dayNum = new Date(d.date).getDate();
+      const isOpen = d.status === 'open';
+      const isHoliday = d.status === 'holiday_closed';
+      const isTemporary = d.status === 'temporary_closed';
+      const isClosed = !isOpen;
+
+      const cellClasses = [
+        'monthly-cell',
+        isOpen ? 'open' : 'closed',
+        isHoliday ? 'holiday' : '',
+        isTemporary ? 'temporary' : '',
+      ].filter(Boolean).join(' ');
+
+      const dateClasses = [
+        'date',
+        d.dayOfWeek === 0 ? 'sunday' : '',
+        d.dayOfWeek === 6 ? 'saturday' : '',
+      ].filter(Boolean).join(' ');
+
+      cells += `<div class="${cellClasses}">
+        <span class="${dateClasses}">${dayNum}</span>
+        <span class="status">${isOpen ? '○' : '休'}</span>
+      </div>`;
+    }
+
+    // 末尾の空セル（7の倍数に合わせる）
+    const totalCells = firstDow + monthData.dates.length;
+    const remainder = totalCells % 7;
+    if (remainder > 0) {
+      for (let i = 0; i < 7 - remainder; i++) {
+        cells += '<div class="monthly-cell empty"></div>';
+      }
+    }
+
+    const weekdayHeaders = WEEKDAY_LABELS.map((day, i) => {
+      const cls = i === 0 ? 'weekday sunday' : i === 6 ? 'weekday saturday' : 'weekday';
+      return `<div class="${cls}">${day}</div>`;
+    }).join('');
+
+    return `<div class="monthly-calendar">
+      <div class="monthly-header"><span>${label}</span></div>
+      <div class="monthly-weekdays">${weekdayHeaders}</div>
+      <div class="monthly-grid">${cells}</div>
+    </div>`;
+  }
+
   let currentMonth = 0;
   const totalMonths = 2;
   const track = document.getElementById('calendarTrack');
-  const prevBtn = document.getElementById('prevMonth');
-  const nextBtn = document.getElementById('nextMonth');
-  const monthTabs = document.querySelectorAll('.month-tab');
+  const prevBtn = document.getElementById('prevMonth') as HTMLButtonElement | null;
+  const nextBtn = document.getElementById('nextMonth') as HTMLButtonElement | null;
+  const monthTabsContainer = document.getElementById('monthTabs');
 
-  function updateCalendar() {
+  function updateSlider() {
     if (track) {
       track.style.transform = `translateX(-${currentMonth * 100}%)`;
     }
-
     if (prevBtn) {
       prevBtn.disabled = currentMonth === 0;
       prevBtn.style.opacity = currentMonth === 0 ? '0.3' : '1';
     }
-
     if (nextBtn) {
       nextBtn.disabled = currentMonth === totalMonths - 1;
       nextBtn.style.opacity = currentMonth === totalMonths - 1 ? '0.3' : '1';
     }
-
-    monthTabs.forEach((tab, index) => {
-      if (index === currentMonth) {
-        tab.classList.add('active');
-      } else {
-        tab.classList.remove('active');
-      }
+    monthTabsContainer?.querySelectorAll('.month-tab').forEach((tab, i) => {
+      tab.classList.toggle('active', i === currentMonth);
     });
   }
 
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      if (currentMonth > 0) {
-        currentMonth--;
-        updateCalendar();
-      }
+  function bindNavigation() {
+    prevBtn?.addEventListener('click', () => {
+      if (currentMonth > 0) { currentMonth--; updateSlider(); }
+    });
+    nextBtn?.addEventListener('click', () => {
+      if (currentMonth < totalMonths - 1) { currentMonth++; updateSlider(); }
+    });
+    monthTabsContainer?.querySelectorAll('.month-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        currentMonth = parseInt((tab as HTMLElement).dataset.month || '0');
+        updateSlider();
+      });
     });
   }
 
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      if (currentMonth < totalMonths - 1) {
-        currentMonth++;
-        updateCalendar();
+  async function loadCalendar() {
+    const months = getTargetMonths();
+
+    // タブのラベルを設定
+    if (monthTabsContainer) {
+      const tabs = monthTabsContainer.querySelectorAll('.month-tab');
+      months.forEach((m, i) => {
+        const monthNum = parseInt(m.split('-')[1]);
+        if (tabs[i]) tabs[i].textContent = `${monthNum}月`;
+      });
+    }
+
+    try {
+      const url = new URL(`${PROCYON_BASE}/${PROCYON_TENANT}/v1/consultation-calendar`);
+      months.forEach(m => url.searchParams.append('months', m));
+
+      const res = await fetch(url.toString());
+      if (!res.ok) throw new Error('fetch failed');
+      const data: CalendarResponse = await res.json();
+
+      if (track) {
+        track.innerHTML = data.months.map(renderMonthCalendar).join('');
       }
-    });
+    } catch {
+      if (track) {
+        track.innerHTML = `<div class="monthly-calendar">
+          <div class="monthly-header"><span>読み込みに失敗しました</span></div>
+          <div class="monthly-grid" style="padding: 40px; text-align: center; color: var(--color-text-muted); font-size: 0.9rem;">
+            しばらく経ってから再度お試しください
+          </div>
+        </div>`;
+      }
+    }
+
+    updateSlider();
   }
 
-  monthTabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const monthIndex = parseInt(tab.getAttribute('data-month') || '0');
-      currentMonth = monthIndex;
-      updateCalendar();
-    });
-  });
-
-  updateCalendar();
+  bindNavigation();
+  loadCalendar();
 </script>
 

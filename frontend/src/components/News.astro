@@ -1,22 +1,16 @@
 ---
-import { newsItems } from "../data/news";
 ---
 
 <section id="news" class="section news">
   <div class="container">
     <h2 class="section-title">お知らせ</h2>
     <div class="news-content">
-      <ul class="news-list">
-        {newsItems.slice(0, 3).map((item) => (
-          <li class={`news-item ${item.isImportant ? "important" : ""}`}>
-            <a href={`/news/${item.slug}`} class="news-item-link">
-              <span class="news-date">{item.date}</span>
-              <span class="news-text">{item.content}</span>
-              <span class="news-arrow">
-                <span class="arrow-text">詳しくはこちら</span>
-                <span class="arrow-symbol">→</span>
-              </span>
-            </a>
+      <ul class="news-list" id="newsList">
+        <!-- スケルトン -->
+        {Array.from({ length: 3 }).map(() => (
+          <li class="news-item news-item--skeleton">
+            <span class="news-date"><span class="skeleton skeleton-date"></span></span>
+            <span class="news-text"><span class="skeleton skeleton-text"></span></span>
           </li>
         ))}
       </ul>
@@ -27,29 +21,82 @@ import { newsItems } from "../data/news";
   </div>
 </section>
 
-<style>
-  .news {
+<script>
+  const PROCYON_BASE = import.meta.env.PUBLIC_PROCYON_BASE_URL || 'https://api.procyon.helix.keiyousya.com';
+  const PROCYON_TENANT = import.meta.env.PUBLIC_PROCYON_TENANT || 'koutoudai-yugata-naika';
+  const API_URL = `${PROCYON_BASE}/${PROCYON_TENANT}/v1/notices`;
+
+  interface NoticeEntry {
+    id: string;
+    title: string;
+    content: string;
+    publishStartDate: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+
+  interface GetNoticesResponse {
+    notices: NoticeEntry[];
+    hasMore: boolean;
+    nextCursor?: string;
+  }
+
+  function formatDate(dateStr: string): string {
+    return dateStr.replace(/-/g, '.');
+  }
+
+  async function loadNews() {
+    const list = document.getElementById('newsList');
+    if (!list) return;
+
+    try {
+      const res = await fetch(`${API_URL}?pageSize=3`);
+      if (!res.ok) throw new Error('fetch failed');
+      const data: GetNoticesResponse = await res.json();
+
+      list.innerHTML = data.notices.map(notice => `
+        <li class="news-item">
+          <a href="/news/detail/?id=${notice.id}" class="news-item-link">
+            <span class="news-date">${formatDate(notice.publishStartDate)}</span>
+            <span class="news-text">${notice.title}</span>
+            <span class="news-arrow">
+              <span class="arrow-text">詳しくはこちら</span>
+              <span class="arrow-symbol">→</span>
+            </span>
+          </a>
+        </li>
+      `).join('');
+    } catch {
+      list.innerHTML = '<li class="news-item"><span class="news-text news-error">お知らせの読み込みに失敗しました</span></li>';
+    }
+  }
+
+  loadNews();
+</script>
+
+<style is:global>
+  #news {
     background: white;
     padding-top: 48px;
     padding-bottom: 48px;
   }
 
-  .news-content {
+  #news .news-content {
     max-width: 720px;
     margin: 0 auto;
   }
 
-  .news-list {
+  #news .news-list {
     display: flex;
     flex-direction: column;
     border-top: 1px solid var(--color-border);
   }
 
-  .news-item {
+  #news .news-item {
     border-bottom: 1px solid var(--color-border);
   }
 
-  .news-item-link {
+  #news .news-item-link {
     display: flex;
     align-items: baseline;
     gap: 24px;
@@ -59,11 +106,11 @@ import { newsItems } from "../data/news";
     transition: background 0.2s;
   }
 
-  .news-item-link:hover {
+  #news .news-item-link:hover {
     background: var(--color-turquoise-bg);
   }
 
-  .news-date {
+  #news .news-date {
     flex-shrink: 0;
     font-size: 0.78rem;
     color: var(--color-text-muted);
@@ -71,19 +118,20 @@ import { newsItems } from "../data/news";
     letter-spacing: 0.03em;
   }
 
-  .news-text {
+  #news .news-text {
     flex: 1;
     font-size: 0.9rem;
-    color: var(--color-text);
+    color: var(--color-navy);
+    font-weight: 500;
     line-height: 1.7;
   }
 
-  .news-item.important .news-text {
-    color: var(--color-navy);
-    font-weight: 500;
+  #news .news-error {
+    color: var(--color-text-muted);
+    font-weight: 400;
   }
 
-  .news-arrow {
+  #news .news-arrow {
     flex-shrink: 0;
     color: var(--color-turquoise);
     opacity: 0.6;
@@ -93,26 +141,26 @@ import { newsItems } from "../data/news";
     gap: 4px;
   }
 
-  .arrow-text {
+  #news .arrow-text {
     display: none;
     font-size: 0.85rem;
     font-weight: 500;
   }
 
-  .arrow-symbol {
+  #news .arrow-symbol {
     font-size: 1rem;
   }
 
-  .news-item-link:hover .news-arrow {
+  #news .news-item-link:hover .news-arrow {
     opacity: 1;
   }
 
-  .news-link {
+  #news .news-link {
     text-align: center;
     margin-top: 20px;
   }
 
-  .news-link a {
+  #news .news-link a {
     color: var(--color-turquoise);
     font-size: 0.9rem;
     font-weight: 500;
@@ -120,38 +168,75 @@ import { newsItems } from "../data/news";
     text-underline-offset: 4px;
   }
 
-  .news-link a:hover {
+  #news .news-link a:hover {
     opacity: 0.8;
   }
 
+  /* スケルトン */
+  #news .news-item--skeleton {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 20px 8px;
+  }
+
+  #news .skeleton {
+    display: inline-block;
+    background: #eee;
+    border-radius: 4px;
+    animation: news-skeleton-pulse 1.5s ease-in-out infinite;
+  }
+
+  #news .skeleton-date {
+    width: 5.5em;
+    height: 0.78rem;
+  }
+
+  #news .skeleton-text {
+    width: 16em;
+    height: 0.9rem;
+  }
+
+  @keyframes news-skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
   @media (max-width: 768px) {
-    .news {
+    #news {
       padding-top: 36px;
       padding-bottom: 36px;
     }
 
-    .news-item-link {
+    #news .news-item-link {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      padding: 14px 16px;
+    }
+
+    #news .news-item--skeleton {
       flex-direction: column;
       align-items: flex-start;
       gap: 8px;
       padding: 14px 16px;
     }
 
-    .news-date {
+    #news .news-date {
       font-size: 0.8rem;
     }
 
-    .news-text {
+    #news .news-text {
       font-size: 0.9rem;
     }
 
-    .news-arrow {
-      margin-top: 4px;
+    #news .news-arrow {
+      margin-top: 0;
       opacity: 1;
       align-self: flex-end;
     }
 
-    .arrow-text {
+    #news .arrow-text {
       display: inline;
     }
   }

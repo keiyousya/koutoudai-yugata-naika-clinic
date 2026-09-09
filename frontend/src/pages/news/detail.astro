@@ -1,0 +1,296 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout title="お知らせ | 勾当台夕方内科クリニック" description="勾当台夕方内科クリニックからのお知らせ。">
+  <Header />
+  <main class="news-detail-main">
+    <div class="news-detail-header">
+      <div class="container">
+        <p class="news-detail-label">NEWS</p>
+        <h1 class="news-detail-title" id="noticeTitle">
+          <span class="skeleton skeleton-title"></span>
+        </h1>
+        <div class="news-detail-meta">
+          <time class="news-detail-date" id="noticeDate">
+            <span class="skeleton skeleton-date"></span>
+          </time>
+        </div>
+      </div>
+    </div>
+
+    <section class="news-detail-content">
+      <div class="container">
+        <div class="detail-body" id="noticeBody">
+          <p><span class="skeleton skeleton-body"></span></p>
+          <p><span class="skeleton skeleton-body skeleton-body--short"></span></p>
+        </div>
+
+        <div class="detail-back">
+          <a href="/news" class="back-button">お知らせ一覧に戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  const PROCYON_BASE = import.meta.env.PUBLIC_PROCYON_BASE_URL || 'https://api.procyon.helix.keiyousya.com';
+  const PROCYON_TENANT = import.meta.env.PUBLIC_PROCYON_TENANT || 'koutoudai-yugata-naika';
+  const API_URL = `${PROCYON_BASE}/${PROCYON_TENANT}/v1/notices`;
+
+  interface NoticeEntry {
+    id: string;
+    title: string;
+    content: string;
+    publishStartDate: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+
+  interface GetNoticesResponse {
+    notices: NoticeEntry[];
+    hasMore: boolean;
+    nextCursor?: string;
+  }
+
+  function formatDate(dateStr: string): string {
+    return dateStr.replace(/-/g, '.');
+  }
+
+  function escapeHtml(str: string): string {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  async function loadNotice() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    const titleEl = document.getElementById('noticeTitle');
+    const dateEl = document.getElementById('noticeDate');
+    const bodyEl = document.getElementById('noticeBody');
+
+    if (!id || !titleEl || !dateEl || !bodyEl) {
+      if (titleEl) titleEl.textContent = 'お知らせが見つかりません';
+      if (bodyEl) bodyEl.innerHTML = '<p>指定されたお知らせは存在しないか、削除された可能性があります。</p>';
+      if (dateEl) dateEl.textContent = '';
+      return;
+    }
+
+    try {
+      // 全件取得してIDで検索
+      const notices: NoticeEntry[] = [];
+      let cursor: string | undefined;
+
+      while (true) {
+        const url = new URL(API_URL);
+        url.searchParams.set('pageSize', '100');
+        if (cursor) url.searchParams.set('cursor', cursor);
+
+        const res = await fetch(url.toString());
+        if (!res.ok) throw new Error('fetch failed');
+        const data: GetNoticesResponse = await res.json();
+        notices.push(...data.notices);
+
+        // 見つかったら早期終了
+        const found = notices.find(n => n.id === id);
+        if (found) {
+          renderNotice(found, titleEl, dateEl, bodyEl);
+          return;
+        }
+
+        if (!data.hasMore) break;
+        cursor = data.nextCursor;
+      }
+
+      // 見つからなかった
+      titleEl.textContent = 'お知らせが見つかりません';
+      bodyEl.innerHTML = '<p>指定されたお知らせは存在しないか、削除された可能性があります。</p>';
+      dateEl.textContent = '';
+
+    } catch {
+      titleEl.textContent = '読み込みに失敗しました';
+      bodyEl.innerHTML = '<p>しばらく経ってから再度お試しください。</p>';
+      dateEl.textContent = '';
+    }
+  }
+
+  function renderNotice(notice: NoticeEntry, titleEl: HTMLElement, dateEl: HTMLElement, bodyEl: HTMLElement) {
+    titleEl.textContent = notice.title;
+    dateEl.textContent = formatDate(notice.publishStartDate);
+
+    // title タグも更新
+    document.title = `${notice.title} | 勾当台夕方内科クリニック`;
+
+    // content を段落に分割して表示
+    const paragraphs = notice.content.split('\n').filter(line => line.trim());
+    bodyEl.innerHTML = paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+  }
+
+  loadNotice();
+</script>
+
+<style is:global>
+  .news-detail-main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 72px);
+  }
+
+  .news-detail-header {
+    padding: 72px 0 0;
+    background: white;
+  }
+
+  .news-detail-header .container {
+    max-width: 720px;
+    padding-bottom: 24px;
+    position: relative;
+  }
+
+  .news-detail-header .container::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 24px;
+    right: 24px;
+    height: 2px;
+    background: var(--color-turquoise);
+    border-radius: 1px;
+  }
+
+  .news-detail-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-turquoise);
+    margin-bottom: 8px;
+  }
+
+  .news-detail-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: 1.6;
+    margin: 0 0 12px;
+  }
+
+  .news-detail-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .news-detail-date {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .news-detail-content {
+    padding: 40px 0 80px;
+    background: white;
+    flex: 1;
+  }
+
+  .news-detail-content .container {
+    max-width: 720px;
+  }
+
+  .detail-body {
+    margin-bottom: 48px;
+  }
+
+  .detail-body p {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 24px;
+  }
+
+  .detail-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 1px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  /* スケルトン */
+  .news-detail-main .skeleton {
+    display: inline-block;
+    background: #eee;
+    border-radius: 4px;
+    animation: news-detail-skeleton-pulse 1.5s ease-in-out infinite;
+  }
+
+  .news-detail-main .skeleton-title {
+    width: 60%;
+    height: 1.25rem;
+  }
+
+  .news-detail-main .skeleton-date {
+    width: 5.5em;
+    height: 0.8rem;
+  }
+
+  .news-detail-main .skeleton-body {
+    width: 100%;
+    height: 0.95rem;
+  }
+
+  .news-detail-main .skeleton-body--short {
+    width: 70%;
+  }
+
+  @keyframes news-detail-skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  @media (max-width: 768px) {
+    .news-detail-header {
+      padding: 64px 0 0;
+    }
+
+    .news-detail-title {
+      font-size: 1.1rem;
+    }
+
+    .news-detail-content {
+      padding: 32px 0 64px;
+    }
+
+    .detail-body p {
+      font-size: 0.9rem;
+    }
+  }
+</style>

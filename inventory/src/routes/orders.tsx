@@ -5,6 +5,7 @@ import { Route as rootRoute } from "./__root";
 import {
   fetchItems,
   fetchRecords,
+  fetchLatestRecords,
   updateItemOrderSettings,
 } from "@/api/inventory";
 import type {
@@ -121,6 +122,15 @@ function OrdersPage() {
     queryFn: () => fetchRecords(currentMonth),
   });
 
+  // 当月に記録がない場合、前月以前の最新記録をフォールバック取得
+  const monthStart = `${currentMonth}-01`;
+  const hasCurrentMonthRecords = (records ?? []).length > 0;
+  const { data: fallbackRecords } = useQuery({
+    queryKey: ["records", "latest", monthStart],
+    queryFn: () => fetchLatestRecords(monthStart),
+    enabled: !hasCurrentMonthRecords,
+  });
+
   const settingsMutation = useMutation({
     mutationFn: ({
       itemId,
@@ -138,17 +148,23 @@ function OrdersPage() {
     },
   });
 
-  // 各品目の最新在庫（当月の最も新しい日付のレコード）
+  // 各品目の最新在庫（当月の最も新しい日付のレコード、なければ前月以前の最新記録）
   const latestStockMap = useMemo(() => {
     const map = new Map<number, { quantity: number | null; date: string }>();
-    (records ?? []).forEach((r: InventoryRecord) => {
-      const existing = map.get(r.item_id);
-      if (!existing || r.date > existing.date) {
+    if (hasCurrentMonthRecords) {
+      (records ?? []).forEach((r: InventoryRecord) => {
+        const existing = map.get(r.item_id);
+        if (!existing || r.date > existing.date) {
+          map.set(r.item_id, { quantity: r.quantity, date: r.date });
+        }
+      });
+    } else if (fallbackRecords) {
+      fallbackRecords.forEach((r) => {
         map.set(r.item_id, { quantity: r.quantity, date: r.date });
-      }
-    });
+      });
+    }
     return map;
-  }, [records]);
+  }, [records, fallbackRecords, hasCurrentMonthRecords]);
 
   // 発注が必要な品目を算出
   const orderLines = useMemo(() => {

@@ -91,8 +91,14 @@ const structuredData = {
   "openingHoursSpecification": [
     {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday"],
       "opens": "17:00",
+      "closes": "21:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Saturday", "Sunday"],
+      "opens": "14:00",
       "closes": "21:00"
     }
   ],
@@ -111,7 +117,7 @@ const faqStructuredData = {
       "name": "仙台で夜間に診療しているクリニックはありますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "勾当台夕方内科クリニックは仙台市青葉区で夜21時まで診療しています。勾当台公園駅から徒歩1分、仕事帰りに通院できます。水曜〜日曜の17時〜21時まで診療しています。"
+        "text": "勾当台夕方内科クリニックは仙台市青葉区で夜21時まで診療しています。勾当台公園駅から徒歩2分、仕事帰りに通院できます。月曜・水曜〜金曜は17時〜21時、土曜・日曜は14時〜21時まで診療しています（最終受付20時50分）。"
       }
     },
     {
@@ -127,7 +133,7 @@ const faqStructuredData = {
       "name": "土日や週末も診療していますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、土曜日・日曜日も17時〜21時まで診療しています。週末や休日も対応可能です。月曜・火曜・祝日は休診です。"
+        "text": "はい、土曜日・日曜日は14時〜21時まで診療しています。週末や休日も対応可能です。休診日は火曜日と祝日のみです。"
       }
     },
     {

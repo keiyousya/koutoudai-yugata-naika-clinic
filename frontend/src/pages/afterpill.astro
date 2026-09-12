@@ -67,8 +67,14 @@ const serviceStructuredData = {
     "openingHoursSpecification": [
       {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday"],
         "opens": "17:00",
+        "closes": "21:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday", "Sunday"],
+        "opens": "14:00",
         "closes": "21:00"
       }
     ]
@@ -93,7 +99,7 @@ const faqStructuredData = {
       "name": "土日や週末でもアフターピルを処方してもらえますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "はい、土曜日・日曜日も17時〜21時まで診療しています。週末や休日も対応しています。性交後できるだけ早めにご来院ください。"
+        "text": "はい、土曜日・日曜日は14時〜21時まで診療しています。週末や休日も対応しています。性交後できるだけ早めにご来院ください。"
       }
     },
     {

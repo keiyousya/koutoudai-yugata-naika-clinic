@@ -264,6 +264,7 @@ const faqStructuredData = {
       sendTo: LINE_CONVERSION_SEND_TO,
       yahooConversionId: YAHOO_CONVERSION_ID,
       yahooConversionLabel: YAHOO_CONVERSION_LABEL,
+      isDev: import.meta.env.DEV,
     }}>
       (function () {
         var KEY = "lineAdSource";
@@ -285,6 +286,8 @@ const faqStructuredData = {
                 el.setAttribute("href", adUrl);
               }
               el.addEventListener("click", function () {
+                // ローカル検証のクリックで本番のCV数を汚さない
+                if (isDev) return;
                 if (typeof window.gtag === "function") {
                   window.gtag("event", "conversion", {
                     send_to: sendTo,

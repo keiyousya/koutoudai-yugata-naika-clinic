@@ -14,8 +14,8 @@ metadata:
 
 - タグ: `<ADS_TAG_ID>`、CVアクション「LINE友だち追加」= `<CONVERSION_SEND_TO>`
 - 定数は `frontend/src/config/line.ts`、発火は `frontend/src/layouts/Layout.astro`
-- LINEボタン（`a[href*="lin.ee/"]`）のクリックを href 基準で拾って発火。友だち追加の完了はLINEアプリ内なのでサイトから観測できず、**クリック＝追加の意思をCVとして数える**設計
-- gclid付き流入時は友だち追加URLを経路別URL（`lin.ee/<AD_ROUTE>`、通常は `lin.ee/<ORGANIC_ROUTE>`）へ差し替え、判定は sessionStorage で他ページにも持ち越す
+- LINEボタン（`a[href*="line.me/"]`）のクリックを href 基準で拾って発火。友だち追加の完了はLINEアプリ内なのでサイトから観測できず、**クリック＝追加の意思をCVとして数える**設計
+- gclid付き流入時は友だち追加URLを `https://liff.line.me/<LIFF_ID>?source=google_ads` へ差し替え（通常は `?source=organic`）、判定は sessionStorage で他ページにも持ち越す
 
 **🐛 2026-08-10発見: このCVは2026-07-01の実装から40日間1件も送信されていなかった。**
 `define:vars` 付きの `<script>` を Astro が IIFE で包むため `function gtag()` がグローバルにならず、`window.gtag` が undefined。CV送信側が `typeof window.gtag === "function"` をガードにしていたため常に false だった。`gtag('js')`/`gtag('config')` は `window.dataLayer` がグローバルなので動いており、**クリックイベントだけが落ちる**という気づきにくい壊れ方。修正は `window.gtag = function gtag(){...}` と明示代入（PR #21）。
@@ -27,17 +27,21 @@ metadata:
 - コンバージョン測定「LINE友だち追加」= 検索広告アカウントの conversionTrackerId `<YAHOO_TRACKER_ID>`、`yahoo_conversion_id: <YAHOO_CONVERSION_ID>` / `yahoo_conversion_label: <YAHOO_CONVERSION_LABEL>`（目的 CONTACT / ユニーク / 30日）
 - `lyads conversion add|list|tag` で作成・確認できる。**`advancedSnippet` は ADD のレスポンスに入らず GET で取り直すと返る**
 - サイトジェネラルタグ（`s.yimg.jp/images/listing/tool/cv/ytag.js` + `ytag({type:"ycl_cookie", config:{ycl_use_non_cookie_storage:true}})`）は**アカウント固有の値を持たない共通タグ**で、head のなるべく上に置く。`Layout.astro` に直書き
-- Google と同じ `a[href*="lin.ee/"]` のクリックで、`gtag` と `ytag` を両方発火させている
+- Google と同じ `a[href*="line.me/"]` のクリックで、`gtag` と `ytag` を両方発火させている
 - `type` は検索広告 `yss_conversion` / ディスプレイ広告 `yjad_conversion`。アカウントが別なのでタグも別物
 
-**未対応: yclid 流入時のLINE経路別URL差し替え。** URL差し替えは `gclid` のみ見ている。ヤフー広告経由の友だち追加は procyon 側では organic に混ざる（媒体側のCV計測は yclid ベースなので正しく取れる）。ヤフー用の経路別URLをLINE公式アカウントで発行すれば分離できる。
+**yclid 流入も分離できる（2026-08-23対応）。** URL差し替えは `gclid`（Google）/ `yclid`（ヤフー）の両方を見て、`?source=google_ads` / `?source=yahoo_ads` に出し分ける。procyon 側は `acquisition_source` に `yahoo_ads` を追加し、`lineFollowYahooAdsCount` として返す。両方付いている場合は gclid を優先。
 
 ## 系統2: procyon 側の流入元記録（keiyousya/helix）
 
-- `line_users.acquisition_source` (organic/google_ads) に記録し、`/ad-metrics/listing-performance` の `lineFollowGoogleAdsCount` として返す
+- `line_users.acquisition_source` (organic/google_ads/yahoo_ads) に記録し、`/ad-metrics/listing-performance` の `lineFollowGoogleAdsCount` / `lineFollowYahooAdsCount` として返す
 - 受け口は実装済み（`procyon-line/src/lib/liff.ts` の `captureAcquisitionSource()` が LIFF URL の `?source=` を localStorage へ退避）
-- **しかし `?source=` を付けて LIFF を起動する導線が存在せず常にNULL。** HP側の広告導線は `lin.ee` の経路別URLで分けており、これはLINE公式アカウント側の友だち追加経路なので、その後LIFFが開かれるときのURLにクエリは引き継がれない
-- 起票済み: **helix#1778**（根本原因と対応案A/B/C）。症状側は helix#1745
+- **常にNULLだった。** HP側のLINEボタンが `lin.ee`（LINE公式アカウントの友だち追加経路）でLIFFを経由せず、その後LIFFが開かれるときのURLにクエリが引き継がれないため
+- **対応中（2026-08-23時点で未マージ）:** HPのLINEボタンを LIFF URL + `?source=` に切り替える。helix#1851 / infra#120 と合わせて3リポジトリで進める（helix#1745 / #1778）
+- **`lin.ee` が導線として担保していた「予約には友だち追加が必須」が失われるため、procyon-line 側に `liff.getFriendship()` のゲートを入れる**（helix#1851）。友だち追加オプションは Normal / Aggressive の**どちらも強制はできず**、表示もチャネルへの初回同意時のみなので、コード側で止めるしかない。Aggressive は専用の確認画面が出るぶん見落としにくいので設定はする
+- ゲートは `/line/auth` の後、未登録（`linkStatus=pending`）のユーザーだけに掛ける。`friendFlag` は未追加とブロック中を区別しないため、全員に課すと既存患者がブロック中というだけで予約できなくなる
+- 引き換えに LINE公式アカウントの経路別URL統計（`lin.ee/<AD_ROUTE>`）は使わなくなる。実追加数の答え合わせは procyon `lineFollowGoogleAdsCount` で行う
+- 許可値は `organic` / `google_ads` / `yahoo_ads`。ヤフー広告は `yclid` で判定し `lineFollowYahooAdsCount` として分離できる
 
 ## 計測の使い分け
 
@@ -45,9 +49,10 @@ metadata:
 |---|---|---|
 | 広告クリック→LINE追加意思 | Google Ads「LINE友だち追加」CV | PR #21マージ後から有効 |
 | 同上（ヤフー面） | LINEヤフー広告「LINE友だち追加」CV | 2026-08-11設置 |
-| 実際の友だち追加数 | LINE公式アカウントの経路別URL統計 | 動作中 |
+| 実際の友だち追加数 | procyon `lineFollowCount` | 友だち追加せずLIFFに入った新規も含むため厳密には上振れる |
 | 予約総数 | procyon `reservationCount` | 全流入・キャンセル込みで鈍い |
-| 広告経由の友だち追加 | procyon `lineFollowGoogleAdsCount` | **常に0（helix#1778待ち）** |
+| 広告経由の友だち追加（Google） | procyon `lineFollowGoogleAdsCount` | LIFF URL化のリリース以降のみ有効 |
+| 広告経由の友だち追加（ヤフー） | procyon `lineFollowYahooAdsCount` | 同上 |
 
 「ローカルアクション-経路」CVは経路タップであって来院でも予約でもない。判断材料にしない。
 

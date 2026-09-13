@@ -55,6 +55,11 @@ const structuredData = {
     },
     {
       "@type": "MedicalProcedure",
+      "name": "インフルエンザ予防投与",
+      "description": "インフルエンザを発症した方の同居家族で重症化リスクの高い方にオセルタミビルを処方。10日分5,500円（税込・診察料込）"
+    },
+    {
+      "@type": "MedicalProcedure",
       "name": "心電図検査",
       "description": "不整脈や心臓の異常を調べる検査"
     },
@@ -103,7 +108,7 @@ const structuredData = {
       "closes": "21:00"
     }
   ],
-  "keywords": "仙台 夜間診療, 仙台 クリニック 夜, 健診 再検査 仙台, 仕事帰り 病院 仙台, 夜間 内科 仙台, 土日診療 仙台, 週末診療 仙台, 休日診療 仙台, 土日 クリニック 仙台, 仙台 土日 内科, 仙台 週末 病院, 土曜日 日曜日 診療 仙台, 仙台 アフターピル, アフターピル 夜間 仙台, アフターピル 土日 仙台, アフターピル 週末, 緊急避妊 仙台, 緊急避妊 土日",
+  "keywords": "仙台 夜間診療, 仙台 クリニック 夜, 健診 再検査 仙台, 仕事帰り 病院 仙台, 夜間 内科 仙台, 土日診療 仙台, 週末診療 仙台, 休日診療 仙台, 土日 クリニック 仙台, 仙台 土日 内科, 仙台 週末 病院, 土曜日 日曜日 診療 仙台, 仙台 アフターピル, アフターピル 夜間 仙台, アフターピル 土日 仙台, アフターピル 週末, 緊急避妊 仙台, 緊急避妊 土日, インフルエンザ 予防投与 仙台, タミフル 予防 仙台",
   "slogan": "仕事帰り・土日・週末も通える夜間診療",
   "sameAs": []
 };
@@ -234,7 +239,8 @@ const faqStructuredData = {
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+    {/* FAQPage は1ページ1つが原則。独自FAQを持つ下層ページと重複しないようトップページのみに出す */}
+    {currentPath === "/" && <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />}
 
     <!-- Critical CSS for above-the-fold content -->
     <!-- レイアウトシフト防止用の最小限クリティカルCSS -->

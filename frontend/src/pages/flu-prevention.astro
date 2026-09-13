@@ -1,0 +1,894 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
+import LineCta from "../components/LineCta.astro";
+import Footer from "../components/Footer.astro";
+import Toggle from "../components/Toggle.astro";
+
+const pageUrl = "https://koutoudai-yugata-naika.clinic/flu-prevention";
+// 内容を見直したら更新する（構造化データの lastReviewed とページ下部の表記に使う）
+const lastReviewed = "2026-09-13";
+
+// 画面表示のFAQと構造化データの両方をここから生成する
+// （Googleは画面に表示されていないFAQの構造化データを認めないため）
+const faqs = [
+  {
+    question: "インフルエンザの予防投与は自費ですか？保険は使えますか？",
+    answer: "予防投与は自費診療となり、健康保険は使えません。健康保険は病気の治療が対象のため、発症する前に薬を飲む予防投与は保険適用外となります。",
+  },
+  {
+    question: "インフルエンザの予防投与はいくらですか？",
+    answer: "当院ではオセルタミビル（タミフル後発品）10日分を、診察料・お薬代込みで5,500円（税込）で処方しています。お薬は院内でお渡しするため、薬局での追加の支払いはありません。",
+  },
+  {
+    question: "家族がインフルエンザになりました。いつまでに受診すればいいですか？",
+    answer: "発症した方と接触してから48時間以内に服用を始める必要があります。48時間を過ぎてからの予防効果は確認されていないため、できるだけ早めにご来院ください。",
+  },
+  {
+    question: "健康な大人でも予防投与を受けられますか？",
+    answer: "当院では学会の指針に基づき処方しており、65歳以上の方や、慢性の呼吸器・心臓の病気、糖尿病などの代謝性疾患、腎機能障害のある方が対象です。持病のない65歳未満の方には処方しておりません。",
+  },
+  {
+    question: "タミフル以外の予防薬（イナビル・ゾフルーザ）は処方できますか？",
+    answer: "当院の予防投与はオセルタミビル（タミフル後発品）のみです。イナビル・ゾフルーザ等による予防投与は行っておりません。",
+  },
+  {
+    question: "予防投与とインフルエンザワクチン（予防接種）は何が違いますか？",
+    answer: "ワクチンは流行前に接種して免疫をつけるもので、予防投与は発症した方と接触した後に、服用している期間だけ発症を抑えるものです。予防投与はワクチンの代わりにはなりません。",
+  },
+  {
+    question: "予防投与の効果はどのくらい続きますか？",
+    answer: "効果が期待できるのは服用している10日間のみです。服用を終えた後に感染した場合の発症を防ぐものではありません。",
+  },
+  {
+    question: "予約は家族が代わりにできますか？",
+    answer: "はい、LINE予約はご家族が代わりに行うこともできます。問診に「インフルエンザ予防投与希望」とご記入ください。なお、診察が必要なため、予防投与を受ける方のご来院が必要です。",
+  },
+  {
+    question: "服用中に熱が出たらどうすればいいですか？",
+    answer: "予防効果は100%ではありません。発熱などの症状が出た場合は、予防量のまま飲み続けず、速やかに受診してください。その場合は保険診療での検査・治療となります。",
+  },
+];
+
+// インフルエンザ予防投与ページ専用の構造化データ
+const pageStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "name": "インフルエンザ予防投与（タミフル後発品）｜仙台市青葉区｜勾当台夕方内科クリニック",
+  "description": "ご家族がインフルエンザを発症した、重症化リスクの高い方にオセルタミビル（タミフル後発品）を予防投与。院内処方で10日分5,500円（税込・診察料込）。夜21時まで、土日も診療。",
+  "keywords": "インフルエンザ 予防投与 仙台, タミフル 予防 仙台, オセルタミビル 予防投与, インフルエンザ 予防内服 仙台, 家族 インフルエンザ 予防, インフルエンザ 予防 薬 仙台, インフルエンザ 予防投与 自費, インフルエンザ 予防投与 料金, インフルエンザ 予防投与 土日, インフルエンザ 予防投与 夜間",
+  "url": pageUrl,
+  "inLanguage": "ja",
+  "lastReviewed": lastReviewed,
+  "reviewedBy": {
+    "@type": "Physician",
+    "name": "田村 慧人",
+    "jobTitle": "院長",
+    "url": "https://koutoudai-yugata-naika.clinic/doctor",
+    "worksFor": {
+      "@type": "MedicalClinic",
+      "name": "勾当台夕方内科クリニック"
+    }
+  },
+  "about": {
+    "@type": "MedicalCondition",
+    "name": "インフルエンザ",
+    "alternateName": "Influenza"
+  },
+  "medicalAudience": {
+    "@type": "MedicalAudience",
+    "audienceType": "Patient"
+  },
+  "specialty": {
+    "@type": "MedicalSpecialty",
+    "name": "感染症"
+  },
+  "mainEntity": {
+    "@type": "Drug",
+    "name": "オセルタミビル",
+    "alternateName": ["タミフル後発品", "インフルエンザ予防薬"],
+    "drugClass": "ノイラミニダーゼ阻害薬",
+    "description": "インフルエンザウイルスの増殖を抑える抗インフルエンザ薬。発症者と接触した方の発症予防にも用いられる",
+    "mechanismOfAction": "ウイルスのノイラミニダーゼを阻害し、感染細胞からのウイルスの放出を抑える"
+  }
+};
+
+const serviceStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  "name": "インフルエンザ予防投与",
+  "alternateName": ["インフルエンザ予防内服", "抗インフルエンザ薬の予防投与"],
+  "description": "インフルエンザを発症した方の同居家族・共同生活者で、重症化リスクの高い方にオセルタミビル75mgを10日分処方します。",
+  "howPerformed": "問診・診察で対象条件を確認の上、院内でお薬をお渡し",
+  "procedureType": "Therapeutic",
+  "bodyLocation": "経口",
+  "preparation": "発症者との接触後48時間以内にご来院ください",
+  "availableService": {
+    "@type": "Offer",
+    "price": "5500",
+    "priceCurrency": "JPY",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "5500",
+      "priceCurrency": "JPY",
+      "unitText": "10日分"
+    }
+  },
+  "provider": {
+    "@type": "MedicalClinic",
+    "name": "勾当台夕方内科クリニック",
+    "url": "https://koutoudai-yugata-naika.clinic",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "仙台市青葉区",
+      "addressRegion": "宮城県",
+      "streetAddress": "国分町3丁目8-1 勾当台ビル4階"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday"],
+        "opens": "17:00",
+        "closes": "21:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday", "Sunday"],
+        "opens": "14:00",
+        "closes": "21:00"
+      }
+    ]
+  }
+};
+
+// FAQ構造化データ
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+
+const breadcrumbStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "勾当台夕方内科クリニック",
+      "item": "https://koutoudai-yugata-naika.clinic/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "インフルエンザ予防投与",
+      "item": pageUrl
+    }
+  ]
+};
+---
+
+<Layout
+  title="インフルエンザ予防投与（タミフル後発品）5,500円｜仙台市青葉区 夜21時・土日診療｜勾当台夕方内科クリニック"
+  description="仙台市でインフルエンザの予防投与（予防内服）を行っています。ご家族がインフルエンザを発症した、重症化リスクの高い方にタミフル後発品（オセルタミビル）10日分を院内処方。自費診療5,500円（税込・診察料込）。夜21時まで・土日も診療、勾当台公園駅徒歩2分。"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbStructuredData)} />
+  <Header />
+  <main class="page-main">
+    <SubPageHeader label="Influenza Prophylaxis" title="インフルエンザ予防投与" variant="turquoise" />
+
+    <section class="page-intro">
+      <div class="container">
+        <p class="intro-text">
+          ご家族など一緒に暮らす方がインフルエンザを発症した場合に、<br class="pc-only" />
+          <strong>重症化リスクの高い方</strong>を対象として、発症を防ぐための<br class="pc-only" />
+          <strong>抗インフルエンザ薬（オセルタミビル）</strong>を処方しています。
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">インフルエンザ予防投与（予防内服）とは</h2>
+        <div class="info-box">
+          <p class="info-text">
+            インフルエンザ予防投与（予防内服）とは、ご家族などインフルエンザを発症した方と接触した後に、<strong>発症する前から抗インフルエンザ薬を服用して、発症を防ぐ</strong>方法です。当院では、タミフルの後発品である<strong>オセルタミビル</strong>を用いています。
+          </p>
+          <p class="info-note">
+            ※ 予防投与は病気の治療ではないため、健康保険は使えず<strong>自費診療</strong>となります。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise">
+      <div class="container">
+        <h2 class="page-section-title">インフルエンザ予防投与の料金</h2>
+        <div class="price-card">
+          <div class="price-card-header">
+            <h3 class="price-card-title">オセルタミビル 75mg（10日分）</h3>
+            <span class="price-card-badge">タミフル後発品</span>
+          </div>
+          <p class="price-card-price"><span class="price-number">5,500</span>円<span class="price-tax">（税込）</span></p>
+          <p class="price-card-included">診察料・お薬代込み（院内でお渡しします）</p>
+          <p class="price-card-note">※ 予防投与は保険適用外のため、自費診療となります</p>
+          <p class="price-card-note">※ 対象条件を満たさない場合は処方できません。</p>
+          <p class="price-card-note">※ 医師による対面診察が必要です。お薬のみのお渡し・郵送はできません。</p>
+        </div>
+        <div class="price-cta">
+          <LineCta lines={[
+            "予防投与は接触後48時間以内の服用開始が必要です。",
+            "対象となる方は、できるだけ早めにご来院ください。"
+          ]} />
+          <a href="tel:022-393-8689" class="phone-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            022-393-8689
+          </a>
+          <p class="phone-notice">予約が取れない場合でも、お電話いただければ対応いたします。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">予防投与の対象となる方（処方の条件）</h2>
+        <p class="section-lead">学会の指針に基づき、<strong>以下のすべてを満たす方</strong>に処方しています。</p>
+        <ul class="condition-list">
+          <li class="condition-item">
+            <span class="condition-number">1</span>
+            <div>
+              <strong>同居のご家族・共同生活者がインフルエンザを発症していること</strong>
+              <p>医療機関でインフルエンザと診断された方と、一緒に暮らしている方が対象です。職場や学校での接触のみの場合や、流行期の予防目的での服用は対象外です。</p>
+            </div>
+          </li>
+          <li class="condition-item">
+            <span class="condition-number">2</span>
+            <div>
+              <strong>重症化リスクの高い方であること</strong>
+              <p>次のいずれかに当てはまる方が対象です。</p>
+              <ul class="condition-sublist">
+                <li>65歳以上の方</li>
+                <li>慢性の呼吸器疾患（喘息・COPDなど）または慢性心疾患のある方</li>
+                <li>糖尿病などの代謝性疾患のある方</li>
+                <li>腎機能障害のある方</li>
+              </ul>
+            </div>
+          </li>
+          <li class="condition-item">
+            <span class="condition-number">3</span>
+            <div>
+              <strong>発症者との接触から48時間以内であること</strong>
+              <p>接触後48時間を過ぎてから服用を始めた場合の予防効果は確認されていません。できるだけ早めにご来院ください。</p>
+            </div>
+          </li>
+          <li class="condition-item">
+            <span class="condition-number">4</span>
+            <div>
+              <strong>インフルエンザの症状がないこと</strong>
+              <p>すでに発熱や咳などの症状がある場合は、予防投与ではなく<strong>保険診療</strong>での検査・治療となります。</p>
+            </div>
+          </li>
+          <li class="condition-item">
+            <span class="condition-number">5</span>
+            <div>
+              <strong>成人の方、または体重37.5kg以上のお子さま</strong>
+              <p>カプセル剤の用法に基づく条件です。</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise">
+      <div class="container">
+        <h2 class="page-section-title">オセルタミビル（タミフル後発品）の飲み方と予防効果</h2>
+        <div class="info-box info-box--white">
+          <p class="info-text">
+            オセルタミビル75mgを<strong>1日1回1カプセル、10日間</strong>服用します。<br />
+            発症者の同居家族を対象とした臨床試験では、予防投与によりインフルエンザの発症が<strong>大きく減少</strong>することが報告されています。
+          </p>
+          <p class="info-note">
+            ※ 予防効果は服用している期間のみです。服用を終えた後の感染を防ぐものではありません。<br />
+            ※ 予防投与はワクチンの代わりにはなりません。インフルエンザワクチンの接種もご検討ください。<br />
+            ※ 腎機能障害のある方は、腎機能に応じて用量を調整します。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-coral">
+      <div class="container">
+        <h2 class="page-section-title">服用中の注意点</h2>
+        <ul class="attention-list">
+          <li class="attention-item">
+            <span class="attention-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
+            <div>
+              <strong>服用しても発症することがあります</strong>
+              <p>予防効果は100%ではありません。服用中に発熱などの症状が出た場合は、予防量のまま飲み続けず、速やかに受診してください（保険診療での検査・治療となります）。</p>
+            </div>
+          </li>
+          <li class="attention-item">
+            <span class="attention-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
+            <div>
+              <strong>主な副作用</strong>
+              <p>腹痛・下痢・吐き気などの消化器症状がみられることがあります。まれに発疹や肝機能障害などが起こることがあります。気になる症状があればご相談ください。</p>
+            </div>
+          </li>
+          <li class="attention-item">
+            <span class="attention-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
+            <div>
+              <strong>決められた期間、飲み切ってください</strong>
+              <p>自己判断で途中でやめたり、飲む量を減らしたりすると、十分な予防効果が得られません。</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">オセルタミビルのみを取り扱う理由</h2>
+        <div class="recommendation-box">
+          <p class="recommendation-text">
+            抗インフルエンザ薬の予防投与では、<strong>薬が効きにくい耐性ウイルス</strong>が生じる可能性が指摘されています。特にバロキサビル（ゾフルーザ）は、<a href="https://www.kansensho.or.jp/modules/guidelines/index.php?content_id=52" class="ref-link" target="_blank" rel="noopener noreferrer">服用後に耐性変異をもつウイルスが一定の頻度で検出される</a>ことが報告されています。
+          </p>
+          <div class="recommendation-notice">
+            <span class="recommendation-notice-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
+            <p>
+              <strong>オセルタミビル</strong>は、インフルエンザ患者の同居家族を対象とした複数のランダム化比較試験（<a href="https://doi.org/10.1001/jama.285.6.748" class="ref-link" target="_blank" rel="noopener noreferrer">Welliver 2001</a>、<a href="https://pubmed.ncbi.nlm.nih.gov/14745701/" class="ref-link" target="_blank" rel="noopener noreferrer">Hayden 2004</a>）で予防効果が確認されている薬です。また、<a href="https://id-info.jihs.go.jp/surveillance/idss/target-diseases/influenza/antiviral-drug-resistance/index.html" class="ref-link" target="_blank" rel="noopener noreferrer">国内の耐性株サーベイランス（2025/26シーズン）</a>では、オセルタミビルに耐性をもつウイルスの検出は<strong>解析株の1%未満</strong>にとどまっています。当院ではこれらの根拠に基づき、予防投与をオセルタミビルに限定しています。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise">
+      <div class="container">
+        <h2 class="page-section-title">予防投与の受診の流れ</h2>
+        <ol class="flow-list">
+          <li class="flow-item">
+            <span class="flow-number">1</span>
+            <div>
+              <strong>LINEでご予約</strong>
+              <p>LINE予約の問診で「<strong>インフルエンザ予防投与希望</strong>」とご記入ください。お電話でのご予約や、予約なしでのご来院も可能です。その場合は受付でお伝えください。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">2</span>
+            <div>
+              <strong>問診・診察</strong>
+              <p>ご家族が診断を受けた日時、症状の有無、持病やお飲みのお薬、腎機能などを確認し、医師が処方の条件を満たしているか判断します。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">3</span>
+            <div>
+              <strong>お薬のお渡し・お会計</strong>
+              <p>院内でお薬（10日分）をお渡しします。お会計は5,500円（税込）です。</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">インフルエンザ予防投与のよくある質問</h2>
+        <div class="faq-list">
+          {faqs.map((faq) => (
+            <Toggle label={faq.question}>
+              <p>{faq.answer}</p>
+            </Toggle>
+          ))}
+        </div>
+        <p class="last-reviewed">
+          監修：<a href="/doctor">院長 田村 慧人</a>／最終更新：{lastReviewed.replaceAll("-", ".")}
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-intro {
+    padding: 36px 0 !important;
+    background: var(--color-turquoise-bg);
+  }
+
+  .intro-text {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 2;
+    text-align: center;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+
+  .pc-only {
+    display: inline;
+  }
+
+  .page-section {
+    padding: 80px 0;
+  }
+
+  .page-section.bg-turquoise {
+    background: var(--color-turquoise-bg);
+  }
+
+  .page-section.bg-coral {
+    background: var(--color-coral-bg);
+  }
+
+  .section-lead {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 32px;
+    line-height: 1.8;
+  }
+
+  .price-card {
+    max-width: 480px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    border: 1px solid var(--color-turquoise);
+  }
+
+  .price-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .price-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .price-card-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--color-turquoise);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 12px;
+  }
+
+  .price-card-price {
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 8px;
+  }
+
+  .price-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+
+  .price-tax {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .price-card-included {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+  }
+
+  .price-card-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .price-cta {
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  .phone-notice {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .phone-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 10px 26px;
+    background: white;
+    color: var(--color-turquoise);
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 9999px;
+    transition: background 0.2s;
+  }
+
+  .phone-btn:hover {
+    background: var(--color-turquoise-bg);
+  }
+
+  .condition-list {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .condition-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-turquoise);
+  }
+
+  .condition-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--color-turquoise);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .condition-item strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 8px;
+  }
+
+  .condition-item p strong {
+    display: inline;
+    font-size: inherit;
+    margin: 0;
+  }
+
+  .condition-item p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .condition-sublist {
+    margin-top: 8px;
+    padding-left: 1.2em;
+    list-style: disc;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.9;
+  }
+
+  .info-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--color-turquoise-bg);
+    border-radius: 16px;
+    padding: 32px;
+    border: 1px solid var(--color-turquoise);
+  }
+
+  .info-box--white {
+    background: white;
+  }
+
+  .faq-list {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .last-reviewed {
+    max-width: 720px;
+    margin: 32px auto 0;
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .last-reviewed a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .info-text {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 16px;
+  }
+
+  .info-note {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .attention-list {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .attention-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-coral);
+  }
+
+  .attention-icon {
+    flex-shrink: 0;
+    color: var(--color-coral);
+    margin-top: 2px;
+  }
+
+  .attention-item strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--color-navy);
+    margin-bottom: 8px;
+  }
+
+  .attention-item > div > p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .recommendation-box {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .recommendation-text {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .ref-link {
+    color: var(--color-turquoise);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ref-link:hover {
+    opacity: 0.8;
+  }
+
+  .recommendation-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+
+  .recommendation-notice-icon {
+    flex-shrink: 0;
+    color: var(--color-turquoise);
+    margin-top: 2px;
+  }
+
+  .recommendation-notice p {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.9;
+  }
+
+  .flow-list {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .flow-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-turquoise);
+  }
+
+  .flow-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--color-turquoise);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .flow-item strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 6px;
+  }
+
+  .flow-item p strong {
+    display: inline;
+    font-size: inherit;
+    margin: 0;
+  }
+
+  .flow-item p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .back-section {
+    background: white;
+    padding: 20px 0 40px !important;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 1px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .intro-text {
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .pc-only {
+      display: none;
+    }
+
+    .page-section {
+      padding: 60px 0;
+    }
+
+    .section-lead {
+      text-align: left;
+    }
+
+    .price-card {
+      padding: 24px 20px;
+    }
+
+    .price-card-header {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .price-number {
+      font-size: 1.8rem;
+    }
+
+    .condition-item,
+    .attention-item,
+    .flow-item {
+      padding: 20px;
+    }
+
+    .info-box {
+      padding: 20px;
+    }
+
+    .recommendation-text {
+      text-align: left;
+    }
+
+    .recommendation-notice {
+      padding: 16px 18px;
+    }
+  }
+</style>

@@ -65,6 +65,12 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 - フロントポート: 5175、ベースパス: `/timecard/`
 - PWA対応、WebUSB NFC読み取り（Sony PaSoRi）
 
+### clinical-guidelines（診療ガイドラインまとめ）
+
+- 医師の診療・生涯学習用の Markdown ドキュメント（ビルド対象外）
+- `clinical-guidelines/<領域>/<資料>/NN-slug.md` の構成。運用ルールは `clinical-guidelines/README.md`
+- 各ファイル冒頭に出典・版・確認日を書き、原文要約と自院運用メモを分ける
+
 ## 外部サービス
 
 - **LINE WORKS**: フリープランのためBot API / Developer Console 利用不可。通知はPWA等で代替。

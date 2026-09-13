@@ -4,52 +4,8 @@ import Header from "../components/Header.astro";
 import SubPageHeader from "../components/SubPageHeader.astro";
 import LineCta from "../components/LineCta.astro";
 import Footer from "../components/Footer.astro";
-import Toggle from "../components/Toggle.astro";
 
 const pageUrl = "https://koutoudai-yugata-naika.clinic/flu-prevention";
-// 内容を見直したら更新する（構造化データの lastReviewed とページ下部の表記に使う）
-const lastReviewed = "2026-09-13";
-
-// 画面表示のFAQと構造化データの両方をここから生成する
-// （Googleは画面に表示されていないFAQの構造化データを認めないため）
-const faqs = [
-  {
-    question: "インフルエンザの予防投与は自費ですか？保険は使えますか？",
-    answer: "予防投与は自費診療となり、健康保険は使えません。健康保険は病気の治療が対象のため、発症する前に薬を飲む予防投与は保険適用外となります。",
-  },
-  {
-    question: "インフルエンザの予防投与はいくらですか？",
-    answer: "当院ではオセルタミビル（タミフル後発品）10日分を、診察料・お薬代込みで5,500円（税込）で処方しています。お薬は院内でお渡しするため、薬局での追加の支払いはありません。",
-  },
-  {
-    question: "家族がインフルエンザになりました。いつまでに受診すればいいですか？",
-    answer: "発症した方と接触してから48時間以内に服用を始める必要があります。48時間を過ぎてからの予防効果は確認されていないため、できるだけ早めにご来院ください。",
-  },
-  {
-    question: "健康な大人でも予防投与を受けられますか？",
-    answer: "当院では学会の指針に基づき処方しており、65歳以上の方や、慢性の呼吸器・心臓の病気、糖尿病などの代謝性疾患、腎機能障害のある方が対象です。持病のない65歳未満の方には処方しておりません。",
-  },
-  {
-    question: "タミフル以外の予防薬（イナビル・ゾフルーザ）は処方できますか？",
-    answer: "当院の予防投与はオセルタミビル（タミフル後発品）のみです。イナビル・ゾフルーザ等による予防投与は行っておりません。",
-  },
-  {
-    question: "予防投与とインフルエンザワクチン（予防接種）は何が違いますか？",
-    answer: "ワクチンは流行前に接種して免疫をつけるもので、予防投与は発症した方と接触した後に、服用している期間だけ発症を抑えるものです。予防投与はワクチンの代わりにはなりません。",
-  },
-  {
-    question: "予防投与の効果はどのくらい続きますか？",
-    answer: "効果が期待できるのは服用している10日間のみです。服用を終えた後に感染した場合の発症を防ぐものではありません。",
-  },
-  {
-    question: "予約は家族が代わりにできますか？",
-    answer: "はい、LINE予約はご家族が代わりに行うこともできます。問診に「インフルエンザ予防投与希望」とご記入ください。なお、診察が必要なため、予防投与を受ける方のご来院が必要です。",
-  },
-  {
-    question: "服用中に熱が出たらどうすればいいですか？",
-    answer: "予防効果は100%ではありません。発熱などの症状が出た場合は、予防量のまま飲み続けず、速やかに受診してください。その場合は保険診療での検査・治療となります。",
-  },
-];
 
 // インフルエンザ予防投与ページ専用の構造化データ
 const pageStructuredData = {
@@ -60,17 +16,6 @@ const pageStructuredData = {
   "keywords": "インフルエンザ 予防投与 仙台, タミフル 予防 仙台, オセルタミビル 予防投与, インフルエンザ 予防内服 仙台, 家族 インフルエンザ 予防, インフルエンザ 予防 薬 仙台, インフルエンザ 予防投与 自費, インフルエンザ 予防投与 料金, インフルエンザ 予防投与 土日, インフルエンザ 予防投与 夜間",
   "url": pageUrl,
   "inLanguage": "ja",
-  "lastReviewed": lastReviewed,
-  "reviewedBy": {
-    "@type": "Physician",
-    "name": "田村 慧人",
-    "jobTitle": "院長",
-    "url": "https://koutoudai-yugata-naika.clinic/doctor",
-    "worksFor": {
-      "@type": "MedicalClinic",
-      "name": "勾当台夕方内科クリニック"
-    }
-  },
   "about": {
     "@type": "MedicalCondition",
     "name": "インフルエンザ",
@@ -142,20 +87,6 @@ const serviceStructuredData = {
   }
 };
 
-// FAQ構造化データ
-const faqStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqs.map((faq) => ({
-    "@type": "Question",
-    "name": faq.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": faq.answer
-    }
-  }))
-};
-
 const breadcrumbStructuredData = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -182,7 +113,6 @@ const breadcrumbStructuredData = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
-  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbStructuredData)} />
   <Header />
   <main class="page-main">
@@ -408,22 +338,6 @@ const breadcrumbStructuredData = {
       </div>
     </section>
 
-    <section class="page-section">
-      <div class="container">
-        <h2 class="page-section-title">インフルエンザ予防投与のよくある質問</h2>
-        <div class="faq-list">
-          {faqs.map((faq) => (
-            <Toggle label={faq.question}>
-              <p>{faq.answer}</p>
-            </Toggle>
-          ))}
-        </div>
-        <p class="last-reviewed">
-          監修：<a href="/doctor">院長 田村 慧人</a>／最終更新：{lastReviewed.replaceAll("-", ".")}
-        </p>
-      </div>
-    </section>
-
     <section class="page-section back-section">
       <div class="container">
         <div class="detail-back">
@@ -643,25 +557,6 @@ const breadcrumbStructuredData = {
 
   .info-box--white {
     background: white;
-  }
-
-  .faq-list {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
-  .last-reviewed {
-    max-width: 720px;
-    margin: 32px auto 0;
-    text-align: right;
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-  }
-
-  .last-reviewed a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
   }
 
   .info-text {

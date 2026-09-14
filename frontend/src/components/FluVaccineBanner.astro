@@ -1,0 +1,51 @@
+---
+import InfoCard from "./InfoCard.astro";
+---
+
+<section class="flu-vaccine-banner">
+  <div class="container">
+    <div class="banner-wrapper">
+      <InfoCard icon="devices/syringe-vaccine" title="インフルエンザワクチン接種を2026年（令和8年）9月16日（水）より開始します" variant="coral">
+        <p>
+          13歳以上の方が対象、1回3,300円。平日は夜21時まで、土日も接種できます。予約なしでもご来院いただけます。
+        </p>
+        <a href="/flu-vaccine" class="banner-link">
+          詳しくはこちら →
+        </a>
+      </InfoCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .flu-vaccine-banner {
+    background: white;
+    padding: 0 0 48px;
+  }
+
+  .banner-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .banner-wrapper :global(.banner-link) {
+    display: block;
+    text-align: right;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-coral);
+    text-decoration: none;
+    transition: opacity 0.2s;
+    margin-top: 12px;
+  }
+
+  .banner-wrapper :global(.banner-link:hover) {
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .flu-vaccine-banner {
+      padding: 0 0 32px;
+    }
+  }
+</style>

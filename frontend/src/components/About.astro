@@ -206,7 +206,7 @@ import InfoCard from "./InfoCard.astro";
           <HealthIcon name="medications/pills_2" size={28} />
         </div>
         <h4 class="specialty-title">インフルエンザ予防投与</h4>
-        <p class="specialty-description">ご家族がインフルエンザを発症した、重症化リスクの高い方にオセルタミビルを処方しています。接触後48時間以内の服用開始が必要です。</p>
+        <p class="specialty-description">ご家族がインフルエンザを発症した、重症化リスクの高い方にオセルタミビルを処方しています。</p>
         <span class="specialty-link specialty-link--turquoise">詳しくはこちら →</span>
       </a>
     </div>
@@ -394,7 +394,8 @@ import InfoCard from "./InfoCard.astro";
   .about-doctor-link {
     font-size: 0.85rem;
     color: var(--color-turquoise);
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 4px;
     font-weight: 600;
   }
 

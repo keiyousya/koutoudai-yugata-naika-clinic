@@ -1,0 +1,722 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
+import LineCta from "../components/LineCta.astro";
+import Footer from "../components/Footer.astro";
+
+const pageUrl = "https://koutoudai-yugata-naika.clinic/flu-vaccine";
+
+// インフルエンザワクチンページ専用の構造化データ
+const pageStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "name": "インフルエンザワクチン接種｜仙台市青葉区｜勾当台夕方内科クリニック",
+  "description": "仙台市青葉区でインフルエンザワクチン接種を行っています。13歳以上の方が対象、1回3,300円。平日は夜21時まで、土日も接種できます。予約なしでもご来院いただけます。",
+  "keywords": "インフルエンザワクチン 仙台, インフルエンザ 予防接種 仙台, インフルエンザワクチン 仙台市青葉区, インフルエンザワクチン 料金, インフルエンザ 予防接種 夜間, インフルエンザ 予防接種 土日, インフルエンザワクチン 予約なし, インフルエンザワクチン 勾当台",
+  "url": pageUrl,
+  "inLanguage": "ja",
+  "about": {
+    "@type": "MedicalCondition",
+    "name": "インフルエンザ",
+    "alternateName": "Influenza"
+  },
+  "medicalAudience": {
+    "@type": "MedicalAudience",
+    "audienceType": "Patient"
+  },
+  "specialty": {
+    "@type": "MedicalSpecialty",
+    "name": "感染症"
+  },
+  "mainEntity": {
+    "@type": "Drug",
+    "name": "インフルエンザHAワクチン",
+    "alternateName": ["インフルエンザワクチン", "インフルエンザ予防接種"],
+    "drugClass": "不活化ワクチン",
+    "administrationRoute": "皮下注射"
+  }
+};
+
+const serviceStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  "name": "インフルエンザワクチン接種",
+  "alternateName": ["インフルエンザ予防接種", "インフルエンザワクチン"],
+  "description": "13歳以上の方を対象に、インフルエンザHAワクチンを原則1回接種します。",
+  "howPerformed": "問診・診察の上、インフルエンザHAワクチン0.5mLを皮下注射",
+  "availableService": {
+    "@type": "Offer",
+    "price": "3300",
+    "priceCurrency": "JPY",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "3300",
+      "priceCurrency": "JPY",
+      "unitText": "1回"
+    }
+  },
+  "provider": {
+    "@type": "MedicalClinic",
+    "name": "勾当台夕方内科クリニック",
+    "url": "https://koutoudai-yugata-naika.clinic",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "仙台市青葉区",
+      "addressRegion": "宮城県",
+      "streetAddress": "国分町3丁目8-1 勾当台ビル4階"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday"],
+        "opens": "17:00",
+        "closes": "21:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday", "Sunday"],
+        "opens": "14:00",
+        "closes": "21:00"
+      }
+    ]
+  }
+};
+
+const breadcrumbStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "勾当台夕方内科クリニック",
+      "item": "https://koutoudai-yugata-naika.clinic/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "インフルエンザワクチン",
+      "item": pageUrl
+    }
+  ]
+};
+---
+
+<Layout
+  title="インフルエンザワクチン 3,300円｜仙台市青葉区 夜21時・土日も接種｜勾当台夕方内科クリニック"
+  description="仙台市青葉区でインフルエンザワクチン（予防接種）を行っています。13歳以上の方が対象、1回3,300円。平日は夜21時まで、土日も接種可能。予約なしでもご来院いただけます。勾当台公園駅徒歩2分。"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbStructuredData)} />
+  <Header />
+  <main class="page-main">
+    <SubPageHeader label="Influenza Vaccine" title="インフルエンザワクチン" variant="coral" />
+
+    <section class="page-intro">
+      <div class="container">
+        <p class="intro-text">
+          <strong>2026年（令和8年）9月16日（水）</strong>より、<br class="pc-only" />
+          インフルエンザワクチンの接種を行います。<br class="pc-only" />
+          平日は<strong>夜21時まで</strong>、<strong>土日も</strong>接種できます。
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">インフルエンザワクチンの料金</h2>
+        <div class="price-card">
+          <div class="price-card-header">
+            <h3 class="price-card-title">インフルエンザワクチン（1回）</h3>
+            <span class="price-card-badge">13歳以上</span>
+          </div>
+          <p class="price-card-price"><span class="price-number">3,300</span>円</p>
+          <p class="price-card-note">※ 予防接種は保険適用外のため、自費診療となります</p>
+          <p class="price-card-note">※ 12歳以下のお子さまの接種は行っておりません</p>
+        </div>
+        <div class="price-cta">
+          <LineCta lines={[
+            "LINE予約の問診で「インフルエンザワクチン希望」とご記入ください。",
+            "ご予約なしでもご来院いただけます。"
+          ]} />
+          <a href="tel:022-393-8689" class="phone-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            022-393-8689
+          </a>
+          <p class="phone-notice">お電話でのご予約も承ります。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-coral">
+      <div class="container">
+        <h2 class="page-section-title">接種のご案内</h2>
+        <dl class="spec-list">
+          <div class="spec-row">
+            <dt>接種開始日</dt>
+            <dd>2026年（令和8年）9月16日（水）</dd>
+          </div>
+          <div class="spec-row">
+            <dt>対象</dt>
+            <dd>13歳以上の方<span class="spec-note">中学生の方は、保護者の方と一緒にご来院ください。高校生以上の方は、お一人でも接種いただけます。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>接種回数</dt>
+            <dd>原則1回</dd>
+          </div>
+          <div class="spec-row">
+            <dt>料金</dt>
+            <dd>3,300円</dd>
+          </div>
+          <div class="spec-row">
+            <dt>使用ワクチン</dt>
+            <dd>インフルエンザHAワクチン「KMB」</dd>
+          </div>
+          <div class="spec-row">
+            <dt>接種できる時間</dt>
+            <dd>平日（月・水〜金）17:00〜21:00<br />土日 14:00〜21:00<span class="spec-note">火曜日は休診です。臨時休診は<a href="/#hours" class="ref-link">診療日カレンダー</a>でご確認ください。</span></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">接種の時期の目安</h2>
+        <div class="info-box">
+          <p class="info-text">
+            日本では例年12月〜4月頃にインフルエンザが流行するため、<strong>12月中旬までに接種を終える</strong>ことが望ましいとされています（<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/kekkaku-kansenshou/infulenza/QA2024.html" class="ref-link" target="_blank" rel="noopener noreferrer">厚生労働省 インフルエンザQ&A</a>）。<br />
+            流行が本格化する前の、<strong>早めの接種</strong>をおすすめします。
+          </p>
+          <p class="info-note">
+            ※ ワクチンを接種してもインフルエンザにかかることはありますが、発病や重症化を防ぐ効果が期待できます。<br />
+            ※ 医師が必要と認めた場合は、他のワクチンと同時に接種することもできます。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-coral">
+      <div class="container">
+        <h2 class="page-section-title">接種を受けられない方・ご相談が必要な方</h2>
+        <ul class="attention-list">
+          <li class="attention-item">
+            <span class="attention-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
+            <div>
+              <strong>接種を受けられない方</strong>
+              <ul class="attention-sublist">
+                <li>明らかな発熱がある方</li>
+                <li>重い急性の病気にかかっている方</li>
+                <li>過去にこのワクチンの成分でアナフィラキシー（強いアレルギー反応）を起こしたことがある方</li>
+                <li>その他、医師が接種に適さないと判断した方</li>
+              </ul>
+            </div>
+          </li>
+          <li class="attention-item">
+            <span class="attention-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
+            <div>
+              <strong>接種前にご相談ください</strong>
+              <ul class="attention-sublist">
+                <li>心臓・血管、腎臓、肝臓、血液の病気や、発育障害などの持病がある方</li>
+                <li>過去に予防接種後2日以内に発熱した方、または全身の発疹などアレルギーを疑う症状が出たことがある方</li>
+                <li>過去にけいれんを起こしたことがある方</li>
+                <li>過去に免疫不全と診断されたことがある方、または近親者に先天性免疫不全症の方がいる方</li>
+                <li>間質性肺炎や気管支喘息など、呼吸器の病気がある方</li>
+                <li>ワクチンの成分、または鶏卵・鶏肉など鶏由来のものにアレルギーがあるおそれのある方</li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+        <p class="source-note">
+          出典：<a href="https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340FA1101" class="ref-link" target="_blank" rel="noopener noreferrer">インフルエンザHAワクチン「KMB」電子添文（PMDA）</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">主な副反応</h2>
+        <div class="info-box">
+          <p class="info-text">
+            接種した部分の<strong>赤み・腫れ・痛み</strong>が、接種を受けた方の10〜20％にみられます。また、<strong>発熱・頭痛・寒気・だるさ</strong>などが5〜10％にみられます。いずれも通常2〜3日で治まります。
+          </p>
+          <p class="info-note">
+            ※ まれに、ショックやアナフィラキシー（じんましん・呼吸困難など）といった重い副反応が起こることがあります。接種後比較的すぐに起こることが多いため、接種後30分間は院内で安静にお過ごしください。<br />
+            ※ 接種当日は激しい運動を避け、接種部位を清潔に保ってください。<br />
+            ※ 高熱やけいれんなど、いつもと違う症状が出た場合は、速やかにご受診ください。
+          </p>
+        </div>
+        <p class="source-note">
+          出典：<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/kekkaku-kansenshou/infulenza/QA2024.html" class="ref-link" target="_blank" rel="noopener noreferrer">厚生労働省 インフルエンザQ&A</a>、<a href="https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340FA1101" class="ref-link" target="_blank" rel="noopener noreferrer">インフルエンザHAワクチン「KMB」電子添文（PMDA）</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise">
+      <div class="container">
+        <h2 class="page-section-title">ご家族がインフルエンザを発症したら</h2>
+        <div class="related-box">
+          <p class="related-text">
+            同居のご家族がインフルエンザを発症した場合、重症化リスクの高い方には、抗インフルエンザ薬（オセルタミビル）による<strong>予防投与</strong>も行っています。発症者との接触から48時間以内の服用開始が必要です。
+          </p>
+          <a href="/flu-prevention" class="related-link">インフルエンザ予防投与について →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">接種の流れ</h2>
+        <ol class="flow-list">
+          <li class="flow-item">
+            <span class="flow-number">1</span>
+            <div>
+              <strong>LINEでご予約</strong>
+              <p>LINE予約の問診で「<strong>インフルエンザワクチン希望</strong>」とご記入ください。お電話でのご予約や、予約なしでのご来院も可能です。予約なしの場合は、混雑状況によりお待ちいただくことがあります。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">2</span>
+            <div>
+              <strong>予診票の記入・診察</strong>
+              <p>当日の体調、持病やお飲みのお薬、アレルギーの有無などを確認し、医師が接種できるか判断します。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">3</span>
+            <div>
+              <strong>接種・お会計</strong>
+              <p>接種後30分間は院内で安静にお過ごしいただき、体調の変化がないか確認します。お会計は3,300円です。</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page-section back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-intro {
+    padding: 36px 0 !important;
+    background: var(--color-coral-bg);
+  }
+
+  .intro-text {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 2;
+    text-align: center;
+    background: white;
+    border: 1px solid var(--color-coral);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+
+  .pc-only {
+    display: inline;
+  }
+
+  .page-section {
+    padding: 80px 0;
+  }
+
+  .page-section.bg-turquoise {
+    background: var(--color-turquoise-bg);
+  }
+
+  .page-section.bg-coral {
+    background: var(--color-coral-bg);
+  }
+
+  .price-card {
+    max-width: 480px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    border: 1px solid var(--color-coral);
+  }
+
+  .price-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .price-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .price-card-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--color-coral);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 12px;
+  }
+
+  .price-card-price {
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 8px;
+  }
+
+  .price-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+
+  .price-card-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .price-cta {
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  .phone-notice {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .phone-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 10px 26px;
+    background: white;
+    color: var(--color-turquoise);
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 9999px;
+    transition: background 0.2s;
+  }
+
+  .phone-btn:hover {
+    background: var(--color-turquoise-bg);
+  }
+
+  .spec-list {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--color-coral);
+    overflow: hidden;
+  }
+
+  .spec-row {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .spec-row:last-child {
+    border-bottom: none;
+  }
+
+  .spec-row dt {
+    width: 9em;
+    white-space: nowrap;
+    padding: 18px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    background: var(--color-coral-bg);
+  }
+
+  .spec-row dd {
+    padding: 18px 24px;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 1.8;
+  }
+
+  .spec-note {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .info-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--color-coral-bg);
+    border-radius: 16px;
+    padding: 32px;
+    border: 1px solid var(--color-coral);
+  }
+
+  .info-text {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 16px;
+  }
+
+  .info-note {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .attention-list {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .attention-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-coral);
+  }
+
+  .attention-icon {
+    flex-shrink: 0;
+    color: var(--color-coral);
+    margin-top: 2px;
+  }
+
+  .attention-item strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--color-navy);
+    margin-bottom: 8px;
+  }
+
+  .attention-sublist {
+    padding-left: 1.2em;
+    list-style: disc;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.9;
+  }
+
+  .related-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    padding: 28px 32px;
+    text-align: center;
+  }
+
+  .related-text {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 2;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .related-link {
+    color: var(--color-turquoise);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .related-link:hover {
+    opacity: 0.8;
+  }
+
+  .source-note {
+    max-width: 720px;
+    margin: 16px auto 0;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    text-align: right;
+  }
+
+  .ref-link {
+    color: var(--color-coral);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .flow-list {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .flow-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-coral);
+  }
+
+  .flow-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--color-coral);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .flow-item strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 6px;
+  }
+
+  .flow-item p strong {
+    display: inline;
+    font-size: inherit;
+    margin: 0;
+  }
+
+  .flow-item p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .back-section {
+    background: white;
+    padding: 20px 0 40px !important;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 1px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .intro-text {
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .pc-only {
+      display: none;
+    }
+
+    .page-section {
+      padding: 60px 0;
+    }
+
+    .price-card {
+      padding: 24px 20px;
+    }
+
+    .price-card-header {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .price-number {
+      font-size: 1.8rem;
+    }
+
+    .spec-row {
+      grid-template-columns: 1fr;
+    }
+
+    .spec-row dt {
+      width: auto;
+      padding: 10px 16px;
+    }
+
+    .spec-row dd {
+      padding: 12px 16px;
+    }
+
+    .attention-item,
+    .flow-item {
+      padding: 20px;
+    }
+
+    .info-box,
+    .related-box {
+      padding: 20px;
+    }
+  }
+</style>

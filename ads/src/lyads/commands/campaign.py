@@ -183,6 +183,35 @@ def set_end_date(
     _set(LyAdsClient(product=product), aid, {"campaignId": campaign_id, "endDate": value}, summary, yes)
 
 
+@campaign.command("bid-ceiling")
+@product_option
+@account_option
+@click.option("--campaign-id", required=True, type=int, help="対象キャンペーンID")
+@click.option("--cpc", required=True, type=int, help="新しい上限CPC（円）")
+@click.option("--yes", is_flag=True, help="確認プロンプトをスキップ")
+@test_option
+def set_bid_ceiling(
+    product: str, account_id: str | None, campaign_id: int, cpc: int, yes: bool, test: bool
+) -> None:
+    """MAXIMIZE_CLICKS キャンペーンの上限CPC（bidCeiling）を変更する。"""
+    aid = resolve_account_id(account_id, product, test)
+    _set(
+        LyAdsClient(product=product),
+        aid,
+        {
+            "campaignId": campaign_id,
+            "biddingStrategyConfiguration": {
+                "biddingScheme": {
+                    "biddingStrategyType": "MAXIMIZE_CLICKS",
+                    "maximizeClicksBiddingScheme": {"bidCeiling": cpc},
+                },
+            },
+        },
+        f"キャンペーン {campaign_id} の上限CPCを {cpc:,}円 に変更します。よろしいですか？",
+        yes,
+    )
+
+
 @campaign.command("geo-target")
 @product_option
 @account_option

@@ -7,12 +7,12 @@ import Footer from "../components/Footer.astro";
 
 const pageUrl = "https://koutoudai-yugata-naika.clinic/flu-vaccine";
 
-// インフルエンザワクチンページ専用の構造化データ
+// インフルエンザ予防接種ページ専用の構造化データ
 const pageStructuredData = {
   "@context": "https://schema.org",
   "@type": "MedicalWebPage",
-  "name": "インフルエンザワクチン接種｜仙台市青葉区｜勾当台夕方内科クリニック",
-  "description": "仙台市青葉区でインフルエンザワクチン接種を行っています。13歳以上の方が対象、1回3,300円。平日は夜21時まで、土日も接種できます。予約なしでもご来院いただけます。",
+  "name": "インフルエンザ予防接種｜仙台市青葉区｜勾当台夕方内科クリニック",
+  "description": "仙台市青葉区でインフルエンザ予防接種を行っています。13歳以上の方が対象、1回3,300円。平日は夜21時まで、土日も接種できます。予約なしでもご来院いただけます。",
   "keywords": "インフルエンザワクチン 仙台, インフルエンザ 予防接種 仙台, インフルエンザワクチン 仙台市青葉区, インフルエンザワクチン 料金, インフルエンザ 予防接種 夜間, インフルエンザ 予防接種 土日, インフルエンザワクチン 予約なし, インフルエンザワクチン 勾当台",
   "url": pageUrl,
   "inLanguage": "ja",
@@ -28,21 +28,14 @@ const pageStructuredData = {
   "specialty": {
     "@type": "MedicalSpecialty",
     "name": "感染症"
-  },
-  "mainEntity": {
-    "@type": "Drug",
-    "name": "インフルエンザHAワクチン",
-    "alternateName": ["インフルエンザワクチン", "インフルエンザ予防接種"],
-    "drugClass": "不活化ワクチン",
-    "administrationRoute": "皮下注射"
   }
 };
 
 const serviceStructuredData = {
   "@context": "https://schema.org",
   "@type": "MedicalProcedure",
-  "name": "インフルエンザワクチン接種",
-  "alternateName": ["インフルエンザ予防接種", "インフルエンザワクチン"],
+  "name": "インフルエンザ予防接種",
+  "alternateName": ["インフルエンザワクチン接種", "インフルエンザワクチン"],
   "description": "13歳以上の方を対象に、インフルエンザHAワクチンを原則1回接種します。",
   "howPerformed": "問診・診察の上、インフルエンザHAワクチン0.5mLを皮下注射",
   "availableService": {
@@ -96,7 +89,7 @@ const breadcrumbStructuredData = {
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "インフルエンザワクチン",
+      "name": "インフルエンザ予防接種",
       "item": pageUrl
     }
   ]
@@ -104,21 +97,21 @@ const breadcrumbStructuredData = {
 ---
 
 <Layout
-  title="インフルエンザワクチン 3,300円｜仙台市青葉区 夜21時・土日も接種｜勾当台夕方内科クリニック"
-  description="仙台市青葉区でインフルエンザワクチン（予防接種）を行っています。13歳以上の方が対象、1回3,300円。平日は夜21時まで、土日も接種可能。予約なしでもご来院いただけます。勾当台公園駅徒歩2分。"
+  title="インフルエンザ予防接種 3,300円｜仙台市青葉区 夜21時・土日も接種｜勾当台夕方内科クリニック"
+  description="仙台市青葉区でインフルエンザ予防接種（ワクチン）を行っています。13歳以上の方が対象、1回3,300円。平日は夜21時まで、土日も接種可能。予約なしでもご来院いただけます。勾当台公園駅徒歩2分。"
 >
   <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbStructuredData)} />
   <Header />
   <main class="page-main">
-    <SubPageHeader label="Influenza Vaccine" title="インフルエンザワクチン" variant="coral" />
+    <SubPageHeader label="Influenza Vaccination" title="インフルエンザ予防接種" variant="coral" />
 
     <section class="page-intro">
       <div class="container">
         <p class="intro-text">
           <strong>2026年（令和8年）9月16日（水）</strong>より、<br class="pc-only" />
-          インフルエンザワクチンの接種を行います。<br class="pc-only" />
+          インフルエンザ予防接種を行います。<br class="pc-only" />
           平日は<strong>夜21時まで</strong>、<strong>土日も</strong>接種できます。
         </p>
       </div>
@@ -126,10 +119,10 @@ const breadcrumbStructuredData = {
 
     <section class="page-section">
       <div class="container">
-        <h2 class="page-section-title">インフルエンザワクチンの料金</h2>
+        <h2 class="page-section-title">インフルエンザ予防接種の料金</h2>
         <div class="price-card">
           <div class="price-card-header">
-            <h3 class="price-card-title">インフルエンザワクチン（1回）</h3>
+            <h3 class="price-card-title">インフルエンザ予防接種（1回）</h3>
             <span class="price-card-badge">13歳以上</span>
           </div>
           <p class="price-card-price"><span class="price-number">3,300</span>円</p>
@@ -138,7 +131,7 @@ const breadcrumbStructuredData = {
         </div>
         <div class="price-cta">
           <LineCta lines={[
-            "LINE予約の問診で「インフルエンザワクチン希望」とご記入ください。",
+            "LINE予約の問診で「インフルエンザ予防接種希望」とご記入ください。",
             "ご予約なしでもご来院いただけます。"
           ]} />
           <a href="tel:022-393-8689" class="phone-btn">
@@ -273,7 +266,7 @@ const breadcrumbStructuredData = {
         <h2 class="page-section-title">健康被害が生じた場合</h2>
         <div class="info-box">
           <p class="info-text">
-            インフルエンザワクチンの接種（13歳以上の方）は任意接種のため、万が一、接種によって<strong>入院治療が必要な程度の病気</strong>や、日常生活が著しく制限される程度の障害などの健康被害が生じた場合は、独立行政法人 医薬品医療機器総合機構（PMDA）の<strong>医薬品副作用被害救済制度</strong>の対象となることがあります。
+            インフルエンザ予防接種（13歳以上の方）は任意接種のため、万が一、接種によって<strong>入院治療が必要な程度の病気</strong>や、日常生活が著しく制限される程度の障害などの健康被害が生じた場合は、独立行政法人 医薬品医療機器総合機構（PMDA）の<strong>医薬品副作用被害救済制度</strong>の対象となることがあります。
           </p>
         </div>
         <p class="source-note">
@@ -302,7 +295,7 @@ const breadcrumbStructuredData = {
             <span class="flow-number">1</span>
             <div>
               <strong>LINEでご予約</strong>
-              <p>LINE予約の問診で「<strong>インフルエンザワクチン希望</strong>」とご記入ください。お電話でのご予約や、予約なしでのご来院も可能です。予約なしの場合は、混雑状況によりお待ちいただくことがあります。</p>
+              <p>LINE予約の問診で「<strong>インフルエンザ予防接種希望</strong>」とご記入ください。お電話でのご予約や、予約なしでのご来院も可能です。予約なしの場合は、混雑状況によりお待ちいただくことがあります。</p>
             </div>
           </li>
           <li class="flow-item">

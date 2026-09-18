@@ -40,6 +40,7 @@
 | ディレクトリ | 内容 |
 |-------------|------|
 | finance/ | 初期費用見積一覧（`estimate.html`）と各業者見積PDF |
+| frontend/public/forms/ | 患者向けの予診票など、印刷して使うHTML。HPで公開される（例: `/forms/flu-vaccine-yoshinhyo.html`） |
 | instagram/ | 求人投稿画像HTML（`recruit.html`） |
 | line/ | LINEリッチメニュー画像HTML（`rich-menu.html`） |
 | notices/ | 院内掲示用の施設情報（`clinic-info.html`） |

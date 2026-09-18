@@ -72,6 +72,13 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 - 届出書の提出物・控えは `filings/kouseikyoku/` 側に置き、双方からリンクする
 - 受理状況の確認は `/shisetsu-kijun` スキル（東北厚生局HPをChrome操作）
 
+### forms（予診票などの帳票）
+
+- 実体は `frontend/public/forms/`。**院内印刷用とWeb公開用を1ファイルで兼ねる**（コピーを作らない）
+- Astro の `public/` なのでビルドでそのまま配信される。例: `https://koutoudai-yugata-naika.clinic/forms/flu-vaccine-yoshinhyo.html`
+- A4印刷前提（`@page` 指定）。画面上部の印刷ボタンは `@media print` で非表示にする
+- インフル予診票は**任意接種用**。65歳以上の定期接種は仙台市の様式を使う（`tasks/2026-09-sendai-elderly-flu-vaccine.md`）
+
 ### clinical-guidelines（診療ガイドラインまとめ）
 
 - 医師の診療・生涯学習用の Markdown ドキュメント（ビルド対象外）

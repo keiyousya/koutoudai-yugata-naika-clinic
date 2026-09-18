@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import click
+from google.protobuf import field_mask_pb2
 from rich.console import Console
 
 from gads.client import load_client, mutate_with_exemption, resolve_customer_id
@@ -97,9 +98,8 @@ def _update_headlines(client, cid: str, resource_name: str, current) -> int:
         asset = client.get_type("AdTextAsset")
         asset.text = text
         ad.responsive_search_ad.headlines.append(asset)
-    client.copy_from(
-        op.update_mask,
-        client.get_type("FieldMask")(paths=["responsive_search_ad.headlines"]),
+    op.update_mask.CopyFrom(
+        field_mask_pb2.FieldMask(paths=["responsive_search_ad.headlines"])
     )
     mutate_with_exemption(
         ad_service.mutate_ads, cid, op, request_exemption=False
@@ -131,8 +131,9 @@ def _add_keywords(client, cid: str, ad_group_id: str, have: set[str]) -> int:
 @click.option("--customer-id", default=None, help="操作対象アカウントID")
 @click.option("--yes", is_flag=True, help="確認プロンプトをスキップ")
 def main(customer_id: str | None, yes: bool) -> None:
-    cid = resolve_customer_id(customer_id)
+    # load_client() が .env を読み込むので、先に呼ぶ
     client = load_client()
+    cid = resolve_customer_id(customer_id)
 
     console.print("[bold]追加する見出し[/bold]")
     for t in ADD_HEADLINES:

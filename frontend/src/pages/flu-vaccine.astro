@@ -12,8 +12,8 @@ const pageStructuredData = {
   "@context": "https://schema.org",
   "@type": "MedicalWebPage",
   "name": "インフルエンザ予防接種｜仙台市青葉区｜勾当台夕方内科クリニック",
-  "description": "仙台市青葉区でインフルエンザ予防接種を行っています。13歳以上の方が対象、1回3,300円。平日は夜21時まで、土日も接種できます。予約なしでもご来院いただけます。",
-  "keywords": "インフルエンザワクチン 仙台, インフルエンザ 予防接種 仙台, インフルエンザワクチン 仙台市青葉区, インフルエンザワクチン 料金, インフルエンザ 予防接種 夜間, インフルエンザ 予防接種 土日, インフルエンザワクチン 予約なし, インフルエンザワクチン 勾当台",
+  "description": "仙台市青葉区でインフルエンザ予防接種を行っています。13歳以上の方は1回3,300円、仙台市の定期接種の対象となる65歳以上の方は1,500円。平日は夜21時まで、土日も接種できます。予約なしでもご来院いただけます。",
+  "keywords": "インフルエンザワクチン 仙台, インフルエンザ 予防接種 仙台, インフルエンザワクチン 仙台市青葉区, インフルエンザワクチン 料金, インフルエンザ 予防接種 夜間, インフルエンザ 予防接種 土日, インフルエンザワクチン 予約なし, インフルエンザワクチン 勾当台, 高齢者インフルエンザ 仙台市, インフルエンザ 予防接種 助成 仙台市, 高齢者インフルエンザ 定期接種 仙台市",
   "url": pageUrl,
   "inLanguage": "ja",
   "about": {
@@ -97,8 +97,8 @@ const breadcrumbStructuredData = {
 ---
 
 <Layout
-  title="インフルエンザ予防接種 3,300円｜仙台市青葉区 夜21時・土日も接種｜勾当台夕方内科クリニック"
-  description="仙台市青葉区でインフルエンザ予防接種（ワクチン）を行っています。13歳以上の方が対象、1回3,300円。平日は夜21時まで、土日も接種可能。予約なしでもご来院いただけます。勾当台公園駅徒歩2分。"
+  title="インフルエンザ予防接種 3,300円・65歳以上1,500円｜仙台市青葉区 夜21時・土日も接種｜勾当台夕方内科クリニック"
+  description="仙台市青葉区でインフルエンザ予防接種（ワクチン）を行っています。13歳以上の方は1回3,300円、仙台市の定期接種の対象となる65歳以上の方は1,500円。平日は夜21時まで、土日も接種可能。予約なしでもご来院いただけます。勾当台公園駅徒歩2分。"
 >
   <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
@@ -112,7 +112,8 @@ const breadcrumbStructuredData = {
         <p class="intro-text">
           <strong>2026年（令和8年）9月16日（水）</strong>より、<br class="pc-only" />
           インフルエンザ予防接種を行います。<br class="pc-only" />
-          平日は<strong>夜21時まで</strong>、<strong>土日も</strong>接種できます。
+          平日は<strong>夜21時まで</strong>、<strong>土日も</strong>接種できます。<br />
+          <strong>65歳以上の方</strong>は、仙台市の定期接種（自己負担<strong>1,500円</strong>）として接種いただけます。
         </p>
       </div>
     </section>
@@ -120,14 +121,31 @@ const breadcrumbStructuredData = {
     <section class="page-section">
       <div class="container">
         <h2 class="page-section-title">インフルエンザ予防接種の料金</h2>
-        <div class="price-card">
-          <div class="price-card-header">
-            <h3 class="price-card-title">インフルエンザ予防接種（1回）</h3>
-            <span class="price-card-badge">13歳以上</span>
+        <div class="price-cards">
+          <div class="price-card">
+            <div class="price-card-header">
+              <span class="price-card-badge">13歳〜64歳の方</span>
+              <h3 class="price-card-title">任意接種</h3>
+              <p class="price-card-lead">ご希望の方が自費で受ける接種</p>
+            </div>
+            <p class="price-card-price"><span class="price-number">3,300</span>円<span class="price-unit">／1回</span></p>
+            <p class="price-card-note">※ 保険適用外のため、自費診療となります</p>
+            <p class="price-card-note">※ 12歳以下のお子さまの接種は行っておりません</p>
+            <p class="price-card-note">※ 65歳以上でも、仙台市に住民票がない方などはこちらになります</p>
+            <a href="#nini" class="price-card-link">任意接種の詳しいご案内 →</a>
           </div>
-          <p class="price-card-price"><span class="price-number">3,300</span>円</p>
-          <p class="price-card-note">※ 予防接種は保険適用外のため、自費診療となります</p>
-          <p class="price-card-note">※ 12歳以下のお子さまの接種は行っておりません</p>
+          <div class="price-card price-card-teiki">
+            <div class="price-card-header">
+              <span class="price-card-badge badge-turquoise">65歳以上の方</span>
+              <h3 class="price-card-title">定期接種</h3>
+              <p class="price-card-lead">仙台市の費用助成を受けて公費で行う接種</p>
+            </div>
+            <p class="price-card-price"><span class="price-number">1,500</span>円<span class="price-unit">／1回</span></p>
+            <p class="price-card-note">※ 仙台市に住民票のある対象の方の自己負担額です</p>
+            <p class="price-card-note">※ 市民税非課税世帯の方などは無料です（確認書類の提示が必要）</p>
+            <p class="price-card-note">※ 60〜64歳でも、心臓・腎臓・呼吸器・免疫機能に障害のある方は対象です</p>
+            <a href="#teiki" class="price-card-link">定期接種の詳しいご案内 →</a>
+          </div>
         </div>
         <div class="price-cta">
           <LineCta lines={[
@@ -145,25 +163,18 @@ const breadcrumbStructuredData = {
       </div>
     </section>
 
-    <section class="page-section bg-coral">
+    <section class="page-section">
       <div class="container">
-        <h2 class="page-section-title">接種のご案内</h2>
+        <h2 class="page-section-title">共通のご案内</h2>
+        <p class="section-lead">任意接種・定期接種のどちらにも共通する内容です。</p>
         <dl class="spec-list">
           <div class="spec-row">
             <dt>接種開始日</dt>
             <dd>2026年（令和8年）9月16日（水）</dd>
           </div>
           <div class="spec-row">
-            <dt>対象</dt>
-            <dd>13歳以上の方<span class="spec-note">中学生の方は、保護者の方と一緒にご来院ください。高校生以上の方は、お一人でも接種いただけます。</span></dd>
-          </div>
-          <div class="spec-row">
             <dt>接種回数</dt>
             <dd>原則1回</dd>
-          </div>
-          <div class="spec-row">
-            <dt>料金</dt>
-            <dd>3,300円</dd>
           </div>
           <div class="spec-row">
             <dt>使用ワクチン</dt>
@@ -173,7 +184,101 @@ const breadcrumbStructuredData = {
             <dt>接種できる時間</dt>
             <dd>平日（月・水〜金）17:00〜21:00<br />土日 14:00〜21:00<span class="spec-note">火曜日は休診です。臨時休診は<a href="/#hours" class="ref-link">診療日カレンダー</a>でご確認ください。</span></dd>
           </div>
+          <div class="spec-row">
+            <dt>ご予約</dt>
+            <dd>LINE・お電話でご予約いただけます<span class="spec-note">ご予約なしでもご来院いただけます。混雑状況によりお待ちいただくことがあります。</span></dd>
+          </div>
         </dl>
+      </div>
+    </section>
+
+    <section class="page-section bg-coral" id="nini">
+      <div class="container">
+        <h2 class="page-section-title">任意接種（13歳〜64歳の方）</h2>
+        <p class="section-lead">ご希望の方が自費で受ける接種です。</p>
+        <dl class="spec-list">
+          <div class="spec-row">
+            <dt>対象となる方</dt>
+            <dd>13歳以上の方<span class="spec-note">中学生の方は、保護者の方と一緒にご来院ください。高校生以上の方は、お一人でも接種いただけます。12歳以下のお子さまの接種は行っておりません。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>料金</dt>
+            <dd>3,300円（1回）<span class="spec-note">保険適用外のため、自費診療となります。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>予診票</dt>
+            <dd>当院にご用意しています</dd>
+          </div>
+          <div class="spec-row">
+            <dt>健康被害が生じた場合</dt>
+            <dd>医薬品副作用被害救済制度の対象となることがあります<span class="spec-note">任意接種のため、万が一、接種によって入院治療が必要な程度の病気や、日常生活が著しく制限される程度の障害などが生じた場合は、独立行政法人 医薬品医療機器総合機構（PMDA）の<a href="https://www.pmda.go.jp/relief-services/adr-sufferers/0011.html" class="ref-link" target="_blank" rel="noopener noreferrer">医薬品副作用被害救済制度</a>の対象となることがあります。</span></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise" id="teiki">
+      <div class="container">
+        <h2 class="page-section-title">定期接種（65歳以上の方）</h2>
+        <p class="section-lead">
+          仙台市の費用助成を受けて、公費で行う接種です。<br />
+          当院は<a href="https://www.city.sendai.jp/kenkoanzen-kansen/kurashi/kenkotofukushi/kenkoiryo/kansensho/yobosesshu/teki/influenza.html" class="ref-link" target="_blank" rel="noopener noreferrer">仙台市の高齢者インフルエンザ予防接種 登録医療機関</a>です。
+        </p>
+        <dl class="spec-list spec-list-teiki">
+          <div class="spec-row">
+            <dt>対象となる方</dt>
+            <dd>
+              仙台市に住民票のある、次のいずれかに当てはまる方
+              <ul class="attention-sublist">
+                <li>接種日時点で<strong>65歳以上</strong>の方</li>
+                <li>接種日時点で60歳以上65歳未満の方で、心臓・腎臓・呼吸器の機能、またはヒト免疫不全ウイルスによる免疫機能に障害のある方（身体障害者手帳1級相当）</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>自己負担額</dt>
+            <dd>1,500円（1シーズン1回）<span class="spec-note">生活保護世帯の方、市民税非課税世帯の方などは無料です。下の「無料になる方」をご覧ください。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>接種期間</dt>
+            <dd>令和8年10月1日（木）〜令和9年1月31日（土）<span class="spec-note">今シーズンはインフルエンザの流行入りが早いため、9月15日以降の接種も助成の対象となります。当院でもすでに接種いただけます。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>持ち物</dt>
+            <dd>マイナンバーカード・健康保険証などの本人確認書類<span class="spec-note">60歳以上65歳未満で障害により対象となる方は、身体障害者手帳もお持ちください。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>予診票</dt>
+            <dd>当院にご用意しています<span class="spec-note">仙台市の様式を<a href="https://www.city.sendai.jp/kenkoanzen-kansen/kurashi/kenkotofukushi/kenkoiryo/kansensho/yobosesshu/toroku/documents/infuru_yosinhyou.pdf" class="ref-link" target="_blank" rel="noopener noreferrer">仙台市ホームページ</a>から印刷してご持参いただくこともできます。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>接種後</dt>
+            <dd>予防接種済証をお渡しします<span class="spec-note">接種の記録になりますので、大切に保管してください。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>健康被害が生じた場合</dt>
+            <dd>予防接種法に基づく救済制度の対象となることがあります<span class="spec-note">定期接種は予防接種法に基づく接種のため、健康被害が接種によるものと厚生労働大臣が認定したときは、医療費・障害年金等の給付を受けられます。詳しくは<a href="https://www.city.sendai.jp/kenkoanzen-kansen/yobosesshu/images/kenkouhigaikyusaiseido.html" class="ref-link" target="_blank" rel="noopener noreferrer">副反応・予防接種健康被害救済制度について（仙台市）</a>をご覧ください。</span></dd>
+          </div>
+        </dl>
+
+        <h3 class="sub-heading">自己負担金が無料になる方</h3>
+        <div class="info-box">
+          <p class="info-text">
+            次に当てはまる方は、<strong>確認書類を受付でご提示いただくと無料</strong>になります。
+          </p>
+          <ul class="attention-sublist">
+            <li><strong>生活保護世帯の方</strong> … 生活保護費支給票</li>
+            <li><strong>市民税非課税世帯の方</strong> … 令和8年度 仙台市の介護保険料決定通知書（「市町村民税非課税世帯」と記載のあるもの）、または確認通知書（「自己負担金免除対象者です」と記載のあるもの）</li>
+            <li><strong>中国残留邦人等支援給付制度を受給されている方</strong> … 同制度の本人確認証</li>
+          </ul>
+          <p class="info-note">
+            ※ 確認書類のご提示がない場合は、自己負担額1,500円をお支払いいただきます。後日ご提示いただいた場合も返金はできませんので、ご注意ください。<br />
+            ※ 介護保険料決定通知書をお持ちでない方は、仙台市への申請で「確認通知書」が届きます（10日程度かかります）。詳しくは<a href="https://www.city.sendai.jp/kenkoanzen-kansen/kurashi/kenkotofukushi/kenkoiryo/kansensho/yobosesshu/yobosesshu/jikohutankinmenjyo.html" class="ref-link" target="_blank" rel="noopener noreferrer">仙台市ホームページ</a>をご覧ください。
+          </p>
+        </div>
+        <p class="source-note">
+          出典：<a href="https://www.city.sendai.jp/kenkoanzen-kansen/kurashi/kenkotofukushi/kenkoiryo/kansensho/yobosesshu/teki/influenza.html" class="ref-link" target="_blank" rel="noopener noreferrer">高齢者インフルエンザの予防接種について（仙台市）</a>
+        </p>
       </div>
     </section>
 
@@ -261,20 +366,6 @@ const breadcrumbStructuredData = {
       </div>
     </section>
 
-    <section class="page-section bg-coral">
-      <div class="container">
-        <h2 class="page-section-title">健康被害が生じた場合</h2>
-        <div class="info-box">
-          <p class="info-text">
-            インフルエンザ予防接種（13歳以上の方）は任意接種のため、万が一、接種によって<strong>入院治療が必要な程度の病気</strong>や、日常生活が著しく制限される程度の障害などの健康被害が生じた場合は、独立行政法人 医薬品医療機器総合機構（PMDA）の<strong>医薬品副作用被害救済制度</strong>の対象となることがあります。
-          </p>
-        </div>
-        <p class="source-note">
-          出典：<a href="https://www.pmda.go.jp/relief-services/adr-sufferers/0011.html" class="ref-link" target="_blank" rel="noopener noreferrer">医薬品副作用被害救済制度の給付対象（PMDA）</a>
-        </p>
-      </div>
-    </section>
-
     <section class="page-section bg-turquoise">
       <div class="container">
         <h2 class="page-section-title">ご家族がインフルエンザを発症したら</h2>
@@ -309,7 +400,7 @@ const breadcrumbStructuredData = {
             <span class="flow-number">3</span>
             <div>
               <strong>接種・お会計</strong>
-              <p>接種後15分間は院内で安静にお過ごしいただき、体調の変化がないか確認します。お会計は3,300円です。</p>
+              <p>接種後15分間は院内で安静にお過ごしいただき、体調の変化がないか確認します。お会計は3,300円（仙台市の定期接種の対象となる方は1,500円）です。65歳以上の方には、接種後に予防接種済証をお渡しします。</p>
             </div>
           </li>
         </ol>
@@ -362,29 +453,121 @@ const breadcrumbStructuredData = {
     background: var(--color-coral-bg);
   }
 
-  .price-card {
-    max-width: 480px;
+  .price-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    max-width: 880px;
     margin: 0 auto;
+    align-items: start;
+  }
+
+  .price-card {
     background: white;
     border-radius: 16px;
     padding: 32px;
-    text-align: center;
+    text-align: left;
     border: 1px solid var(--color-coral);
   }
 
-  .price-card-header {
+  .price-card-teiki {
+    border-color: var(--color-turquoise);
+  }
+
+  .price-card-link {
+    display: block;
+    margin-top: 16px;
+    text-align: right;
+    color: var(--color-coral);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .price-card-teiki .price-card-link {
+    color: var(--color-turquoise);
+  }
+
+  .price-card-link:hover {
+    opacity: 0.8;
+  }
+
+  .sub-heading {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+    max-width: 720px;
+    margin: 56px auto 24px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    text-align: center;
+  }
+
+  .sub-heading::before,
+  .sub-heading::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-turquoise);
+    opacity: 0.5;
+  }
+
+  .section-lead {
+    max-width: 720px;
+    margin: -12px auto 28px;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  .page-section.bg-turquoise .info-box,
+  .page-section.bg-turquoise .spec-list {
+    background: white;
+    border-color: var(--color-turquoise);
+  }
+
+  .page-section.bg-turquoise .ref-link {
+    color: var(--color-turquoise);
+  }
+
+  .page-section.bg-turquoise .spec-row dt {
+    background: var(--color-turquoise-bg);
+  }
+
+  .page-section.bg-turquoise .info-box .attention-sublist {
+    margin-top: 8px;
+  }
+
+  .price-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .price-card-title {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-navy);
+  }
+
+  .price-card-lead {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .price-unit {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-left: 4px;
   }
 
   .price-card-badge {
@@ -397,10 +580,14 @@ const breadcrumbStructuredData = {
     border-radius: 12px;
   }
 
+  .price-card-badge.badge-turquoise {
+    background: var(--color-turquoise);
+  }
+
   .price-card-price {
     font-size: 1rem;
     color: var(--color-navy);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 
   .price-number {
@@ -411,6 +598,9 @@ const breadcrumbStructuredData = {
   .price-card-note {
     font-size: 0.8rem;
     color: var(--color-text-muted);
+    line-height: 1.8;
+    padding-left: 1.2em;
+    text-indent: -1.2em;
   }
 
   .price-cta {
@@ -694,13 +884,18 @@ const breadcrumbStructuredData = {
       padding: 60px 0;
     }
 
+    .price-cards {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
     .price-card {
       padding: 24px 20px;
     }
 
-    .price-card-header {
-      flex-direction: column;
-      gap: 8px;
+    .sub-heading {
+      margin: 36px auto 16px;
+      font-size: 1rem;
     }
 
     .price-number {

@@ -65,6 +65,13 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 - フロントポート: 5175、ベースパス: `/timecard/`
 - PWA対応、WebUSB NFC読み取り（Sony PaSoRi）
 
+### shisetsu-kijun（施設基準）
+
+- 当院の施設基準の台帳・要件・掲示先を管理する Markdown ディレクトリ（ビルド対象外）
+- **施設基準に関することはすべて `shisetsu-kijun/` で管理する**。運用ルールは `shisetsu-kijun/README.md`
+- 届出書の提出物・控えは `filings/kouseikyoku/` 側に置き、双方からリンクする
+- 受理状況の確認は `/shisetsu-kijun` スキル（東北厚生局HPをChrome操作）
+
 ### clinical-guidelines（診療ガイドラインまとめ）
 
 - 医師の診療・生涯学習用の Markdown ドキュメント（ビルド対象外）

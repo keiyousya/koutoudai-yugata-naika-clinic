@@ -20,3 +20,7 @@
 - [ヤフー広告はGoogleに劣後](yahoo-ads-underperformance.md) — CPA倍・CTR半分。除外は効いているが「クリニック 予約」が競合指名の受け皿
 - [予約数の読み方の落とし穴](reservation-count-reading-traps.md) — 「今週少ない」はだいたい時刻・週末未到来・前日が突出、の3つ
 - [Yahoo!マップは未オーナー登録で情報が古い](yahoo-place-listing-status.md) — 月曜が定休日表示・土日17時開始。2026-09-12にYahoo!プレイス申請済み、審査通過後に診療時間を入稿する
+- [配信のボトルネック切り分け](google-ads-bottleneck-diagnosis.md) — 予算かCPC上限か。予算シミュレーションの「必要な入札単価」が決定打。9/18に予算説で2回外した
+- [Google広告はクリニック用Chromeプロファイル](google-ads-chrome-profile.md) — 既定プロファイルでは別MCCしか見えない。switch_browserで切替
+- [9月休診・9/14再開](clinic-closure-sep-2026.md) — 9月前半の広告/予約数は比較に使わない
+- [gads認証切れの直し方](gads-token-regen-from-claude.md) — invalid_grant なら再認証スクリプトをbg起動→ユーザー承認で復旧

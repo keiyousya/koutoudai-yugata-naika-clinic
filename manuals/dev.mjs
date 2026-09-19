@@ -5,9 +5,10 @@ import { watch } from "node:fs";
 import { readFile, stat } from "node:fs/promises";
 import { join, extname, normalize } from "node:path";
 import { execFile } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const PORT = Number(process.env.PORT ?? 5178);
-const ROOT = new URL("./", import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL("./", import.meta.url));
 const DIST = join(ROOT, "dist");
 
 const MIME = {

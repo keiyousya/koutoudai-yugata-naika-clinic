@@ -3,7 +3,7 @@ import { join, parse } from "node:path";
 import { marked } from "marked";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { pathToFileURL } from "node:url";
+import { pathToFileURL, fileURLToPath } from "node:url";
 
 const execFileAsync = promisify(execFile);
 
@@ -191,8 +191,8 @@ async function buildEmergency() {
       await mkdir(distImagesDir, { recursive: true });
       for (const file of imageFiles) {
         await copyFile(
-          join(EMERGENCY_IMAGES_DIR.pathname, file),
-          join(distImagesDir.pathname, file)
+          join(fileURLToPath(EMERGENCY_IMAGES_DIR), file),
+          join(fileURLToPath(distImagesDir), file)
         );
       }
       console.log(`  Copied ${imageFiles.length} image(s) from emergency-docs/images/`);
@@ -205,7 +205,7 @@ async function buildEmergency() {
   const pages = [];
 
   for (const file of files) {
-    const md = await readFile(join(EMERGENCY_DOCS_DIR.pathname, file), "utf-8");
+    const md = await readFile(join(fileURLToPath(EMERGENCY_DOCS_DIR), file), "utf-8");
     const slug = parse(file).name;
     const title = extractTitle(md, slug);
     const poster = md.includes(POSTER_MARKER);
@@ -215,7 +215,7 @@ async function buildEmergency() {
       poster,
       backLabel: "緊急時マニュアル一覧に戻る",
     });
-    await writeFile(join(EMERGENCY_DIST_DIR.pathname, `${slug}.html`), html);
+    await writeFile(join(fileURLToPath(EMERGENCY_DIST_DIR), `${slug}.html`), html);
     pages.push({ slug, title });
     console.log(`  ${file} → emergency/${slug}.html${poster ? " (poster)" : ""}`);
   }
@@ -231,7 +231,7 @@ async function buildEmergency() {
       backLabel: "院内マニュアル一覧に戻る",
     },
   );
-  await writeFile(join(EMERGENCY_DIST_DIR.pathname, "index.html"), indexHtml);
+  await writeFile(join(fileURLToPath(EMERGENCY_DIST_DIR), "index.html"), indexHtml);
   console.log(`  emergency/index.html (${pages.length} manuals listed)`);
 }
 
@@ -245,8 +245,8 @@ export async function build(options = {}) {
 
   // Copy the manuals favicon (book icon)
   await copyFile(
-    new URL("./favicon.svg", import.meta.url).pathname,
-    join(DIST_DIR.pathname, "favicon.svg")
+    fileURLToPath(new URL("./favicon.svg", import.meta.url)),
+    join(fileURLToPath(DIST_DIR), "favicon.svg")
   );
   console.log("Copied favicon.svg");
 
@@ -258,8 +258,8 @@ export async function build(options = {}) {
       await mkdir(distImagesDir, { recursive: true });
       for (const file of imageFiles) {
         await copyFile(
-          join(IMAGES_DIR.pathname, file),
-          join(distImagesDir.pathname, file)
+          join(fileURLToPath(IMAGES_DIR), file),
+          join(fileURLToPath(distImagesDir), file)
         );
       }
       console.log(`Copied ${imageFiles.length} image(s) from docs/images/`);
@@ -280,12 +280,12 @@ export async function build(options = {}) {
 
   // Convert each MD to HTML
   for (const file of files) {
-    const md = await readFile(join(DOCS_DIR.pathname, file), "utf-8");
+    const md = await readFile(join(fileURLToPath(DOCS_DIR), file), "utf-8");
     const slug = parse(file).name;
     const title = extractTitle(md, slug);
     const htmlBody = openExternalInNewTab(await marked(md));
     const html = wrapHtml(title, htmlBody, {});
-    const outPath = join(DIST_DIR.pathname, `${slug}.html`);
+    const outPath = join(fileURLToPath(DIST_DIR), `${slug}.html`);
     await writeFile(outPath, html);
     manuals.push({ slug, title });
     console.log(`  ${file} → ${slug}.html`);
@@ -298,7 +298,7 @@ export async function build(options = {}) {
     `<h1>院内マニュアル</h1>\n<p class="subtitle">勾当台夕方内科クリニック</p>\n<div class="emergency-banner">\n<a href="./emergency/index.html">🚨 緊急時マニュアル<span>急変・救急セットはこちら</span></a>\n</div>\n<h2>操作マニュアル</h2>\n<div class="external-links">\n<a href="https://www.notion.so/3356e8ba85c58016818ed588fda40651?source=copy_link" target="_blank">📋 電子カルテ・レセコン操作マニュアル</a>\n</div>\n<h2>院内マニュアル</h2>\n<ul class="manual-list">\n${listItems}\n</ul>`,
     { isIndex: true },
   );
-  await writeFile(join(DIST_DIR.pathname, "index.html"), indexHtml);
+  await writeFile(join(fileURLToPath(DIST_DIR), "index.html"), indexHtml);
   console.log(`  index.html (${manuals.length} manuals listed)`);
 
   await buildEmergency();
@@ -306,14 +306,14 @@ export async function build(options = {}) {
   // Encrypt with Staticrypt
   if (encrypt) {
     console.log("\nEncrypting with Staticrypt...");
-    const htmlFiles = [...manuals.map((m) => join(DIST_DIR.pathname, `${m.slug}.html`)), join(DIST_DIR.pathname, "index.html")];
-    const staticryptBin = new URL("./node_modules/.bin/staticrypt", import.meta.url).pathname;
+    const htmlFiles = [...manuals.map((m) => join(fileURLToPath(DIST_DIR), `${m.slug}.html`)), join(fileURLToPath(DIST_DIR), "index.html")];
+    const staticryptBin = fileURLToPath(new URL("./node_modules/.bin/staticrypt", import.meta.url));
     await execFileAsync(staticryptBin, [
       ...htmlFiles,
       "-p", password,
       "--remember", "30",
       "--short",
-      "-d", DIST_DIR.pathname,
+      "-d", fileURLToPath(DIST_DIR),
       "-c", "false",
       "-s", "56d2f874ff867f08c716c247c7e55597",
       "--template-color-primary", "#333",

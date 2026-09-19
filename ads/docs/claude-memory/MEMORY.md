@@ -24,3 +24,5 @@
 - [Google広告はクリニック用Chromeプロファイル](google-ads-chrome-profile.md) — 既定プロファイルでは別MCCしか見えない。switch_browserで切替
 - [9月休診・9/14再開](clinic-closure-sep-2026.md) — 9月前半の広告/予約数は比較に使わない
 - [gads認証切れの直し方](gads-token-regen-from-claude.md) — invalid_grant なら再認証スクリプトをbg起動→ユーザー承認で復旧
+- [turso CLI は WSL 内 (.dev.vars 再生成手順)](turso-cli-in-wsl.md) — backend/.dev.vars が無いとAPIは全て500になる
+- [dev サーバのプロセス残留](dev-server-process-cleanup.md) — 停止しても vite/wrangler が生き残りポートを掴み続ける

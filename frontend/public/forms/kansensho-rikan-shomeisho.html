@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>感染症罹患証明書｜勾当台夕方内科クリニック</title>
+  <!--
+    院内用 感染症罹患証明書（インフルエンザ／新型コロナウイルス感染症 共通・A4 1枚）
+    発行手数料 1,100円（税込・自費／消費税課税）
+
+    方針:
+      - 発行するのは「罹患（診断を受けた事実）の証明」のみ。
+        治癒証明書・陰性証明書は発行しない（下部の注記2に根拠を明記）。
+      - 出席停止期間の目安を記載することで、学校提出のニーズを吸収する。
+
+    参考:
+      - 学校保健安全法施行規則 第19条（出席停止の期間の基準）
+        インフルエンザ: 発症後5日を経過し、かつ解熱後2日（幼児は3日）を経過するまで
+        新型コロナ:     発症後5日を経過し、かつ症状軽快後1日を経過するまで
+        ※ 当院は高校生以上が対象のため、紙面では「幼児にあっては3日」の但し書きを省略している
+      - 厚生労働省 事務連絡 令和4年11月4日
+        「新型コロナウイルス感染症及び季節性インフルエンザに係る
+          医療機関・保健所からの証明書等の取得に対する配慮について」
+        → 企業・学校等に対し、検査結果証明・陰性証明・治癒証明を求めないよう要請
+      - 医師法第19条第2項（診断書交付義務。診察していない者には交付できない）
+      - 医師名は印字（記名）とし、クリニック印を押して運用する。
+        医師法施行規則で記名押印・署名が義務づけられているのは死亡診断書・死体検案書・
+        処方箋のみだが、慣行として「自筆署名なら押印不要／印字・ゴム印の記名なら押印」。
+        医療機関印はゴム印・浸透印（シャチハタ）で実務上差し支えない。
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 15mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      background: #e5e7eb;
+      color: #111;
+      font-size: 10pt;
+      line-height: 1.6;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px;
+      background: #2c5f7c;
+      color: white;
+      z-index: 10;
+    }
+
+    .toolbar button {
+      font: inherit;
+      font-size: 11pt;
+      font-weight: 700;
+      padding: 6px 24px;
+      border: none;
+      border-radius: 6px;
+      background: white;
+      color: #2c5f7c;
+      cursor: pointer;
+    }
+
+    .toolbar span {
+      align-self: center;
+      font-size: 9pt;
+    }
+
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 16px auto;
+      padding: 15mm;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .fee {
+      display: inline-block;
+      border: 1px solid #111;
+      padding: 1mm 3mm;
+      font-size: 9.5pt;
+      line-height: 1.5;
+    }
+
+    h1 {
+      margin: 4mm 0 7mm;
+      text-align: center;
+      font-size: 17pt;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-indent: 0.25em;
+    }
+
+    .patient {
+      margin: 0 0 6mm 18mm;
+    }
+
+    .patient .name {
+      display: inline-block;
+      width: 78mm;
+      border-bottom: 1px solid #111;
+    }
+
+    .patient .birth {
+      display: block;
+      margin-top: 1.5mm;
+      font-size: 9.5pt;
+      letter-spacing: 0.04em;
+    }
+
+    .lead {
+      margin-bottom: 5mm;
+      text-indent: 1em;
+    }
+
+    .block {
+      margin-bottom: 5mm;
+    }
+
+    .block > .label {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .choices {
+      margin-top: 1mm;
+      padding-left: 1em;
+    }
+
+    .choice {
+      display: inline-block;
+      margin-bottom: 1mm;
+    }
+
+    .choice.wide {
+      display: block;
+    }
+
+    .choice + .choice:not(.wide) {
+      margin-left: 8mm;
+    }
+
+    .choice .sub {
+      display: block;
+      padding-left: 1.6em;
+      font-size: 9.5pt;
+      color: #333;
+    }
+
+    .inline-date {
+      margin-left: 0.5em;
+      letter-spacing: 0.04em;
+    }
+
+    .fill {
+      display: inline-block;
+      min-width: 55mm;
+      border-bottom: 1px solid #111;
+    }
+
+    .fill.short {
+      min-width: 32mm;
+    }
+
+    .criteria {
+      margin-top: 2mm;
+      padding: 2mm 3mm;
+      border: 1px solid #94a3b8;
+      background: #f8fafc;
+      font-size: 9pt;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .criteria p {
+      padding-left: 13.5em;
+      text-indent: -13.5em;
+    }
+
+    .criteria strong {
+      display: inline-block;
+      width: 13.5em;
+      font-weight: 500;
+      text-indent: 0;
+    }
+
+    .criteria .caution {
+      margin-top: 1.5mm;
+      padding-left: 1.4em;
+      text-indent: -1.4em;
+    }
+
+    .issue-date {
+      margin: 7mm 0 4mm;
+      letter-spacing: 0.04em;
+    }
+
+    .issuer {
+      margin-left: 62mm;
+      line-height: 1.75;
+    }
+
+    .issuer .clinic-name {
+      font-size: 12pt;
+      font-weight: 700;
+    }
+
+    .issuer .doctor {
+      margin-top: 1mm;
+      font-size: 12pt;
+      font-weight: 700;
+    }
+
+    .issuer .doctor .seal {
+      display: inline-block;
+      width: 14mm;
+      height: 14mm;
+      margin-left: 3mm;
+      border: 1px dashed #94a3b8;
+      border-radius: 1mm;
+      font-size: 7pt;
+      font-weight: 400;
+      line-height: 14mm;
+      text-align: center;
+      color: #94a3b8;
+      vertical-align: middle;
+    }
+
+    .notes {
+      margin-top: 5mm;
+      padding-top: 3mm;
+      border-top: 1px solid #111;
+      font-size: 8.6pt;
+      line-height: 1.5;
+      color: #222;
+    }
+
+    .notes p {
+      margin-bottom: 1mm;
+      padding-left: 1.4em;
+      text-indent: -1.4em;
+    }
+
+    .form-id {
+      margin-top: 1mm;
+      text-align: right;
+      font-size: 7.5pt;
+      color: #666;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .toolbar {
+        display: none;
+      }
+
+      .sheet {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+
+      .criteria {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* 押印位置のガイド枠は画面だけに出し、印刷時は余白として残す */
+      .issuer .doctor .seal {
+        border-color: transparent;
+        color: transparent;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button type="button" onclick="window.print()">印刷する</button>
+    <span>A4縦・片面印刷・倍率100%で印刷してください</span>
+  </div>
+
+  <main class="sheet">
+    <div class="fee">証明書発行手数料：1,100円（税込）</div>
+
+    <h1>感染症罹患証明書</h1>
+
+    <div class="patient">
+      <span class="name"></span> 様
+      <span class="birth">（昭和・平成・令和・西暦　　　　年　　　月　　　日生）</span>
+    </div>
+
+    <p class="lead">
+      令和　　　年　　　月　　　日に当院を受診し、下記のとおり診断を受けたことを証明します。
+    </p>
+
+    <div class="block">
+      <span class="label">【診断名】</span>
+      <div class="choices">
+        <span class="choice">□　A型インフルエンザ</span>
+        <span class="choice">□　B型インフルエンザ</span>
+        <span class="choice wide">□　新型コロナウイルス感染症</span>
+        <span class="choice wide">□　その他（<span class="fill"></span>）</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <span class="label">【診断の根拠】</span>
+      <div class="choices">
+        <span class="choice wide">
+          □　迅速抗原検査の結果、陽性
+          <span class="sub">検査実施　令和　　　年　　　月　　　日　　　時　　　分</span>
+        </span>
+        <span class="choice wide">
+          □　症状および経過により臨床的に診断（迅速抗原検査　陰性　・　未実施）
+        </span>
+      </div>
+    </div>
+
+    <div class="block">
+      <span class="label">【発症日（症状が現れた日）】</span>
+      <span class="inline-date">令和　　　年　　　月　　　日</span>
+    </div>
+
+    <div class="block">
+      <span class="label">【出席停止期間の目安】</span>
+      <span class="inline-date">令和　　　年　　　月　　　日　まで</span>
+      <div class="criteria">
+        <p><strong>インフルエンザ：</strong>発症した後5日を経過し、かつ解熱した後2日を経過するまで</p>
+        <p><strong>新型コロナウイルス感染症：</strong>発症した後5日を経過し、かつ症状が軽快した後1日を経過するまで</p>
+        <p class="caution">
+          ※ 学校保健安全法施行規則に基づく、学校における基準です。職場の取扱いについては勤務先の規定にしたがってください。
+        </p>
+      </div>
+    </div>
+
+    <p class="issue-date">令和　　　年　　　月　　　日</p>
+
+    <div class="issuer">
+      <div>〒980-0803　宮城県仙台市青葉区国分町3丁目8-1</div>
+      <div>勾当台ビル4階</div>
+      <div class="clinic-name">勾当台夕方内科クリニック</div>
+      <div>電話　022-393-8689</div>
+      <div class="doctor">院長　田村　慧人<span class="seal">印</span></div>
+    </div>
+
+    <div class="notes">
+      <p>※　インフルエンザ・新型コロナウイルス感染症に罹患していても、迅速抗原検査で陽性反応が出ない場合があります。</p>
+      <p>※　当院では、治癒証明書および陰性証明書は発行しておりません。厚生労働省は企業・学校等に対し、検査結果を証明する書類・陰性証明書・治癒証明書の提出を求めないよう要請しています（令和4年11月4日 厚生労働省事務連絡）。登校・出勤の再開は、上記の出席停止期間の目安をもってご判断ください。</p>
+      <p>※　本証明書は、記載された受診日における診断内容を証明するものであり、その後の病状や感染性を保証するものではありません。</p>
+    </div>
+
+    <div class="form-id">260920</div>
+  </main>
+</body>
+</html>

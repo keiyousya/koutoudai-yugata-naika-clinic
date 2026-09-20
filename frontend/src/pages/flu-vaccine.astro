@@ -12,7 +12,7 @@ const pageStructuredData = {
   "@context": "https://schema.org",
   "@type": "MedicalWebPage",
   "name": "インフルエンザ予防接種｜仙台市青葉区｜勾当台夕方内科クリニック",
-  "description": "仙台市青葉区でインフルエンザ予防接種を行っています。13歳以上の方は1回3,300円、仙台市の高齢者定期接種の対象となる65歳以上の方は自己負担1,500円。平日は夜21時まで、土日も接種できます。予約なしでもご来院いただけます。",
+  "description": "仙台市青葉区でインフルエンザ予防接種を行っています。13歳以上の方は1回3,300円、仙台市の高齢者定期接種の対象となる65歳以上の方は自己負担1,500円。平日は夜19時まで、土日も接種できます。予約なしでもご来院いただけます。",
   "keywords": "インフルエンザワクチン 仙台, インフルエンザ 予防接種 仙台, インフルエンザワクチン 仙台市青葉区, インフルエンザワクチン 料金, インフルエンザ 予防接種 夜間, インフルエンザ 予防接種 土日, インフルエンザワクチン 予約なし, インフルエンザワクチン 勾当台, 高齢者インフルエンザ 仙台市, インフルエンザ 予防接種 助成 仙台市, 高齢者インフルエンザ 定期接種 仙台市",
   "url": pageUrl,
   "inLanguage": "ja",
@@ -97,8 +97,8 @@ const breadcrumbStructuredData = {
 ---
 
 <Layout
-  title="インフルエンザ予防接種 3,300円・高齢者定期接種1,500円｜仙台市青葉区 夜21時・土日も接種｜勾当台夕方内科クリニック"
-  description="仙台市青葉区でインフルエンザ予防接種（ワクチン）を行っています。13歳以上の方は1回3,300円、仙台市の高齢者定期接種の対象となる65歳以上の方は自己負担1,500円。平日は夜21時まで、土日も接種可能。予約なしでもご来院いただけます。勾当台公園駅徒歩2分。"
+  title="インフルエンザ予防接種 3,300円・高齢者定期接種1,500円｜仙台市青葉区 夜19時・土日も接種｜勾当台夕方内科クリニック"
+  description="仙台市青葉区でインフルエンザ予防接種（ワクチン）を行っています。13歳以上の方は1回3,300円、仙台市の高齢者定期接種の対象となる65歳以上の方は自己負担1,500円。平日は夜19時まで、土日も接種可能。予約なしでもご来院いただけます。勾当台公園駅徒歩2分。"
 >
   <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
@@ -112,7 +112,7 @@ const breadcrumbStructuredData = {
         <p class="intro-text">
           <strong>2026年（令和8年）9月16日（水）</strong>より、<br class="pc-only" />
           インフルエンザ予防接種を行います。<br class="pc-only" />
-          平日は<strong>夜21時まで</strong>、<strong>土日も</strong>接種できます。<br />
+          平日は<strong>夜19時まで</strong>、<strong>土日も</strong>接種できます。<br />
           <strong>65歳以上の方</strong>は、仙台市の定期接種（自己負担<strong>1,500円</strong>）として接種いただけます。
         </p>
       </div>
@@ -182,7 +182,7 @@ const breadcrumbStructuredData = {
           </div>
           <div class="spec-row">
             <dt>接種できる時間</dt>
-            <dd>平日（月・水〜金）17:00〜21:00<br />土日 14:00〜21:00<span class="spec-note">火曜日は休診です。臨時休診は<a href="/#hours" class="ref-link">診療日カレンダー</a>でご確認ください。</span></dd>
+            <dd><div class="time-grid"><span class="time-day">平日（月・水〜金）</span><span class="time-range">17:00〜19:00</span><span class="time-day">土日</span><span class="time-range">14:00〜18:00</span></div><p class="spec-attention">予防接種は<strong>一般内科外来の時間帯</strong>でお願いしております。平日19:00以降・土日18:00以降は発熱外来の時間帯です。</p><span class="spec-note">火曜日は休診です。臨時休診は<a href="/#hours" class="ref-link">診療日カレンダー</a>でご確認ください。</span></dd>
           </div>
           <div class="spec-row">
             <dt>ご予約</dt>
@@ -386,7 +386,7 @@ const breadcrumbStructuredData = {
             <span class="flow-number">1</span>
             <div>
               <strong>LINEでご予約</strong>
-              <p>LINE予約の問診で「<strong>インフルエンザ予防接種希望</strong>」とご記入ください。お電話でのご予約や、予約なしでのご来院も可能です。予約なしの場合は、混雑状況によりお待ちいただくことがあります。</p>
+              <p>LINE予約の問診で「<strong>インフルエンザ予防接種希望</strong>」とご記入ください。ご予約は<strong>平日19:00・土日18:00より前</strong>の時間帯でお取りください。それ以降は発熱外来の時間帯です。お電話でのご予約や、予約なしでのご来院も可能です。予約なしの場合は、混雑状況によりお待ちいただくことがあります。</p>
             </div>
           </li>
           <li class="flow-item">
@@ -683,6 +683,29 @@ const breadcrumbStructuredData = {
     font-size: 0.95rem;
     color: var(--color-text);
     line-height: 1.8;
+  }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 12px;
+    row-gap: 2px;
+  }
+
+  .spec-attention {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-coral);
+    background: var(--color-coral-bg);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+
+  .page-section.bg-turquoise .spec-attention {
+    border-color: var(--color-turquoise);
+    background: var(--color-turquoise-bg);
   }
 
   .spec-note {

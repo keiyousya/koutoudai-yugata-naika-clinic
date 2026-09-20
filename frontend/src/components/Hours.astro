@@ -103,7 +103,11 @@ const scheduleJuly17 = [
         <div class="hours-last-reception">
           <span class="last-reception-text">受付開始 <strong>平日 17:00</strong> / <strong>土日 14:00</strong></span>
           <span class="last-reception-text">最終受付 <strong>20:50</strong><br class="sp-only" />（LINE・電話予約の当日最終）</span>
-          <span class="reception-note">※ 診療開始前は院内でお待ちいただけません</span>
+        </div>
+
+        <div class="reception-notes">
+          <p class="reception-note">当院は小さなクリニックで、待合の席数に限りがあります。<strong>付き添いの方のご来院はご遠慮ください</strong></p>
+          <p class="reception-note">受付開始前は、院内でお待ちいただけません。平日17時・土日14時より前のご来院はお控えいただきますようお願いいたします</p>
         </div>
 
         <!-- 診療日カレンダー -->
@@ -305,7 +309,30 @@ const scheduleJuly17 = [
 
   #hours .hours-last-reception { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; margin-bottom: 24px; }
   #hours .last-reception-text { font-size: 1rem; color: var(--color-text-muted); }
-  #hours .reception-note { font-size: 0.82rem; color: var(--color-text-muted); margin-top: 2px; text-wrap: balance; }
+  #hours .reception-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 520px;
+    margin: 0 auto 24px;
+    text-align: center;
+  }
+  #hours .reception-note {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    text-wrap: balance;
+  }
+  #hours .reception-note::before {
+    content: "※";
+    color: var(--color-coral);
+    font-weight: 700;
+    margin-right: 0.3em;
+  }
+  #hours .reception-note strong {
+    font-weight: 700;
+    color: var(--color-coral);
+  }
   #hours .last-reception-text strong { font-weight: 700; color: var(--color-navy); }
 
   #hours .schedule-table { background: white; border-radius: 16px; overflow: hidden; border: 1px solid #d0e8ec; margin-bottom: 20px; }

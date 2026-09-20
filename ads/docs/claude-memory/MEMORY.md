@@ -26,3 +26,4 @@
 - [gads認証切れの直し方](gads-token-regen-from-claude.md) — invalid_grant なら再認証スクリプトをbg起動→ユーザー承認で復旧
 - [turso CLI は WSL 内 (.dev.vars 再生成手順)](turso-cli-in-wsl.md) — backend/.dev.vars が無いとAPIは全て500になる
 - [dev サーバのプロセス残留](dev-server-process-cleanup.md) — 停止しても vite/wrangler が生き残りポートを掴み続ける
+- [満席の日はCV/CPAを根拠にするな](full-day-ads-cv-metric-trap.md) — 断った電話がCVに乗る。「止めていいかも」と言われたら止める

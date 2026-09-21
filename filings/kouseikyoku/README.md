@@ -34,6 +34,7 @@ https://kouseikyoku.mhlw.go.jp/form/pub/kousei02/tohoku_inquiry2
 | 案件 | 内容 | 状態 |
 |---|---|---|
 | [2026-09-phone-change](2026-09-phone-change/) | 電話番号の変更（携帯→固定） | 提出待ち |
+| [2026-09-surveillance-kyoka](2026-09-surveillance-kyoka/) | サーベイランス強化加算の届出（10/1算定開始希望） | 提出待ち |
 
 ## 過去の回答（口頭・フォーム）
 

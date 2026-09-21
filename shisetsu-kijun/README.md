@@ -49,6 +49,7 @@ shisetsu-kijun/
 
 | 施設基準 | ディレクトリ | 状況 |
 |---|---|---|
+| サーベイランス強化加算（外来感染対策向上加算の上乗せ） | [gairai-kansen-taisaku-kojo](gairai-kansen-taisaku-kojo/) | 2026-09 に届出（10/1算定開始希望）。控えは `filings/kouseikyoku/2026-09-surveillance-kyoka/` |
 | 情報通信機器を用いた診療 | [jouhou-tsushin-kiki-shinryo](jouhou-tsushin-kiki-shinryo/) | 受理状況・名簿のいずれにも無し。掲示ページは作成済みだが非公開。届出したか要確認 |
 
 > 受理番号・算定開始日は東北厚生局HPの掲載が一次情報。`/shisetsu-kijun` スキルで確認し、

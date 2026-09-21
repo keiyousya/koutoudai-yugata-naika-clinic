@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Route as rootRoute } from "../__root";
 import { fetchCalendar } from "@/api/shift";
-import { fetchAdminRequests, lockPeriod, unlockPeriod } from "@/api/admin";
+import { fetchAdminRequests, lockPeriod, unlockPeriod, unlockStaff, relockStaff } from "@/api/admin";
 import { fetchPeriod } from "@/api/shift";
 
 export const Route = createRoute({
@@ -66,6 +66,20 @@ function AdminRequestsPage() {
     },
   });
 
+  const staffUnlockMutation = useMutation({
+    mutationFn: ({ staffId, unlock }: { staffId: number; unlock: boolean }) =>
+      unlock ? unlockStaff(selectedMonth, staffId) : relockStaff(selectedMonth, staffId),
+    onSuccess: async (data) => {
+      setToast(data.message);
+      await queryClient.invalidateQueries({ queryKey: ["adminRequests", selectedMonth] });
+      setTimeout(() => setToast(null), 3000);
+    },
+    onError: (err) => {
+      setToast(`エラー: ${(err as Error).message}`);
+      setTimeout(() => setToast(null), 5000);
+    },
+  });
+
   const navigateMonth = (delta: number) => {
     const [year, month] = selectedMonth.split("-").map(Number);
     const newDate = new Date(year, month - 1 + delta, 1);
@@ -109,6 +123,7 @@ function AdminRequestsPage() {
 
   const isLoading = requestsLoading || calendarLoading;
   const isLocked = period?.submission_locked ?? false;
+  const unlockedStaffIds = new Set(requests?.unlocked_staff_ids ?? []);
 
   // 営業日のみ
   const openDays = calendar?.days.filter((d) => d.is_open) || [];
@@ -164,7 +179,7 @@ function AdminRequestsPage() {
 
       {isLocked && (
         <div className="mb-4 p-2 bg-yellow-100 text-yellow-800 rounded text-center text-sm">
-          提出はロックされています
+          提出はロックされています（スタッフ名の下のボタンで個別に解除できます）
         </div>
       )}
 
@@ -183,6 +198,25 @@ function AdminRequestsPage() {
                     <div className="text-xs text-muted-foreground">
                       {staff.role === "nurse" ? "看" : "事"}
                     </div>
+                    {isLocked &&
+                      (unlockedStaffIds.has(staff.id) ? (
+                        <button
+                          onClick={() => staffUnlockMutation.mutate({ staffId: staff.id, unlock: false })}
+                          disabled={staffUnlockMutation.isPending}
+                          title="クリックで個別解除を取り消し"
+                          className="mt-1 px-1.5 py-0.5 text-xs font-normal bg-green-100 text-green-700 rounded hover:bg-green-200 disabled:opacity-50 whitespace-nowrap"
+                        >
+                          提出可
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => staffUnlockMutation.mutate({ staffId: staff.id, unlock: true })}
+                          disabled={staffUnlockMutation.isPending}
+                          className="mt-1 px-1.5 py-0.5 text-xs font-normal border rounded hover:bg-yellow-100 disabled:opacity-50 whitespace-nowrap"
+                        >
+                          個別解除
+                        </button>
+                      ))}
                   </th>
                 ))}
               </tr>

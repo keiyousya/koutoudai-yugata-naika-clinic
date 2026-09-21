@@ -106,7 +106,8 @@ function RequestPage() {
     }
   }, [myRequests]);
 
-  const isLocked = period?.submission_locked ?? false;
+  // 個別ロック解除がありうるため、自分の希望取得時の判定を優先する
+  const isLocked = myRequests?.submission_locked ?? period?.submission_locked ?? false;
 
   const saveMutation = useMutation({
     mutationFn: () => {

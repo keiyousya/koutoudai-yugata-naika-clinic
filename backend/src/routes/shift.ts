@@ -136,8 +136,20 @@ function getNowJST(): Date {
  * 締切判定
  * - 既定締切: 対象月の前月 1 日 00:00 (Asia/Tokyo)
  * - shift_periods.submission_locked_at が設定されていればその時刻を優先
+ * - staffId を渡した場合、shift_staff_unlocks で個別解除されていれば常に提出可能
  */
-async function isSubmissionLocked(db: Client, month: string): Promise<boolean> {
+async function isSubmissionLocked(db: Client, month: string, staffId?: number): Promise<boolean> {
+  // スタッフ個別のロック解除は月単位のロック・既定締切より優先
+  if (staffId !== undefined) {
+    const unlockResult = await db.execute({
+      sql: "SELECT 1 FROM shift_staff_unlocks WHERE month = ? AND staff_id = ?",
+      args: [month, staffId],
+    });
+    if (unlockResult.rows.length > 0) {
+      return false;
+    }
+  }
+
   // shift_periods から手動ロック・ロック解除を確認
   const periodResult = await db.execute({
     sql: "SELECT submission_locked_at, submission_unlocked FROM shift_periods WHERE month = ?",
@@ -488,9 +500,13 @@ shift.get("/requests/me", staffAuth, async (c) => {
     args: [staffId, `${month}%`],
   });
 
+  // 個別ロック解除を反映した、このスタッフにとっての提出可否
+  const locked = await isSubmissionLocked(db, month, staffId);
+
   return c.json({
     month,
     staff_id: staffId,
+    submission_locked: locked,
     requests: result.rows,
   });
 });
@@ -557,8 +573,8 @@ shift.put("/requests/me", staffAuth, async (c) => {
 
   const { month, items } = parsed.data;
 
-  // 締切チェック
-  const locked = await isSubmissionLocked(db, month);
+  // 締切チェック（個別ロック解除を含む）
+  const locked = await isSubmissionLocked(db, month, staffId);
   if (locked) {
     return c.json({ error: "提出期限が過ぎています" }, 423);
   }
@@ -865,12 +881,72 @@ shift.get("/admin/requests", adminAuth, async (c) => {
     }
   }
 
+  // 個別にロック解除されているスタッフ
+  const unlocksResult = await db.execute({
+    sql: "SELECT staff_id FROM shift_staff_unlocks WHERE month = ?",
+    args: [month],
+  });
+
   return c.json({
     month,
     staff: staffResult.rows,
     days,
     matrix,
+    unlocked_staff_ids: unlocksResult.rows.map((row) => row.staff_id as number),
   });
+});
+
+// スタッフ個別のロック解除
+shift.post("/admin/periods/:month/unlocks/:staffId", adminAuth, async (c) => {
+  const db = c.get("db");
+  const month = c.req.param("month");
+  const staffId = parseInt(c.req.param("staffId"), 10);
+
+  if (!/^\d{4}-\d{2}$/.test(month)) {
+    return c.json({ error: "month は YYYY-MM 形式で指定してください" }, 400);
+  }
+  if (isNaN(staffId)) {
+    return c.json({ error: "無効なスタッフIDです" }, 400);
+  }
+
+  const staffResult = await db.execute({
+    sql: "SELECT name FROM shift_staff WHERE id = ?",
+    args: [staffId],
+  });
+  if (staffResult.rows.length === 0) {
+    return c.json({ error: "スタッフが見つかりません" }, 404);
+  }
+
+  await db.execute({
+    sql: "INSERT OR IGNORE INTO shift_staff_unlocks (month, staff_id, created_at) VALUES (?, ?, datetime('now'))",
+    args: [month, staffId],
+  });
+
+  return c.json({
+    success: true,
+    message: `${staffResult.rows[0].name} さんの ${month} の提出ロックを解除しました`,
+  });
+});
+
+// スタッフ個別のロック解除を取り消し
+shift.delete("/admin/periods/:month/unlocks/:staffId", adminAuth, async (c) => {
+  const db = c.get("db");
+  const month = c.req.param("month");
+  const staffId = parseInt(c.req.param("staffId"), 10);
+
+  if (!/^\d{4}-\d{2}$/.test(month)) {
+    return c.json({ error: "month は YYYY-MM 形式で指定してください" }, 400);
+  }
+  if (isNaN(staffId)) {
+    return c.json({ error: "無効なスタッフIDです" }, 400);
+  }
+
+  await db.execute({
+    sql: "DELETE FROM shift_staff_unlocks WHERE month = ? AND staff_id = ?",
+    args: [month, staffId],
+  });
+
+  return c.json({ success: true, message: `${month} の個別ロック解除を取り消しました` });
 });
 
 // 手動ロック

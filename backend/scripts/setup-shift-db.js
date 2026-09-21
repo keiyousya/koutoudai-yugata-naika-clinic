@@ -46,6 +46,17 @@ async function setup() {
     )
   `);
 
+  // shift_staff_unlocks テーブル（スタッフ個別の提出ロック解除）
+  console.log("Creating shift_staff_unlocks table...");
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS shift_staff_unlocks (
+      month TEXT NOT NULL,
+      staff_id INTEGER NOT NULL REFERENCES shift_staff(id),
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      PRIMARY KEY (month, staff_id)
+    )
+  `);
+
   // shift_requests テーブル
   console.log("Creating shift_requests table...");
   await db.execute(`

@@ -102,6 +102,8 @@ export interface RequestsMatrix {
   days: string[];
   // date -> slot -> staffId -> availability
   matrix: Record<string, Record<string, Record<number, { availability: string; note?: string }>>>;
+  // 個別に提出ロックを解除されているスタッフ
+  unlocked_staff_ids: number[];
 }
 
 export async function fetchAdminRequests(month: string): Promise<RequestsMatrix> {
@@ -114,6 +116,14 @@ export async function lockPeriod(month: string): Promise<{ success: boolean; mes
 
 export async function unlockPeriod(month: string): Promise<{ success: boolean; message: string }> {
   return adminRequest("DELETE", `/api/shift/admin/periods/${month}/lock`);
+}
+
+export async function unlockStaff(month: string, staffId: number): Promise<{ success: boolean; message: string }> {
+  return adminRequest("POST", `/api/shift/admin/periods/${month}/unlocks/${staffId}`);
+}
+
+export async function relockStaff(month: string, staffId: number): Promise<{ success: boolean; message: string }> {
+  return adminRequest("DELETE", `/api/shift/admin/periods/${month}/unlocks/${staffId}`);
 }
 
 // 確定シフト管理

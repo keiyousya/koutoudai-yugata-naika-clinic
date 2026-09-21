@@ -47,6 +47,8 @@ interface RequestItem {
 interface MyRequestsResponse {
   month: string;
   staff_id: number;
+  // 個別ロック解除を反映した、ログイン中スタッフの提出可否
+  submission_locked: boolean;
   requests: RequestItem[];
 }
 

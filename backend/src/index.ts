@@ -5,6 +5,7 @@ import { z } from "zod";
 import timecard from "./routes/timecard";
 import shift from "./routes/shift";
 import inventory from "./routes/inventory";
+import facility from "./routes/facility";
 
 type Bindings = {
   TURSO_URL: string;
@@ -395,5 +396,10 @@ app.route("/api/shift", shift);
 // 在庫管理 API
 // ========================================
 app.route("/api/inventory", inventory);
+
+// ========================================
+// 院内設備管理 API
+// ========================================
+app.route("/api/facility", facility);
 
 export default app;

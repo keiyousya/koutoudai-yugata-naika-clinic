@@ -9,6 +9,7 @@ packages:
   - slides
   - mixer
   - inventory
+  - facility
 allowBuilds:
   esbuild: false
   playwright-chromium: false

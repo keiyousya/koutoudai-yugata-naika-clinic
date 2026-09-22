@@ -18,6 +18,8 @@
     "build:mixer": "pnpm --filter mixer build",
     "dev:inventory": "concurrently \"pnpm --filter backend run dev:inventory\" \"pnpm --filter inventory dev\"",
     "build:inventory": "pnpm --filter inventory build",
+    "dev:facility": "concurrently \"pnpm --filter backend run dev:facility\" \"pnpm --filter facility dev\"",
+    "build:facility": "pnpm --filter facility build",
     "deploy:api": "pnpm --filter backend run deploy"
   },
   "devDependencies": {

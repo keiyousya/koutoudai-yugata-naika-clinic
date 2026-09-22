@@ -82,6 +82,14 @@ jobs:
       - name: Copy inventory to frontend dist
         run: cp -r ./inventory/dist ./frontend/dist/inventory
 
+      - name: Build facility
+        run: pnpm --filter facility build
+        env:
+          NODE_ENV: production
+
+      - name: Copy facility to frontend dist
+        run: cp -r ./facility/dist ./frontend/dist/facility
+
       - name: Build slides
         run: pnpm --filter slides build
 
@@ -142,6 +150,11 @@ jobs:
 
       - name: Deploy inventory API
         run: pnpm --filter backend run deploy:inventory
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Deploy facility API
+        run: pnpm --filter backend run deploy:facility
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 

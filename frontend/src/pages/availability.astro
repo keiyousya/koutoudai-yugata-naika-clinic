@@ -759,7 +759,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
   interface ApiSlot {
     time: string;
     endTime: string;
-    status: 'available' | 'booked';
+    status: 'available' | 'booked' | 'blocked';
   }
 
   interface ApiConsultationSlot {
@@ -779,6 +779,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     endTime: string;
     available: boolean;
     isPast: boolean;
+    isBlocked: boolean;
   }
 
   interface SlotGroup {
@@ -824,6 +825,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
       endTime: apiSlot.endTime,
       available: isForcedFull ? false : apiSlot.status === 'available',
       isPast: now >= cutoffTime,
+      isBlocked: apiSlot.status === 'blocked',
     };
   }
 
@@ -885,6 +887,9 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
       let statusText: string;
 
       if (slot.isPast) {
+        statusClass = 'past';
+        statusText = '-';
+      } else if (slot.isBlocked) {
         statusClass = 'past';
         statusText = '-';
       } else if (slot.available) {

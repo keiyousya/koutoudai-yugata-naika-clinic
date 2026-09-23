@@ -11,6 +11,7 @@ date: "2026.07.18"
 import CauseGrid from '../../components/CauseGrid.astro';
 import CauseCard from '../../components/CauseCard.astro';
 import ArticleTable from '../../components/ArticleTable.astro';
+import DetailLink from '../../components/DetailLink.astro';
 
 糖尿病とは、<ruby>膵臓<rp>（</rp><rt>すいぞう</rt><rp>）</rp></ruby>から分泌される**インスリン**というホルモンの働きが不足し、血液中のブドウ糖（血糖）が慢性的に高くなる病気です。
 
@@ -18,7 +19,11 @@ import ArticleTable from '../../components/ArticleTable.astro';
 
 ## 診断の基準
 
-<a href="https://kennet.mhlw.go.jp/information/information/metabolic/m-05-002.html" target="_blank" rel="noopener noreferrer">厚生労働省 e-ヘルスネット</a>でも示されているように、以下のいずれかに該当する場合、「糖尿病型」と判定されます。
+糖尿病は、日本糖尿病学会の<a href="https://www.jds.or.jp/uploads/files/publications/gl2024/01.pdf" target="_blank" rel="noopener noreferrer">糖尿病診療ガイドライン2024</a>に沿って、血糖値とHbA1cを組み合わせて診断します。
+
+### 「糖尿病型」の基準
+
+以下のいずれかにあてはまる場合、「糖尿病型」と判定されます。
 
 <ArticleTable>
 <table>
@@ -29,12 +34,41 @@ import ArticleTable from '../../components/ArticleTable.astro';
     <tr><td>空腹時血糖値</td><td>126mg/dL以上</td></tr>
     <tr><td>75g経口ブドウ糖負荷試験（OGTT）2時間値</td><td>200mg/dL以上</td></tr>
     <tr><td>随時血糖値</td><td>200mg/dL以上</td></tr>
-    <tr class="highlight"><td>HbA1c（ヘモグロビンA1c）</td><td>6.5%以上</td></tr>
+    <tr><td>HbA1c（ヘモグロビンA1c）</td><td>6.5%以上</td></tr>
   </tbody>
 </table>
 </ArticleTable>
 
 HbA1cは過去1〜2か月間の血糖の平均を反映する指標で、日々の変動に左右されにくいため、糖尿病の診断や治療効果の評価に広く使われています。
+
+### 糖尿病と診断される場合
+
+「糖尿病型」に1回あてはまっただけでは、糖尿病とは診断されません。次のいずれかの場合に、糖尿病と診断します。
+
+1. **別の日に行った検査で、2回とも「糖尿病型」**だった場合（少なくとも1回は血糖値で確認します。HbA1cだけの繰り返しでは診断できません）
+2. **同じ採血で、血糖値とHbA1cの両方が「糖尿病型」**だった場合
+3. 血糖値が「糖尿病型」で、のどの渇き・多飲・多尿・体重減少などの**典型的な症状**や、**糖尿病網膜症**がある場合
+
+血糖値かHbA1cの片方だけが「糖尿病型」だった場合は「糖尿病の疑い」として、数か月以内にもう一度検査します。
+
+### 境界型（糖尿病予備群）
+
+糖尿病型ではなくても、血糖値が正常より高い状態を「**境界型**」といいます。
+
+<ArticleTable>
+<table>
+  <thead>
+    <tr><th>判定</th><th>空腹時血糖値</th><th></th><th>OGTT 2時間値</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>正常型</td><td>110mg/dL未満</td><td>かつ</td><td>140mg/dL未満</td></tr>
+    <tr><td>境界型</td><td colspan="3">正常型にも糖尿病型にもあてはまらないもの</td></tr>
+    <tr><td>糖尿病型</td><td>126mg/dL以上</td><td>または</td><td>200mg/dL以上</td></tr>
+  </tbody>
+</table>
+</ArticleTable>
+
+境界型は将来糖尿病になりやすいだけでなく、この段階から**動脈硬化が進みやすい**ことがわかっています。健診で空腹時血糖100mg/dL以上やHbA1c 5.6%以上を指摘された方は、ブドウ糖負荷試験（OGTT）などで詳しく調べることが勧められます。
 
 ## 糖尿病のタイプ
 
@@ -45,7 +79,7 @@ HbA1cは過去1〜2か月間の血糖の平均を反映する指標で、日々�
 
 このほか、他の病気や薬の影響で発症するタイプや、妊娠中に血糖値が高くなる**妊娠糖尿病**もあります。
 
-## 糖尿病の原因（2型）
+## 糖尿病の原因（2型糖尿病）
 
 2型糖尿病は、遺伝的な体質に以下のような生活習慣が重なることで発症します。
 
@@ -114,9 +148,18 @@ HbA1cは過去1〜2か月間の血糖の平均を反映する指標で、日々�
 
 お薬は患者さんの状態に合わせて選択します。副作用や低血糖への対策も含め、丁寧にご説明いたします。
 
+<DetailLink
+  href="/articles/diabetes/detail/medication-selection"
+  title="病態に応じた糖尿病治療薬の選択について"
+  description="メトホルミン・DPP-4阻害薬・SGLT2阻害薬・GLP-1受容体作動薬の使い分けを詳しく解説します"
+  badge="専門的な内容を含みます"
+/>
+
 ### HbA1cの治療目標
 
-合併症の予防のために、**HbA1c 7.0%未満**を目標にコントロールすることが大切です（<a href="https://kennet.mhlw.go.jp/information/information/metabolic/m-05-002.html" target="_blank" rel="noopener noreferrer">厚生労働省 e-ヘルスネット</a>）。ただし、年齢や合併症の状況によって個別に目標を設定します。
+合併症の予防のために、**HbA1c 7.0%未満**を目標にコントロールすることが大切です（日本糖尿病学会 <a href="https://www.jds.or.jp/uploads/files/publications/gl2024/02.pdf" target="_blank" rel="noopener noreferrer">糖尿病診療ガイドライン2024</a>）。ただし、年齢や合併症の状況によって個別に目標を設定します。
+
+ご高齢の方は、認知機能や日常生活の状況、使っている薬に合わせて、7.0〜8.5%未満の範囲で目標を設定します（日本糖尿病学会・日本老年医学会）。低血糖を起こしやすい薬を使っている場合は、**下げすぎない**ことも大切です。
 
 ## 当院でできること
 
@@ -128,4 +171,4 @@ HbA1cは過去1〜2か月間の血糖の平均を反映する指標で、日々�
 - 合併症のスクリーニング（尿検査・血液検査・心電図など）
 - 専門医療機関への紹介（必要に応じて）
 
-**夜21時まで診療**しておりますので、仕事帰りにも通院いただけます。健康診断で血糖値やHbA1cの異常を指摘された方、糖尿病が気になる方は、お気軽にご相談ください。
+**夜21時まで診療**しておりますので、仕事帰りにも通院いただけます。健康診断で血糖値やHbA1cの異常を指摘された方、のどの渇きや体重の減少など気になる症状がある方は、お気軽にご相談ください。

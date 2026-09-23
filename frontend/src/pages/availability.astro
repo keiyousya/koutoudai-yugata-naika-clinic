@@ -1094,15 +1094,15 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
       if (el) el.style.display = hidden ? 'none' : '';
     });
 
-    // 時間帯メモを表示中の曜日に合わせて更新（土日 14-18/18-21、平日 17-19/19-21）
+    // 時間帯メモを表示中の曜日に合わせて更新（土日 14-17/17-21、平日 17-19/19-21）
     if (hoursNote && !hidden && cachedDates) {
       const apiData = findDateData(cachedDates, offsetDays);
       if (apiData) {
         const isWeekend = apiData.dayOfWeek === 0 || apiData.dayOfWeek === 6;
         const general = hoursNote.querySelector('[data-kind="general"]');
         const fever = hoursNote.querySelector('[data-kind="fever"]');
-        if (general) general.textContent = isWeekend ? '14:00 - 18:00' : '17:00 - 19:00';
-        if (fever) fever.textContent = isWeekend ? '18:00 - 21:00' : '19:00 - 21:00';
+        if (general) general.textContent = isWeekend ? '14:00 - 17:00' : '17:00 - 19:00';
+        if (fever) fever.textContent = isWeekend ? '17:00 - 21:00' : '19:00 - 21:00';
       }
     }
   }

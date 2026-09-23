@@ -1,28 +1,3 @@
----
-// 7月からのスケジュール（2段）
-const days = ["月", "火", "水", "木", "金", "土", "日"];
-// 14-17時: 土日のみ
-const scheduleJuly14 = [
-  { day: "月", open: false, na: true },
-  { day: "火", open: false, na: true },
-  { day: "水", open: false, na: true },
-  { day: "木", open: false, na: true },
-  { day: "金", open: false, na: true },
-  { day: "土", open: true },
-  { day: "日", open: true },
-];
-// 17-21時: 火曜以外
-const scheduleJuly17 = [
-  { day: "月", open: true },
-  { day: "火", open: false, na: true },
-  { day: "水", open: true },
-  { day: "木", open: true },
-  { day: "金", open: true },
-  { day: "土", open: true },
-  { day: "日", open: true },
-];
----
-
 <section id="hours" class="section hours">
   <div class="container">
     <h2 class="section-title">診療時間</h2>
@@ -30,8 +5,9 @@ const scheduleJuly17 = [
       <!-- 左側：カレンダー（APIから動的取得） -->
       <div class="calendar-side">
         <div class="month-tabs" id="monthTabs">
-          <button class="month-tab active" data-month="0">--月</button>
-          <button class="month-tab" data-month="1">--月</button>
+          <span class="month-tab-indicator" aria-hidden="true"></span>
+          <button class="month-tab active" type="button" data-month="0">--月</button>
+          <button class="month-tab" type="button" data-month="1">--月</button>
         </div>
 
         <div class="calendar-container">
@@ -82,6 +58,10 @@ const scheduleJuly17 = [
             <span>臨時休診</span>
           </div>
         </div>
+
+        <div class="reception-notes reception-notes--calendar">
+          <p class="reception-note">当院は小さなクリニックで、待合の席数に限りがあります。<strong>付き添いの方のご来院はご遠慮ください</strong></p>
+        </div>
       </div>
 
       <!-- 右側：診療時間 -->
@@ -91,66 +71,24 @@ const scheduleJuly17 = [
           <div class="hours-block">
             <span class="hours-block-label">平日（月・水〜金）</span>
             <div class="hours-primary">17:00 - 21:00</div>
-            <div class="hours-sub">発熱外来 19:00-21:00</div>
+            <div class="hours-sub hours-sub--fever">発熱外来 <strong>19:00-21:00</strong></div>
           </div>
           <div class="hours-block">
             <span class="hours-block-label">土日</span>
             <div class="hours-primary">14:00 - 21:00</div>
-            <div class="hours-sub">発熱外来 18:00-21:00</div>
+            <div class="hours-sub hours-sub--fever">発熱外来 <strong>17:00-21:00</strong></div>
           </div>
         </div>
 
         <div class="hours-last-reception">
+          <span class="last-reception-text">休診日 <strong>火曜・祝日</strong></span>
           <span class="last-reception-text">受付開始 <strong>平日 17:00</strong> / <strong>土日 14:00</strong></span>
           <span class="last-reception-text">最終受付 <strong>20:50</strong><br class="sp-only" />（LINE・電話予約の当日最終）</span>
         </div>
 
         <div class="reception-notes">
-          <p class="reception-note">当院は小さなクリニックで、待合の席数に限りがあります。<strong>付き添いの方のご来院はご遠慮ください</strong></p>
           <p class="reception-note">受付開始前は、院内でお待ちいただけません。平日17時・土日14時より前のご来院はお控えいただきますようお願いいたします</p>
         </div>
-
-        <!-- 診療日カレンダー -->
-        <div class="schedule-table two-rows" id="scheduleJuly">
-          <div class="schedule-header">
-            <span>診療日カレンダー</span>
-          </div>
-          <div class="schedule-days">
-            <div class="schedule-day-spacer"></div>
-            {days.map((day) => (
-              <div class="schedule-day-header">{day}</div>
-            ))}
-          </div>
-          <div class="schedule-row">
-            <div class="schedule-time-label">14-17時</div>
-            <div class="schedule-grid-row">
-              {scheduleJuly14.map((item) => (
-                <div class={`schedule-cell ${item.open ? "open" : "closed"} ${item.na ? "na" : ""}`}>
-                  <span class="status">{item.na ? "-" : (item.open ? "○" : "休")}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div class="schedule-row">
-            <div class="schedule-time-label">17-21時</div>
-            <div class="schedule-grid-row">
-              {scheduleJuly17.map((item) => (
-                <div class={`schedule-cell ${item.open ? "open" : "closed"} ${item.na ? "na" : ""}`}>
-                  <span class="status">{item.na ? "-" : (item.open ? "○" : "休")}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <!-- 診療日説明 -->
-        <div class="hours-info" id="infoJuly">
-          <div class="info-item">
-            <span class="info-icon open">○</span>
-            <span>診療日（月・水〜日）</span>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
@@ -174,26 +112,52 @@ const scheduleJuly17 = [
   #hours .calendar-side { width: 100%; }
 
   #hours .month-tabs {
+    position: relative;
     display: flex;
-    gap: 12px;
+    gap: 8px;
     margin-bottom: 20px;
-    justify-content: center;
+    padding: 6px;
+    background: #f2f4f5;
+    border-radius: 12px;
+  }
+
+  /* タブ2つぶん: 左右パディング 6px×2 + タブ間 gap 8px = 20px を差し引く */
+  #hours .month-tab-indicator {
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 6px;
+    width: calc((100% - 20px) / 2);
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    transform: translateX(0);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 0;
+  }
+
+  #hours .month-tabs[data-active="1"] .month-tab-indicator {
+    transform: translateX(calc(100% + 8px));
   }
 
   #hours .month-tab {
-    padding: 10px 28px;
-    background: white;
-    border: 2px solid var(--color-border);
-    border-radius: 24px;
-    font-size: 0.95rem;
-    font-weight: 600;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    min-width: 96px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
     color: var(--color-text-muted);
+    font-size: 0.95rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: color 0.25s;
   }
 
-  #hours .month-tab:hover { border-color: var(--color-turquoise); color: var(--color-turquoise); }
-  #hours .month-tab.active { background: var(--color-turquoise); border-color: var(--color-turquoise); color: white; }
+  #hours .month-tab:hover,
+  #hours .month-tab.active { color: var(--color-navy); }
 
   #hours .calendar-container { position: relative; margin-bottom: 20px; }
   #hours .calendar-slider { overflow: hidden; border-radius: 16px; }
@@ -301,7 +265,9 @@ const scheduleJuly17 = [
   }
 
   #hours .hours-primary { font-size: 1.8rem; font-weight: 700; color: var(--color-navy); letter-spacing: 0.02em; }
-  #hours .hours-sub { font-size: 0.9rem; color: var(--color-text-muted); margin-top: 10px; }
+  #hours .hours-sub { font-size: 0.9rem; line-height: 1.7; color: var(--color-text-muted); margin-top: 10px; }
+  #hours .hours-sub--fever { font-size: 1rem; font-weight: 600; color: color-mix(in srgb, var(--color-turquoise-dark) 75%, var(--color-navy)); }
+  #hours .hours-sub--fever strong { font-size: 1.15rem; font-weight: 700; }
 
   #hours .hours-block { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid rgba(62, 184, 200, 0.3); }
   #hours .hours-block:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
@@ -317,6 +283,7 @@ const scheduleJuly17 = [
     margin: 0 auto 24px;
     text-align: center;
   }
+  #hours .reception-notes--calendar { margin: 24px auto 0; }
   #hours .reception-note {
     font-size: 0.95rem;
     line-height: 1.7;
@@ -335,36 +302,11 @@ const scheduleJuly17 = [
   }
   #hours .last-reception-text strong { font-weight: 700; color: var(--color-navy); }
 
-  #hours .schedule-table { background: white; border-radius: 16px; overflow: hidden; border: 1px solid #d0e8ec; margin-bottom: 20px; }
-  #hours .schedule-header { background: var(--color-navy); color: white; padding: 12px; text-align: center; font-weight: 500; font-size: 0.85rem; letter-spacing: 0.03em; }
-  #hours .schedule-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
 
-  #hours .schedule-cell { display: flex; flex-direction: column; align-items: center; padding: 16px 6px; border-right: 1px solid var(--color-border); }
-  #hours .schedule-cell:last-child { border-right: none; }
-  #hours .schedule-cell .day { font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 6px; }
-  #hours .schedule-cell .status { font-size: 1rem; font-weight: 700; }
-  #hours .schedule-cell.open .status { color: var(--color-turquoise); }
-  #hours .schedule-cell.closed .status { color: #888; }
-  #hours .schedule-cell.closed { background: #f9f9f9; }
-  #hours .schedule-cell.na { background: #fafafa; }
-  #hours .schedule-cell.na .status { color: #ccc; }
 
   /* 2段レイアウト用 */
-  #hours .schedule-table.two-rows .schedule-days { display: grid; grid-template-columns: 70px repeat(7, 1fr); background: #f8f8f8; border-bottom: 1px solid var(--color-border); }
-  #hours .schedule-day-spacer { border-right: 1px solid var(--color-border); }
-  #hours .schedule-day-header { text-align: center; padding: 10px 4px; font-size: 0.85rem; font-weight: 500; color: var(--color-text-muted); }
 
-  #hours .schedule-row { display: flex; border-bottom: 1px solid var(--color-border); }
-  #hours .schedule-row:last-child { border-bottom: none; }
-  #hours .schedule-time-label { display: flex; align-items: center; justify-content: center; width: 70px; flex-shrink: 0; font-size: 0.65rem; font-weight: 500; color: var(--color-text-muted); background: #f8f8f8; border-right: 1px solid var(--color-border); }
-  #hours .schedule-grid-row { display: grid; grid-template-columns: repeat(7, 1fr); flex: 1; }
-  #hours .schedule-grid-row .schedule-cell { padding: 12px 4px; }
 
-  #hours .hours-info { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; }
-  #hours .info-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--color-text-muted); }
-  #hours .info-icon { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; font-size: 0.85rem; font-weight: 700; }
-  #hours .info-icon.open { background: var(--color-turquoise-bg); color: var(--color-turquoise); }
-  #hours .info-icon.closed { background: #f5f5f5; color: #666; }
 
   /* カレンダースケルトン */
   #hours .cal-skeleton {
@@ -395,10 +337,6 @@ const scheduleJuly17 = [
     #hours .monthly-cell { padding: 8px 2px; min-height: 50px; }
     #hours .monthly-cell .date { font-size: 0.85rem; }
     #hours .monthly-cell .status { font-size: 0.75rem; }
-    #hours .schedule-cell { padding: 12px 4px; }
-    #hours .schedule-cell .day { font-size: 0.8rem; }
-    #hours .schedule-cell .status { font-size: 0.9rem; }
-    #hours .hours-info { flex-direction: column; align-items: center; gap: 10px; }
     #hours .calendar-legend { flex-direction: row; gap: 20px; }
     #hours .calendar-nav.prev { left: -16px; }
     #hours .calendar-nav.next { right: -16px; }
@@ -518,6 +456,7 @@ const scheduleJuly17 = [
       nextBtn.disabled = currentMonth === totalMonths - 1;
       nextBtn.style.opacity = currentMonth === totalMonths - 1 ? '0.3' : '1';
     }
+    monthTabsContainer?.setAttribute('data-active', String(currentMonth));
     monthTabsContainer?.querySelectorAll('.month-tab').forEach((tab, i) => {
       tab.classList.toggle('active', i === currentMonth);
     });

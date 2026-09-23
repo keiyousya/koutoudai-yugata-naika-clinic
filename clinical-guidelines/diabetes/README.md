@@ -6,6 +6,7 @@
 |------|---------|------|--------|-----------|
 | 日本糖尿病学会 糖尿病診療ガイドライン | 2024（2024-05-30） | [全文無料](https://www.jds.or.jp/modules/publication/index.php?content_id=40) | [jds-gl2024/](#糖尿病診療ガイドライン2024) | 2026-09-13 |
 | **糖尿病標準診療マニュアル（一般診療所・クリニック向け）** | 2026（第22版、2026-04-01、使用期限 2027-03-31） | [PDF](https://human-data.or.jp/wp-content/uploads/2026/03/dm_manual_2026.pdf) | [dm-manual-2026/summary.md](dm-manual-2026/summary.md) | 2026-09-13 |
+| 今日の治療指針「2型糖尿病」（医学書院） | 2026年版（2026-01発行、WEB掲載 2026-02-17） | [今日の治療指針WEB](https://psn.islib.jp/proxy/konce/#/contents/c26a011z0006)（要ログイン、ISLIB Myページ経由） | [konnichi-chiryo-2026/summary.md](konnichi-chiryo-2026/summary.md) | 2026-09-23 |
 | 2型糖尿病の薬物療法のアルゴリズム | 第2版（糖尿病 66(10):715-733, 2023-10。2026-09時点で最新） | [JDS](https://www.jds.or.jp/modules/journal/index.php?content_id=66) / [J-STAGE](https://www.jstage.jst.go.jp/article/tonyobyo/66/10/66_715/_article/-char/ja) | 単独では作成しない（内容はガイドライン2024 5章に反映済み） | 2026-09-13 |
 | 日本糖尿病学会 糖尿病治療ガイド | 2024-2025 | 書籍のみ | ― | ― |
 | ADA Standards of Care in Diabetes | 毎年1月改訂 | [Diabetes Care Suppl](https://diabetesjournals.org/care/issue) | 未作成 | ― |
@@ -13,6 +14,7 @@
 ## 使い分け
 
 - **日常の処方・検査・紹介の判断** → [標準診療マニュアル2026](dm-manual-2026/summary.md)（毎年改訂で新しい。末尾に GL2024 との差分表あり）
+- **処方例・服薬指導・合併症別（MASLD・肥満など）の薬の選び方** → [今日の治療指針2026](konnichi-chiryo-2026/summary.md)
 - **根拠・病態・特殊な集団（妊娠・小児・高齢者など）** → 下記ガイドライン2024 の各章
 
 ## 糖尿病診療ガイドライン2024
@@ -47,4 +49,5 @@
 
 - 日本糖尿病学会 刊行物: https://www.jds.or.jp/modules/publication/
 - 標準診療マニュアル: 例年4月頃に改訂版公開
+- 今日の治療指針: 例年1月に新年版発行（WEB版は ISLIB Myページ → 今日の治療指針WEB）
 - ADA Standards of Care: 例年1月に公開

@@ -3,18 +3,12 @@ import LineButton from "./LineButton.astro";
 
 interface Props {
   lines?: string[];
-  showIntro?: boolean;
 }
 
-const { lines = [], showIntro = false } = Astro.props;
+const { lines = [] } = Astro.props;
 ---
 
 <div class="line-cta">
-  {showIntro && (
-    <p class="line-cta-intro">
-      当院は<strong>原則予約制</strong>です。LINEからのご予約をお願いしております。友だち追加後、トーク画面よりご予約ください。
-    </p>
-  )}
   {lines.length > 0 && (
     <p class="line-cta-text">
       {lines.map((line) => (
@@ -28,17 +22,6 @@ const { lines = [], showIntro = false } = Astro.props;
 <style>
   .line-cta {
     text-align: center;
-  }
-
-  .line-cta-intro {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 20px;
-  }
-
-  .line-cta-intro strong {
-    font-weight: 700;
-    color: var(--color-navy);
   }
 
   .line-cta-text {

@@ -1,0 +1,29 @@
+---
+// 電話番号を「見えるが押せない・選択/コピーできない・自動リンクされない」形で表示する。
+// 予約はLINEのみのため、電話への導線を極力作らない。
+// 番号はテキストノードではなくCSSの疑似要素で描画するので、
+// iOS/Androidの電話番号自動検出やテキスト選択の対象にならない。
+const PHONE = "022-393-8689";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<span class:list={["phone-number", className]} data-tel={PHONE} role="img" aria-label={`電話番号 ${PHONE}`}></span>
+
+<style>
+  .phone-number {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .phone-number::before {
+    content: attr(data-tel);
+  }
+</style>

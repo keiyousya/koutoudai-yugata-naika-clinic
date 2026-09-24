@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import PhoneNumber from "../components/PhoneNumber.astro";
 ---
 
 <Layout title="特定商取引法に基づく表記 | 勾当台夕方内科クリニック" description="勾当台夕方内科クリニックの特定商取引法に基づく表記ページです。">
@@ -31,7 +32,7 @@ import Footer from "../components/Footer.astro";
           <div class="legal-row">
             <dt>電話番号</dt>
             <dd>
-              <a href="tel:022-393-8689">022-393-8689</a><br />
+              <PhoneNumber /><br />
               受付時間: 月・水〜金 17:00〜21:00 ／ 土・日 14:00〜21:00（火・祝休み）
             </dd>
           </div>
@@ -67,7 +68,7 @@ import Footer from "../components/Footer.astro";
               <p class="policy-section">【診療サービスについて】</p>
               <p>医療サービスの性質上、診療提供後の返金は原則としてお受けしておりません。</p>
               <p class="policy-section">【請求内容に誤りがあった場合】</p>
-              <p>請求内容に誤りがあった場合は、確認の上、速やかに差額を返金いたします。お電話（022-393-8689）またはメール（info@koutoudai-yugata-naika.clinic）までお問い合わせください。</p>
+              <p>請求内容に誤りがあった場合は、確認の上、速やかに差額を返金いたします。お電話（<PhoneNumber />）またはメール（info@koutoudai-yugata-naika.clinic）までお問い合わせください。</p>
             </dd>
           </div>
         </dl>

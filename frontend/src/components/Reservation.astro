@@ -1,5 +1,5 @@
 ---
-import LineCta from "./LineCta.astro";
+import LineButton from "./LineButton.astro";
 import { LINE_ADD_FRIEND_URL } from "../config/line";
 ---
 
@@ -7,7 +7,15 @@ import { LINE_ADD_FRIEND_URL } from "../config/line";
   <div class="container">
     <h2 class="section-title">ご予約</h2>
     <div class="reservation-content">
-      <LineCta showIntro={true} />
+      <div class="line-card">
+        <p class="line-card-text">当院は<strong>原則予約制</strong>です。<br /><span class="nowrap">LINEの友だち追加後、</span><span class="nowrap">トーク画面からご予約ください。</span></p>
+        <ul class="line-card-points">
+          <li>24時間受付</li>
+          <li>当日のご予約もOK</li>
+        </ul>
+        <LineButton label="LINEで予約する" wide />
+        <p class="line-card-note">※ お電話でのご予約は承っておりません</p>
+      </div>
 
       <div class="availability-link-container">
         <a href="/availability" class="availability-link">
@@ -30,7 +38,7 @@ import { LINE_ADD_FRIEND_URL } from "../config/line";
       <div class="cancel-policy-box">
         <p class="cancel-policy-title">予約キャンセルについて</p>
         <p class="cancel-policy-text">
-          ご予約の変更・キャンセルは<a href={LINE_ADD_FRIEND_URL} target="_blank" rel="noopener noreferrer" class="cancel-policy-link">LINE</a>または<a href="tel:022-393-8689" class="cancel-policy-link">お電話</a>にて承ります。<br />
+          ご予約の変更・キャンセルは<a href={LINE_ADD_FRIEND_URL} target="_blank" rel="noopener noreferrer" class="cancel-policy-link">LINE</a>にて承ります（お電話では承っておりません）。<br />
           ご都合が悪くなった際は、お早めにご連絡をお願いいたします。
         </p>
       </div>
@@ -47,6 +55,55 @@ import { LINE_ADD_FRIEND_URL } from "../config/line";
     max-width: 640px;
     margin: 0 auto;
     text-align: center;
+  }
+
+  .line-card {
+    padding: 28px 32px 24px;
+    background: #f0faf4;
+    border: 1px solid #06c755;
+    border-radius: 20px;
+  }
+
+  .line-card-text {
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+  }
+
+  .nowrap {
+    display: inline-block;
+  }
+
+  .line-card-text strong {
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .line-card-points {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+    list-style: none;
+    padding: 0;
+  }
+
+  .line-card-points li {
+    padding: 4px 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #05a347;
+    background: white;
+    border: 1px solid #bfe9cf;
+    border-radius: 9999px;
+  }
+
+  .line-card-note {
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
   }
 
   .availability-link-container {
@@ -133,6 +190,10 @@ import { LINE_ADD_FRIEND_URL } from "../config/line";
   @media (max-width: 768px) {
     .sp-only {
       display: inline;
+    }
+
+    .line-card {
+      padding: 24px 16px 20px;
     }
   }
 </style>

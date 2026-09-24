@@ -1,27 +1,12 @@
 ---
-import LineButton from "./LineButton.astro";
+import { LINE_ADD_FRIEND_URL } from "../config/line";
+import PhoneNumber from "./PhoneNumber.astro";
 
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="footer">
   <div class="container">
-    <div class="footer-cta">
-      <div class="cta-item">
-        <p class="cta-label">お電話でのご予約・お問い合わせ</p>
-        <a href="tel:022-393-8689" class="cta-tel">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-          </svg>
-          022-393-8689
-        </a>
-      </div>
-      <div class="cta-item">
-        <p class="cta-label">LINEでのご予約</p>
-        <LineButton />
-      </div>
-    </div>
-
     <div class="footer-content">
       <div class="footer-info">
         <h3 class="footer-logo">勾当台夕方内科クリニック</h3>
@@ -30,9 +15,15 @@ const currentYear = new Date().getFullYear();
           宮城県仙台市青葉区国分町3丁目8-1<br />
           勾当台ビル 4階
         </address>
-        <a href="https://maps.google.com/?q=勾当台夕方内科クリニック" target="_blank" rel="noopener noreferrer" class="map-btn">
-          マップを見る
-        </a>
+        <p class="footer-tel">TEL <PhoneNumber /></p>
+        <div class="footer-actions">
+          <a href="https://maps.google.com/?q=勾当台夕方内科クリニック" target="_blank" rel="noopener noreferrer" class="map-btn">
+            マップを見る
+          </a>
+          <a href={LINE_ADD_FRIEND_URL} target="_blank" rel="noopener noreferrer" class="line-btn">
+            LINEで予約
+          </a>
+        </div>
       </div>
 
       <div class="footer-nav">
@@ -68,43 +59,6 @@ const currentYear = new Date().getFullYear();
   .footer {
     color: var(--color-text);
     padding: 56px 0 28px;
-  }
-
-  .footer-cta {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
-    gap: 80px;
-    padding: 40px 0;
-    margin-bottom: 48px;
-  }
-
-  .cta-item {
-    text-align: center;
-  }
-
-  .cta-label {
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    margin-bottom: 12px;
-  }
-
-  .cta-tel {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 26px;
-    background: white;
-    color: var(--color-coral);
-    font-size: 1rem;
-    font-weight: 600;
-    border: 1px solid var(--color-coral);
-    border-radius: 9999px;
-    transition: background 0.2s;
-  }
-
-  .cta-tel:hover {
-    background: var(--color-coral-bg);
   }
 
   .footer-content {
@@ -154,6 +108,28 @@ const currentYear = new Date().getFullYear();
     background: var(--color-turquoise-bg);
   }
 
+  .footer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .line-btn {
+    display: inline-block;
+    padding: 8px 20px;
+    background: #06c755;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid #06c755;
+    border-radius: 20px;
+    transition: opacity 0.2s;
+  }
+
+  .line-btn:hover {
+    opacity: 0.85;
+  }
+
   .footer-nav ul {
     display: flex;
     flex-direction: column;
@@ -199,33 +175,26 @@ const currentYear = new Date().getFullYear();
     font-size: 0.8rem;
   }
 
+  .footer-tel {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 12px;
+  }
+
   .copyright {
     font-size: 0.8rem;
     color: #aaa;
   }
 
   @media (max-width: 768px) {
-    .footer-cta {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      padding: 28px 20px;
-      border-radius: 0 0 16px 16px;
-      margin-bottom: 32px;
-    }
-
-    .cta-tel {
-      font-size: 1.1rem;
-      padding: 12px 24px;
-    }
-
-    .cta-web {
-      padding: 14px 36px;
-    }
-
     .footer-content {
       grid-template-columns: 1fr;
       gap: 32px;
       text-align: center;
+    }
+
+    .footer-actions {
+      justify-content: center;
     }
 
     .footer-nav ul {

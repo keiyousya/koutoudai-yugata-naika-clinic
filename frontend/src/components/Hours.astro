@@ -80,8 +80,20 @@
           </div>
         </div>
 
+        <div class="hours-facts">
+          <div class="hours-fact">
+            <span class="hours-fact-label">ご予約</span>
+            <span class="hours-fact-value">予約制</span>
+            <span class="hours-fact-sub">LINE・お電話</span>
+          </div>
+          <div class="hours-fact">
+            <span class="hours-fact-label">休診日</span>
+            <span class="hours-fact-value">火曜・祝日</span>
+            <span class="hours-fact-sub">臨時休診はカレンダー参照</span>
+          </div>
+        </div>
+
         <div class="hours-last-reception">
-          <span class="last-reception-text">休診日 <strong>火曜・祝日</strong></span>
           <span class="last-reception-text">受付開始 <strong>平日 17:00</strong> / <strong>土日 14:00</strong></span>
           <span class="last-reception-text">最終受付 <strong>20:50</strong><br class="sp-only" />（LINE・電話予約の当日最終）</span>
         </div>
@@ -272,6 +284,22 @@
   #hours .hours-block { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid rgba(62, 184, 200, 0.3); }
   #hours .hours-block:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
   #hours .hours-block-label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--color-navy); margin-bottom: 10px; }
+
+  #hours .hours-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  #hours .hours-fact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 16px 12px;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 12px;
+    text-align: center;
+  }
+  #hours .hours-fact-label { font-size: 0.8rem; font-weight: 600; color: var(--color-text-muted); }
+  #hours .hours-fact-value { font-size: 1.25rem; font-weight: 700; color: var(--color-navy); }
+  #hours .hours-fact-sub { font-size: 0.8rem; color: var(--color-text-muted); }
 
   #hours .hours-last-reception { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; margin-bottom: 24px; }
   #hours .last-reception-text { font-size: 1rem; color: var(--color-text-muted); }

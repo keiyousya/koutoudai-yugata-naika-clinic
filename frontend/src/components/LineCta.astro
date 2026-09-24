@@ -12,7 +12,7 @@ const { lines = [], showIntro = false } = Astro.props;
 <div class="line-cta">
   {showIntro && (
     <p class="line-cta-intro">
-      当院ではLINEからのご予約をお願いしております。友だち追加後、トーク画面よりご予約ください。
+      当院は<strong>原則予約制</strong>です。LINEからのご予約をお願いしております。友だち追加後、トーク画面よりご予約ください。
     </p>
   )}
   {lines.length > 0 && (
@@ -34,6 +34,11 @@ const { lines = [], showIntro = false } = Astro.props;
     font-size: 0.9rem;
     color: var(--color-text-secondary);
     margin-bottom: 20px;
+  }
+
+  .line-cta-intro strong {
+    font-weight: 700;
+    color: var(--color-navy);
   }
 
   .line-cta-text {

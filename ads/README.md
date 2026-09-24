@@ -8,6 +8,9 @@
 | `gads` | Google 広告 | 公式 Python ライブラリ（`google-ads`） |
 | `lyads` | LINEヤフー広告（旧 Yahoo!広告） | LINEヤフー広告 API v20 を直接叩く（REST/JSON） |
 
+> **LINEヤフー広告は2026-09-24に廃止した。** キャンペーンは停止（PAUSED）のまま残し、削除はしていない。
+> サイト側の計測タグ（`frontend/src/layouts/Layout.astro`）もコメントアウトで残してある。再開するときは両方を戻す。
+
 1プロジェクト2コマンドにしているのは、診療時間・損益分岐CPA・CV計測の前提といった
 運用知見（`docs/claude-memory/`）が媒体横断で共通だから。媒体ごとにプロジェクトを
 分けると、この知見の置き場が毎回宙に浮く。

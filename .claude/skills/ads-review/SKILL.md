@@ -1,6 +1,6 @@
 ---
 name: ads-review
-description: 勾当台夕方内科クリニックのリスティング広告（Google / LINEヤフー）の成績を振り返る。「昨日と今日の広告パフォーマンスを振り返って」「広告どう？」「配信が止まってないか見て」と頼まれたときに使う。procyonの実予約と突合し、予算/入札/ポリシーのどれがボトルネックかまで切り分ける。
+description: 勾当台夕方内科クリニックのリスティング広告（Google。LINEヤフーは2026-09-24に廃止）の成績を振り返る。「昨日と今日の広告パフォーマンスを振り返って」「広告どう？」「配信が止まってないか見て」と頼まれたときに使う。procyonの実予約と突合し、予算/入札/ポリシーのどれがボトルネックかまで切り分ける。
 argument-hint: "[対象期間や気になっている点（省略時は昨日と今日）]"
 ---
 
@@ -10,6 +10,7 @@ argument-hint: "[対象期間や気になっている点（省略時は昨日と
 
 ## 前提
 
+- **LINEヤフー広告は2026-09-24に廃止**（キャンペーンは停止のまま残してある）。振り返りはGoogleだけでよく、ヤフーの再開・改善は提案しない。以下のヤフーの手順は再開時のために残している
 - CLI は `ads/` の `gads`（Google）と `lyads`（LINEヤフー）。実行は **`ads/.venv/Scripts/` 直下のexe**を使う
 - Bash から叩くときは先に `export PYTHONIOENCODING=utf-8`（日本語が化ける）
 - `gads` が `ModuleNotFoundError` / `uv trampoline failed` で落ちたら venv の editable パス切れ。
@@ -43,7 +44,7 @@ cd ads && export PYTHONIOENCODING=utf-8
 > `campaign.start_date` / `campaign.end_date` は存在しない（v24で廃止、`end_date_time`）。
 > `change_event` は**30日より前を指定するとエラー**。`DURING LAST_14_DAYS` か明示的な `BETWEEN` を使う。
 
-### LINEヤフー
+### LINEヤフー（2026-09-24に廃止。通常は見なくてよい）
 
 ```bash
 ./.venv/Scripts/lyads.exe report --preset campaign --date-range YESTERDAY --csv

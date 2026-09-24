@@ -10,11 +10,11 @@ import brandFontUrl from '../fonts/noto-sans-jp-brand.woff2?url';
 import FixedLineButton from '../components/FixedLineButton.astro';
 import {
   LINE_ADD_FRIEND_URL_GOOGLE_AD,
-  LINE_ADD_FRIEND_URL_YAHOO_AD,
+  // LINE_ADD_FRIEND_URL_YAHOO_AD, // LINEヤフー広告は2026-09-24に廃止。再開時に戻せるようコメントアウトで残す。
   GOOGLE_ADS_TAG_ID,
   LINE_CONVERSION_SEND_TO,
-  YAHOO_CONVERSION_ID,
-  YAHOO_CONVERSION_LABEL,
+  // YAHOO_CONVERSION_ID,
+  // YAHOO_CONVERSION_LABEL,
 } from '../config/line';
 
 interface Props {
@@ -189,6 +189,7 @@ const faqStructuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    {/* LINEヤフー広告は2026-09-24に廃止。再開時に戻せるようコメントアウトで残す。
     <!-- サイトジェネラルタグ — LINEヤフー広告のコンバージョン計測の土台。
          広告アカウント固有の値を持たない共通タグで、全ページの head のなるべく上に置く。
          ycl_use_non_cookie_storage は yclid を localStorage にも保存する設定で、
@@ -201,6 +202,7 @@ const faqStructuredData = {
       window.ytag = function ytag() { yjDataLayer.push(arguments); };
       window.ytag({ type: "ycl_cookie", config: { ycl_use_non_cookie_storage: true } });
     </script>
+    */}
 
     <meta name="description" content={description} />
     <meta name="google-site-verification" content="rRO1_K380rEa8DbtwGNE4SchqnFJB6Sdjjd-u7ovGcQ" />
@@ -303,10 +305,10 @@ const faqStructuredData = {
          確実に送られる（遷移を遅らせる必要はない）。 */}
     <script define:vars={{
       googleAdUrl: LINE_ADD_FRIEND_URL_GOOGLE_AD,
-      yahooAdUrl: LINE_ADD_FRIEND_URL_YAHOO_AD,
+      // yahooAdUrl: LINE_ADD_FRIEND_URL_YAHOO_AD, // LINEヤフー広告は2026-09-24に廃止
       sendTo: LINE_CONVERSION_SEND_TO,
-      yahooConversionId: YAHOO_CONVERSION_ID,
-      yahooConversionLabel: YAHOO_CONVERSION_LABEL,
+      // yahooConversionId: YAHOO_CONVERSION_ID,
+      // yahooConversionLabel: YAHOO_CONVERSION_LABEL,
       isDev: import.meta.env.DEV,
     }}>
       (function () {
@@ -315,13 +317,15 @@ const faqStructuredData = {
           var params = new URLSearchParams(window.location.search);
           if (params.has("gclid")) {
             sessionStorage.setItem(KEY, "google_ads");
-          } else if (params.has("yclid")) {
-            sessionStorage.setItem(KEY, "yahoo_ads");
           }
+          // LINEヤフー広告は2026-09-24に廃止
+          // else if (params.has("yclid")) {
+          //   sessionStorage.setItem(KEY, "yahoo_ads");
+          // }
           var stored = sessionStorage.getItem(KEY);
           var adUrl =
-            stored === "google_ads" ? googleAdUrl :
-            stored === "yahoo_ads" ? yahooAdUrl : null;
+            stored === "google_ads" ? googleAdUrl : null;
+            // stored === "yahoo_ads" ? yahooAdUrl : null;
           document
             .querySelectorAll('a[href*="line.me/"]')
             .forEach(function (el) {
@@ -338,18 +342,19 @@ const faqStructuredData = {
                     currency: "JPY",
                   });
                 }
-                // LINEヤフー広告（検索広告）。yss_conversion は検索広告用の型で、
-                // ディスプレイ広告に出稿するときは別アカウント・別タグになる。
-                if (typeof window.ytag === "function") {
-                  window.ytag({
-                    type: "yss_conversion",
-                    config: {
-                      yahoo_conversion_id: yahooConversionId,
-                      yahoo_conversion_label: yahooConversionLabel,
-                      yahoo_conversion_value: "0",
-                    },
-                  });
-                }
+                // LINEヤフー広告は2026-09-24に廃止
+                // // LINEヤフー広告（検索広告）。yss_conversion は検索広告用の型で、
+                // // ディスプレイ広告に出稿するときは別アカウント・別タグになる。
+                // if (typeof window.ytag === "function") {
+                //   window.ytag({
+                //     type: "yss_conversion",
+                //     config: {
+                //       yahoo_conversion_id: yahooConversionId,
+                //       yahoo_conversion_label: yahooConversionLabel,
+                //       yahoo_conversion_value: "0",
+                //     },
+                //   });
+                // }
               });
             });
         } catch (e) {

@@ -59,7 +59,7 @@ def main() -> None:
         lines.append(f"{key}={creds.refresh_token}")
     ENV_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    print("✓ .env の GOOGLE_ADS_REFRESH_TOKEN を更新しました（トークンは表示しません）。")
+    print(".env の GOOGLE_ADS_REFRESH_TOKEN を更新しました（トークンは表示しません）。")
     print("  続けて `gads report --preset campaign --date-range LAST_7_DAYS` で疎通確認できます。")
 
 

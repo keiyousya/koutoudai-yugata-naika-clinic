@@ -10,6 +10,10 @@ export const SUPERVISOR = {
   url: `${SITE_URL}/doctor`,
 };
 
+// 本番はディレクトリ形式で配信され、スラッシュなしの URL は 301 になる。
+// canonical・サイトマップと揃えるため末尾スラッシュ付きの URL にする
+const pageUrl = (path: string) => `${SITE_URL}${path.endsWith("/") ? path : `${path}/`}`;
+
 // frontmatter の "2026.07.17" 形式を ISO 形式（2026-07-17）にする
 export const toIsoDate = (date: string) => date.replaceAll(".", "-");
 
@@ -29,7 +33,7 @@ interface Params {
 }
 
 export function buildMedicalArticleSchema({ path, headline, description, about, datePublished, dateModified, crumbs }: Params) {
-  const url = `${SITE_URL}${path}`;
+  const url = pageUrl(path);
   const physician = {
     "@type": "Physician",
     name: SUPERVISOR.name,
@@ -62,7 +66,7 @@ export function buildMedicalArticleSchema({ path, headline, description, about, 
         "@type": "ListItem",
         position: i + 1,
         name: c.name,
-        item: `${SITE_URL}${c.path}`,
+        item: pageUrl(c.path),
       })),
     },
   ];

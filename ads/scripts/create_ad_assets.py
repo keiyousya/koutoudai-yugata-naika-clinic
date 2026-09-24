@@ -1,4 +1,6 @@
-"""広告表示オプション（サイトリンク・コールアウト・電話番号）を作成し、キャンペーンに紐付ける。
+"""広告表示オプション（サイトリンク・コールアウト）を作成し、キャンペーンに紐付ける。
+
+電話予約は受けない（LINE予約のみ）ため、電話番号アセットは作らない。
 
 使い方:
     python scripts/create_ad_assets.py --campaign-id 23956443999 --campaign-id 24122528062
@@ -46,8 +48,6 @@ CALLOUTS = [
     "勾当台公園駅すぐ",
 ]
 
-PHONE_NUMBER = "022-393-8689"
-
 
 def create_assets(client, cid: str) -> dict[str, list[str]]:
     """アセットを作成し、タイプ別のリソース名リストを返す。"""
@@ -75,15 +75,6 @@ def create_assets(client, cid: str) -> dict[str, list[str]]:
         a.callout_asset.callout_text = text
         operations.append(op)
         asset_types.append("CALLOUT")
-
-    # 電話番号
-    op = client.get_type("AssetOperation")
-    a = op.create
-    a.name = "電話番号"
-    a.call_asset.phone_number = PHONE_NUMBER
-    a.call_asset.country_code = "JP"
-    operations.append(op)
-    asset_types.append("CALL")
 
     response = asset_service.mutate_assets(customer_id=cid, operations=operations)
 
@@ -136,7 +127,6 @@ def main(campaign_ids: tuple[str, ...], customer_id: str | None, yes: bool) -> N
     console.print("[bold]作成するアセット:[/bold]")
     console.print(f"  サイトリンク: {len(SITELINKS)}件")
     console.print(f"  コールアウト: {len(CALLOUTS)}件")
-    console.print(f"  電話番号: {PHONE_NUMBER}")
     console.print(f"  紐付け先: {', '.join(campaign_ids)}")
 
     if not yes:

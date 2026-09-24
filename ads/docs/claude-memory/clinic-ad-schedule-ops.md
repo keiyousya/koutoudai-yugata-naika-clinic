@@ -274,3 +274,5 @@ procyon実予約20件。ただし傾斜が効いたのは19:40以降の約50分�
 **RSA:** 土日は ad_id <WEEKEND_AD_ID>、平日は <WEEKDAY_AD_ID>（テキストは同一・見出し13/説明4）。両方とも審査は APPROVED_LIMITED（BIRTH_CONTROL 由来、分割前からの既知状態）。**広告文に避妊・アフターピル・処方薬関連ワードを入れないこと**（BIRTH_CONTROL でAPPROVED_LIMITEDになる）。避妊/性病系の集患はLPのSEOに任せる。RSAはテキストを後から編集できないので修正時は新規作成→旧停止。ad単位の停止は `AdGroupAdService` の update(update_mask=status) で行う。
 
 **How to apply:** 配信時間/入札の変更はCLI `gads campaign schedule` が入札調整・既存削除に非対応のため、`gads.client` を使う専用スクリプト（remove既存→create新規、bid_modifier指定）で行う。削除と作成は単一リクエストにまとめると原子的に適用され、スケジュールが一瞬消えて終日配信になる事故を防げる。キャンペーン新規作成時は `contains_eu_political_advertising` が必須。除外キーワードは `gads keyword add --negative`。アフターピル広告は不可（[[afterpill-google-ads-not-approvable]]）。Google上限CPCは `scripts/set_cpc_ceiling.py`、Yahoo上限CPCは `lyads campaign bid-ceiling --campaign-id <ID> --cpc <円>`（2026-09-15追加）。
+
+**2026-09-24 電話予約廃止（LINE予約のみ）に伴う変更:** Google 3本（内科_土日 / 内科_平日 / インフル予防接種）の電話番号アセットの紐付けを削除し、`create_ad_assets.py` からも電話を外した。同日オーナー指示で **Google 3本とも一時停止（PAUSED）**。再開はオーナー判断待ち。ビジネスプロフィール連携（LOCATION_SYNC）経由の住所表示オプションには電話番号が出うる点は未対応。CV目標の「Calls from ads」も電話廃止後は意味がなくなるので再開時に見直す。

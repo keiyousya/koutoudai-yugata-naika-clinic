@@ -27,3 +27,4 @@
 - [turso CLI は WSL 内 (.dev.vars 再生成手順)](turso-cli-in-wsl.md) — backend/.dev.vars が無いとAPIは全て500になる
 - [dev サーバのプロセス残留](dev-server-process-cleanup.md) — 停止しても vite/wrangler が生き残りポートを掴み続ける
 - [満席の日はCV/CPAを根拠にするな](full-day-ads-cv-metric-trap.md) — 断った電話がCVに乗る。「止めていいかも」と言われたら止める
+- [返答は常に日本語](respond-in-japanese.md) — 英語で返さない。2026-09-24に明示指示

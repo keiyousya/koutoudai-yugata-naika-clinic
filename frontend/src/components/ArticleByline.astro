@@ -1,0 +1,45 @@
+---
+import { SUPERVISOR } from "../lib/medicalArticle";
+
+interface Props {
+  date?: string;
+  lastUpdated?: string;
+}
+
+const { date, lastUpdated } = Astro.props;
+---
+
+<div class="article-byline">
+  <p class="byline-supervisor">
+    監修：<a href="/">勾当台夕方内科クリニック</a><br />{SUPERVISOR.jobTitle} {SUPERVISOR.name}
+  </p>
+  {(date || lastUpdated) && (
+    <p class="byline-dates">
+      {date && <span>公開日 {date}</span>}
+      {lastUpdated && <span>最終更新日 {lastUpdated}</span>}
+    </p>
+  )}
+</div>
+
+<style>
+  .article-byline {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .byline-supervisor a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .byline-dates {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0 16px;
+  }
+</style>

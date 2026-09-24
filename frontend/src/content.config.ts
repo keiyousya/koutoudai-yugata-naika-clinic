@@ -5,6 +5,8 @@ const articles = defineCollection({
   loader: glob({ pattern: "**/*.mdx", base: "./src/content/articles" }),
   schema: z.object({
     title: z.string(),
+    // 検索結果に出す title。未指定なら「{title} | クリニック名」
+    seoTitle: z.string().optional(),
     titleEn: z.string(),
     catchphrase: z.string(),
     description: z.string(),

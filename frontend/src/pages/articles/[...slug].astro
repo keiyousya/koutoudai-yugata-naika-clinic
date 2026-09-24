@@ -3,6 +3,8 @@ import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import ArticleIcon from "../../components/ArticleIcon.astro";
 import Footer from "../../components/Footer.astro";
+import ArticleByline from "../../components/ArticleByline.astro";
+import { buildMedicalArticleSchema } from "../../lib/medicalArticle";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -15,12 +17,26 @@ export async function getStaticPaths() {
 
 const { article } = Astro.props;
 const { Content } = await render(article);
+const path = `/articles/${article.id}`;
+const schema = buildMedicalArticleSchema({
+  path,
+  headline: article.data.title,
+  description: article.data.description,
+  about: article.data.title,
+  datePublished: article.data.date,
+  dateModified: article.data.lastUpdated ?? article.data.date,
+  crumbs: [
+    { name: "病気について知る", path: "/articles" },
+    { name: article.data.title, path },
+  ],
+});
 ---
 
 <Layout
-  title={`${article.data.title} | 勾当台夕方内科クリニック`}
+  title={article.data.seoTitle ?? `${article.data.title} | 勾当台夕方内科クリニック`}
   description={article.data.description}
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
   <Header />
   <main class="article-main">
     <div class="article-header">
@@ -33,6 +49,7 @@ const { Content } = await render(article);
           </div>
           <p class="card-catchphrase">{article.data.catchphrase}</p>
         </div>
+        <ArticleByline date={article.data.date} lastUpdated={article.data.lastUpdated} />
       </div>
     </div>
 
@@ -104,7 +121,7 @@ const { Content } = await render(article);
   }
 
   .article-content {
-    padding: 60px 0 80px;
+    padding: 16px 0 80px;
     background: white;
     flex: 1;
   }
@@ -213,7 +230,7 @@ const { Content } = await render(article);
     }
 
     .article-content {
-      padding: 48px 0 64px;
+      padding: 12px 0 64px;
     }
 
     .article-body :global(h2) {

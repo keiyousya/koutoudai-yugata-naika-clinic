@@ -2,6 +2,8 @@
 import Layout from "../../../../layouts/Layout.astro";
 import Header from "../../../../components/Header.astro";
 import Footer from "../../../../components/Footer.astro";
+import ArticleByline from "../../../../components/ArticleByline.astro";
+import { buildMedicalArticleSchema } from "../../../../lib/medicalArticle";
 import { getCollection } from "astro:content";
 import { render } from "astro:content";
 
@@ -20,12 +22,25 @@ const { detail } = Astro.props;
 const { Content } = await render(detail);
 const parentSlug = detail.id.split("/")[0];
 const parentHref = `/articles/${parentSlug}`;
+const path = `${parentHref}/detail/${detail.id.split("/")[1]}`;
+const schema = buildMedicalArticleSchema({
+  path,
+  headline: detail.data.title,
+  description: detail.data.description,
+  about: detail.data.parentTitle,
+  crumbs: [
+    { name: "病気について知る", path: "/articles" },
+    { name: detail.data.parentTitle, path: parentHref },
+    { name: detail.data.title, path },
+  ],
+});
 ---
 
 <Layout
   title={`${detail.data.title} | 勾当台夕方内科クリニック`}
   description={detail.data.description}
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
   <Header />
   <main class="detail-main">
     <div class="detail-header">
@@ -42,6 +57,7 @@ const parentHref = `/articles/${parentSlug}`;
             )}
           </div>
         </div>
+        <ArticleByline />
       </div>
     </div>
 

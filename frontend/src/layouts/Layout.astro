@@ -60,6 +60,11 @@ const structuredData = {
     },
     {
       "@type": "MedicalProcedure",
+      "name": "生活習慣病（高血圧・脂質異常症・糖尿病）の診療",
+      "description": "健診で指摘された方の精査から、薬物療法・生活指導による継続的な管理まで。夜21時まで・土日も通院できます"
+    },
+    {
+      "@type": "MedicalProcedure",
       "name": "心電図検査",
       "description": "不整脈や心臓の異常を調べる検査"
     },
@@ -257,6 +262,8 @@ const faqStructuredData = {
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     {/* FAQPage は1ページ1つが原則。独自FAQを持つ下層ページと重複しないようトップページのみに出す */}
     {currentPath === "/" && <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />}
+    {/* ページ固有の構造化データなどを head に差し込む */}
+    <slot name="head" />
 
     <!-- Critical CSS for above-the-fold content -->
     <!-- レイアウトシフト防止用の最小限クリティカルCSS -->

@@ -88,6 +88,7 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 ## 外部サービス
 
 - **LINE WORKS**: フリープランのためBot API / Developer Console 利用不可。通知はPWA等で代替。
+- **helix（電子カルテ）**: https://koutoudai-yugata-naika.helix.keiyousya.com 。Chrome操作で扱う（ログイン済み前提）。カルテ記載・傷病名登録は `/karte` スキル、患者向けお知らせは `/announcement` スキル
 - **GitHub Pages**: https://keiyousya.github.io/ 配下に各アプリをサブディレクトリでデプロイ
 - **カスタムドメイン**: https://koutoudai-yugata-naika.clinic
 

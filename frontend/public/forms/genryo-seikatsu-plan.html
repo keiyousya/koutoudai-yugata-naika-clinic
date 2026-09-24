@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>減量のための生活プラン｜勾当台夕方内科クリニック</title>
+  <!--
+    院内用 肥満症の生活習慣指導用紙（1: プラン記入 / 2: 生活のポイント / 3: 体重記録グラフ）
+    画面で身長・体重を入れると BMI・3%減量目標・目標体重・摂取エネルギーを自動計算する。空欄のまま印刷して手書きでも使える。
+    根拠（まとめは clinical-guidelines/obesity/）:
+      - 日本肥満学会『肥満症診療ガイドライン2022』第5章 治療と管理
+        https://www.jasso.or.jp/data/magazine/pdf/medicareguide2022_09.pdf
+        減量目標 3〜6か月で現体重の3%（高度肥満症 5〜10%）、25 kcal×目標体重（高度肥満症 20〜25）、
+        目標BMI <65歳 22・65歳以上 22〜25、食物繊維、30回咀嚼・ボウル法、グラフ化体重日記、+10、週150分、
+        月0.5〜1 kg 減なら順調、全飢餓療法は危険
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 8mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      background: #e5e7eb;
+      color: #111;
+      font-size: 10pt;
+      line-height: 1.5;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px;
+      background: #2c5f7c;
+      color: white;
+      z-index: 10;
+    }
+
+    .toolbar button {
+      font: inherit;
+      font-size: 11pt;
+      font-weight: 700;
+      padding: 6px 24px;
+      border: none;
+      border-radius: 6px;
+      background: white;
+      color: #2c5f7c;
+      cursor: pointer;
+    }
+
+    .toolbar span {
+      align-self: center;
+      font-size: 9pt;
+    }
+
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 16px auto;
+      padding: 10mm;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 2mm;
+      border-bottom: 2px solid #111;
+      margin-bottom: 4mm;
+    }
+
+    h1 {
+      font-size: 17pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .clinic {
+      text-align: right;
+      font-size: 8.5pt;
+    }
+
+    .clinic strong {
+      display: block;
+      font-size: 10pt;
+    }
+
+    h2 {
+      font-size: 11.5pt;
+      font-weight: 700;
+      margin: 5mm 0 2mm;
+      padding-left: 2.5mm;
+      border-left: 4px solid #2c5f7c;
+      line-height: 1.3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td, th {
+      border: 1px solid #111;
+      padding: 1.2mm 2mm;
+      vertical-align: middle;
+    }
+
+    th {
+      font-weight: 500;
+      background: #f1f5f9;
+      white-space: nowrap;
+      text-align: left;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"] {
+      font: inherit;
+      border: none;
+      border-bottom: 1px solid #111;
+      background: #fffbe6;
+      padding: 0 1mm;
+      text-align: center;
+      width: 18mm;
+      -moz-appearance: textfield;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input.wide {
+      width: 60mm;
+      text-align: left;
+    }
+
+    input.full {
+      width: 100%;
+      text-align: left;
+    }
+
+    output {
+      display: inline-block;
+      min-width: 18mm;
+      border-bottom: 1px solid #111;
+      text-align: center;
+      font-weight: 700;
+      padding: 0 1mm;
+    }
+
+    .profile td {
+      white-space: nowrap;
+    }
+
+    .goal {
+      border: 2px solid #111;
+    }
+
+    .goal td {
+      padding: 2mm 3mm;
+    }
+
+    .goal .big {
+      font-size: 12pt;
+      font-weight: 700;
+    }
+
+    .muted {
+      color: #444;
+      font-size: 8.5pt;
+    }
+
+    .checks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8mm 6mm;
+      padding: 2mm 3mm;
+      border: 1px solid #111;
+    }
+
+    .checks .cat {
+      grid-column: 1 / -1;
+      font-weight: 700;
+      margin-top: 1mm;
+      border-bottom: 1px dotted #999;
+    }
+
+    .checks label {
+      display: block;
+    }
+
+    .checks input[type="checkbox"] {
+      width: 3.6mm;
+      height: 3.6mm;
+      margin-right: 1.5mm;
+      vertical-align: -0.5mm;
+    }
+
+    .memo-table th {
+      width: 24mm;
+      vertical-align: top;
+    }
+
+    .memo {
+      height: 38mm;
+      vertical-align: top;
+    }
+
+    .foot-row {
+      display: flex;
+      gap: 6mm;
+      margin-top: 4mm;
+    }
+
+    .foot-row > div {
+      flex: 1;
+      border-bottom: 1px solid #111;
+      padding-bottom: 0.5mm;
+    }
+
+    /* 2ページ目 */
+    .points ul {
+      padding-left: 1.3em;
+    }
+
+    .points li {
+      margin-bottom: 1mm;
+    }
+
+    .points strong {
+      font-weight: 700;
+    }
+
+    .points .box {
+      border: 1px solid #999;
+      border-radius: 2mm;
+      padding: 2mm 3mm;
+      margin-top: 2mm;
+    }
+
+    .sources {
+      margin-top: 5mm;
+      padding-top: 2mm;
+      display: flex;
+      justify-content: space-between;
+      gap: 6mm;
+      border-top: 1px solid #999;
+      font-size: 8pt;
+      line-height: 1.5;
+      color: #333;
+    }
+
+    .sources strong {
+      white-space: nowrap;
+    }
+
+    /* 3ページ目 グラフ */
+    .graph-info {
+      display: flex;
+      gap: 6mm;
+      margin-bottom: 2mm;
+    }
+
+    .graph-info > div {
+      flex: 1;
+      border-bottom: 1px solid #111;
+    }
+
+    .graph {
+      table-layout: fixed;
+    }
+
+    .graph td,
+    .graph th {
+      padding: 0;
+      height: 4.6mm;
+      border: 0.5px solid #bbb;
+      font-size: 7pt;
+      text-align: center;
+    }
+
+    .graph th {
+      background: #f1f5f9;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .graph .ylab {
+      width: 14mm;
+      border-right: 1.5px solid #111;
+      background: white;
+    }
+
+    .graph tr.kg td {
+      border-top: 2px solid #555;
+    }
+
+    .graph tr.start td {
+      border-top: 2.5px solid #c0392b;
+    }
+
+    .graph tr.sub td,
+    .graph tr.sub th {
+      height: 6mm;
+      border: 0.5px solid #777;
+    }
+
+    .graph tr.sub th {
+      font-size: 7pt;
+      white-space: normal;
+      line-height: 1.1;
+    }
+
+    .graph-note {
+      margin-top: 2mm;
+      font-size: 8.5pt;
+    }
+
+    .graph-note li {
+      margin-left: 1.2em;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .toolbar {
+        display: none;
+      }
+
+      .sheet {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+
+      .sheet + .sheet {
+        break-before: page;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      input[type="date"] {
+        background: transparent;
+      }
+
+      input::placeholder {
+        color: transparent;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button type="button" onclick="window.print()">印刷する</button>
+    <span>A4縦・倍率100%。1〜2ページは両面、3ページ目（体重記録）は必要な枚数を印刷してください。黄色の欄に入力すると自動で計算します</span>
+  </div>
+
+  <!-- 1ページ目: プラン -->
+  <main class="sheet">
+    <div class="head">
+      <h1>減量のための生活プラン</h1>
+      <div class="clinic">
+        <strong>勾当台夕方内科クリニック</strong>
+        記入日 <input type="text" style="width:32mm" placeholder="年 月 日">
+      </div>
+    </div>
+
+    <table class="profile">
+      <tr>
+        <th>氏名</th>
+        <td><input type="text" style="width:36mm;text-align:left"> 様</td>
+        <th>性別</th>
+        <td>
+          <label><input type="radio" name="sex" value="m"> 男性</label>
+          <label><input type="radio" name="sex" value="f"> 女性</label>
+        </td>
+        <th>年齢</th>
+        <td><input type="number" id="age" min="0" max="120"> 歳</td>
+      </tr>
+      <tr>
+        <th>身長</th>
+        <td><input type="number" id="height" step="0.1"> cm</td>
+        <th>体重</th>
+        <td><input type="number" id="weight" step="0.1"> kg</td>
+        <th>腹囲</th>
+        <td><input type="number" id="waist" step="0.1"> cm</td>
+      </tr>
+      <tr>
+        <th>BMI</th>
+        <td colspan="5"><output id="bmi"></output> <span class="muted">（体重kg ÷ 身長m ÷ 身長m。25以上が肥満、35以上が高度肥満）</span></td>
+      </tr>
+      <tr>
+        <th>腹囲の判定</th>
+        <td colspan="5"><output id="waistNote" style="min-width:40mm"></output> <span class="muted">（腹囲 男性85 cm・女性90 cm 以上で内臓脂肪型肥満を疑います）</span></td>
+      </tr>
+    </table>
+
+    <h2>あなたの目標</h2>
+    <table class="goal">
+      <tr>
+        <td>
+          <div class="big">まずは 3〜6か月で、いまの体重の <input type="number" id="pct" value="3" style="width:10mm">% ＝ <output id="lossKg"></output> kg 減らす</div>
+          <div>→ 目標 <output id="goalKg"></output> kg（<input type="text" style="width:30mm" placeholder="年 月">ごろまで）</div>
+          <div class="muted">BMI 35未満は3%、35以上は5〜10%が目標です。3%の減量でも、血糖・血圧・コレステロール・尿酸・肝臓の数値がよくなることがわかっています。1か月に0.5〜1 kg 減っていれば順調なペースです。</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div>1日の食事量のめやす：<span class="big"><output id="kcal"></output> kcal</span></div>
+          <div class="muted">
+            計算に使う目標体重 ＝ 身長(m) × 身長(m) × <input type="number" id="targetBmi" value="22" step="1" style="width:10mm">
+            ＝ <output id="stdKg"></output> kg、
+            目標体重 × <input type="number" id="coef" value="25" style="width:10mm"> kcal で計算（100 kcal 単位）。
+            65歳以上は目標BMIを22〜25で決めます。
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <h2>次の受診までに取り組むこと <span class="muted">（まずは2〜3個にしぼります）</span></h2>
+    <div class="checks">
+      <div class="cat">食事</div>
+      <label><input type="checkbox">野菜・海藻・きのこを毎食、最初に食べる</label>
+      <label><input type="checkbox">一口30回噛む。早食いをやめる</label>
+      <label><input type="checkbox">甘い飲み物（ジュース・加糖コーヒー等）をやめる</label>
+      <label><input type="checkbox">ごはんは抜かずに1食 <input type="number" style="width:10mm">g にする</label>
+      <label><input type="checkbox">朝食を抜かない（まとめ食いを防ぐ）</label>
+      <label><input type="checkbox">夕食を早めにし、夜食・寝る前の間食をやめる</label>
+      <label><input type="checkbox">肉・魚・卵・大豆製品を毎食とる</label>
+      <label><input type="checkbox">お酒は週 <input type="number" style="width:8mm">日・1回 <input type="text" style="width:18mm"> まで</label>
+      <div class="cat">運動</div>
+      <label><input type="checkbox">いまより1日10分（約1,000歩）多く歩く</label>
+      <label><input type="checkbox">座りっぱなしを減らし、こまめに立つ</label>
+      <label><input type="checkbox">早歩き 1日 <input type="number" style="width:8mm">分・週 <input type="number" style="width:8mm">日</label>
+      <label><input type="checkbox">スクワット等の筋トレを週2〜3回</label>
+      <div class="cat">記録</div>
+      <label><input type="checkbox">毎朝、起きてすぐ体重を測ってグラフに書く</label>
+      <label><input type="checkbox">歩数を記録する（目標 1日 <input type="number" style="width:14mm">歩）</label>
+    </div>
+
+    <table class="memo-table" style="margin-top:3mm">
+      <tr>
+        <th style="vertical-align:top">その他・<br>医師から</th>
+        <td class="memo"><textarea aria-label="その他・医師から" style="width:100%;height:36mm;border:none;font:inherit;resize:none;background:transparent"></textarea></td>
+      </tr>
+    </table>
+
+    <div class="foot-row">
+      <div>次回受診日　<input type="text" style="width:40mm;border:none" placeholder="月 日"></div>
+      <div>担当医　田村 慧人</div>
+    </div>
+  </main>
+
+  <!-- 2ページ目: 生活のポイント -->
+  <main class="sheet points">
+    <div class="head">
+      <h1>生活のポイント</h1>
+      <div class="clinic"><strong>勾当台夕方内科クリニック</strong></div>
+    </div>
+
+    <p>体重を減らす目的は、見た目ではなく<strong>血糖・血圧・コレステロール・肝臓・膝や腰などの健康を守ること</strong>です。体重が増えるのは本人の努力不足だけが原因ではありません。できることから一緒に続けていきましょう。</p>
+
+    <h2>食事</h2>
+    <ul>
+      <li><strong>食べる量は「1日の食事量のめやす（表面）」を目安に。</strong>カロリーを毎回数えなくても、下の工夫で自然に減らせます。</li>
+      <li><strong>野菜・海藻・きのこを先に、よく噛んで。</strong>食物繊維は体重・血圧・コレステロールを下げます。夕食は野菜を10分かけて噛んでから、主菜・ごはんへ。満腹を感じたら箸を置きます。</li>
+      <li><strong>一口30回噛む。</strong>早食いの人ほど体重が増えやすいことがわかっています。</li>
+      <li><strong>ごはん・パン・麺は抜かずに量を決める。</strong>ごはん茶碗軽く1杯（150 g）で約230 kcal。極端な糖質抜きは長く続けたときの効果がはっきりしていません。</li>
+      <li><strong>肉・魚・卵・大豆製品は毎食。</strong>食事を減らすと筋肉も落ちやすいので、たんぱく質はしっかりとります（高齢の方は特に）。</li>
+      <li><strong>甘い飲み物はやめて、水・お茶に。</strong>人工甘味料の飲み物も習慣にはしないでください。</li>
+      <li><strong>食べる時間をそろえる。</strong>朝食を抜く・夕食が遅い・夜食をとる生活は体重が増えやすくなります。</li>
+      <li>1日1食を<strong>置き換え食（フォーミュラ食）</strong>にする方法もあります（市販品・自費）。希望があれば相談してください。</li>
+    </ul>
+
+    <h2>運動</h2>
+    <ul>
+      <li><strong>まずは「いまより10分多く動く」。</strong>10分は約1,000歩。通勤で一駅歩く、階段を使う、なども立派な運動です。</li>
+      <li><strong>座りっぱなしを減らす</strong>ことも運動のひとつです。</li>
+      <li>慣れたら<strong>「楽〜ややきつい」速さのウォーキングを1日30分、週150分以上</strong>。10分ずつに分けてもかまいません。</li>
+      <li><strong>スクワットなどの筋トレを週2〜3回</strong>加えると、筋肉を保ちながら脂肪を減らせます。</li>
+      <li>運動だけでは体重はあまり減りませんが、<strong>リバウンドを防ぎ、心臓や血管を守る</strong>効果があります。体重が減らなくても続けましょう。</li>
+      <li>膝や腰が痛い方は、水中ウォーキングや自転車こぎなど、関節に負担の少ない運動を。</li>
+    </ul>
+
+    <h2>記録</h2>
+    <ul>
+      <li><strong>毎朝、起きてトイレに行った後に体重を測り、グラフ（3ページ目）に点を打って線でつなぎます。</strong>記録するだけでも減量の効果が上がります。</li>
+      <li>増えた日は、前の日に何があったか（外食・夜食・飲み会・睡眠不足など）を一言メモしておくと、受診時に一緒に振り返れます。</li>
+      <li>スマートフォンのアプリでの記録でもかまいません。受診時に見せてください。</li>
+    </ul>
+
+    <div class="box">
+      <strong>こんなときは相談してください</strong>
+      <ul>
+        <li>運動中に胸の痛み・動悸・強い息切れ・めまいがあったとき（すぐに運動を中止）</li>
+        <li>糖尿病の薬（特にインスリン、飲み薬の一部）を使っていて、食事量を大きく減らすとき（低血糖のおそれ）</li>
+        <li>食べ過ぎが止められない、食べた後に吐いてしまうなど、食事のことでつらいとき</li>
+      </ul>
+      <strong>しないでほしいこと：</strong>絶食や極端な食事制限（筋肉が落ち、体に危険です）。
+    </div>
+
+    <div class="box">
+      <strong>お薬・手術による治療について</strong><br>
+      食事・運動・生活の見直しを続けても十分に減らない場合、体重・合併症などの条件によっては、減量のための注射薬（保険診療）や手術が選択肢になります。これらは実施できる医療機関が決められているため、<strong>条件に当てはまる方には専門の医療機関をご紹介します。</strong>
+    </div>
+
+    <div class="sources">
+      <span>出典：日本肥満学会「肥満症診療ガイドライン2022」</span>
+      <strong>勾当台夕方内科クリニック</strong>
+    </div>
+  </main>
+
+  <!-- 3ページ目: 体重記録グラフ -->
+  <main class="sheet">
+    <div class="head">
+      <h1>体重記録グラフ</h1>
+      <div class="clinic"><strong>勾当台夕方内科クリニック</strong></div>
+    </div>
+
+    <div class="graph-info">
+      <div>氏名</div>
+      <div><input type="text" style="width:12mm;border:none"> 月</div>
+      <div>目標体重 <input type="text" style="width:16mm;border:none"> kg</div>
+    </div>
+
+    <table class="graph" id="graph"></table>
+
+    <ul class="graph-note">
+      <li>毎朝、起きてトイレの後に測ります。左の欄に kg を書き入れ（1マス 0.25 kg、太線ごとに 1 kg）、<strong>最初の体重を赤い線</strong>に合わせると、上にはみ出さないように意識できます。</li>
+      <li>点を打って線でつなぎます。増えた日はメモ欄に理由を一言。</li>
+    </ul>
+  </main>
+
+  <script>
+    // 3ページ目のグラフ（31日 × 1マス0.25kg × 40行）
+    (function () {
+      var t = document.getElementById("graph");
+      var html = '<colgroup><col style="width:14mm">' + '<col>'.repeat(31) + '</colgroup>';
+      html += '<tr><th class="ylab">kg ＼ 日</th>';
+      for (var d = 1; d <= 31; d++) html += "<th>" + d + "</th>";
+      html += "</tr>";
+      var rows = 40;
+      for (var r = 0; r < rows; r++) {
+        var cls = r % 4 === 0 ? (r === 4 ? "kg start" : "kg") : "";
+        html += '<tr class="' + cls + '"><td class="ylab"></td>' + "<td></td>".repeat(31) + "</tr>";
+      }
+      [["歩数", ""], ["運動(分)", ""], ["メモ", ""]].forEach(function (s) {
+        html += '<tr class="sub"><th class="ylab">' + s[0] + "</th>" + "<td></td>".repeat(31) + "</tr>";
+      });
+      t.innerHTML = html;
+    })();
+
+    // 1ページ目の自動計算
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      function num(id) { var v = parseFloat($(id).value); return isNaN(v) ? null : v; }
+      var pctEdited = false;
+      $("pct").addEventListener("input", function () { pctEdited = true; });
+      function calc() {
+        var h = num("height"), w = num("weight"), pct = num("pct"), tb = num("targetBmi"), coef = num("coef");
+        var m = h ? h / 100 : null;
+        // 減量目標: 肥満症 3%、高度肥満症（BMI ≧35）5〜10%（肥満症診療GL2022 第5章）。手で変えた場合はそれを優先
+        if (!pctEdited && m && w) {
+          $("pct").value = w / m / m >= 35 ? 5 : 3;
+          pct = num("pct");
+        }
+        $("bmi").value = m && w ? (w / m / m).toFixed(1) : "";
+        $("lossKg").value = w && pct ? (w * pct / 100).toFixed(1) : "";
+        $("goalKg").value = w && pct ? (w * (1 - pct / 100)).toFixed(1) : "";
+        var std = m && tb ? m * m * tb : null;
+        $("stdKg").value = std ? std.toFixed(1) : "";
+        $("kcal").value = std && coef ? (Math.round(std * coef / 100) * 100).toLocaleString() : "";
+
+        // 腹囲による内臓脂肪型肥満のスクリーニング（肥満症診療GL2022 第2章: 男性 ≧85 cm、女性 ≧90 cm）
+        var waist = num("waist");
+        var sex = document.querySelector('input[name="sex"]:checked');
+        var note = "";
+        if (waist && sex) {
+          var cutoff = sex.value === "m" ? 85 : 90;
+          if (waist >= cutoff) {
+            var bmi = m && w ? w / m / m : null;
+            note = "内臓脂肪型肥満の疑いあり" + (bmi !== null && bmi < 25 ? "（BMI 25未満でも内臓脂肪が多いタイプ）" : "");
+          } else {
+            note = "基準未満";
+          }
+        }
+        $("waistNote").value = note;
+      }
+      ["height", "weight", "pct", "targetBmi", "coef", "waist"].forEach(function (id) {
+        $(id).addEventListener("input", calc);
+      });
+      document.querySelectorAll('input[name="sex"]').forEach(function (r) {
+        r.addEventListener("change", calc);
+      });
+      calc();
+    })();
+  </script>
+</body>
+</html>

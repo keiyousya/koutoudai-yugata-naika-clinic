@@ -21,11 +21,15 @@ clinical-guidelines/
 │   ├── jasso-clinical-obesity-2025/  # 「Clinical obesity と肥満症」コメンタリー
 │   ├── mhlw-optimal-use-2026/      # 厚労省 最適使用推進GL（ウゴービ・ゼップバウンド）2026年改訂
 │   └── konnichi-chiryo-2026/       # 今日の治療指針2026「肥満症」
-└── vertigo/               # めまい
+├── vertigo/               # めまい
+│   ├── README.md
+│   ├── jser-acute-flowchart-2019/  # 日本めまい平衡医学会 急性期めまいの診療フローチャート
+│   ├── jser-criteria-2017/         # 日本めまい平衡医学会 診断基準2017年改定
+│   └── jsnt-standard-2020/         # 日本神経治療学会 標準的神経治療：めまい（01〜08）
+└── voice/                 # 嗄声・音声障害
     ├── README.md
-    ├── jser-acute-flowchart-2019/  # 日本めまい平衡医学会 急性期めまいの診療フローチャート
-    ├── jser-criteria-2017/         # 日本めまい平衡医学会 診断基準2017年改定
-    └── jsnt-standard-2020/         # 日本神経治療学会 標準的神経治療：めまい（01〜08）
+    ├── jslp-jls-gl2018/            # 日本音声言語医学会・日本喉頭科学会 音声障害診療ガイドライン2018年版（01〜05）
+    └── aao-hns-hoarseness-2018/    # AAO-HNSF Clinical Practice Guideline: Hoarseness (Dysphonia) (Update) 2018
 ```
 
 ## 領域一覧
@@ -35,6 +39,7 @@ clinical-guidelines/
 | 糖尿病 | [diabetes/](diabetes/README.md) | JDS 糖尿病診療ガイドライン2024、薬物療法アルゴリズム第2版、糖尿病標準診療マニュアル2026、今日の治療指針2026 |
 | 肥満症 | [obesity/](obesity/README.md) | 日本肥満学会 肥満症診療ガイドライン2022、肥満症治療薬ステートメント2025改訂、最適使用推進GL（2026改訂）、今日の治療指針2026 |
 | めまい | [vertigo/](vertigo/README.md) | 急性期めまいの診療フローチャート2019、標準的神経治療：めまい2020、めまいの診断基準2017年改定 |
+| 嗄声・音声障害 | [voice/](voice/README.md) | 音声障害診療ガイドライン2018年版、AAO-HNSF Hoarseness (Dysphonia) ガイドライン2018改訂版 |
 
 ## 運用ルール
 

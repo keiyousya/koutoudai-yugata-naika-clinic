@@ -9,25 +9,24 @@ const vaccines = [
     price: "1回3,300円（税込・13歳以上）",
     teiki: "65歳以上は自己負担1,500円",
   },
-  // コロナワクチンは納入遅延のため一時非表示（2026-09-25）。入荷したら戻す
-  // {
-  //   href: "/covid-vaccine",
-  //   name: "新型コロナウイルス予防接種",
-  //   start: "9月25日（金）より",
-  //   price: "1回16,500円（税込・13歳以上）",
-  //   teiki: "65歳以上は10月1日から自己負担8,000円",
-  // },
+  {
+    href: "/covid-vaccine",
+    name: "新型コロナウイルス予防接種",
+    start: "9月25日（金）より",
+    price: "1回16,500円（税込・13歳以上）",
+    teiki: "65歳以上は10月1日から自己負担8,000円",
+  },
 ];
 ---
 
 <section class="vaccine-banner">
   <div class="container">
     <div class="banner-wrapper">
-      <InfoCard icon="devices/syringe-vaccine" title="インフルエンザ予防接種" variant="coral">
+      <InfoCard icon="devices/syringe-vaccine" title="インフルエンザ・新型コロナウイルス予防接種" variant="coral">
         <p>
-          平日は夜21時まで、土日も接種できます。65歳以上の方は、仙台市の定期接種として接種いただけます。{/* 同じ日に両方のワクチンを接種することもできます。 */}
+          平日は夜21時まで、土日も接種できます。65歳以上の方は、仙台市の定期接種として接種いただけます。同じ日に両方のワクチンを接種することもできます。
         </p>
-        <ul class="vaccine-links" style={`--cols: ${vaccines.length}`}>
+        <ul class="vaccine-links">
           {vaccines.map((v) => (
             <li>
               <a href={v.href} class="vaccine-link">
@@ -62,7 +61,7 @@ const vaccines = [
     margin: 16px 0 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
 

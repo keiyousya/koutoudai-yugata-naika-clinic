@@ -13,7 +13,7 @@ export default defineConfig({
       filter: (page) => {
         // リダイレクト専用ページとnoindexページをサイトマップから除外
         // 部分一致だと '/medical' が '/medical-dx' まで除外してしまうため、パス完全一致で判定する
-        const excluded = ['/online-medical', '/about', '/checkup', '/fever', '/hay-fever', '/std', '/guide', '/thanks', '/medical', '/covid-vaccine'];
+        const excluded = ['/online-medical', '/about', '/checkup', '/fever', '/hay-fever', '/std', '/guide', '/thanks', '/medical'];
         const path = new URL(page).pathname.replace(/\/$/, '');
         return !excluded.includes(path);
       },

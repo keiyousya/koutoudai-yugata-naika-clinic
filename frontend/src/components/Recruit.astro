@@ -1,120 +1,17 @@
 ---
-const jobPostings = [
-  {
-    "@context": "https://schema.org/",
-    "@type": "JobPosting",
-    "title": "受付事務",
-    "description": "勾当台夕方内科クリニックで受付事務を募集しています。夕方から夜間の診療をサポートしていただきます。勤務時間17:00〜21:00、平日を含む週2日以上。時給1,600円〜1,800円、交通費支給（月額20,000円上限）、昇給あり。",
-    "datePosted": "2026-02-26",
-    "validThrough": "2026-12-31",
-    "employmentType": "PART_TIME",
-    "hiringOrganization": {
-      "@type": "Organization",
-      "name": "勾当台夕方内科クリニック",
-      "sameAs": "https://koutoudai-yugata-naika.clinic",
-      "logo": "https://koutoudai-yugata-naika.clinic/apple-touch-icon.png"
-    },
-    "jobLocation": {
-      "@type": "Place",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "国分町3丁目8-1 勾当台ビル4階",
-        "addressLocality": "仙台市青葉区",
-        "addressRegion": "宮城県",
-        "postalCode": "980-0803",
-        "addressCountry": "JP"
-      }
-    },
-    "baseSalary": {
-      "@type": "MonetaryAmount",
-      "currency": "JPY",
-      "value": {
-        "@type": "QuantitativeValue",
-        "minValue": 1600,
-        "maxValue": 1800,
-        "unitText": "HOUR"
-      }
-    }
-  }
-];
 ---
-
-{jobPostings.map((job) => (
-  <script type="application/ld+json" set:html={JSON.stringify(job)} />
-))}
 
 <section id="recruit" class="section recruit">
   <div class="container">
     <h2 class="section-title">スタッフ募集</h2>
-    <div class="recruit-content">
-      <div class="recruit-info">
-        <p class="recruit-lead">
-          勾当台夕方内科クリニックでは、<br class="sp-only" />一緒に働くスタッフを募集しています。
-        </p>
-
-        <div class="job-list">
-          <div class="job-item closed">
-            <h3>看護師</h3>
-            <p class="closed-notice">現在、看護師の募集は締め切っております。<br />再度募集を行う場合は、こちらに掲載いたします。</p>
-          </div>
-
-          <div class="job-item">
-            <h3>受付事務</h3>
-            <ul class="job-details">
-              <li><span class="label">時給</span><span class="value">1,600円〜1,800円</span></li>
-              <li><span class="label">勤務時間</span><span class="value">17:00〜21:00</span></li>
-              <li><span class="label">勤務日</span><span class="value">平日（水〜金）を含む週2日以上</span></li>
-              <li><span class="label">試用期間</span><span class="value">3ヶ月</span></li>
-              <li><span class="label">交通費</span><span class="value">実費支給（月額20,000円上限）</span></li>
-              <li><span class="label">昇給</span><span class="value">あり</span></li>
-              <li><span class="label">賞与</span><span class="value">なし</span></li>
-              <li><span class="label">勤務地</span><span class="value">宮城県仙台市青葉区国分町3丁目8-1<br />勾当台ビル 4階</span></li>
-            </ul>
-          </div>
-        </div>
+    <div class="recruit-banner">
+      <p class="banner-lead">一緒に働く事務スタッフを募集しています</p>
+      <div class="banner-positions">
+        <span class="banner-tag">受付事務 — 17:00〜21:00</span>
+        <span class="banner-tag">総務事務 — 診療時間外</span>
       </div>
-
-      <div class="recruit-form-wrapper">
-        <h3>応募フォーム</h3>
-        <form id="recruitForm" class="recruit-form" action="https://api.web3forms.com/submit" method="POST">
-          <!-- Web3Forms APIキー（要設定） -->
-          <input type="hidden" name="access_key" value="a8b6268c-0cb5-40d9-9fb6-e0b3f47da295" />
-          <input type="hidden" name="subject" value="【求人応募】勾当台夕方内科クリニック" />
-          <input type="hidden" name="from_name" value="勾当台夕方内科クリニック 求人フォーム" />
-          <input type="hidden" name="redirect" value="https://koutoudai-yugata-naika.clinic/thanks" />
-
-          <div class="form-group">
-            <label for="name">お名前 <span class="required">*</span></label>
-            <input type="text" id="name" name="name" required />
-          </div>
-
-          <div class="form-group">
-            <label for="email">メールアドレス <span class="required">*</span></label>
-            <input type="email" id="email" name="email" required />
-          </div>
-
-          <div class="form-group">
-            <label for="phone">電話番号</label>
-            <input type="tel" id="phone" name="phone" />
-          </div>
-
-          <div class="form-group">
-            <label for="position">希望職種 <span class="required">*</span></label>
-            <select id="position" name="position" required>
-              <option value="">選択してください</option>
-              <option value="受付事務">受付事務</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="message">自己PR・ご質問など</label>
-            <textarea id="message" name="message" rows="5"></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn">応募する</button>
-          <p class="form-note">※ 郵送等でお送りいただいた応募書類は、理由の如何を問わず返却いたしかねますので、あらかじめご了承ください。</p>
-        </form>
-      </div>
+      <p class="wage">いずれも時給 1,300円</p>
+      <a href="/recruit" class="banner-btn">詳細・応募はこちら</a>
     </div>
   </div>
 </section>
@@ -124,205 +21,67 @@ const jobPostings = [
     background: white;
   }
 
-  .recruit-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 56px;
-    align-items: start;
-    min-width: 0;
+  .recruit-banner {
+    max-width: 560px;
+    margin: 0 auto;
+    background: var(--color-coral-bg);
+    border: 1px solid var(--color-coral);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
   }
 
-  .recruit-info,
-  .recruit-form-wrapper {
-    min-width: 0;
-  }
-
-  .recruit-lead {
+  .banner-lead {
     font-size: 0.95rem;
     color: var(--color-text-secondary);
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     line-height: 1.8;
   }
 
-  .job-list {
+  .banner-positions {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
   }
 
-  .job-item {
-    padding: 24px;
-    background: var(--color-turquoise-bg);
-    border-radius: 16px;
-  }
-
-  .job-item.closed {
-    background: #f0f0f0;
-    opacity: 0.6;
-  }
-
-  .closed-notice {
-    font-size: 0.9rem;
-    color: #666;
-    line-height: 1.7;
-  }
-
-  .job-item h3 {
-    font-size: 0.95rem;
-    color: var(--color-navy);
-    margin-bottom: 14px;
-    font-weight: 600;
-  }
-
-  .job-details {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .job-details li {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-  }
-
-  .job-details .label {
-    flex-shrink: 0;
-    width: 70px;
-    font-size: 0.9rem;
-    color: #666;
-  }
-
-  .job-details .value {
-    flex: 1;
-  }
-
-  .job-item p {
-    color: var(--color-text-secondary);
-    line-height: 1.7;
-  }
-
-  .job-item .note {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 8px;
-  }
-
-  .job-details .value .note {
-    display: block;
-    font-size: 0.85rem;
-    color: #888;
-    margin-top: 4px;
-  }
-
-  .recruit-form-wrapper {
-    background: var(--color-coral-bg);
-    padding: 32px;
-    border-radius: 16px;
-  }
-
-  .recruit-form-wrapper h3 {
-    font-size: 1rem;
-    color: var(--color-navy);
-    margin-bottom: 24px;
-    text-align: center;
-    font-weight: 600;
-  }
-
-  .recruit-form {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .form-group label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--color-text);
-  }
-
-  .required {
-    color: #c0392b;
-  }
-
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    padding: 12px 16px;
-    border: none;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-family: inherit;
+  .banner-tag {
+    display: inline-block;
+    padding: 8px 20px;
     background: white;
-    transition: box-shadow 0.2s;
+    border: 1px solid var(--color-coral);
+    border-radius: 20px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-navy);
   }
 
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(62, 184, 200, 0.2);
+  .wage {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-coral);
+    margin-bottom: 24px;
   }
 
-  .form-group textarea {
-    resize: vertical;
-  }
-
-  .submit-btn {
-    padding: 16px 32px;
+  .banner-btn {
+    display: inline-block;
+    padding: 14px 36px;
     background: var(--color-coral);
     color: white;
     font-size: 0.9rem;
-    font-weight: 500;
-    border: none;
-    border-radius: 9999px;
-    cursor: pointer;
+    font-weight: 700;
+    border-radius: 24px;
     transition: opacity 0.2s;
-    letter-spacing: 0.03em;
   }
 
-  .submit-btn:hover {
+  .banner-btn:hover {
     opacity: 0.85;
   }
 
-  .form-note {
-    font-size: 0.75rem;
-    color: #888;
-    line-height: 1.6;
-    margin-top: 16px;
-    text-align: center;
-  }
-
-  .sp-only {
-    display: none;
-  }
-
   @media (max-width: 768px) {
-    .recruit-content {
-      grid-template-columns: 1fr;
-      gap: 36px;
-    }
-
-    .sp-only {
-      display: inline;
-    }
-
-    .recruit-lead {
-      font-size: 0.9rem;
-      text-align: center;
-    }
-
-    .recruit-form-wrapper {
-      padding: 24px;
+    .recruit-banner {
+      padding: 32px 24px;
     }
   }
 </style>

@@ -2,92 +2,118 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import TwilightBackground from "../components/TwilightBackground.astro";
 ---
 
 <Layout title="送信完了 | 勾当台夕方内科クリニック" noindex={true}>
   <Header />
-  <main class="thanks-page">
-    <div class="thanks-content">
-      <div class="thanks-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-          <polyline points="22 4 12 14.01 9 11.01"/>
-        </svg>
+  <main class="page-main">
+    <section class="section thanks-section">
+      <div class="container">
+        <div class="thanks-card">
+          <div class="thanks-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <h1>送信が完了しました</h1>
+          <p>
+            ご応募いただきありがとうございます。<br />
+            内容を確認の上、担当者よりご連絡いたします。
+          </p>
+        </div>
+
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
       </div>
-      <h1>送信が完了しました</h1>
-      <p>
-        ご応募いただきありがとうございます。<br />
-        内容を確認の上、担当者よりご連絡いたします。
-      </p>
-      <a href="/" class="back-btn">トップページに戻る</a>
-    </div>
-    <TwilightBackground />
+    </section>
   </main>
   <Footer />
 </Layout>
 
 <style>
-  .thanks-page {
-    position: relative;
-    min-height: 100vh;
+  .thanks-section {
+    background: white;
+    min-height: 60vh;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 120px 20px 80px;
-    overflow: hidden;
+    padding-top: 100px;
   }
 
-  .thanks-content {
-    position: relative;
-    z-index: 1;
+  .thanks-card {
+    max-width: 480px;
+    margin: 0 auto;
     text-align: center;
-    background: white;
-    padding: 60px 48px;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    max-width: 500px;
+    background: var(--color-turquoise-bg);
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    padding: 48px 40px;
   }
 
   .thanks-icon {
-    color: var(--color-orange);
-    margin-bottom: 24px;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-turquoise);
   }
 
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 700;
     color: var(--color-navy);
     margin-bottom: 16px;
+    letter-spacing: 0.04em;
   }
 
   p {
+    font-size: 0.9rem;
     color: var(--color-text-secondary);
     line-height: 1.8;
-    margin-bottom: 32px;
   }
 
-  .back-btn {
-    display: inline-block;
-    padding: 14px 32px;
-    background: linear-gradient(135deg, var(--color-orange), var(--color-orange-dark));
-    color: white;
+  .detail-back {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 1px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
     font-weight: 600;
-    border-radius: 8px;
-    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    transition: all 0.2s;
   }
 
-  .back-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
   }
 
   @media (max-width: 768px) {
-    .thanks-content {
-      padding: 40px 24px;
+    .thanks-card {
+      padding: 36px 24px;
     }
 
     h1 {
-      font-size: 1.3rem;
+      font-size: 1.15rem;
     }
   }
 </style>

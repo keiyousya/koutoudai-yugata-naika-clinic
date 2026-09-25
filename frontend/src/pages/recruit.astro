@@ -1,0 +1,597 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
+import Footer from "../components/Footer.astro";
+
+const hiringOrganization = {
+  "@type": "Organization",
+  "name": "勾当台夕方内科クリニック",
+  "sameAs": "https://koutoudai-yugata-naika.clinic",
+  "logo": "https://koutoudai-yugata-naika.clinic/apple-touch-icon.png"
+};
+const jobLocation = {
+  "@type": "Place",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "国分町3丁目8-1 勾当台ビル4階",
+    "addressLocality": "仙台市青葉区",
+    "addressRegion": "宮城県",
+    "postalCode": "980-0803",
+    "addressCountry": "JP"
+  }
+};
+const baseSalary = {
+  "@type": "MonetaryAmount",
+  "currency": "JPY",
+  "value": { "@type": "QuantitativeValue", "minValue": 1300, "unitText": "HOUR" }
+};
+
+const jobPostings = [
+  {
+    "@context": "https://schema.org/",
+    "@type": "JobPosting",
+    "title": "受付事務",
+    "description": "勾当台夕方内科クリニックで受付事務を募集しています。診療時間帯の受付・会計・レセプト業務などを担当していただきます。勤務時間17:00〜21:00、週1〜4回（応相談）。時給1,300円、交通費支給（月額20,000円上限）、昇給あり。18歳以上。医療事務経験者・医療事務の専門学校卒業者・学生歓迎。",
+    "datePosted": "2026-09-26",
+    "validThrough": "2027-03-31",
+    "employmentType": "PART_TIME",
+    "applicantLocationRequirements": { "@type": "Country", "name": "JP" },
+    hiringOrganization, jobLocation, baseSalary
+  },
+  {
+    "@context": "https://schema.org/",
+    "@type": "JobPosting",
+    "title": "総務事務",
+    "description": "勾当台夕方内科クリニックで総務事務を募集しています。厚生局・保健所・各業者との連絡調整や書類作成など、クリニック運営に関わる事務作業を担当していただきます。時給1,300円、交通費支給（月額20,000円上限）、昇給あり。18歳以上。",
+    "datePosted": "2026-09-26",
+    "validThrough": "2027-03-31",
+    "employmentType": "PART_TIME",
+    "applicantLocationRequirements": { "@type": "Country", "name": "JP" },
+    hiringOrganization, jobLocation, baseSalary
+  }
+];
+---
+
+{jobPostings.map((job) => (
+  <script type="application/ld+json" set:html={JSON.stringify(job)} />
+))}
+
+<Layout
+  title="採用情報 | 勾当台夕方内科クリニック"
+  description="勾当台夕方内科クリニックの採用情報。受付事務・総務事務を募集中。時給1,300円、勾当台公園駅徒歩2分。"
+>
+  <Header />
+  <main class="page-main">
+    <SubPageHeader label="Recruit" title="採用情報" variant="coral" />
+
+    <section class="section recruit-detail">
+      <div class="container">
+        <p class="recruit-lead">
+          勾当台夕方内科クリニックでは、一緒に働く事務スタッフを募集しています。<br />
+          ご応募をお待ちしております。
+        </p>
+
+        <div class="recruit-grid">
+          <div class="recruit-info">
+            <div class="job-cards">
+              <div class="job-item job-item--coral">
+                <div class="job-icon job-icon--coral">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h2>受付事務</h2>
+                <p class="job-summary">診療時間帯の受付・会計・レセプト業務などを担当していただきます。</p>
+                <div class="job-tags">
+                  <span class="job-tag job-tag--coral"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>17:00〜21:00</span>
+                  <span class="job-tag job-tag--coral"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>週1〜4回（応相談）</span>
+                </div>
+              </div>
+
+              <div class="job-item">
+                <div class="job-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                </div>
+                <h2>総務事務</h2>
+                <p class="job-summary">厚生局・保健所・各業者との連絡調整や書類作成など、クリニック運営に関わる事務作業を担当していただきます。</p>
+                <div class="job-tags">
+                  <span class="job-tag"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>診療時間外（応相談）</span>
+                  <span class="job-tag"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>週2日以上（応相談）</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="both-note">※ 両方の業務を組み合わせて働くことも可能です。</p>
+
+            <div class="common-conditions">
+              <div class="common-conditions-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+              </div>
+              <h3>共通条件</h3>
+              <ul class="condition-list">
+                <li><span class="condition-label">時給</span><span class="condition-value">1,300円</span></li>
+                <li><span class="condition-label">試用期間</span><span class="condition-value">3ヶ月</span></li>
+                <li><span class="condition-label">交通費</span><span class="condition-value">実費支給（月額20,000円上限）</span></li>
+                <li><span class="condition-label">昇給</span><span class="condition-value">あり</span></li>
+                <li><span class="condition-label">賞与</span><span class="condition-value">なし</span></li>
+                <li><span class="condition-label">応募条件</span><span class="condition-value">18歳以上</span></li>
+                <li><span class="condition-label">勤務地</span><span class="condition-value">宮城県仙台市青葉区国分町3丁目8-1<br />勾当台ビル 4階</span></li>
+              </ul>
+            </div>
+
+            <div class="appeal-points">
+              <div class="appeal-points-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <h3>こんな方を歓迎します</h3>
+              <ul>
+                <li>医療事務の実務経験がある方</li>
+                <li>医療事務の専門学校・スクールを卒業された方</li>
+                <li>医療事務を学んでいる学生の方</li>
+                <li>夕方〜夜の時間帯に働きたい方</li>
+                <li>Wワークをお考えの方</li>
+                <li>事務作業やPC操作が得意な方</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="recruit-form-wrapper">
+            <h3>応募フォーム</h3>
+            <form id="recruitForm" class="recruit-form" action="https://api.web3forms.com/submit" method="POST">
+              <input type="hidden" name="access_key" value="a8b6268c-0cb5-40d9-9fb6-e0b3f47da295" />
+              <input type="hidden" name="subject" value="【求人応募】勾当台夕方内科クリニック" />
+              <input type="hidden" name="from_name" value="勾当台夕方内科クリニック 求人フォーム" />
+              <input type="hidden" name="redirect" value="https://koutoudai-yugata-naika.clinic/thanks" />
+
+              <div class="form-group">
+                <label for="name">お名前 <span class="required">*</span></label>
+                <input type="text" id="name" name="name" required />
+              </div>
+
+              <div class="form-group">
+                <label for="email">メールアドレス <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">電話番号 <span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" required />
+              </div>
+
+              <div class="form-group">
+                <label for="position">希望職種 <span class="required">*</span></label>
+                <select id="position" name="position" required>
+                  <option value="">選択してください</option>
+                  <option value="受付事務">受付事務</option>
+                  <option value="総務事務">総務事務</option>
+                  <option value="どちらも興味がある">どちらも興味がある</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message">自己PR・ご質問など</label>
+                <textarea id="message" name="message" rows="5"></textarea>
+              </div>
+
+              <button type="submit" class="submit-btn">応募する</button>
+              <p class="form-note">※ 郵送等でお送りいただいた応募書類は、理由の如何を問わず返却いたしかねますので、あらかじめご了承ください。</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="detail-back">
+        <a href="/" class="back-button">ホームに戻る</a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .recruit-detail {
+    background: white;
+  }
+
+  .recruit-lead {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  .recruit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .recruit-info {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .job-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .job-item {
+    padding: 28px;
+    background: var(--color-turquoise-bg);
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .job-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 16px;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-turquoise);
+  }
+
+  .job-icon--coral {
+    background: white;
+    border-color: var(--color-coral);
+    color: var(--color-coral);
+  }
+
+  .job-item--coral {
+    background: var(--color-coral-bg);
+    border-color: var(--color-coral);
+  }
+
+  .job-item h2 {
+    font-size: 1.1rem;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .job-summary {
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: 18px;
+  }
+
+  .job-tags {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .job-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    color: var(--color-navy);
+    font-size: 0.82rem;
+    font-weight: 500;
+    border-radius: 20px;
+  }
+
+  .job-tag svg {
+    color: var(--color-turquoise);
+    flex-shrink: 0;
+  }
+
+  .job-tag--coral {
+    background: white;
+    border-color: var(--color-coral);
+  }
+
+  .job-tag--coral svg {
+    color: var(--color-coral);
+  }
+
+  .both-note {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    text-align: center;
+    padding: 16px 0;
+  }
+
+  .common-conditions {
+    padding: 28px;
+    background: white;
+    border: 1px solid var(--color-coral);
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .common-conditions-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 16px;
+    background: white;
+    border: 1px solid var(--color-coral);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-coral);
+  }
+
+  .common-conditions h3 {
+    font-size: 1.05rem;
+    color: var(--color-navy);
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .condition-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-align: left;
+  }
+
+  .condition-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .condition-list li:last-child {
+    border-bottom: none;
+  }
+
+  .condition-label {
+    flex-shrink: 0;
+    width: 75px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-coral);
+  }
+
+  .condition-value {
+    flex: 1;
+    font-size: 0.9rem;
+  }
+
+  .job-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .job-details li {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .job-details .label {
+    flex-shrink: 0;
+    width: 70px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .job-details .value {
+    flex: 1;
+  }
+
+  .appeal-points {
+    padding: 28px;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .appeal-points-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 16px;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-turquoise);
+  }
+
+  .appeal-points h3 {
+    font-size: 1.05rem;
+    color: var(--color-navy);
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .appeal-points ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .appeal-points li {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    padding-left: 24px;
+    position: relative;
+  }
+
+  .appeal-points li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-turquoise);
+  }
+
+  .recruit-form-wrapper {
+    background: var(--color-coral-bg);
+    border: 1px solid var(--color-coral);
+    padding: 32px;
+    border-radius: 16px;
+    position: sticky;
+    top: 80px;
+  }
+
+  .recruit-form-wrapper h3 {
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 24px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .recruit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .required {
+    color: #c0392b;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--color-coral);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: white;
+    transition: box-shadow 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(62, 184, 200, 0.2);
+  }
+
+  .form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  .submit-btn {
+    padding: 16px 32px;
+    background: var(--color-coral);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .submit-btn:hover {
+    opacity: 0.85;
+  }
+
+  .form-note {
+    font-size: 0.75rem;
+    color: #555;
+    line-height: 1.6;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .detail-back {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 1px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .recruit-lead {
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    .recruit-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .recruit-form-wrapper {
+      padding: 24px;
+      position: static;
+    }
+  }
+</style>

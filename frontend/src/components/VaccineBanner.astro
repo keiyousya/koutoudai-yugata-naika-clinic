@@ -1,0 +1,134 @@
+---
+import InfoCard from "./InfoCard.astro";
+
+const vaccines = [
+  {
+    href: "/flu-vaccine",
+    name: "インフルエンザ予防接種",
+    start: "9月16日（水）より",
+    price: "1回3,300円（税込・13歳以上）",
+    teiki: "65歳以上の方は自己負担1,500円",
+  },
+  {
+    href: "/covid-vaccine",
+    name: "新型コロナワクチン",
+    start: "9月25日（金）より",
+    price: "1回16,500円（税込・5歳以上）",
+    teiki: "65歳以上の方は10月1日から自己負担8,000円",
+  },
+];
+---
+
+<section class="vaccine-banner">
+  <div class="container">
+    <div class="banner-wrapper">
+      <InfoCard icon="devices/syringe-vaccine" title="インフルエンザ・新型コロナワクチンの接種を行っています" variant="coral">
+        <p>
+          平日は夜21時まで、土日も接種できます。65歳以上の方は、仙台市の定期接種として接種いただけます。同じ日に両方のワクチンを接種することもできます。
+        </p>
+        <ul class="vaccine-links">
+          {vaccines.map((v) => (
+            <li>
+              <a href={v.href} class="vaccine-link">
+                <span class="vaccine-link-body">
+                  <span class="vaccine-link-name">{v.name}<span class="vaccine-link-start">{v.start}</span></span>
+                  <span class="vaccine-link-price">{v.price}</span>
+                  <span class="vaccine-link-teiki">{v.teiki}</span>
+                </span>
+                <span class="vaccine-link-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </InfoCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .vaccine-banner {
+    background: white;
+    padding: 0 0 48px;
+  }
+
+  .banner-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .vaccine-links {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .vaccine-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+    padding: 16px 18px;
+    background: white;
+    border: 1px solid var(--color-coral);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .vaccine-link:hover {
+    opacity: 0.7;
+  }
+
+  .vaccine-link-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .vaccine-link-name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .vaccine-link-start {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-coral);
+  }
+
+  .vaccine-link-price {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .vaccine-link-teiki {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+  }
+
+  .vaccine-link-arrow {
+    flex-shrink: 0;
+    font-weight: 700;
+    color: var(--color-coral);
+  }
+
+  @media (max-width: 768px) {
+    .vaccine-banner {
+      padding: 0 0 32px;
+    }
+
+    .vaccine-links {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

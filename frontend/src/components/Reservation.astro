@@ -7,7 +7,12 @@ import LineButton from "./LineButton.astro";
     <h2 class="section-title">ご予約</h2>
     <div class="reservation-content">
       <div class="line-card">
-        <p class="line-card-text">当院は<strong>原則予約制</strong>です。<br /><span class="nowrap">LINEの友だち追加後、</span><span class="nowrap">トーク画面からご予約ください。</span></p>
+        <p class="line-card-text">当院は<strong>原則予約制</strong>です。<br /><span class="nowrap">LINEの友だち追加後、</span><span class="nowrap">トーク画面下のメニューから</span><span class="nowrap">ご希望の診療を選んでご予約ください。</span></p>
+        <ul class="line-card-categories">
+          <li>一般内科</li>
+          <li>予防接種</li>
+          <li>その他予約</li>
+        </ul>
         <ul class="line-card-points">
           <li>24時間受付</li>
           <li>当日のご予約もOK</li>
@@ -77,6 +82,26 @@ import LineButton from "./LineButton.astro";
   .line-card-text strong {
     font-weight: 700;
     color: var(--color-navy);
+  }
+
+  .line-card-categories {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+    list-style: none;
+    padding: 0;
+  }
+
+  .line-card-categories li {
+    padding: 6px 16px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
   }
 
   .line-card-points {

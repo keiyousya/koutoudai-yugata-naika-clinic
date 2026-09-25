@@ -1,5 +1,5 @@
 ---
-import InfoCard from "./InfoCard.astro";
+import HealthIcon from "./HealthIcon.astro";
 
 const vaccines = [
   {
@@ -21,39 +21,69 @@ const vaccines = [
 
 <section class="vaccine-banner">
   <div class="container">
-    <div class="banner-wrapper">
-      <InfoCard icon="devices/syringe-vaccine" title="インフルエンザ・新型コロナウイルス予防接種" variant="coral">
-        <p>
-          平日は夜21時まで、土日も接種できます。65歳以上の方は、仙台市の定期接種として接種いただけます。同じ日に両方のワクチンを接種することもできます。
-        </p>
-        <ul class="vaccine-links">
-          {vaccines.map((v) => (
-            <li>
-              <a href={v.href} class="vaccine-link">
-                <span class="vaccine-link-body">
-                  <span class="vaccine-link-name">{v.name}<span class="vaccine-link-start">{v.start}</span></span>
-                  <span class="vaccine-link-price">{v.price}</span>
-                  <span class="vaccine-link-teiki">{v.teiki}</span>
-                </span>
-                <span class="vaccine-link-arrow" aria-hidden="true">→</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </InfoCard>
+    <div class="vaccine-banner-header">
+      <span class="vaccine-banner-icon">
+        <HealthIcon name="devices/syringe-vaccine" size={28} />
+      </span>
+      <h2 class="vaccine-banner-title">令和8年度の予防接種を行っています</h2>
     </div>
+    <p class="vaccine-banner-lead">
+      インフルエンザ・新型コロナウイルス感染症の予防接種を行っています。平日は夜19時まで、土日も接種できます。65歳以上の方は仙台市の定期接種として接種いただけます。
+    </p>
+    <ul class="vaccine-links">
+      {vaccines.map((v) => (
+        <li>
+          <a href={v.href} class="vaccine-link">
+            <span class="vaccine-link-body">
+              <span class="vaccine-link-name">{v.name}<span class="vaccine-link-start">{v.start}</span></span>
+              <span class="vaccine-link-price">{v.price}</span>
+              <span class="vaccine-link-teiki">{v.teiki}</span>
+            </span>
+            <span class="vaccine-link-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
 
 <style>
   .vaccine-banner {
-    background: white;
-    padding: 0 0 48px;
+    background: var(--color-coral-bg);
+    border-top: 2px solid var(--color-coral);
+    border-bottom: 2px solid var(--color-coral);
+    padding: 28px 0 32px;
   }
 
-  .banner-wrapper {
-    max-width: 900px;
-    margin: 0 auto;
+  .vaccine-banner-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .vaccine-banner-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 10px;
+    color: var(--color-coral);
+  }
+
+  .vaccine-banner-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .vaccine-banner-lead {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
   }
 
   .vaccine-links {
@@ -124,7 +154,7 @@ const vaccines = [
 
   @media (max-width: 768px) {
     .vaccine-banner {
-      padding: 0 0 32px;
+      padding: 20px 0 24px;
     }
 
     .vaccine-links {

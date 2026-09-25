@@ -7,12 +7,12 @@ import Footer from "../components/Footer.astro";
 
 const pageUrl = "https://koutoudai-yugata-naika.clinic/covid-vaccine";
 
-// 新型コロナワクチン接種ページ専用の構造化データ
+// 新型コロナウイルス感染症予防接種ページ専用の構造化データ
 const pageStructuredData = {
   "@context": "https://schema.org",
   "@type": "MedicalWebPage",
-  "name": "新型コロナワクチン接種｜仙台市青葉区｜勾当台夕方内科クリニック",
-  "description": "仙台市青葉区で新型コロナワクチン（ダイチロナ筋注）の接種を行っています。任意接種は1回16,500円（税込）、仙台市の定期接種の対象となる65歳以上の方は自己負担8,000円。平日は夜21時まで、土日も接種できます。",
+  "name": "新型コロナウイルス感染症予防接種｜仙台市青葉区｜勾当台夕方内科クリニック",
+  "description": "仙台市青葉区で新型コロナウイルス感染症の予防接種（コロナワクチン・ダイチロナ筋注）を行っています。任意接種は1回16,500円（税込）、仙台市の定期接種の対象となる65歳以上の方は自己負担8,000円。平日は夜21時まで、土日も接種できます。",
   "keywords": "コロナワクチン 仙台, 新型コロナワクチン 仙台市青葉区, コロナワクチン 料金 仙台, コロナワクチン 任意接種 仙台, コロナワクチン 定期接種 仙台市, コロナワクチン 高齢者 仙台市, コロナワクチン 夜間, コロナワクチン 土日, コロナワクチン 勾当台, ダイチロナ 仙台",
   "url": pageUrl,
   "inLanguage": "ja",
@@ -34,8 +34,8 @@ const pageStructuredData = {
 const serviceStructuredData = {
   "@context": "https://schema.org",
   "@type": "MedicalProcedure",
-  "name": "新型コロナワクチン接種",
-  "alternateName": ["新型コロナウイルスワクチン接種", "コロナワクチン", "COVID-19ワクチン"],
+  "name": "新型コロナウイルス感染症予防接種",
+  "alternateName": ["新型コロナワクチン接種", "新型コロナウイルスワクチン接種", "コロナワクチン", "COVID-19ワクチン"],
   "description": "13歳以上の方を対象に、新型コロナワクチン「ダイチロナ筋注」（オミクロン株NB.1.8.1対応）を接種します。",
   "howPerformed": "問診・診察の上、ダイチロナ筋注0.6mLを筋肉内注射",
   "availableService": {
@@ -89,7 +89,7 @@ const breadcrumbStructuredData = {
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "新型コロナワクチン接種",
+      "name": "新型コロナウイルス感染症予防接種",
       "item": pageUrl
     }
   ]
@@ -97,21 +97,21 @@ const breadcrumbStructuredData = {
 ---
 
 <Layout
-  title="新型コロナワクチン接種 16,500円・高齢者定期接種8,000円｜仙台市青葉区 夜21時・土日も接種｜勾当台夕方内科クリニック"
-  description="仙台市青葉区で新型コロナワクチン（ダイチロナ筋注・オミクロン株NB.1.8.1対応）の接種を行っています。任意接種は1回16,500円（税込）、仙台市の定期接種の対象となる65歳以上の方は自己負担8,000円（10月1日から）。平日は夜21時まで、土日も接種可能。勾当台公園駅徒歩2分。"
+  title="新型コロナウイルス感染症予防接種（コロナワクチン） 16,500円・高齢者定期接種8,000円｜仙台市青葉区 夜21時・土日も接種｜勾当台夕方内科クリニック"
+  description="仙台市青葉区で新型コロナウイルス感染症の予防接種（コロナワクチン・ダイチロナ筋注・オミクロン株NB.1.8.1対応）を行っています。任意接種は1回16,500円（税込）、仙台市の定期接種の対象となる65歳以上の方は自己負担8,000円（10月1日から）。平日は夜21時まで、土日も接種可能。勾当台公園駅徒歩2分。"
 >
   <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbStructuredData)} />
   <Header />
   <main class="page-main">
-    <SubPageHeader label="COVID-19 Vaccination" title="新型コロナワクチン接種" variant="coral" />
+    <SubPageHeader label="COVID-19 Vaccination" title="新型コロナウイルス感染症予防接種" variant="coral" />
 
     <section class="page-intro">
       <div class="container">
         <p class="intro-text">
           <strong>2026年（令和8年）9月25日（金）</strong>より、<br class="pc-only" />
-          新型コロナワクチンの接種を行います。<br class="pc-only" />
+          新型コロナウイルス感染症予防接種を行います。<br class="pc-only" />
           平日は<strong>夜21時まで</strong>、<strong>土日も</strong>接種できます。<br />
           <strong>65歳以上の方</strong>は、<strong>10月1日（木）から</strong>仙台市の定期接種（自己負担<strong>8,000円</strong>）として接種いただけます。
         </p>
@@ -120,7 +120,7 @@ const breadcrumbStructuredData = {
 
     <section class="page-section">
       <div class="container">
-        <h2 class="page-section-title">新型コロナワクチンの料金</h2>
+        <h2 class="page-section-title">新型コロナウイルス感染症予防接種の料金</h2>
         <div class="price-cards">
           <div class="price-card">
             <div class="price-card-header">
@@ -149,7 +149,7 @@ const breadcrumbStructuredData = {
         </div>
         <div class="price-cta">
           <LineCta lines={[
-            "LINE予約の問診で「コロナワクチン接種希望」とご記入ください。",
+            "LINE予約の問診で「新型コロナ予防接種希望」とご記入ください。",
             "ご予約なしでもご来院いただけます（ご予約の方優先）。"
           ]} />
         </div>
@@ -280,7 +280,7 @@ const breadcrumbStructuredData = {
         <h2 class="page-section-title">インフルエンザワクチンとの同時接種</h2>
         <div class="related-box">
           <p class="related-text">
-            医師が必要と認めた場合は、<strong>インフルエンザワクチンと同じ日に接種</strong>することもできます。別々の日に接種する場合も、間隔に決まりはありません。ご希望の方は、LINE予約の問診で「コロナワクチン・インフルエンザ予防接種希望」とご記入ください。
+            医師が必要と認めた場合は、<strong>インフルエンザワクチンと同じ日に接種</strong>することもできます。別々の日に接種する場合も、間隔に決まりはありません。ご希望の方は、LINE予約の問診で「インフルエンザ・新型コロナ予防接種希望」とご記入ください。
           </p>
           <a href="/flu-vaccine" class="related-link">インフルエンザ予防接種について →</a>
         </div>
@@ -365,7 +365,7 @@ const breadcrumbStructuredData = {
             <span class="flow-number">1</span>
             <div>
               <strong>LINEでご予約</strong>
-              <p>LINE予約の問診で「<strong>コロナワクチン接種希望</strong>」とご記入ください。ご予約は<strong>原則として一般内科外来の時間帯</strong>（平日19:00・土日17:00より前）でお取りください。それ以降は発熱外来の時間帯です。ご予約なしでもご来院いただけますが、ご予約の方を優先してご案内するため、お待ちいただくことがあります。</p>
+              <p>LINE予約の問診で「<strong>新型コロナ予防接種希望</strong>」とご記入ください。ご予約は<strong>原則として一般内科外来の時間帯</strong>（平日19:00・土日17:00より前）でお取りください。それ以降は発熱外来の時間帯です。ご予約なしでもご来院いただけますが、ご予約の方を優先してご案内するため、お待ちいただくことがあります。</p>
             </div>
           </li>
           <li class="flow-item">

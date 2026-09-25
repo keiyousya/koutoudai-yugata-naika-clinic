@@ -39,7 +39,7 @@ ASSETS = {
     "CALLOUT": ["421300632634", "421195725641", "421195739237", "421195739243"],
     "BUSINESS_NAME": ["337626786330"],
     "BUSINESS_LOGO": ["392547406874"],
-    "CALL": ["421195677632"],
+    # 電話予約は受けない（LINE予約のみ）ため、電話番号アセットは付けない
 }
 
 FINAL_URL = "https://koutoudai-yugata-naika.clinic/"

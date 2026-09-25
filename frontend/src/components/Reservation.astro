@@ -1,6 +1,5 @@
 ---
 import LineButton from "./LineButton.astro";
-import { LINE_ADD_FRIEND_URL } from "../config/line";
 ---
 
 <section id="reservation" class="section reservation">
@@ -14,7 +13,7 @@ import { LINE_ADD_FRIEND_URL } from "../config/line";
           <li>当日のご予約もOK</li>
         </ul>
         <LineButton label="LINEで予約する" wide />
-        <p class="line-card-note">※ お電話でのご予約は承っておりません</p>
+        <p class="line-card-note">※ ご予約は原則LINEからお願いしております</p>
       </div>
 
       <div class="availability-link-container">
@@ -38,8 +37,8 @@ import { LINE_ADD_FRIEND_URL } from "../config/line";
       <div class="cancel-policy-box">
         <p class="cancel-policy-title">予約キャンセルについて</p>
         <p class="cancel-policy-text">
-          ご予約の変更・キャンセルは<a href={LINE_ADD_FRIEND_URL} target="_blank" rel="noopener noreferrer" class="cancel-policy-link">LINE</a>にて承ります。<br />
-          ご都合が悪くなった際は、お早めにご連絡をお願いいたします。
+          ご予約の変更・キャンセルは、LINEのトーク画面下のメニューにある<strong class="cancel-policy-em">「マイページ」</strong>から行えます。<br />
+          ご都合が悪くなった際は、お早めにお手続きをお願いいたします。
         </p>
       </div>
     </div>
@@ -173,14 +172,9 @@ import { LINE_ADD_FRIEND_URL } from "../config/line";
     line-height: 1.8;
   }
 
-  .cancel-policy-link {
-    color: var(--color-turquoise);
+  .cancel-policy-em {
     font-weight: 700;
-    text-decoration: none;
-  }
-
-  .cancel-policy-link:hover {
-    text-decoration: underline;
+    color: var(--color-navy);
   }
 
   .sp-only {

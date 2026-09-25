@@ -62,7 +62,7 @@ https://koutoudai-yugata-naika.helix.keiyousya.com/reservations?page=1&pageSize=
 - 診療開始日も作業日が既定。**必ず診療日に直す**（医師が後日まとめて登録した病名は翌日付になっていることが多い。過去分も点検する）
 - 自費診療（予防投与など）には病名を登録しない
 - 病名マスタに無い名前は、近い標準病名を提示して確認を取る
-  - 淋菌感染症 →「淋病」／頸部痛 →「頚部痛」／膣カンジダ症 →「腟カンジダ症」／急性細菌性前立腺炎 はそのまま存在する
+  - 淋菌感染症 →「淋病」／頸部痛 →「頚部痛」／膣カンジダ症 →「腟カンジダ症」／急性細菌性前立腺炎 はそのまま存在する／浮動性めまい →「めまい感」
 
 ### 傷病名管理ダイアログの操作
 
@@ -90,6 +90,22 @@ https://koutoudai-yugata-naika.helix.keiyousya.com/reservations?page=1&pageSize=
 - `ctrl+End` はキャレットが**先頭に飛ぶ**。追記のつもりが冒頭に入る
 - 追記も修正も、**欄をクリック → `ctrl+a` → `Delete` → 全文を打ち直す**のが安全。医師の原文はそのまま残す
 - 改行は `Return` キー。`type` に `\n` を混ぜない
+
+### JS での操作（クリック・入力が効かないとき）
+
+2026-09-24 の作業では、クリックと `type` がたびたび効かなかった（スクリーンショットも崩れる）。`javascript_tool` を使うと確実に操作できた。
+
+- **編集モードに入る**: 対象記録の本文中の要素に、JS で `mousedown/mouseup/click` ×2 と `dblclick` の MouseEvent を送る。そのあと見出し「診療記録を編集」が出たか確認する
+- **入力欄**: 編集パネル内の `[contenteditable=true]`（ProseMirror）。初診時記録は 12 個で、順に ＃／主訴／現病歴／既往歴／内服／アレルギー／家族歴／S／O／A／P／備考。SOAP は ＃／S／O／A／P／備考。空欄には `[data-placeholder]` があるので、書き込む前に空であることを確かめる
+- **書き込み**: `type` の `Return` は改行にならないことがある。空欄に `ClipboardEvent('paste')` を送ると、`text/html` の `<p>` が1行ずつ入る
+- **既存の文を置き換える**: `window.getSelection().selectAllChildren(欄)` のあと、`computer` の `Delete` キーで消してから paste する。JS で選択しただけで paste すると置き換わらず、追記になる
+- **処方区分**: 編集パネルの最後の `<select>` に、ネイティブの value setter で `院内処方` などを入れ、`change` イベントを送る
+- **傷病名の検索**: 検索ボタンの `aria-expanded` を見て開く。`input[placeholder="傷病名を入力して検索"]` にネイティブの value setter で値を入れ、`input` イベントを送る。候補の要素を `.click()` で選ぶ。修飾語（「の疑い」）も `修飾語を入力して検索` で同じようにする
+- **主病**: 登録ダイアログの `[role=checkbox]` に `.click()` を1回だけ送り、`data-state="checked"` を確認する（computer クリックだと2回反応して外れることがある）
+- **転帰設定**: 行の `⋯` ボタンに `PointerEvent('pointerdown')` を送る →「転帰設定」メニューを `.click()` → ダイアログ内の hidden `<select>` に `discontinued`（中止）／`cured`（治癒）を value setter で入れて `change` →「設定」。転帰日は作業日が入るので、診療日と一致しているか確認する
+- **ダイアログの特定**: 検索候補のポップオーバーも `role=dialog` を持つ。`innerText` の先頭が「傷病名管理」「傷病名登録」「転帰設定」のどれかで特定する
+- **固まったとき**: ダイアログが閉じなくなったり、JS が 45 秒でタイムアウトしたりしたら、ページを開き直して状態を読み直す（登録が途中まで進んでいることがある）
+- **出力の長さ**: `javascript_tool` の戻り値は約 2000 文字で切れる。長いカルテは `window.__rec` に入れて、分けて読む
 
 ### 漢字化け（必ず確認する）
 

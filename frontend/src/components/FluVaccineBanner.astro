@@ -13,6 +13,14 @@ import InfoCard from "./InfoCard.astro";
           詳しくはこちら →
         </a>
       </InfoCard>
+      <InfoCard icon="devices/syringe-vaccine" title="新型コロナワクチンの接種を2026年（令和8年）9月25日（金）より開始します" variant="coral">
+        <p>
+          任意接種は1回16,500円（税込）。仙台市の定期接種の対象となる65歳以上の方は、10月1日（木）から自己負担8,000円で接種いただけます。インフルエンザワクチンとの同時接種もできます。
+        </p>
+        <a href="/covid-vaccine" class="banner-link">
+          詳しくはこちら →
+        </a>
+      </InfoCard>
     </div>
   </div>
 </section>
@@ -26,6 +34,8 @@ import InfoCard from "./InfoCard.astro";
   .banner-wrapper {
     max-width: 900px;
     margin: 0 auto;
+    display: grid;
+    gap: 20px;
   }
 
   .banner-wrapper :global(.banner-link) {

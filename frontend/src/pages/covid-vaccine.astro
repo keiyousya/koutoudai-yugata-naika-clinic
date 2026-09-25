@@ -36,8 +36,8 @@ const serviceStructuredData = {
   "@type": "MedicalProcedure",
   "name": "新型コロナワクチン接種",
   "alternateName": ["新型コロナウイルスワクチン接種", "コロナワクチン", "COVID-19ワクチン"],
-  "description": "5歳以上の方を対象に、新型コロナワクチン「ダイチロナ筋注」（オミクロン株NB.1.8.1対応）を接種します。",
-  "howPerformed": "問診・診察の上、ダイチロナ筋注を筋肉内注射（12歳以上は0.6mL、5〜11歳は0.2mL）",
+  "description": "13歳以上の方を対象に、新型コロナワクチン「ダイチロナ筋注」（オミクロン株NB.1.8.1対応）を接種します。",
+  "howPerformed": "問診・診察の上、ダイチロナ筋注0.6mLを筋肉内注射",
   "availableService": {
     "@type": "Offer",
     "price": "16500",
@@ -124,13 +124,13 @@ const breadcrumbStructuredData = {
         <div class="price-cards">
           <div class="price-card">
             <div class="price-card-header">
-              <span class="price-card-badge">5歳〜64歳の方</span>
+              <span class="price-card-badge">13歳〜64歳の方</span>
               <h3 class="price-card-title">任意接種</h3>
               <p class="price-card-lead">ご希望の方が自費で受ける接種</p>
             </div>
             <p class="price-card-price"><span class="price-number">16,500</span>円<span class="price-tax">（税込）</span><span class="price-unit">／1回</span></p>
             <p class="price-card-note">※ 保険適用外のため、自費診療となります</p>
-            <p class="price-card-note">※ 11歳以下のお子さまは、事前のご予約が必要です</p>
+            <p class="price-card-note">※ 12歳以下のお子さまの接種は行っておりません</p>
             <p class="price-card-note">※ 65歳以上でも、9月30日までの接種や、仙台市に住民票がない方などはこちらになります</p>
             <a href="#nini" class="price-card-link">任意接種の詳しいご案内 →</a>
           </div>
@@ -150,7 +150,7 @@ const breadcrumbStructuredData = {
         <div class="price-cta">
           <LineCta lines={[
             "LINE予約の問診で「コロナワクチン接種希望」とご記入ください。",
-            "12歳以上の方は、ご予約なしでもご来院いただけます（ご予約の方優先）。"
+            "ご予約なしでもご来院いただけます（ご予約の方優先）。"
           ]} />
         </div>
       </div>
@@ -179,7 +179,7 @@ const breadcrumbStructuredData = {
           </div>
           <div class="spec-row">
             <dt>ご予約</dt>
-            <dd>原則LINEからご予約をお願いしております<span class="spec-note">12歳以上の方は、ご予約なしでもご来院いただけますが、ご予約の方を優先してご案内するため、お待ちいただくことがあります。11歳以下のお子さまは、ワクチンを準備するため事前のご予約が必要です。</span></dd>
+            <dd>原則LINEからご予約をお願いしております<span class="spec-note">ご予約なしでもご来院いただけますが、ご予約の方を優先してご案内するため、お待ちいただくことがあります。その場合も原則として一般内科外来の時間帯にお越しください。</span></dd>
           </div>
         </dl>
       </div>
@@ -187,12 +187,12 @@ const breadcrumbStructuredData = {
 
     <section class="page-section bg-coral" id="nini">
       <div class="container">
-        <h2 class="page-section-title">任意接種（5歳〜64歳の方）</h2>
+        <h2 class="page-section-title">任意接種（13歳〜64歳の方）</h2>
         <p class="section-lead">ご希望の方が自費で受ける接種です。</p>
         <dl class="spec-list">
           <div class="spec-row">
             <dt>対象となる方</dt>
-            <dd>5歳以上の方<span class="spec-note">16歳未満の方は、保護者の方と一緒にご来院ください。65歳以上の方も、9月30日（水）までの接種や、仙台市に住民票がない場合などは任意接種となります。</span></dd>
+            <dd>13歳以上の方<span class="spec-note">16歳未満の方は、保護者の方と一緒にご来院ください。12歳以下のお子さまの接種は行っておりません。65歳以上の方も、9月30日（水）までの接種や、仙台市に住民票がない場合などは任意接種となります。</span></dd>
           </div>
           <div class="spec-row">
             <dt>料金</dt>
@@ -365,7 +365,7 @@ const breadcrumbStructuredData = {
             <span class="flow-number">1</span>
             <div>
               <strong>LINEでご予約</strong>
-              <p>LINE予約の問診で「<strong>コロナワクチン接種希望</strong>」とご記入ください。ご予約は<strong>原則として一般内科外来の時間帯</strong>（平日19:00・土日17:00より前）でお取りください。それ以降は発熱外来の時間帯です。12歳以上の方は、ご予約なしでもご来院いただけますが、ご予約の方を優先してご案内するため、お待ちいただくことがあります。</p>
+              <p>LINE予約の問診で「<strong>コロナワクチン接種希望</strong>」とご記入ください。ご予約は<strong>原則として一般内科外来の時間帯</strong>（平日19:00・土日17:00より前）でお取りください。それ以降は発熱外来の時間帯です。ご予約なしでもご来院いただけますが、ご予約の方を優先してご案内するため、お待ちいただくことがあります。</p>
             </div>
           </li>
           <li class="flow-item">

@@ -61,6 +61,10 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
                     </span>
                     <span class="date-hours"></span>
                   </div>
+                  <div class="vaccine-remaining" hidden>
+                    <span class="vaccine-remaining-label">ワクチン接種</span>
+                    <span class="vaccine-remaining-value">残り<span class="vaccine-remaining-count"></span>枠</span>
+                  </div>
                 </div>
 
                 <div class="status-message status-message--skeleton" role="status">
@@ -308,6 +312,41 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
 
   .date-hours:empty {
     display: none;
+  }
+
+  .vaccine-remaining {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--color-turquoise);
+  }
+
+  .vaccine-remaining[hidden] {
+    display: none;
+  }
+
+  .vaccine-remaining-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .vaccine-remaining-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .vaccine-remaining-count {
+    margin: 0 2px;
+    font-size: 1.3rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vaccine-remaining.is-full .vaccine-remaining-value {
+    color: var(--color-coral);
   }
 
   .last-updated {
@@ -1032,6 +1071,27 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     });
   }
 
+  // ワクチン枠は一般内科と診療枠を共有しているため、空き枠数 = その日のワクチン受け入れ残り人数。
+  // 表示中の枠と揃えるため、受付終了（開始5分前）を過ぎた枠は数えない
+  const VACCINE_SLOT_KEY = 'vaccination';
+
+  function renderVaccineRemaining(panel: HTMLElement, groups: SlotGroup[] | null): void {
+    const box = panel.querySelector<HTMLElement>('.vaccine-remaining');
+    const count = panel.querySelector<HTMLElement>('.vaccine-remaining-count');
+    if (!box || !count) return;
+
+    const group = groups?.find(g => g.consultationSlotKey === VACCINE_SLOT_KEY);
+    if (!group || group.slots.length === 0) {
+      box.hidden = true;
+      return;
+    }
+
+    const remaining = group.slots.filter(s => s.available && !s.isPast && !s.isBlocked).length;
+    count.textContent = String(remaining);
+    box.classList.toggle('is-full', remaining === 0);
+    box.hidden = false;
+  }
+
   function renderDay(offsetDays: number): void {
     if (!cachedDates) return;
 
@@ -1048,6 +1108,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     if (!apiData) {
       if (dateValue) dateValue.textContent = '--';
       if (dateHours) dateHours.textContent = '';
+      renderVaccineRemaining(panel, null);
       dayStates[offsetDays] = 'error';
       showMessage(panel, `${dayLabel}のデータが見つかりませんでした`, 'error');
       return;
@@ -1060,6 +1121,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     const allSlots = dayData.slotGroups.flatMap(g => g.slots);
     if (dayData.isClosed || allSlots.length === 0) {
       if (dateHours) dateHours.textContent = '';
+      renderVaccineRemaining(panel, null);
       dayStates[offsetDays] = 'closed';
       showMessage(panel, `${dayLabel}は休診日です`, 'closed');
       return;
@@ -1072,6 +1134,8 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
       const closeTime = sorted[sorted.length - 1].endTime;
       dateHours.textContent = `${openTime} - ${closeTime}`;
     }
+
+    renderVaccineRemaining(panel, dayData.slotGroups);
 
     const slotsContainer = panel.querySelector<HTMLElement>('.slots-container');
     if (slotsContainer) {

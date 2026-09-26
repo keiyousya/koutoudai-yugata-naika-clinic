@@ -385,6 +385,17 @@ import interiorImage03 from "../assets/interior03.jpeg";
       font-size: 0.82rem;
     }
   }
+
+  /* SPは画面下部に固定のLINE予約バー（FixedLineButton）があるので、その上に逃がす */
+  @media (max-width: 854px) {
+    .hero {
+      padding-bottom: 120px;
+    }
+
+    .availability-banner {
+      bottom: calc(80px + env(safe-area-inset-bottom));
+    }
+  }
 </style>
 
 <script>

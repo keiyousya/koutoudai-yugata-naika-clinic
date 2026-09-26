@@ -5,10 +5,16 @@
   <div class="container">
     <h2 class="section-title">スタッフ募集</h2>
     <div class="recruit-banner">
-      <p class="banner-lead">一緒に働く事務スタッフを募集しています</p>
+      <p class="banner-lead"><span>一緒に働く事務スタッフを</span><span>募集しています</span></p>
       <div class="banner-positions">
-        <span class="banner-tag">受付事務 — 平日17:00〜21:00／土日4時間程度</span>
-        <span class="banner-tag">総務事務 — 診療時間外</span>
+        <div class="banner-tag">
+          <span class="banner-tag-role">受付事務</span>
+          <span class="banner-tag-time"><span>平日 17:00〜21:00</span><span>土日 4時間程度</span></span>
+        </div>
+        <div class="banner-tag">
+          <span class="banner-tag-role">総務事務</span>
+          <span class="banner-tag-time"><span>診療時間外</span></span>
+        </div>
       </div>
       <p class="wage">いずれも時給 1,300円</p>
       <a href="/recruit" class="banner-btn">詳細・応募はこちら</a>
@@ -38,23 +44,42 @@
     line-height: 1.8;
   }
 
+  .banner-lead span {
+    display: inline-block;
+  }
+
   .banner-positions {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 10px;
-    margin-bottom: 20px;
+    max-width: 320px;
+    margin: 0 auto 20px;
   }
 
   .banner-tag {
-    display: inline-block;
-    padding: 8px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 20px;
     background: white;
     border: 1px solid var(--color-coral);
-    border-radius: 20px;
-    font-size: 0.88rem;
-    font-weight: 600;
+    border-radius: 12px;
     color: var(--color-navy);
+  }
+
+  .banner-tag-role {
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .banner-tag-time {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+  }
+
+  .banner-tag-time > span {
+    display: block;
   }
 
   .wage {

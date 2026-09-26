@@ -49,7 +49,7 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 
 - フロントポート: 5177、ベースパス: `/inventory/`
 - カテゴリ: category_id=1 → 医薬品、category_id=2 → 備品
-- 医薬品: 25品目、備品: 42品目
+- 医薬品: 31品目（2026-09にデエビゴ・ベタヒスチン・ゾコーバ・ダイチロナ・インフルワクチン2種を追加。`backend/scripts/migrate-inventory-add-items-2026-09.js`）、備品: 42品目
 - 発注対象・規定量は品目ごとにDB管理（`inventory_items.is_orderable` / `order_threshold`）。発注管理画面の「発注設定」から変更可能
 - 初期設定は医薬品25品目 + 迅速検査キット3種（flu/cov、strep、myco）が発注対象
 - 発注先: 東邦薬品株式会社 中野様、署名: 田村さつき

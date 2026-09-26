@@ -62,7 +62,7 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
                     <span class="date-hours"></span>
                   </div>
                   <div class="vaccine-remaining" hidden>
-                    <span class="vaccine-remaining-label">予防接種</span>
+                    <span class="vaccine-remaining-label">予防接種（ワクチン）</span>
                     <span class="vaccine-remaining-value">残り<span class="vaccine-remaining-count"></span>枠</span>
                   </div>
                 </div>
@@ -333,20 +333,25 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     color: var(--color-text-muted);
   }
 
+  /* カードのターコイズに合わせ、数字だけ濃いターコイズで強調 */
   .vaccine-remaining-value {
     font-size: 0.9rem;
     font-weight: 700;
     color: var(--color-navy);
+    white-space: nowrap;
   }
 
   .vaccine-remaining-count {
     margin: 0 2px;
     font-size: 1.3rem;
+    color: var(--color-turquoise-dark);
     font-variant-numeric: tabular-nums;
   }
 
-  .vaccine-remaining.is-full .vaccine-remaining-value {
-    color: var(--color-coral);
+  /* 0枠のときは強調をやめて落ち着かせる */
+  .vaccine-remaining.is-full .vaccine-remaining-value,
+  .vaccine-remaining.is-full .vaccine-remaining-count {
+    color: var(--color-text-muted);
   }
 
   .last-updated {

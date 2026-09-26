@@ -758,7 +758,8 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
   interface ApiSlot {
     time: string;
     endTime: string;
-    status: 'available' | 'booked' | 'blocked';
+    // past_time: 開始時刻を過ぎた枠（表示上の過去判定はクライアント側の isPast で行う）
+    status: 'available' | 'booked' | 'blocked' | 'past_time';
   }
 
   interface ApiConsultationSlot {

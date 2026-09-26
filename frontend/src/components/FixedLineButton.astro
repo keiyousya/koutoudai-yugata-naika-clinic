@@ -67,6 +67,8 @@ const LINE_ICON_PATH = "M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.6
       background: #06C755;
       box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
       overflow: hidden;
+      /* 横方向のジェスチャーはスワイプ開閉に使い、縦スクロールだけブラウザに任せる */
+      touch-action: pan-y;
     }
 
     .fixed-line-toggle {
@@ -149,11 +151,50 @@ const LINE_ICON_PATH = "M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.6
     setCollapsed(sessionStorage.getItem(STORAGE_KEY) === "1");
   } catch {}
 
-  toggle?.addEventListener("click", () => {
-    const collapsed = !wrapper?.classList.contains("is-collapsed");
-    setCollapsed(collapsed);
+  const persist = (collapsed: boolean) => {
     try {
       sessionStorage.setItem(STORAGE_KEY, collapsed ? "1" : "0");
     } catch {}
+  };
+
+  toggle?.addEventListener("click", () => {
+    const collapsed = !wrapper?.classList.contains("is-collapsed");
+    setCollapsed(collapsed);
+    persist(collapsed);
   });
+
+  // SPのタブは横スワイプでも開閉できる（右へ→たたむ、左へ→広げる）
+  const SWIPE_THRESHOLD = 30;
+  const isSp = window.matchMedia("(max-width: 854px)");
+  let startX = 0;
+  let startY = 0;
+  let swiped = false;
+
+  wrapper?.addEventListener("touchstart", (e) => {
+    const t = e.touches[0];
+    startX = t.clientX;
+    startY = t.clientY;
+    swiped = false;
+  }, { passive: true });
+
+  wrapper?.addEventListener("touchend", (e) => {
+    if (!isSp.matches) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - startX;
+    const dy = t.clientY - startY;
+    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+    swiped = true;
+    const collapsed = dx > 0;
+    if (collapsed === wrapper.classList.contains("is-collapsed")) return;
+    setCollapsed(collapsed);
+    persist(collapsed);
+  });
+
+  // スワイプの指離れでリンクが開いたりトグルが二重に動いたりしないようにする
+  wrapper?.addEventListener("click", (e) => {
+    if (!swiped) return;
+    swiped = false;
+    e.preventDefault();
+    e.stopPropagation();
+  }, true);
 </script>

@@ -23,6 +23,7 @@ https://koutoudai-yugata-naika.helix.keiyousya.com/reservations?page=1&pageSize=
 - 患者カルテ: `https://koutoudai-yugata-naika.helix.keiyousya.com/medical-records/<カルテID>?openInsurance=false&openReservation=false`
   - カルテIDは受付一覧で患者名をクリック → 詳細ダイアログのヘッダー（`P0TLNT02_1ILBC_H` の形式）から取れる
   - 詳細ダイアログの「カルテを開く」でも開けるが、同じタブで遷移する
+  - **一括で取るなら API が早い**（下記「API での読み取り」）
 
 ### ステータスの絞り込み
 
@@ -30,6 +31,17 @@ https://koutoudai-yugata-naika.helix.keiyousya.com/reservations?page=1&pageSize=
 その場合は ステータス のドロップダウンを開いて **全選択**。`status=scheduled,arrived,awaiting_consultation,in_consultation,billing_confirmed,paid,cancelled` を URL に付けておくと安定する。
 
 **キャンセルの行はカルテ対象外**。「全◯件」には入るので、残り人数を数えるときは除く。
+
+### API での読み取り
+
+helix のページ上で `javascript_tool` から `fetch(..., {credentials:'include'})` すると、ログイン中のセッションで API を読める（読み取りだけに使う。登録・更新は画面から）。
+
+- ベース: `https://api.procyon.helix.keiyousya.com/koutoudai-yugata-naika/v1`
+- 受付一覧: `/reservations?page=1&pageSize=50&dateFrom=YYYY-MM-DD&dateTo=YYYY-MM-DD&sortBy=preferred_time&sortDirection=asc&status=...`
+  - `patientCode` がカルテID（`P0...`）、`externalLinkageId` がカルテ番号（`000844`）、`patientId` が病名APIで使うID、`visitType` は first／return／self_pay
+- 傷病名: `/patients/<patientId>/diseases` → `displayName`・`startDate`・`isMain`
+  - **転帰（中止など）は入っていない**（`isActive` は中止でも true）。転帰は傷病名管理ダイアログで確認する
+  - 主病（★）の最終確認には使える。全員分を回して「主病なし」の保険患者がいないか見る
 
 ## 進め方
 
@@ -62,7 +74,7 @@ https://koutoudai-yugata-naika.helix.keiyousya.com/reservations?page=1&pageSize=
 - 診療開始日も作業日が既定。**必ず診療日に直す**（医師が後日まとめて登録した病名は翌日付になっていることが多い。過去分も点検する）
 - 自費診療（予防投与など）には病名を登録しない
 - 病名マスタに無い名前は、近い標準病名を提示して確認を取る
-  - 淋菌感染症 →「淋病」／頸部痛 →「頚部痛」／膣カンジダ症 →「腟カンジダ症」／急性細菌性前立腺炎 はそのまま存在する／浮動性めまい →「めまい感」
+  - 淋菌感染症 →「淋病」／頸部痛 →「頚部痛」／膣カンジダ症 →「腟カンジダ症」／急性細菌性前立腺炎 はそのまま存在する／浮動性めまい →「めまい感」／急性咽喉頭炎 →「急性咽頭喉頭炎」／伝染性単核球症 →「伝染性単核症」
 
 ### 傷病名管理ダイアログの操作
 
@@ -70,6 +82,7 @@ https://koutoudai-yugata-naika.helix.keiyousya.com/reservations?page=1&pageSize=
 - 1回目のクリックはフォーカスが当たるだけでダイアログが開かないことがある。開いたか必ず確認する
 - 新規登録: 「新規登録」→ 傷病名を検索 → マスタから選択 → 診療開始日（カレンダー）→ 転帰（継続／治癒／死亡／中止）→ 主病チェック → 登録
 - 既存の行は右端の `⋯` から 編集／転帰設定／主病に設定／削除
+- **「主病に設定」しても、元の主病は外れない**（確認ダイアログには「解除されます」と出るが、実際は2つとも主病になる）。元の行の `⋯` →「主病解除」→「解除する」を別にやり、API の `isMain` で確認する
 - 疑い病名にするには、修飾語に「の疑い」を追加して更新する
 - **主病のチェックは1回では入らないことが多い**。登録前に zoom で入ったことを確認する
 - カレンダーの日付も押し間違えやすい。選択後に zoom で確認する
@@ -98,13 +111,20 @@ https://koutoudai-yugata-naika.helix.keiyousya.com/reservations?page=1&pageSize=
 - **編集モードに入る**: 対象記録の本文中の要素に、JS で `mousedown/mouseup/click` ×2 と `dblclick` の MouseEvent を送る。そのあと見出し「診療記録を編集」が出たか確認する
 - **入力欄**: 編集パネル内の `[contenteditable=true]`（ProseMirror）。初診時記録は 12 個で、順に ＃／主訴／現病歴／既往歴／内服／アレルギー／家族歴／S／O／A／P／備考。SOAP は ＃／S／O／A／P／備考。空欄には `[data-placeholder]` があるので、書き込む前に空であることを確かめる
 - **書き込み**: `type` の `Return` は改行にならないことがある。空欄に `ClipboardEvent('paste')` を送ると、`text/html` の `<p>` が1行ずつ入る
-- **既存の文を置き換える**: `window.getSelection().selectAllChildren(欄)` のあと、`computer` の `Delete` キーで消してから paste する。JS で選択しただけで paste すると置き換わらず、追記になる
+- **既存の文を置き換える**: `欄.focus()` → `window.getSelection().selectAllChildren(欄)` → `document.execCommand('delete')` で空にしてから paste する。JS で選択しただけで paste すると置き換わらず、追記になる
+  - `computer` の `Delete` キーは、対象タブが前面にないと効かない（2026-09-26 は全く効かなかった）。`execCommand('delete')` なら背面タブでも消える
+  - 追記したいときも、元の行を `querySelectorAll('p')` で読んでおき、全文を組み直して置き換える。先頭や末尾にだけ paste すると既存の行とくっつく
 - **処方区分**: 編集パネルの最後の `<select>` に、ネイティブの value setter で `院内処方` などを入れ、`change` イベントを送る
 - **傷病名の検索**: 検索ボタンの `aria-expanded` を見て開く。`input[placeholder="傷病名を入力して検索"]` にネイティブの value setter で値を入れ、`input` イベントを送る。候補の要素を `.click()` で選ぶ。修飾語（「の疑い」）も `修飾語を入力して検索` で同じようにする
 - **主病**: 登録ダイアログの `[role=checkbox]` に `.click()` を1回だけ送り、`data-state="checked"` を確認する（computer クリックだと2回反応して外れることがある）
 - **転帰設定**: 行の `⋯` ボタンに `PointerEvent('pointerdown')` を送る →「転帰設定」メニューを `.click()` → ダイアログ内の hidden `<select>` に `discontinued`（中止）／`cured`（治癒）を value setter で入れて `change` →「設定」。転帰日は作業日が入るので、診療日と一致しているか確認する
 - **ダイアログの特定**: 検索候補のポップオーバーも `role=dialog` を持つ。`innerText` の先頭が「傷病名管理」「傷病名登録」「転帰設定」のどれかで特定する
 - **固まったとき**: ダイアログが閉じなくなったり、JS が 45 秒でタイムアウトしたりしたら、ページを開き直して状態を読み直す（登録が途中まで進んでいることがある）
+  - 背面タブではタイマーが間引かれ、`setTimeout` を何回も待つ JS はタイムアウトしやすい。転帰設定や置き換えは**1回の JS で1件ずつ**にする
+  - タイムアウトしても処理自体は最後まで進んでいることが多い。やり直す前に結果を読む
+  - 「カルテを更新」を JS で押したあと保存が終わらないときは、`computer` の `wait` を挟むと進む
+- **拡張の接続が切れたとき**: 数十秒で元のタブグループごと戻ることが多い。`tabs_context_mcp` を `createIfEmpty` なしで呼んで確認する。`createIfEmpty: true` で作ったタブは別のブラウザ側に開いてサインイン画面になることがある（元のタブはログインしたまま）
+- **お薬手帳の PDF**: 受付シートのサムネイルを押すと小さいビューアが開く。中の `iframe` を複製して `position:fixed` で全画面に置き、`src` に `#zoom=170` を付けると読める。読み終えたら複製を消す
 - **出力の長さ**: `javascript_tool` の戻り値は約 2000 文字で切れる。長いカルテは `window.__rec` に入れて、分けて読む
 
 ### 漢字化け（必ず確認する）

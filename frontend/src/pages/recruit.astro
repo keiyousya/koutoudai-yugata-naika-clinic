@@ -80,10 +80,9 @@ const jobPostings = [
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
                 <h2>受付事務</h2>
-                <p class="job-summary">診療時間帯の受付・会計・レセプト業務などを担当していただきます。</p>
+                <p class="job-summary"><span class="nowrap">診療時間帯の受付・会計・</span><span class="nowrap">レセプト業務などを</span><span class="nowrap">担当していただきます。</span></p>
                 <div class="job-tags">
-                  <span class="job-tag job-tag--coral"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>平日 17:00〜21:00</span>
-                  <span class="job-tag job-tag--coral"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>土日 14:00〜21:00（うち4時間程度）</span>
+                  <span class="job-tag job-tag--coral job-tag--multi"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="job-tag-lines"><span>平日 17:00〜21:00</span><span>土日 14:00〜21:00</span><span class="job-tag-note">（うち4時間程度）</span></span></span>
                   <span class="job-tag job-tag--coral"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>週1〜4回（応相談）</span>
                 </div>
               </div>
@@ -292,6 +291,30 @@ const jobPostings = [
   .job-tag svg {
     color: var(--color-turquoise);
     flex-shrink: 0;
+  }
+
+  .job-tag--multi {
+    align-items: flex-start;
+    border-radius: 12px;
+    text-align: left;
+    line-height: 1.6;
+  }
+
+  .job-tag--multi svg {
+    margin-top: 0.3em;
+  }
+
+  .job-tag-lines > .job-tag-note {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  .job-tag-lines > span {
+    display: block;
+  }
+
+  .nowrap {
+    display: inline-block;
   }
 
   .job-tag--coral {

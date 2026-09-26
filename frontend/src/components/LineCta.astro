@@ -1,5 +1,6 @@
 ---
 import LineButton from "./LineButton.astro";
+import AvailabilityLink from "./AvailabilityLink.astro";
 
 interface Props {
   lines?: string[];
@@ -17,6 +18,9 @@ const { lines = [] } = Astro.props;
     </p>
   )}
   <LineButton />
+  <div class="line-cta-availability">
+    <AvailabilityLink />
+  </div>
 </div>
 
 <style>
@@ -33,6 +37,10 @@ const { lines = [] } = Astro.props;
 
   .cta-line {
     display: inline;
+  }
+
+  .line-cta-availability {
+    margin-top: 20px;
   }
 
   @media (max-width: 768px) {

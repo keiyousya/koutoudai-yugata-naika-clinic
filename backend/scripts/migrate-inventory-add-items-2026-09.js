@@ -11,7 +11,7 @@
  *   - Meiji（2V入=4人分） … スズケン（25箱）
  *   - デンカ（1V入=2人分） … スズケン（25箱）
  *
- * インフルエンザワクチンは季節の確保分のため発注対象外で登録する（必要なら発注設定画面から切り替える）。
+ * インフルエンザワクチンも発注対象として登録する。
  * 同名・同規格の品目が既にあればスキップするので、再実行しても安全。
  */
 
@@ -36,9 +36,9 @@ const items = [
   { name: "ベタヒスチンメシル酸塩錠", dosage: "12mg", unit: "箱数", threshold: 1, orderable: 1, supplier: "toho" },
   { name: "ゾコーバ錠", dosage: "125mg", unit: "x7錠", threshold: 1, orderable: 1, supplier: "toho" },
   { name: "ダイチロナ（コロナワクチン）", dosage: "1人分", unit: "バイアル", threshold: 2, orderable: 1, supplier: "toho" },
-  { name: "インフルエンザワクチン（Meiji・東邦）", dosage: "2V入・4人分", unit: "箱数", threshold: 5, orderable: 0, supplier: "toho" },
-  { name: "インフルエンザワクチン（Meiji・スズケン）", dosage: "2V入・4人分", unit: "箱数", threshold: 5, orderable: 0, supplier: "suzuken" },
-  { name: "インフルエンザワクチン（デンカ・スズケン）", dosage: "1V入・2人分", unit: "箱数", threshold: 5, orderable: 0, supplier: "suzuken" },
+  { name: "インフルエンザワクチン（Meiji・東邦）", dosage: "2V入・4人分", unit: "箱数", threshold: 5, orderable: 1, supplier: "toho" },
+  { name: "インフルエンザワクチン（Meiji・スズケン）", dosage: "2V入・4人分", unit: "箱数", threshold: 5, orderable: 1, supplier: "suzuken" },
+  { name: "インフルエンザワクチン（デンカ・スズケン）", dosage: "1V入・2人分", unit: "箱数", threshold: 5, orderable: 1, supplier: "suzuken" },
 ];
 
 async function migrate() {

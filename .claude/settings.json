@@ -9,7 +9,9 @@
       "Bash(./.venv/Scripts/gads.exe report:*)",
       "Bash(./.venv/Scripts/lyads.exe report:*)",
       "Bash(ads/.venv/Scripts/gads.exe report:*)",
-      "Bash(ads/.venv/Scripts/lyads.exe report:*)"
+      "Bash(ads/.venv/Scripts/lyads.exe report:*)",
+      "Bash(./.venv/Scripts/python.exe scripts/set_ad_schedule_gradient.py *)",
+      "Bash(ads/.venv/Scripts/python.exe ads/scripts/set_ad_schedule_gradient.py *)"
     ]
   }
 }

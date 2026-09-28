@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スタッフ募集 広告 - 勾当台夕方内科クリニック</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800;900&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  /*
+    Instagram広告用（スタッフ募集）
+    - .post.feed  : フィード 4:5（1080×1350）
+    - .post.story : ストーリーズ・リール 9:16（1080×1920）
+      Metaのセーフゾーン（上14%=269px・下35%=672px・左右6%=65px）に文字を置かない
+    配色はHP（frontend/src/layouts/Layout.astro の --color-*）に合わせる
+    書き出しは各 .post 要素をスクリーンショットする
+  */
+  :root {
+    --navy: #1e3a5f;
+    --coral: #f08c5a;
+    --coral-bg: #fff5eb;
+    --turquoise: #3eb8c8;
+    --turquoise-bg: #e8f6f8;
+    --yellow: #FBC96B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+    padding: 80px 0;
+    background: #2c2c2c;
+    font-family: "Noto Sans JP", sans-serif;
+    color: var(--navy);
+  }
+
+  .post {
+    width: 1080px;
+    position: relative;
+    overflow: hidden;
+    background: var(--coral-bg);
+    font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+  }
+  .post.feed { height: 1350px; }
+  .post.story { height: 1920px; }
+
+  /* 背景の飾り */
+  .deco { position: absolute; border-radius: 50%; pointer-events: none; }
+  .deco.sun { width: 520px; height: 520px; background: var(--yellow); opacity: 0.45; top: -200px; right: -160px; }
+  .deco.mint { width: 620px; height: 620px; background: var(--turquoise-bg); bottom: -260px; left: -220px; }
+  .deco.dot { background: var(--coral); opacity: 0.35; }
+  .deco.dot.t { background: var(--turquoise); }
+  .deco.dot.y { background: var(--yellow); opacity: 0.9; }
+  .sparkle { position: absolute; pointer-events: none; }
+
+  .content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 52px 64px 48px;
+  }
+
+  /* ヘッダー */
+  .head {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand svg { width: 64px; height: 64px; }
+  .brand span { font-size: 30px; font-weight: 800; letter-spacing: 0.04em; }
+  .station {
+    background: #fff;
+    border: 3px solid var(--navy);
+    border-radius: 999px;
+    padding: 6px 22px;
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+
+  /* 見出し */
+  .title { margin-top: 44px; text-align: center; position: relative; }
+  .title .lead {
+    display: inline-block;
+    font-size: 68px;
+    font-weight: 900;
+    color: var(--coral);
+    letter-spacing: 0.06em;
+    transform: rotate(-3deg);
+  }
+  .title h1 {
+    margin-top: 4px;
+    font-size: 102px;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+  }
+  .title h1 .marker {
+    background: linear-gradient(transparent 62%, var(--yellow) 62%);
+    padding: 0 6px;
+  }
+
+  /* 主役：平日19時・土日 */
+  .times {
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    margin-top: 28px;
+  }
+  .time {
+    width: 440px;
+    height: 440px;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 14px 0 rgba(30, 58, 95, 0.14);
+    position: relative;
+  }
+  .time.weekday { background: var(--coral); transform: rotate(-4deg); }
+  .time.weekend { background: var(--turquoise); transform: rotate(4deg); }
+  .time .icon { width: 64px; height: 64px; margin-bottom: 4px; }
+  .time .day {
+    font-size: 46px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    background: #fff;
+    border-radius: 999px;
+    padding: 0 26px;
+    line-height: 1.5;
+  }
+  .time.weekday .day { color: var(--coral); }
+  .time.weekend .day { color: var(--turquoise); }
+  .time .big {
+    margin-top: 8px;
+    font-size: 150px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .time .big small { font-size: 64px; letter-spacing: 0; }
+  .time .sub { margin-top: 10px; font-size: 30px; font-weight: 800; }
+
+  /* サブの売り */
+  .points {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .point {
+    background: #fff;
+    border: 3px solid var(--navy);
+    border-radius: 20px;
+    padding: 12px 24px;
+    font-size: 32px;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+  .point em { font-style: normal; color: var(--coral); }
+
+
+  .time .big.word { font-size: 120px; }
+  .story .time .big.word { font-size: 128px; }
+
+  /* 下部 */
+  .bottom { margin-top: auto; padding-top: 12px; text-align: center; }
+  .price { font-size: 36px; font-weight: 800; }
+  .price strong { font-size: 76px; font-weight: 900; color: var(--coral); }
+  .price .small { font-size: 28px; font-weight: 700; opacity: 0.75; }
+  .access { margin-top: 12px; font-size: 40px; font-weight: 800; }
+
+  /* Story/Reels：上14%・左右6%は空ける。札・料金・アクセス（〜y=1525）はリールの下35%にかかるが、見やすさを優先して許容 */
+  .story .content { padding: 272px 65px 0; height: 1248px; }
+  .story .head { justify-content: center; gap: 16px; }
+  .story .brand { gap: 12px; }
+  .story .brand svg { width: 88px; height: 88px; }
+  .story .brand span { font-size: 39px; letter-spacing: 0.02em; }
+  .story .station { font-size: 29px; padding: 6px 20px; }
+  .story .title { margin-top: 42px; }
+  .story .title .lead { font-size: 70px; line-height: 1.02; }
+  .story .title h1 { margin-top: 6px; font-size: 106px; line-height: 1.08; }
+  .story .times { margin-top: 42px; gap: 30px; }
+  .story .time { width: 450px; height: 450px; }
+  .story .time .icon { width: 72px; height: 72px; }
+  .story .time .day { font-size: 52px; }
+  .story .time .big { font-size: 164px; }
+  .story .time .big small { font-size: 70px; }
+  .story .time .sub { font-size: 34px; }
+  .story .points { margin-top: 42px; gap: 18px; }
+  .story .point { font-size: 38px; padding: 12px 26px; }
+  /* 予約は広告のボタンに任せ、料金とアクセスを札の下に出す */
+  .story .bottom { margin-top: 30px; padding-top: 0; }
+  .story .price { font-size: 36px; }
+  .story .price strong { font-size: 68px; }
+  .story .price .small { font-size: 28px; }
+  .story .access { margin-top: 10px; font-size: 38px; }
+  .story .deco.mint { width: 900px; height: 900px; bottom: -420px; left: -160px; }
+  /* 下35%は文字を置かず、HPロゴのビル街モチーフで埋める */
+  .town { position: absolute; left: 0; bottom: -70px; }
+  .moon { position: absolute; top: 1545px; right: 110px; width: 110px; height: 110px; }
+</style>
+</head>
+<body>
+
+<div class="post feed">
+  <div class="deco sun"></div>
+  <div class="deco mint"></div>
+  <div class="deco dot" style="width:28px;height:28px;top:22%;left:5%"></div>
+  <div class="deco dot t" style="width:20px;height:20px;top:30%;right:6%"></div>
+  <div class="deco dot y" style="width:36px;height:36px;top:17%;right:13%"></div>
+  <div class="deco dot t" style="width:16px;height:16px;top:15%;left:14%"></div>
+  <svg class="sparkle" style="top:58%;left:7%" width="56" height="56" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#FBC96B"/></svg>
+  <svg class="sparkle" style="top:44%;right:6%" width="40" height="40" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#3eb8c8"/></svg>
+
+  
+  <div class="content">
+    <div class="head">
+      <div class="brand"><svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="71" y="946" width="875" height="12" fill="#84B7D7"/><path d="M552 86C569.03 86 585.832 86.9762 602.353 88.876C428.055 124.766 297 279.078 297 464C297 675.525 468.475 847 680 847C766.736 847 846.738 818.167 910.944 769.564C832.277 883.407 700.85 958 552 958C311.204 958 116 762.796 116 522C116 281.204 311.204 86 552 86Z" fill="url(#moon_feed)"/><path d="M250.72 713.322L289.985 744H290V763.581L363.002 810.99L362.996 811H363V946H351V817.503L290 777.89V946H278V749.863L250.076 728.047L217 749.527V946H205V821.813L139 859.919V946H127V853H127.001L126.997 852.993L205 807.958V743H205.02L250.714 713.324L250.718 713.32L250.72 713.322Z" fill="#84B7D7"/><path d="M677 829H665V771H677V829ZM580 288.453L676.997 367H677V447H665V372.726L573.499 298.63L482 372.725V765H470V442.806L387 494.67V675H375V488H375.03L470 428.656V367H470.002L568 287.643V205H580V288.453Z" fill="#84B7D7"/><path d="M808 460C861.019 460 904 502.981 904 556C904 584.656 891.443 610.379 871.533 627.969L842.99 656.512L843.03 656.552L717.406 782.176L717.366 782.136L717.324 782.179L591.7 656.555L591.742 656.512L559.189 623.959L559.192 623.955C541.776 606.577 531 582.547 531 556C531 502.981 573.981 460 627 460C668.76 460 704.292 486.665 717.5 523.896C730.708 486.665 766.24 460 808 460Z" fill="#FBC96B"/><path d="M745 596H800V651H745V709H690V651H635V596H690V544H745V596Z" fill="white"/><path d="M351.003 817.456V878.273H351V909.005C329.562 897.848 309.169 884.961 290.003 870.53V777.843L351.003 817.456ZM278.003 749.816V861.164C255.76 843.172 235.321 823.037 217.003 801.072V749.48L250.079 728L278.003 749.816Z" fill="white" fill-opacity="0.5"/><defs><linearGradient id="moon_feed" x1="610" y1="86" x2="575.5" y2="958" gradientUnits="userSpaceOnUse"><stop stop-color="#A3CEE2"/><stop offset="1" stop-color="#6390C8"/></linearGradient></defs></svg><span>勾当台夕方内科クリニック</span></div>
+      <div class="station">勾当台公園駅 徒歩2分</div>
+    </div>
+
+    <div class="title">
+      <div class="lead">夕方から働ける！</div>
+      <h1><span class="marker">クリニック事務</span><br>スタッフ募集中</h1>
+    </div>
+
+    <div class="times">
+      <div class="time weekday">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 6.5V12l-3.5 3"/></svg>
+        <div class="day">平日</div>
+        <div class="big">17<small>時〜</small></div>
+        <div class="sub">土日は14時〜</div>
+      </div>
+      <div class="time weekend">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M3 10h18M8 2.5v4M16 2.5v4"/><circle cx="15.5" cy="15.5" r="1.6" fill="#fff" stroke="none"/></svg>
+        <div class="day">週1回</div>
+        <div class="big word">OK</div>
+        <div class="sub">受付事務</div>
+      </div>
+    </div>
+
+    <div class="points">
+      <div class="point">医療事務の<em>経験者</em>・<em>学生</em>さん歓迎</div>
+      <div class="point"><em>Wワーク</em>も歓迎</div>
+    </div>
+
+
+    <div class="bottom">
+      <div class="price">時給 <strong>1,300</strong>円<span class="small">（交通費支給）</span></div>
+      <div class="access">市役所となり・アーケード街からすぐ</div>
+    </div>
+  </div>
+</div>
+
+<div class="post story">
+  <div class="deco sun"></div>
+  <div class="deco mint"></div>
+  <div class="deco dot" style="width:28px;height:28px;top:22%;left:5%"></div>
+  <div class="deco dot t" style="width:20px;height:20px;top:30%;right:6%"></div>
+  <div class="deco dot y" style="width:36px;height:36px;top:17%;right:13%"></div>
+  <div class="deco dot t" style="width:16px;height:16px;top:15%;left:14%"></div>
+  <svg class="sparkle" style="top:40%;left:7%" width="56" height="56" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#FBC96B"/></svg>
+  <svg class="sparkle" style="top:30%;right:6%" width="40" height="40" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#3eb8c8"/></svg>
+
+  <svg class="town" viewBox="0 0 1080 460" width="1080" height="460" xmlns="http://www.w3.org/2000/svg"><path d="M0 460V182Q0 160 22 160H108Q130 160 130 182V460Z" fill="#cfeef2"/><path d="M120 460V102Q120 80 142 80H208Q230 80 230 102V460Z" fill="#cfeef2"/><path d="M330 460V152Q330 130 352 130H458Q480 130 480 152V460Z" fill="#cfeef2"/><path d="M560 460V62Q560 40 582 40H658Q680 40 680 62V460Z" fill="#cfeef2"/><path d="M760 460V182Q760 160 782 160H878Q900 160 900 182V460Z" fill="#cfeef2"/><path d="M940 460V122Q940 100 962 100H1058Q1080 100 1080 122V460Z" fill="#cfeef2"/><path d="M-20 460V262Q-20 240 2 240H128Q150 240 150 262V460Z" fill="#f6c9ae"/><rect x="8" y="274" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="55" y="274" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="102" y="274" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="8" y="324" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="55" y="324" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="102" y="324" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="8" y="374" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="55" y="374" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="102" y="374" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><path d="M150 460V202Q150 180 172 180H248Q270 180 270 202V460Z" fill="#fde2b0"/><rect x="177" y="214" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="223" y="214" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="177" y="264" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="223" y="264" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="177" y="314" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="223" y="314" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="177" y="364" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="223" y="364" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><path d="M265 460V282Q265 260 287 260H393Q415 260 415 282V460Z" fill="#bfe3e8"/><rect x="288" y="294" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="330" y="294" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="372" y="294" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="288" y="344" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="330" y="344" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="372" y="344" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="288" y="394" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="330" y="394" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="372" y="394" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><path d="M420 460V182Q420 160 442 160H568Q590 160 590 182V460Z" fill="#f6c9ae"/><rect x="448" y="194" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="495" y="194" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="542" y="194" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="448" y="244" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="495" y="244" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="542" y="244" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="448" y="294" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="495" y="294" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="542" y="294" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="448" y="344" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="495" y="344" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="542" y="344" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="448" y="394" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="495" y="394" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="542" y="394" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><path d="M585 460V242Q585 220 607 220H693Q715 220 715 242V460Z" fill="#fde2b0"/><rect x="615" y="254" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="665" y="254" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="615" y="304" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="665" y="304" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="615" y="354" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="665" y="354" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><path d="M710 460V292Q710 270 732 270H848Q870 270 870 292V460Z" fill="#f6c9ae"/><rect x="735" y="304" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="780" y="304" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="825" y="304" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="735" y="354" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="780" y="354" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="825" y="354" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><path d="M860 460V212Q860 190 882 190H958Q980 190 980 212V460Z" fill="#bfe3e8"/><rect x="887" y="224" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="933" y="224" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="887" y="274" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="933" y="274" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="887" y="324" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="933" y="324" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="887" y="374" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="933" y="374" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><path d="M975 460V272Q975 250 997 250H1083Q1105 250 1105 272V460Z" fill="#fde2b0"/><rect x="1005" y="284" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="1055" y="284" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="1005" y="334" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="1055" y="334" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/><rect x="1005" y="384" width="20" height="26" rx="6" fill="#FBC96B" opacity="1"/><rect x="1055" y="384" width="20" height="26" rx="6" fill="#ffffff" opacity="0.7"/></svg><svg class="sparkle" style="top:80%;left:8%" width="48" height="48" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#FBC96B"/></svg><svg class="sparkle" style="top:77%;left:91%" width="32" height="32" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#3eb8c8"/></svg><svg class="sparkle" style="top:83%;left:44%" width="28" height="28" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#f08c5a"/></svg><svg class="sparkle" style="top:82%;left:64%" width="22" height="22" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#FBC96B"/></svg><svg class="moon" viewBox="0 0 100 100" width="130" height="130"><path d="M62 8A44 44 0 1 0 92 70 36 36 0 0 1 62 8Z" fill="#FBC96B"/></svg>
+  <div class="content">
+    <div class="head">
+      <div class="brand"><svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="71" y="946" width="875" height="12" fill="#84B7D7"/><path d="M552 86C569.03 86 585.832 86.9762 602.353 88.876C428.055 124.766 297 279.078 297 464C297 675.525 468.475 847 680 847C766.736 847 846.738 818.167 910.944 769.564C832.277 883.407 700.85 958 552 958C311.204 958 116 762.796 116 522C116 281.204 311.204 86 552 86Z" fill="url(#moon_story)"/><path d="M250.72 713.322L289.985 744H290V763.581L363.002 810.99L362.996 811H363V946H351V817.503L290 777.89V946H278V749.863L250.076 728.047L217 749.527V946H205V821.813L139 859.919V946H127V853H127.001L126.997 852.993L205 807.958V743H205.02L250.714 713.324L250.718 713.32L250.72 713.322Z" fill="#84B7D7"/><path d="M677 829H665V771H677V829ZM580 288.453L676.997 367H677V447H665V372.726L573.499 298.63L482 372.725V765H470V442.806L387 494.67V675H375V488H375.03L470 428.656V367H470.002L568 287.643V205H580V288.453Z" fill="#84B7D7"/><path d="M808 460C861.019 460 904 502.981 904 556C904 584.656 891.443 610.379 871.533 627.969L842.99 656.512L843.03 656.552L717.406 782.176L717.366 782.136L717.324 782.179L591.7 656.555L591.742 656.512L559.189 623.959L559.192 623.955C541.776 606.577 531 582.547 531 556C531 502.981 573.981 460 627 460C668.76 460 704.292 486.665 717.5 523.896C730.708 486.665 766.24 460 808 460Z" fill="#FBC96B"/><path d="M745 596H800V651H745V709H690V651H635V596H690V544H745V596Z" fill="white"/><path d="M351.003 817.456V878.273H351V909.005C329.562 897.848 309.169 884.961 290.003 870.53V777.843L351.003 817.456ZM278.003 749.816V861.164C255.76 843.172 235.321 823.037 217.003 801.072V749.48L250.079 728L278.003 749.816Z" fill="white" fill-opacity="0.5"/><defs><linearGradient id="moon_story" x1="610" y1="86" x2="575.5" y2="958" gradientUnits="userSpaceOnUse"><stop stop-color="#A3CEE2"/><stop offset="1" stop-color="#6390C8"/></linearGradient></defs></svg><span>勾当台夕方内科クリニック</span></div>
+      <div class="station">勾当台公園駅 徒歩2分</div>
+    </div>
+
+    <div class="title">
+      <div class="lead">夕方から働ける！</div>
+      <h1><span class="marker">クリニック事務</span><br>スタッフ募集中</h1>
+    </div>
+
+    <div class="times">
+      <div class="time weekday">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 6.5V12l-3.5 3"/></svg>
+        <div class="day">平日</div>
+        <div class="big">17<small>時〜</small></div>
+        <div class="sub">土日は14時〜</div>
+      </div>
+      <div class="time weekend">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M3 10h18M8 2.5v4M16 2.5v4"/><circle cx="15.5" cy="15.5" r="1.6" fill="#fff" stroke="none"/></svg>
+        <div class="day">週1回</div>
+        <div class="big word">OK</div>
+        <div class="sub">受付事務</div>
+      </div>
+    </div>
+
+    <div class="points">
+      <div class="point">医療事務の<em>経験者</em>・<em>学生</em>さん歓迎</div>
+      <div class="point"><em>Wワーク</em>も歓迎</div>
+    </div>
+
+
+    <div class="bottom">
+      <div class="price">時給 <strong>1,300</strong>円<span class="small">（交通費支給）</span></div>
+      <div class="access">市役所となり・アーケード街からすぐ</div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

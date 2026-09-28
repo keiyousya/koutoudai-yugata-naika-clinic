@@ -1,5 +1,11 @@
 ---
 import PhoneNumber from "./PhoneNumber.astro";
+
+interface Props {
+  hideExtra?: boolean;
+}
+
+const { hideExtra = false } = Astro.props;
 ---
 
 <section id="access" class="section access">
@@ -77,7 +83,7 @@ import PhoneNumber from "./PhoneNumber.astro";
       </div>
     </div>
 
-    <div class="access-extra">
+    {!hideExtra && <div class="access-extra">
       <div class="directions">
         <h4>クリニックへの入り方</h4>
         <ol class="directions-list">
@@ -111,7 +117,7 @@ import PhoneNumber from "./PhoneNumber.astro";
           ※ 駐車券（まちくるチケット）のお渡しは終了いたしました。
         </p>
       </div>
-    </div>
+    </div>}
   </div>
 </section>
 

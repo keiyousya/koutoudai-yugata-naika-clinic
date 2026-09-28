@@ -29,3 +29,4 @@
 - [満席の日はCV/CPAを根拠にするな](full-day-ads-cv-metric-trap.md) — 断った電話がCVに乗る。「止めていいかも」と言われたら止める
 - [返答は常に日本語](respond-in-japanese.md) — 英語で返さない。2026-09-24に明示指示
 - [pushはまとめて指示時のみ](push-only-when-asked.md) — 修正ごとにpushしない。コミットで止めて未push件数を報告
+- [Instagram広告（インフル）初出稿](meta-instagram-ads-flu-2026.md) — 9/28出稿。日1,000円・勾当台3mi・18-64歳・IGのみ。入力欄の追記事故、画像アップロードの回避策、#1357045は再公開で通る

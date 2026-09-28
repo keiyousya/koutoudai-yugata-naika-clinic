@@ -79,6 +79,11 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 - A4印刷前提（`@page` 指定）。画面上部の印刷ボタンは `@media print` で非表示にする
 - インフル予診票は**任意接種用**。65歳以上の定期接種は仙台市の様式を使う（`tasks/2026-09-sendai-elderly-flu-vaccine.md`）
 
+### instagram（Instagram投稿・広告の画像）
+
+- `instagram/*.html` に画像をHTMLで作り、`.post` 要素をスクリーンショットしてPNGにする（ビルド対象外、PNGはリポジトリに入れない）
+- 広告の画像作成〜Meta広告マネージャでの出稿は `/instagram-ads` スキル
+
 ### clinical-guidelines（診療ガイドラインまとめ）
 
 - 医師の診療・生涯学習用の Markdown ドキュメント（ビルド対象外）

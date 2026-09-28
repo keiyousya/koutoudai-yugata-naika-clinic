@@ -25,4 +25,5 @@ metadata:
 - 複数画像を選ぶと自動で切り抜き/AI拡張版が付く→「その他の縦横比」で外し、Customize media で配置を割り当てる
 - 公開時に「#1357045 システムエラー」が出たが、再読み込み後 Review and publish で再公開して成功。二重作成は無かった
 - 本文はクリニックのInstagram投稿の文体（冒頭「・」「勾当台夕方内科クリニックです🌙」、【】見出し、絵文字箇条書き、締め🌙）に合わせる。ユーザー指定
+- 手順と落とし穴の詳細は `.claude/skills/instagram-ads/SKILL.md` にまとめた
 - 関連: [[ads-unit-economics]] [[ads-conversion-tracking-architecture]]

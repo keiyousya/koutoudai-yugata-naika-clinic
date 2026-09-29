@@ -1,23 +1,14 @@
 ---
+import RecruitVisual from "./RecruitVisual.astro";
 ---
 
 <section id="recruit" class="section recruit">
   <div class="container">
-    <h2 class="section-title">スタッフ募集</h2>
     <div class="recruit-banner">
-      <p class="banner-lead"><span>一緒に働く事務スタッフを</span><span>募集しています</span></p>
-      <div class="banner-positions">
-        <div class="banner-tag">
-          <span class="banner-tag-role">受付事務</span>
-          <span class="banner-tag-time"><span>平日 17:00〜21:00</span><span>土日 14:00〜21:00</span></span>
-        </div>
-        <div class="banner-tag">
-          <span class="banner-tag-role">総務事務</span>
-          <span class="banner-tag-time"><span>診療時間外（応相談）</span></span>
-        </div>
-      </div>
-      <p class="wage">いずれも時給 1,300円</p>
-      <a href="/recruit" class="banner-btn">詳細・応募はこちら</a>
+      <RecruitVisual compact>
+        <p class="banner-sub">総務事務も募集中（診療時間外・応相談）</p>
+        <a href="/recruit" class="banner-btn">詳細・応募はこちら</a>
+      </RecruitVisual>
     </div>
   </div>
 </section>
@@ -27,70 +18,29 @@
     background: white;
   }
 
+  /* 飾りの円は RecruitVisual 側で absolute 配置するので、ここで切り取る */
   .recruit-banner {
+    position: relative;
+    overflow: hidden;
     max-width: 560px;
     margin: 0 auto;
     background: var(--color-coral-bg);
     border: 1px solid var(--color-coral);
     border-radius: 16px;
-    padding: 40px;
+    padding: 40px 24px;
     text-align: center;
   }
 
-  .banner-lead {
-    font-size: 0.95rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 24px;
-    line-height: 1.8;
-  }
-
-  .banner-lead span {
-    display: inline-block;
-  }
-
-  .banner-positions {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    max-width: 320px;
-    margin: 0 auto 20px;
-  }
-
-  .banner-tag {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 10px 20px;
-    background: white;
-    border: 1px solid var(--color-coral);
-    border-radius: 12px;
-    color: var(--color-navy);
-  }
-
-  .banner-tag-role {
-    font-size: 0.92rem;
-    font-weight: 700;
-  }
-
-  .banner-tag-time {
+  .banner-sub {
+    margin-top: 10px;
     font-size: 0.8rem;
+    font-weight: 700;
     color: var(--color-text-secondary);
-  }
-
-  .banner-tag-time > span {
-    display: block;
-  }
-
-  .wage {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-coral);
-    margin-bottom: 24px;
   }
 
   .banner-btn {
     display: inline-block;
+    margin-top: 20px;
     padding: 14px 36px;
     background: var(--color-coral);
     color: white;
@@ -106,7 +56,7 @@
 
   @media (max-width: 768px) {
     .recruit-banner {
-      padding: 32px 24px;
+      padding: 32px 12px;
     }
   }
 </style>

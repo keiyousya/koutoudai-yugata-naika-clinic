@@ -20,7 +20,9 @@
     "db:migrate-inventory-supplier": "node scripts/migrate-inventory-supplier.js",
     "dev:facility": "wrangler dev --config wrangler.facility.toml",
     "deploy:facility": "wrangler deploy --config wrangler.facility.toml",
-    "db:setup-facility": "node scripts/setup-facility-db.js"
+    "db:setup-facility": "node scripts/setup-facility-db.js",
+    "dev:internal-forms": "wrangler dev --config wrangler.internal-forms.toml",
+    "deploy:internal-forms": "wrangler deploy --config wrangler.internal-forms.toml"
   },
   "dependencies": {
     "@holiday-jp/holiday_jp": "^2.5.1",

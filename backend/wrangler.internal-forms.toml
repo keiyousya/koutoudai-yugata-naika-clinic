@@ -1,0 +1,16 @@
+name = "koutoudai-internal-forms"
+main = "src/internal-forms.ts"
+compatibility_date = "2025-01-01"
+workers_dev = true
+
+# 院内専用帳票（リポジトリ直下の internal-forms/）。認証前に Worker を通すため run_worker_first
+[assets]
+directory = "../internal-forms"
+binding = "ASSETS"
+run_worker_first = true
+
+[dev]
+port = 8793
+
+# パスワードは secrets で設定
+# echo "パスワード" | npx wrangler secret put FORMS_PASSWORD --config wrangler.internal-forms.toml

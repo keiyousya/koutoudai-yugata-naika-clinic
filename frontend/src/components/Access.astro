@@ -1,6 +1,4 @@
 ---
-import PhoneNumber from "./PhoneNumber.astro";
-
 interface Props {
   hideExtra?: boolean;
 }
@@ -31,12 +29,6 @@ const { hideExtra = false } = Astro.props;
             <dd>
               仙台市地下鉄南北線<br />
               <strong>勾当台公園駅</strong> 徒歩2分
-            </dd>
-          </div>
-          <div class="info-row">
-            <dt>電話番号</dt>
-            <dd>
-              <PhoneNumber class="tel" />
             </dd>
           </div>
         </dl>
@@ -165,12 +157,6 @@ const { hideExtra = false } = Astro.props;
   }
 
   .info-row dd strong {
-    color: var(--color-navy);
-  }
-
-  .tel {
-    font-size: 1.2rem;
-    font-weight: 700;
     color: var(--color-navy);
   }
 

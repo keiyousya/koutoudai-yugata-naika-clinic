@@ -44,6 +44,8 @@ import Footer from "../../components/Footer.astro";
   const PROCYON_BASE = import.meta.env.PUBLIC_PROCYON_BASE_URL || 'https://api.procyon.helix.keiyousya.com';
   const PROCYON_TENANT = import.meta.env.PUBLIC_PROCYON_TENANT || 'koutoudai-yugata-naika';
   const API_URL = `${PROCYON_BASE}/${PROCYON_TENANT}/v1/notices`;
+  // APIが応答しないときにスケルトンを出し続けないよう、5秒で打ち切ってエラー表示にする
+  const FETCH_TIMEOUT_MS = 5000;
   const PAGE_SIZE = 10;
 
   interface NoticeEntry {
@@ -96,7 +98,7 @@ import Footer from "../../components/Footer.astro";
       url.searchParams.set('pageSize', String(PAGE_SIZE));
       if (nextCursor) url.searchParams.set('cursor', nextCursor);
 
-      const res = await fetch(url.toString());
+      const res = await fetch(url.toString(), { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
       if (!res.ok) throw new Error('fetch failed');
       const data: GetNoticesResponse = await res.json();
 

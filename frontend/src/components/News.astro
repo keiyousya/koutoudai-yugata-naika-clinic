@@ -25,6 +25,8 @@
   const PROCYON_BASE = import.meta.env.PUBLIC_PROCYON_BASE_URL || 'https://api.procyon.helix.keiyousya.com';
   const PROCYON_TENANT = import.meta.env.PUBLIC_PROCYON_TENANT || 'koutoudai-yugata-naika';
   const API_URL = `${PROCYON_BASE}/${PROCYON_TENANT}/v1/notices`;
+  // APIが応答しないときにスケルトンを出し続けないよう、5秒で打ち切ってエラー表示にする
+  const FETCH_TIMEOUT_MS = 5000;
 
   interface NoticeEntry {
     id: string;
@@ -50,7 +52,7 @@
     if (!list) return;
 
     try {
-      const res = await fetch(`${API_URL}?pageSize=3`);
+      const res = await fetch(`${API_URL}?pageSize=3`, { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
       if (!res.ok) throw new Error('fetch failed');
       const data: GetNoticesResponse = await res.json();
 

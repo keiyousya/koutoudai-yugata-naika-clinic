@@ -2,9 +2,11 @@
 import { getCollection } from "astro:content";
 import ArticleIcon from "./ArticleIcon.astro";
 
-const articles = (await getCollection("articles")).sort(
-  (a, b) => a.data.order - b.data.order,
-);
+// トップページには先頭4件（生活習慣病）だけ出し、残りは一覧ページへの導線にする
+const TOP_COUNT = 4;
+const articles = (await getCollection("articles"))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, TOP_COUNT);
 ---
 
 <section id="articles" class="section articles">
@@ -22,6 +24,9 @@ const articles = (await getCollection("articles")).sort(
         </a>
       ))}
     </div>
+    <div class="articles-link">
+      <a href="/articles">すべての記事を見る →</a>
+    </div>
   </div>
 </section>
 
@@ -34,7 +39,7 @@ const articles = (await getCollection("articles")).sort(
 
   .articles-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     max-width: 800px;
     margin: 0 auto;
@@ -48,7 +53,7 @@ const articles = (await getCollection("articles")).sort(
     background: white;
     border: 1px solid var(--color-turquoise);
     border-radius: 20px;
-    padding: 32px 24px;
+    padding: 32px 16px;
     text-decoration: none;
     color: inherit;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -83,6 +88,23 @@ const articles = (await getCollection("articles")).sort(
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--color-turquoise);
+  }
+
+  .articles-link {
+    text-align: center;
+    margin-top: 28px;
+  }
+
+  .articles-link a {
+    color: var(--color-turquoise);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .articles-link a:hover {
+    opacity: 0.8;
   }
 
   @media (max-width: 768px) {

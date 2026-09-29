@@ -46,6 +46,10 @@ const { label = 'ワンポイント', variant = 'default' } = Astro.props;
     margin-bottom: 0;
   }
 
+  .callout :global(p + p) {
+    margin-top: 1em;
+  }
+
   .callout :global(strong) {
     color: var(--color-turquoise-dark);
   }

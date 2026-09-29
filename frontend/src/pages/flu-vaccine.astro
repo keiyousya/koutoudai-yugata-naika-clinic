@@ -135,17 +135,6 @@ const breadcrumbStructuredData = {
       </div>
     </section>
 
-    <section class="page-intro">
-      <div class="container">
-        <p class="intro-text">
-          <strong>2026年（令和8年）9月16日（水）</strong>より、<br class="pc-only" />
-          インフルエンザ予防接種を行います。<br class="pc-only" />
-          平日は<strong>夜19時まで</strong>、<strong>土日も</strong>接種できます。<br />
-          <strong>65歳以上の方</strong>は、仙台市の定期接種（自己負担<strong>1,500円</strong>）として接種いただけます。
-        </p>
-      </div>
-    </section>
-
     <section class="page-section">
       <div class="container">
         <h2 class="page-section-title">インフルエンザ予防接種の料金</h2>
@@ -638,27 +627,8 @@ const breadcrumbStructuredData = {
     .hero-access-sub { display: block; }
   }
 
-  .flu-hero + .page-intro {
+  .flu-hero + .page-section {
     border-top: 1px solid var(--color-coral);
-  }
-
-  /* ── Page Intro ── */
-  .page-intro {
-    padding: 36px 0 !important;
-    background: var(--color-turquoise-bg);
-  }
-
-  .intro-text {
-    max-width: 720px;
-    margin: 0 auto;
-    font-size: 0.95rem;
-    color: var(--color-text-secondary);
-    line-height: 2;
-    text-align: center;
-    background: white;
-    border: 1px solid var(--color-turquoise);
-    border-radius: 16px;
-    padding: 28px 32px;
   }
 
   .pc-only {
@@ -1117,11 +1087,6 @@ const breadcrumbStructuredData = {
   }
 
   @media (max-width: 768px) {
-    .intro-text {
-      text-align: left;
-      font-size: 0.9rem;
-    }
-
     .pc-only {
       display: none;
     }

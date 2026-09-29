@@ -21,9 +21,11 @@ interface Props {
   title: string;
   description?: string;
   noindex?: boolean;
+  /** 右端固定のLINE予約ボタンを出さない（予約と無関係なページ用） */
+  hideLineButton?: boolean;
 }
 
-const { title, description = "仙台市で夜21時まで診療の内科クリニック。発熱外来（平日19〜21時・土日17〜21時）、咳・風邪症状、健診再検査に対応。仕事帰りに通院できます。勾当台公園駅徒歩2分、土日も診療。", noindex = false } = Astro.props;
+const { title, description = "仙台市で夜21時まで診療の内科クリニック。発熱外来（平日19〜21時・土日17〜21時）、咳・風邪症状、健診再検査に対応。仕事帰りに通院できます。勾当台公園駅徒歩2分、土日も診療。", noindex = false, hideLineButton = false } = Astro.props;
 
 const siteUrl = "https://koutoudai-yugata-naika.clinic";
 const currentPath = Astro.url.pathname;
@@ -289,7 +291,7 @@ const faqStructuredData = {
   </head>
   <body>
     <slot />
-    <FixedLineButton />
+    {!hideLineButton && <FixedLineButton />}
 
     {/* 広告効果測定: gclid（Google広告）/ yclid（ヤフー広告）付きでアクセスされた場合、
          ページ内のLINEへのリンクをすべて媒体別の広告用URL（?source=）に差し替える。

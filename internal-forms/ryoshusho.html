@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>領収書（自費）｜勾当台夕方内科クリニック</title>
+  <!--
+    院内用 領収書（自費診療・予防接種など・A5縦 1枚）
+    主な用途: 任意接種のインフルエンザ予防接種などで「会社名宛て」の領収書を求められたとき。
+
+    方針:
+      - 宛名・金額・但し書きは画面で入力してから印刷する（空欄のまま印刷すれば手書きもできる）。
+        領収日は開いた日の日付が自動で入る。
+      - 同じ支払いについて、個人名と会社名の領収書を二重に出さない。
+        先に出したものがあれば回収して差し替える。
+      - 保険診療の領収証はレセコンの様式で出す。この用紙は使わない。
+
+    参考:
+      - 療担規則 第5条の2 の領収証交付義務は、第5条の費用（一部負担金・選定療養など）の支払いが対象。
+        任意接種は保険外なので対象外で、宛名についての定めもない。
+      - 印紙税: 医師・医療法人が業務上作成する受取書は「営業に関しない受取書」として非課税
+        （国税庁 質疑応答「法人組織の病院等が作成する受取書」、タックスアンサー No.7125）。
+        5万円以上でも収入印紙は不要なので、印紙欄は設けない。
+      - 当院（個人事業）は消費税の免税事業者・インボイス未登録のため、消費税額と登録番号は載せない。
+        課税事業者になる／インボイス登録したら「うち消費税等（10%）」欄と登録番号（T+13桁）を足す。
+      - 領収印はクリニック印（ゴム印・浸透印で可）。
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A5 portrait;
+      margin: 18mm 20mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      background: #e5e7eb;
+      color: #111;
+      font-size: 10pt;
+      line-height: 1.6;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px;
+      background: #2c5f7c;
+      color: white;
+      z-index: 10;
+    }
+
+    .toolbar button {
+      font: inherit;
+      font-size: 11pt;
+      font-weight: 700;
+      padding: 6px 24px;
+      border: none;
+      border-radius: 6px;
+      background: white;
+      color: #2c5f7c;
+      cursor: pointer;
+    }
+
+    .toolbar span {
+      align-self: center;
+      font-size: 9pt;
+    }
+
+    /* 用紙の高さいっぱいに配置し、発行者欄を下端に寄せる */
+    .sheet {
+      display: flex;
+      flex-direction: column;
+      width: 148mm;
+      height: 210mm;
+      margin: 16px auto;
+      padding: 18mm 20mm;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      margin: 2mm 0 12mm;
+      text-align: center;
+      font-size: 19pt;
+      font-weight: 700;
+      letter-spacing: 0.5em;
+      text-indent: 0.5em;
+    }
+
+    .fill {
+      display: inline-block;
+      border-bottom: 1px solid #111;
+    }
+
+    /* 入力欄。画面では薄い背景で入力できる場所を示し、印刷時は文字だけ残す */
+    input.fill {
+      padding: 0 1mm;
+      border: none;
+      border-bottom: 1px solid #111;
+      border-radius: 0;
+      background: #eef6fb;
+      font: inherit;
+      color: inherit;
+      outline: none;
+    }
+
+    input.fill:focus {
+      background: #dbeefa;
+    }
+
+    .amount input {
+      width: 48mm;
+      padding: 0 1mm;
+      border: none;
+      border-radius: 0;
+      background: #eef6fb;
+      font: inherit;
+      text-align: right;
+      outline: none;
+    }
+
+    .amount input:focus {
+      background: #dbeefa;
+    }
+
+    .to {
+      margin-bottom: 12mm;
+      font-size: 11.5pt;
+    }
+
+    .to .fill {
+      width: 86mm;
+      height: 8mm;
+      text-align: center;
+    }
+
+    .amount {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12mm;
+      padding: 5mm 6mm;
+      border: 1.5px solid #111;
+      background: #f8fafc;
+    }
+
+    .amount .label {
+      font-size: 11.5pt;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+    }
+
+    .amount .yen {
+      flex: 1;
+      padding-right: 3mm;
+      font-size: 17pt;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .amount .suffix {
+      font-size: 12pt;
+      font-weight: 700;
+    }
+
+    .proviso {
+      font-size: 10.5pt;
+    }
+
+    .proviso .fill {
+      width: 82mm;
+      height: 7mm;
+      text-align: center;
+      text-align-last: center;
+    }
+
+    .proviso select.fill {
+      padding: 0 1mm;
+      border: none;
+      border-bottom: 1px solid #111;
+      border-radius: 0;
+      background: #eef6fb;
+      font: inherit;
+      color: inherit;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* .fill の display が hidden 属性より優先されてしまうのを防ぐ */
+    .proviso input.fill[hidden] {
+      display: none;
+    }
+
+    /* 自由記載のときは選択欄を詰め、その横に入力欄を出す */
+    .proviso.is-free select.fill {
+      width: 22mm;
+    }
+
+    .proviso.is-free input.fill {
+      width: 60mm;
+    }
+
+    .received {
+      margin-top: 12mm;
+      font-size: 10pt;
+      line-height: 2;
+      text-align: right;
+    }
+
+    .issuer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 4mm;
+      margin-top: auto;
+      font-size: 8.5pt;
+      line-height: 1.7;
+    }
+
+    .issuer .clinic-name {
+      font-size: 11.5pt;
+      font-weight: 700;
+    }
+
+    .issuer .seal {
+      flex-shrink: 0;
+      width: 18mm;
+      height: 18mm;
+      border: 1px dashed #94a3b8;
+      border-radius: 1mm;
+      font-size: 7pt;
+      line-height: 18mm;
+      text-align: center;
+      color: #94a3b8;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .toolbar {
+        display: none;
+      }
+
+      /* A5（210mm）から上下の余白 18mm×2 を引いた高さ。はみ出して2枚目が出ないよう 1mm 控える */
+      .sheet {
+        width: auto;
+        height: 173mm;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+
+      .amount {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      input.fill,
+      .amount input,
+      .proviso select.fill {
+        background: transparent;
+      }
+
+      /* 選択欄は矢印を消して、選んだ文言だけを印字する */
+      .proviso select.fill {
+        appearance: none;
+      }
+
+      /* 自由記載のときは入力欄だけを1本の線として印字する */
+      .proviso.is-free select.fill {
+        display: none;
+      }
+
+      .proviso.is-free input.fill {
+        width: 82mm;
+      }
+
+      /* 領収印のガイド枠は画面だけに出し、印刷時は余白として残す */
+      .issuer .seal {
+        border-color: transparent;
+        color: transparent;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button type="button" onclick="window.print()">印刷する</button>
+    <span>用紙A5縦・倍率100%で印刷してください</span>
+  </div>
+
+  <main class="sheet">
+    <h1>領収書</h1>
+
+    <p class="to"><input class="fill" type="text" aria-label="宛名" autocomplete="off"> 様</p>
+
+    <div class="amount">
+      <span class="label">金額</span>
+      <span class="yen">￥<input id="amount" type="text" inputmode="numeric" aria-label="金額" autocomplete="off"></span>
+      <span class="suffix">－</span>
+    </div>
+
+    <p class="proviso">
+      但し
+      <select id="proviso-kind" class="fill" aria-label="但し書き">
+        <option value=""></option>
+        <option>予防接種料</option>
+        <option>文書料</option>
+        <option>処方料</option>
+        <option value="free">自由記載</option>
+      </select><input id="proviso-free" class="fill" type="text" aria-label="但し書き（自由記載）" autocomplete="off" hidden>
+      として
+    </p>
+
+    <div class="received">
+      <p>上記の金額を正に領収いたしました。</p>
+      <p id="issue-date">令和　　　年　　　月　　　日</p>
+    </div>
+
+    <div class="issuer">
+      <div>
+        <div>〒980-0803　宮城県仙台市青葉区国分町3丁目8-1</div>
+        <div>勾当台ビル4階</div>
+        <div class="clinic-name">勾当台夕方内科クリニック</div>
+        <div>電話　022-393-8689</div>
+      </div>
+      <span class="seal">領収印</span>
+    </div>
+  </main>
+
+  <script>
+    // 領収日: 開いた日の日付を令和で入れる
+    const today = new Date();
+    document.getElementById("issue-date").textContent =
+      `令和${today.getFullYear() - 2018}年${today.getMonth() + 1}月${today.getDate()}日`;
+
+    // 金額: 全角数字も受け付け、3桁区切りにそろえる
+    const amount = document.getElementById("amount");
+    const formatAmount = () => {
+      const digits = amount.value
+        .replace(/[０-９]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0xfee0))
+        .replace(/\D/g, "");
+      amount.value = digits ? Number(digits).toLocaleString("ja-JP") : "";
+    };
+    // 日本語入力の変換中に書き換えると入力が壊れるので、確定してから整形する
+    amount.addEventListener("input", (e) => {
+      if (!e.isComposing) formatAmount();
+    });
+    amount.addEventListener("compositionend", formatAmount);
+
+    // 但し書き: 「自由記載」を選んだときだけ入力欄を出す
+    const provisoKind = document.getElementById("proviso-kind");
+    const provisoFree = document.getElementById("proviso-free");
+    provisoKind.addEventListener("change", () => {
+      const isFree = provisoKind.value === "free";
+      provisoKind.parentElement.classList.toggle("is-free", isFree);
+      provisoFree.hidden = !isFree;
+      if (isFree) provisoFree.focus();
+    });
+  </script>
+</body>
+</html>

@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import SubPageHeader from "../components/SubPageHeader.astro";
 import LineCta from "../components/LineCta.astro";
+import LineReservationGuide from "../components/LineReservationGuide.astro";
 import Footer from "../components/Footer.astro";
 
 const pageUrl = "https://koutoudai-yugata-naika.clinic/covid-vaccine";
@@ -151,6 +152,15 @@ const breadcrumbStructuredData = {
           <LineCta lines={[
             "LINEのメニューから「予防接種」を選んでご予約ください。"
           ]} />
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">LINEでの予約方法</h2>
+        <div class="reserve-guide">
+          <LineReservationGuide variant="vaccine" />
         </div>
       </div>
     </section>
@@ -494,6 +504,11 @@ const breadcrumbStructuredData = {
     height: 1px;
     background: var(--color-turquoise);
     opacity: 0.5;
+  }
+
+  .reserve-guide {
+    max-width: 880px;
+    margin: 0 auto;
   }
 
   .section-lead {

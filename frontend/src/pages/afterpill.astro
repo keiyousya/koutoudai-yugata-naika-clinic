@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import SubPageHeader from "../components/SubPageHeader.astro";
 import LineCta from "../components/LineCta.astro";
+import LineReservationGuide from "../components/LineReservationGuide.astro";
 import Footer from "../components/Footer.astro";
 
 // アフターピルページ専用の構造化データ
@@ -153,6 +154,16 @@ const faqStructuredData = {
             "緊急避妊についてご相談がある方は、",
             "できるだけ早めにご来院ください。"
           ]} />
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">LINEでの予約方法</h2>
+        <p class="section-lead">アフターピルは、メニューの<strong>「一般内科」ではなく「その他予約」</strong>からご予約いただけます。</p>
+        <div class="reserve-guide">
+          <LineReservationGuide variant="afterpill" />
         </div>
       </div>
     </section>
@@ -773,6 +784,11 @@ const faqStructuredData = {
     padding-top: 20px;
     border-top: 1px solid var(--color-border);
     text-align: center;
+  }
+
+  .reserve-guide {
+    max-width: 880px;
+    margin: 0 auto;
   }
 
   .flow-list {

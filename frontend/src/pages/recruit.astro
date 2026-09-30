@@ -66,7 +66,9 @@ const jobPostings = [
   <Header />
   <main class="page-main">
     <section class="recruit-hero">
-      <RecruitVisual titleTag="h1" showAccess />
+      <RecruitVisual titleTag="h1" showAccess>
+        <a href="#apply" class="hero-apply-btn">応募フォームへ</a>
+      </RecruitVisual>
     </section>
 
     <section class="section recruit-detail">
@@ -138,7 +140,7 @@ const jobPostings = [
             </div>
           </div>
 
-          <div class="recruit-form-wrapper">
+          <div id="apply" class="recruit-form-wrapper">
             <h3>応募フォーム</h3>
             <form id="recruitForm" class="recruit-form" action="https://api.web3forms.com/submit" method="POST">
               <input type="hidden" name="access_key" value="a8b6268c-0cb5-40d9-9fb6-e0b3f47da295" />
@@ -212,6 +214,24 @@ const jobPostings = [
     .recruit-hero {
       padding: calc(60px + 56px) 16px 56px;
     }
+  }
+
+  .hero-apply-btn {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 16px 48px;
+    background: var(--color-coral);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    border-radius: 9999px;
+    box-shadow: 0 6px 0 rgba(30, 58, 95, 0.14);
+    transition: opacity 0.2s;
+  }
+
+  .hero-apply-btn:hover {
+    opacity: 0.85;
   }
 
   /* ── Recruit Detail ── */
@@ -504,6 +524,8 @@ const jobPostings = [
     border-radius: 16px;
     position: sticky;
     top: 80px;
+    /* 「応募フォームへ」で飛んだとき固定ヘッダー（60px）に隠れないように */
+    scroll-margin-top: 80px;
   }
 
   .recruit-form-wrapper h3 {

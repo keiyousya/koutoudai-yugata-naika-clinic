@@ -4,7 +4,7 @@ import LineButton from "./LineButton.astro";
 import richMenuImage from "../assets/line-guide/rich-menu.jpg";
 import selectMenuImage from "../assets/line-guide/select-menu.jpg";
 
-// general: トップの予約欄向け（メニュー全体 → アフターピル等は「その他予約」）
+// general: トップの予約欄向け（友だち追加 → メニューから診療を選ぶ）
 // afterpill: アフターピルページ向け（「その他予約」→「緊急避妊薬」）
 interface Props {
   variant?: "general" | "afterpill";
@@ -61,17 +61,10 @@ const steps: Step[] =
           alt: "LINEのトーク画面下のメニュー。一般内科・発熱外来・予防接種・その他予約・マイページが並ぶ",
           highlight: WHOLE_MENU,
         },
-        {
-          title: "アフターピルは「その他予約」から",
-          text: "メニューの「その他予約」を押し、「緊急避妊薬（アフターピル）」を選んでください。",
-          image: selectMenuImage,
-          alt: "「その他予約」を押した後の診療を選択する画面。「緊急避妊薬（アフターピル）」を選ぶ",
-          highlight: AFTERPILL_CARD,
-        },
       ];
 ---
 
-<ol class="guide-steps">
+<ol class="guide-steps" style={`--guide-columns:${steps.length};`}>
   {steps.map((step, i) => (
     <li class="guide-step">
       <div class="guide-step-head">
@@ -102,7 +95,7 @@ const steps: Step[] =
 <style>
   .guide-steps {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(var(--guide-columns), 1fr);
     gap: 16px;
     list-style: none;
     padding: 0;

@@ -6,8 +6,9 @@ import selectMenuImage from "../assets/line-guide/select-menu.jpg";
 
 // general: トップの予約欄向け（友だち追加 → メニューから診療を選ぶ）
 // afterpill: アフターピルページ向け（「その他予約」→「緊急避妊薬」）
+// vaccine: 予防接種ページ向け（「予防接種」→ ワクチンを選ぶ）
 interface Props {
-  variant?: "general" | "afterpill";
+  variant?: "general" | "afterpill" | "vaccine";
 }
 
 const { variant = "general" } = Astro.props;
@@ -29,16 +30,37 @@ interface Step {
 
 const WHOLE_MENU: Highlight = { top: 58.5, left: 1.5, width: 97, height: 31 };
 const OTHER_BUTTON: Highlight = { top: 75.5, left: 33.5, width: 33, height: 13.5 };
+const VACCINE_BUTTON: Highlight = { top: 75.5, left: 2, width: 31.5, height: 13.5 };
 const AFTERPILL_CARD: Highlight = { top: 57, left: 3.2, width: 93.6, height: 13.2 };
 
+const FRIEND_ADD_STEP: Step = {
+  title: "LINEで友だち追加",
+  text: "下のボタンから当院のLINEを友だち追加してください。",
+  button: true,
+};
+
+const INPUT_STEP: Step = {
+  title: "日時を選び、ご本人情報と問診を入力",
+  text: "ご希望の日時を選んだあと、お名前などのご本人情報と問診にお答えいただくと予約完了です。",
+  wide: true,
+};
+
 const steps: Step[] =
-  variant === "afterpill"
+  variant === "vaccine"
     ? [
+        FRIEND_ADD_STEP,
         {
-          title: "LINEで友だち追加",
-          text: "下のボタンから当院のLINEを友だち追加してください。",
-          button: true,
+          title: "メニューの「予防接種」をタップ",
+          text: "トーク画面の下にあるメニューから「予防接種」を押し、接種するワクチンを選びます。",
+          image: richMenuImage,
+          alt: "LINEのトーク画面下のメニュー。「予防接種」を押す",
+          highlight: VACCINE_BUTTON,
         },
+        INPUT_STEP,
+      ]
+    : variant === "afterpill"
+    ? [
+        FRIEND_ADD_STEP,
         {
           title: "メニューの「その他予約」をタップ",
           text: "トーク画面の下にあるメニューから「その他予約」を押します。",
@@ -53,18 +75,10 @@ const steps: Step[] =
           alt: "診療を選択する画面。「緊急避妊薬（アフターピル）」を選ぶ",
           highlight: AFTERPILL_CARD,
         },
-        {
-          title: "日時を選び、ご本人情報と問診を入力",
-          text: "ご希望の日時を選んだあと、お名前などのご本人情報と問診にお答えいただくと予約完了です。",
-          wide: true,
-        },
+        INPUT_STEP,
       ]
     : [
-        {
-          title: "LINEで友だち追加",
-          text: "下のボタンから当院のLINEを友だち追加してください。",
-          button: true,
-        },
+        FRIEND_ADD_STEP,
         {
           title: "メニューから診療を選ぶ",
           text: "トーク画面の下のメニューから「一般内科」「発熱外来」「予防接種」のいずれかを押します。",
@@ -72,11 +86,7 @@ const steps: Step[] =
           alt: "LINEのトーク画面下のメニュー。一般内科・発熱外来・予防接種・その他予約・マイページが並ぶ",
           highlight: WHOLE_MENU,
         },
-        {
-          title: "日時を選び、ご本人情報と問診を入力",
-          text: "ご希望の日時を選んだあと、お名前などのご本人情報と問診にお答えいただくと予約完了です。",
-          wide: true,
-        },
+        INPUT_STEP,
       ];
 ---
 

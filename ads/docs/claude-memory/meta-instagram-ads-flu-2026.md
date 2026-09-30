@@ -38,3 +38,8 @@ metadata:
 - 本文はクリニックのInstagram投稿の文体（冒頭「・」「勾当台夕方内科クリニックです🌙」、【】見出し、絵文字箇条書き、締め🌙）に合わせる。ユーザー指定
 - 手順と落とし穴の詳細は `.claude/skills/instagram-ads/SKILL.md` にまとめた
 - 関連: [[ads-unit-economics]] [[ads-conversion-tracking-architecture]]
+- 関連: [[ads-unit-economics]] [[ads-conversion-tracking-architecture]]
+
+- 9/30 15時時点: 増額後はLPV単価が悪化（インフル 12→21→30円、求人 12→18→29円）。CTRもインフル5.25→3.55→2.56%、求人5.90→4.84→3.36%。頻度は1.1前後で飽きではない。9/29の消化は予算3,000円に対し約1,900円。累計(9/28-30途中) インフル 3,458円/LPV181、求人 3,025円/LPV155
+- 広告マネージャの表は列が仮想化されていて get_page_text では数値が取れない。横スクロールバーをドラッグ→スクショで読む。日別は Breakdown→Day（URL `&time_breakdown=days_1`）。ページ内トークンでのGraph API呼び出しは「Invalid request」で不可
+- 9/30: 求人は応募0件（LPV約155）。採用ページhero に「応募フォームへ」ボタンを追加（#apply）。求人の日予算を 3,000→1,000円に戻した（インフルは3,000円のまま）。求人の通常投稿用に時給を消したフィード画像を作成（Playwrightで `.feed .price{display:none}` を注入して書き出し、余白は justify-content:space-between で再配分）

@@ -82,6 +82,15 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
     margin: 0 auto;
   }
 
+  /* 広告画像と同じ丸ゴシック。サブセットフォントなので、呼び出し側の slot（文言が変わりうる）には効かせない */
+  .hero-lead,
+  .hero-title,
+  .hero-times,
+  .hero-points,
+  .hero-bottom {
+    font-family: "M PLUS Rounded Hero", "M PLUS 1p", sans-serif;
+  }
+
   .hero-lead {
     display: inline-block;
     font-size: 1.2rem;

@@ -7,6 +7,9 @@ import '@fontsource/m-plus-1p/latin-500.css';
 import '@fontsource/m-plus-1p/japanese-700.css';
 import '@fontsource/m-plus-1p/latin-700.css';
 import brandFontUrl from '../fonts/noto-sans-jp-brand.woff2?url';
+import heroFont700Url from '../fonts/m-plus-rounded-1c-hero-700.woff2?url';
+import heroFont800Url from '../fonts/m-plus-rounded-1c-hero-800.woff2?url';
+import heroFont900Url from '../fonts/m-plus-rounded-1c-hero-900.woff2?url';
 import FixedLineButton from '../components/FixedLineButton.astro';
 import {
   LINE_ADD_FRIEND_URL_GOOGLE_AD,
@@ -255,6 +258,22 @@ const faqStructuredData = {
         src: url(${brandFontUrl}) format('woff2');
       }
     `} />
+
+    <!-- Instagram広告デザインのhero用フォント（subset: heroの文字のみ。scripts/subset-hero-font.py で生成）。
+         preloadせず、heroのあるページでだけ使われたときに読み込まれる -->
+    <style set:html={[
+      [700, heroFont700Url],
+      [800, heroFont800Url],
+      [900, heroFont900Url],
+    ].map(([weight, url]) => `
+      @font-face {
+        font-family: 'M PLUS Rounded Hero';
+        font-style: normal;
+        font-weight: ${weight};
+        font-display: swap;
+        src: url(${url}) format('woff2');
+      }
+    `).join('')} />
 
     <title>{title}</title>
 

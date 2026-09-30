@@ -21,6 +21,10 @@ interface Step {
   image?: ImageMetadata;
   alt?: string;
   highlight?: Highlight;
+  // 友だち追加ボタンを表示する
+  button?: boolean;
+  // 画像なしで横幅いっぱいに表示する（最後の補足ステップ用）
+  wide?: boolean;
 }
 
 const WHOLE_MENU: Highlight = { top: 58.5, left: 1.5, width: 97, height: 31 };
@@ -33,6 +37,7 @@ const steps: Step[] =
         {
           title: "LINEで友だち追加",
           text: "下のボタンから当院のLINEを友だち追加してください。",
+          button: true,
         },
         {
           title: "メニューの「その他予約」をタップ",
@@ -43,30 +48,41 @@ const steps: Step[] =
         },
         {
           title: "「緊急避妊薬（アフターピル）」を選ぶ",
-          text: "診療の一覧から選び、ご希望の日時を選んで予約完了です。",
+          text: "診療の一覧から「緊急避妊薬（アフターピル）」を押します。",
           image: selectMenuImage,
           alt: "診療を選択する画面。「緊急避妊薬（アフターピル）」を選ぶ",
           highlight: AFTERPILL_CARD,
+        },
+        {
+          title: "日時を選び、ご本人情報と問診を入力",
+          text: "ご希望の日時を選んだあと、お名前などのご本人情報と問診にお答えいただくと予約完了です。",
+          wide: true,
         },
       ]
     : [
         {
           title: "LINEで友だち追加",
           text: "下のボタンから当院のLINEを友だち追加してください。",
+          button: true,
         },
         {
           title: "メニューから診療を選ぶ",
-          text: "トーク画面の下のメニューから「一般内科」「発熱外来」「予防接種」を選び、日時を選んで予約します。",
+          text: "トーク画面の下のメニューから「一般内科」「発熱外来」「予防接種」のいずれかを押します。",
           image: richMenuImage,
           alt: "LINEのトーク画面下のメニュー。一般内科・発熱外来・予防接種・その他予約・マイページが並ぶ",
           highlight: WHOLE_MENU,
         },
+        {
+          title: "日時を選び、ご本人情報と問診を入力",
+          text: "ご希望の日時を選んだあと、お名前などのご本人情報と問診にお答えいただくと予約完了です。",
+          wide: true,
+        },
       ];
 ---
 
-<ol class="guide-steps" style={`--guide-columns:${steps.length};`}>
+<ol class="guide-steps" style={`--guide-columns:${steps.filter((s) => !s.wide).length};`}>
   {steps.map((step, i) => (
-    <li class="guide-step">
+    <li class:list={["guide-step", { "guide-step-wide": step.wide }]}>
       <div class="guide-step-head">
         <span class="guide-step-number">{i + 1}</span>
         <p class="guide-step-title">{step.title}</p>
@@ -83,7 +99,7 @@ const steps: Step[] =
             />
           )}
         </div>
-      ) : (
+      ) : step.button && (
         <div class="guide-step-button">
           <LineButton label="友だち追加する" />
         </div>
@@ -110,6 +126,14 @@ const steps: Step[] =
     background: white;
     border: 1px solid var(--color-border);
     border-radius: 16px;
+  }
+
+  .guide-step-wide {
+    grid-column: 1 / -1;
+  }
+
+  .guide-step-wide .guide-step-text {
+    margin-bottom: 0;
   }
 
   .guide-step-head {

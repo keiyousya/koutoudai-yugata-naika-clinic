@@ -22,6 +22,8 @@ OUT = ROOT / "src/fonts"
 SOURCES = [
     ("src/components/RecruitVisual.astro", "---\n\n", "<style>"),
     ("src/pages/flu-vaccine.astro", '<section class="flu-hero">', "</section>"),
+    # 採用ページのheroの「応募フォームへ」ボタン（RecruitVisual の slot）
+    ("src/pages/recruit.astro", "<RecruitVisual", "</RecruitVisual>"),
 ]
 
 WEIGHTS = {"Bold": 700, "ExtraBold": 800, "Black": 900}

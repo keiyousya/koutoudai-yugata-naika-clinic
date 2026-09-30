@@ -78,7 +78,7 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
   .hero-content {
     position: relative;
     z-index: 1;
-    max-width: 600px;
+    max-width: 680px;
     margin: 0 auto;
   }
 
@@ -93,7 +93,7 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
 
   .hero-lead {
     display: inline-block;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--color-coral);
     letter-spacing: 0.04em;
@@ -102,7 +102,7 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
 
   .hero-title {
     margin-top: 4px;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 900;
     line-height: 1.3;
     letter-spacing: 0.02em;
@@ -116,13 +116,13 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
   .hero-times {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    margin-top: 24px;
+    gap: 24px;
+    margin-top: 28px;
   }
 
   .hero-time {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     color: #fff;
     display: flex;
@@ -142,12 +142,12 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
   }
 
   .hero-time-icon {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     margin-bottom: 2px;
   }
   .hero-time-day {
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 900;
     letter-spacing: 0.08em;
     background: #fff;
@@ -159,20 +159,20 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
   .hero-time--weekend .hero-time-day { color: var(--color-turquoise); }
 
   .hero-time-big {
-    font-size: 2.8rem;
+    font-size: 3.4rem;
     font-weight: 900;
     line-height: 1;
     letter-spacing: -0.02em;
   }
   .hero-time-big small {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     letter-spacing: 0;
   }
   .hero-time-big--word {
-    font-size: 2.2rem;
+    font-size: 2.7rem;
   }
   .hero-time-sub {
-    font-size: 0.65rem;
+    font-size: 0.8rem;
     font-weight: 800;
     margin-top: 2px;
   }
@@ -182,14 +182,14 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
     justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
-    margin-top: 22px;
+    margin-top: 26px;
   }
   .hero-point {
     background: #fff;
     border: 2px solid var(--color-navy);
     border-radius: 14px;
-    padding: 6px 14px;
-    font-size: 0.82rem;
+    padding: 7px 16px;
+    font-size: 1rem;
     font-weight: 900;
     color: var(--color-navy);
     white-space: nowrap;
@@ -200,49 +200,61 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
   }
 
   .hero-bottom {
-    margin-top: 22px;
+    margin-top: 26px;
   }
   .hero-price {
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     font-weight: 800;
     color: var(--color-navy);
   }
   .hero-price strong {
-    font-size: 1.6rem;
+    font-size: 2rem;
     font-weight: 900;
     color: var(--color-coral);
   }
   .hero-price-note {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     font-weight: 700;
     opacity: 0.7;
   }
   .hero-access {
-    margin-top: 6px;
-    font-size: 0.85rem;
+    margin-top: 8px;
+    font-size: 1.05rem;
     font-weight: 800;
     color: var(--color-navy);
   }
 
   /* トップページ用。丸とタイトルを一回り小さくする */
-  .compact .hero-title { font-size: 1.6rem; }
-  .compact .hero-times { gap: 16px; margin-top: 20px; }
-  .compact .hero-time { width: 124px; height: 124px; }
-  .compact .hero-time-big { font-size: 2.4rem; }
-  .compact .hero-time-big small { font-size: 1rem; }
-  .compact .hero-time-big--word { font-size: 1.9rem; }
+  .compact .hero-lead { font-size: 1.3rem; }
+  .compact .hero-title { font-size: 1.9rem; }
+  .compact .hero-times { gap: 18px; margin-top: 22px; }
+  .compact .hero-time { width: 144px; height: 144px; }
+  .compact .hero-time-day { font-size: 0.9rem; }
+  .compact .hero-time-big { font-size: 2.8rem; }
+  .compact .hero-time-big small { font-size: 1.15rem; }
+  .compact .hero-time-big--word { font-size: 2.2rem; }
+  .compact .hero-time-sub { font-size: 0.72rem; }
+  .compact .hero-point { font-size: 0.9rem; padding: 6px 14px; }
 
   @media (max-width: 768px) {
-    .hero-lead { font-size: 1rem; }
-    .hero-title,
-    .compact .hero-title { font-size: 1.6rem; }
+    .hero-lead,
+    .compact .hero-lead { font-size: 1.25rem; }
+    .hero-title { font-size: 2rem; }
+    .compact .hero-title { font-size: 1.8rem; }
     .hero-times { gap: 14px; }
-    .hero-time,
-    .compact .hero-time { width: 120px; height: 120px; }
-    .hero-time-big { font-size: 2.4rem; }
-    .hero-time-big small { font-size: 1rem; }
-    .hero-time-big--word { font-size: 1.8rem; }
-    .hero-point { font-size: 0.75rem; padding: 5px 10px; }
+    .hero-time { width: 148px; height: 148px; }
+    .compact .hero-time { width: 134px; height: 134px; }
+    .hero-time-day,
+    .compact .hero-time-day { font-size: 0.88rem; }
+    .hero-time-big { font-size: 3rem; }
+    .compact .hero-time-big { font-size: 2.6rem; }
+    .hero-time-big small,
+    .compact .hero-time-big small { font-size: 1.15rem; }
+    .hero-time-big--word { font-size: 2.3rem; }
+    .compact .hero-time-big--word { font-size: 2rem; }
+    .hero-time-sub,
+    .compact .hero-time-sub { font-size: 0.72rem; }
+    .hero-point { font-size: 0.9rem; padding: 6px 12px; }
     .hero-access-sub { display: block; }
     /* トップページの枠は幅が狭いので、タグ2つが1段に収まるよう詰める */
     .compact .hero-points { gap: 6px; }

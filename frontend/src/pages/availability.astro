@@ -4,6 +4,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import SubPageHeader from "../components/SubPageHeader.astro";
 import Footer from "../components/Footer.astro";
+import LineReservationGuide from "../components/LineReservationGuide.astro";
 import { LINE_ADD_FRIEND_URL } from "../config/line";
 
 // 表示する日数。0 = 本日, 1 = 明日, 2 = 明後日（スクリプト側の DAY_LABELS と対応）
@@ -136,6 +137,12 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
             </svg>
             LINEで予約する
           </a>
+        </div>
+
+        {/* 休診日でも他の日の予約に使うので、表示切り替えの対象にしない */}
+        <div class="availability-guide">
+          <h2 class="availability-guide-title">LINEでの予約方法</h2>
+          <LineReservationGuide />
         </div>
 
         <div class="detail-back">
@@ -676,6 +683,19 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
   }
 
   .reservation-cta {
+    text-align: center;
+  }
+
+  .availability-guide {
+    max-width: 880px;
+    margin: 48px auto 0;
+  }
+
+  .availability-guide-title {
+    margin-bottom: 16px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
     text-align: center;
   }
 

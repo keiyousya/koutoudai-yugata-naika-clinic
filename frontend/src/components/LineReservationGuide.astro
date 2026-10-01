@@ -88,6 +88,9 @@ const steps: Step[] =
         },
         INPUT_STEP,
       ];
+
+// アフターピルはご本人の受診が前提のため、家族予約の案内は出さない
+const showFamilyNote = variant !== "afterpill";
 ---
 
 <ol class="guide-steps" style={`--guide-columns:${steps.filter((s) => !s.wide).length};`}>
@@ -117,6 +120,17 @@ const steps: Step[] =
     </li>
   ))}
 </ol>
+
+{showFamilyNote && (
+  <div class="family-note">
+    <p class="family-note-title"><span class="nowrap">LINEをお使いでない方も、</span><span class="nowrap">ご家族のLINEからご予約いただけます</span></p>
+    <ul class="family-note-list">
+      <li>ご家族のLINEから、<strong>LINEをお使いでない方のご予約</strong>が取れます</li>
+      <li>1つのLINEアカウントで、<strong>ご家族何人分でも</strong>ご予約いただけます</li>
+    </ul>
+    <p class="family-note-text">ご予約の際は、<strong>実際に受診される方</strong>のお名前などのご本人情報と問診をご入力ください。ご家族それぞれ、おひとりずつご予約をお願いします。</p>
+  </div>
+)}
 
 <style>
   .guide-steps {
@@ -210,6 +224,60 @@ const steps: Step[] =
     border-radius: 10px;
     box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.25);
     pointer-events: none;
+  }
+
+  .family-note {
+    margin-top: 20px;
+    padding: 18px 20px;
+    background: #f0faf4;
+    border: 1px solid #06c755;
+    border-radius: 16px;
+    text-align: left;
+  }
+
+  .family-note-title {
+    margin-bottom: 10px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: 1.5;
+  }
+
+  .family-note-title .nowrap {
+    display: inline-block;
+  }
+
+  .family-note-list {
+    margin: 0 0 10px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .family-note-list li {
+    position: relative;
+    padding-left: 1.4em;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+  }
+
+  .family-note-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: #06c755;
+  }
+
+  .family-note strong {
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .family-note-text {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
   }
 
   @media (max-width: 768px) {

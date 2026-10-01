@@ -95,7 +95,7 @@
 
         <div class="hours-last-reception">
           <span class="last-reception-text">受付開始 <strong>平日 17:00</strong> / <strong>土日 14:00</strong></span>
-          <span class="last-reception-text">最終受付 <strong>20:50</strong><br class="sp-only" />（LINE予約の当日最終）</span>
+          <span class="last-reception-text">最終受付 <strong>20:50</strong></span>
         </div>
 
         <div class="reception-notes">
@@ -390,8 +390,6 @@
     50% { opacity: 0.4; }
   }
 
-  #hours .sp-only { display: none; }
-
   @media (max-width: 900px) {
     #hours .hours-layout { grid-template-columns: 1fr; gap: 32px; }
     #hours .calendar-side { max-width: 500px; margin: 0 auto; }
@@ -399,7 +397,6 @@
   }
 
   @media (max-width: 768px) {
-    #hours .sp-only { display: inline; }
     #hours .monthly-cell { padding: 8px 2px; min-height: 50px; }
     #hours .monthly-cell .date { font-size: 0.85rem; }
     #hours .monthly-cell .status { font-size: 0.75rem; }

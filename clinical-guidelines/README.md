@@ -21,6 +21,12 @@ clinical-guidelines/
 │   ├── jasso-clinical-obesity-2025/  # 「Clinical obesity と肥満症」コメンタリー
 │   ├── mhlw-optimal-use-2026/      # 厚労省 最適使用推進GL（ウゴービ・ゼップバウンド）2026年改訂
 │   └── konnichi-chiryo-2026/       # 今日の治療指針2026「肥満症」
+├── thyroid/               # 甲状腺（機能亢進症・機能低下症・甲状腺炎）
+│   ├── README.md
+│   ├── jts-diagnosis-gl2024/       # 日本甲状腺学会 甲状腺疾患診断ガイドライン2024（01〜05、疾患別）
+│   ├── jts-graves-tx-gl2019/       # 日本甲状腺学会 バセドウ病治療ガイドライン2019（CQ一覧）
+│   ├── konnichi-chiryo-2026/       # 今日の治療指針2026 甲状腺の4項目
+│   └── ...                         # ATA・ETA ほか（thyroid/README.md 参照）
 ├── vertigo/               # めまい
 │   ├── README.md
 │   ├── jser-acute-flowchart-2019/  # 日本めまい平衡医学会 急性期めまいの診療フローチャート
@@ -38,6 +44,7 @@ clinical-guidelines/
 |------|-------------|-------------|
 | 糖尿病 | [diabetes/](diabetes/README.md) | JDS 糖尿病診療ガイドライン2024、薬物療法アルゴリズム第2版、糖尿病標準診療マニュアル2026、今日の治療指針2026 |
 | 肥満症 | [obesity/](obesity/README.md) | 日本肥満学会 肥満症診療ガイドライン2022、肥満症治療薬ステートメント2025改訂、最適使用推進GL（2026改訂）、今日の治療指針2026 |
+| 甲状腺 | [thyroid/](thyroid/README.md) | 甲状腺疾患診断ガイドライン2024、バセドウ病治療ガイドライン2019、今日の治療指針2026、ATA・ETA の甲状腺中毒症／機能低下症／潜在性／妊娠のガイドライン |
 | めまい | [vertigo/](vertigo/README.md) | 急性期めまいの診療フローチャート2019、標準的神経治療：めまい2020、めまいの診断基準2017年改定 |
 | 嗄声・音声障害 | [voice/](voice/README.md) | 音声障害診療ガイドライン2018年版、AAO-HNSF Hoarseness (Dysphonia) ガイドライン2018改訂版 |
 

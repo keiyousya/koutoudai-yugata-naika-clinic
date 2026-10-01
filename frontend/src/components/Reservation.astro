@@ -28,17 +28,18 @@ import LineReservationGuide from "./LineReservationGuide.astro";
       <p class="reservation-notice">
         ※ ご予約時間に遅れてご来院された場合、診療の順番が前後し、お待ちいただく場合がございます。
       </p>
+
+      <div class="guide-block">
+        <h3 class="guide-block-title">LINEでの予約方法</h3>
+        <LineReservationGuide />
+      </div>
+
       <div class="cancel-policy-box">
         <p class="cancel-policy-title">予約キャンセルについて</p>
         <p class="cancel-policy-text">
           ご予約の変更・キャンセルは、LINEのトーク画面下のメニューにある<strong class="cancel-policy-em">「マイページ」</strong>から行えます。<br />
           ご都合が悪くなった際は、お早めにお手続きをお願いいたします。
         </p>
-      </div>
-
-      <div class="guide-block">
-        <h3 class="guide-block-title">LINEでの予約方法</h3>
-        <LineReservationGuide />
       </div>
     </div>
   </div>
@@ -135,7 +136,7 @@ import LineReservationGuide from "./LineReservationGuide.astro";
   }
 
   .cancel-policy-box {
-    margin-top: 28px;
+    margin-top: 32px;
     padding: 20px 24px;
     background: var(--color-turquoise-bg);
     border: 1px solid var(--color-turquoise);

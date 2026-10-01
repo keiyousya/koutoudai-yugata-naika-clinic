@@ -17,7 +17,7 @@ import InfoCard from "../components/InfoCard.astro";
 
     <section class="section demographics">
       <div class="container">
-        <div class="demographics-header">
+        <div class="demographics-header" id="demographicsHeader">
           <div class="period-display" id="periodDisplay">
             <div class="period-label">集計期間</div>
             <div class="period-value">
@@ -177,13 +177,34 @@ import InfoCard from "../components/InfoCard.astro";
     color: var(--color-text-muted);
   }
 
+  /* 読み込み失敗時。予約状況ページと同じく、グレーの枠で控えめに出す */
   .error {
-    font-size: 0.95rem;
-    color: #e05a5a;
-    padding: 20px;
-    background: #fff5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 20px;
+    background: #f9f9f9;
+    border: 1px solid var(--color-border);
     border-radius: 12px;
-    border: 1px solid #fdd;
+  }
+
+  .error-icon {
+    color: var(--color-text-muted);
+    margin-bottom: 6px;
+  }
+
+  .error-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+
+  .error-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
   }
 
   .chart-container {
@@ -383,20 +404,27 @@ import InfoCard from "../components/InfoCard.astro";
     });
   }
 
-  function showMessage(message: string, type: 'loading' | 'error'): void {
+  const ERROR_ICON = '<svg class="error-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+
+  function showMessage(message: string, type: 'loading' | 'error', note?: string): void {
     const statusMessage = document.getElementById('statusMessage');
     const chartContainer = document.getElementById('chartContainer');
     const notes = document.getElementById('demographicsNotes');
+    const header = document.getElementById('demographicsHeader');
 
     if (!statusMessage || !chartContainer) return;
 
     statusMessage.style.display = 'block';
     statusMessage.classList.remove('status-message--skeleton');
-    statusMessage.innerHTML = `<div class="${type}">${message}</div>`;
+    statusMessage.innerHTML = type === 'error'
+      ? `<div class="error" role="status">${ERROR_ICON}<span class="error-title">${message}</span>${note ? `<span class="error-note">${note}</span>` : ''}</div>`
+      : `<div class="${type}">${message}</div>`;
     chartContainer.style.display = 'none';
 
-    if (type === 'error' && notes) {
-      notes.style.display = 'none';
+    // 読み込み失敗時は、集計期間のスケルトンや「--:--」の見出しと注記も出さない
+    if (type === 'error') {
+      if (notes) notes.style.display = 'none';
+      if (header) header.style.display = 'none';
     }
   }
 
@@ -405,11 +433,14 @@ import InfoCard from "../components/InfoCard.astro";
     const chartContainer = document.getElementById('chartContainer');
     const notes = document.getElementById('demographicsNotes');
 
+    const header = document.getElementById('demographicsHeader');
+
     if (!statusMessage || !chartContainer) return;
 
     statusMessage.style.display = 'none';
     chartContainer.style.display = 'block';
     if (notes) notes.style.display = '';
+    if (header) header.style.display = '';
   }
 
   async function fetchDemographics(): Promise<void> {
@@ -442,8 +473,9 @@ import InfoCard from "../components/InfoCard.astro";
     } catch (error) {
       console.error('Error fetching patient demographics:', error);
       showMessage(
-        '患者層データの読み込みに失敗しました。<br>しばらく経ってから再度お試しください。',
-        'error'
+        '患者層データを読み込めませんでした',
+        'error',
+        '時間をおいて再度お試しください'
       );
     }
   }

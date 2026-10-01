@@ -12,8 +12,8 @@ const pageStructuredData = {
   "@context": "https://schema.org",
   "@type": "MedicalWebPage",
   "name": "インフルエンザ予防接種｜仙台市青葉区｜勾当台夕方内科クリニック",
-  "description": "仙台市青葉区でインフルエンザ予防接種を行っています。13歳以上の方は1回3,300円、仙台市の高齢者定期接種の対象となる65歳以上の方は自己負担1,500円。平日は夜19時まで、土日も接種できます。ご予約はLINEから（予約制）。",
-  "keywords": "インフルエンザワクチン 仙台, インフルエンザ 予防接種 仙台, インフルエンザワクチン 仙台市青葉区, インフルエンザワクチン 料金, インフルエンザ 予防接種 夜間, インフルエンザ 予防接種 土日, インフルエンザワクチン 勾当台, 高齢者インフルエンザ 仙台市, インフルエンザ 予防接種 助成 仙台市, 高齢者インフルエンザ 定期接種 仙台市",
+  "description": "仙台市青葉区でインフルエンザ予防接種を行っています。13歳以上の方は1回3,300円、仙台市の高齢者定期接種の対象となる65歳以上の方は自己負担1,500円。仕事帰りに受けられるよう平日は19時まで、土日も接種できます。ご予約はLINEから（予約制）。",
+  "keywords": "インフルエンザワクチン 仙台, インフルエンザ 予防接種 仙台, インフルエンザ 予防接種 仕事帰り, インフルエンザ 予防接種 仕事終わり, インフルエンザ 予防接種 夕方, インフルエンザワクチン 仙台市青葉区, インフルエンザワクチン 料金, インフルエンザ 予防接種 夜間, インフルエンザ 予防接種 土日, インフルエンザワクチン 勾当台, 高齢者インフルエンザ 仙台市, インフルエンザ 予防接種 助成 仙台市, 高齢者インフルエンザ 定期接種 仙台市",
   "url": pageUrl,
   "inLanguage": "ja",
   "about": {
@@ -76,6 +76,45 @@ const serviceStructuredData = {
   }
 };
 
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "仕事終わり・仕事帰りにインフルエンザの予防接種を受けられますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、受けられます。平日（月・水〜金）は19時まで接種しています。勾当台公園駅から徒歩2分のため、お仕事を終えてからそのままお越しいただけます。土日も14時〜17時に接種しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "インフルエンザの予防接種は何時まで受けられますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "平日（月・水〜金）は17時〜19時、土日は14時〜17時に接種しています。それ以降の時間帯は発熱外来のため、予防接種は行っていません。火曜日は休診です。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "当日の予約でも接種できますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、空きがあれば当日のご予約も可能です。LINEのメニューから「予防接種」を選んでご予約ください。予約制のため、ご予約なしでの接種は承っておりません。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "インフルエンザ予防接種の料金はいくらですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "13歳以上の方の任意接種は1回3,300円（税込）です。仙台市の高齢者定期接種の対象となる65歳以上の方などは、自己負担1,500円です（市民税非課税世帯の方などは無料）。"
+      }
+    }
+  ]
+};
+
 const breadcrumbStructuredData = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -97,11 +136,12 @@ const breadcrumbStructuredData = {
 ---
 
 <Layout
-  title="インフルエンザ予防接種 3,300円・高齢者定期接種1,500円｜仙台市青葉区 夜19時・土日も接種｜勾当台夕方内科クリニック"
-  description="仙台市青葉区でインフルエンザ予防接種（ワクチン）を行っています。13歳以上の方は1回3,300円、仙台市の高齢者定期接種の対象となる65歳以上の方は自己負担1,500円。平日は夜19時まで、土日も接種可能。ご予約はLINEから（予約制）。勾当台公園駅徒歩2分。"
+  title="インフルエンザ予防接種 3,300円・高齢者定期接種1,500円｜仕事帰りに 平日19時まで・土日も接種｜仙台市青葉区 勾当台夕方内科クリニック"
+  description="仙台市青葉区でインフルエンザ予防接種（ワクチン）を行っています。仕事帰りに受けられるよう平日は19時まで、土日も接種可能。13歳以上の方は1回3,300円、仙台市の高齢者定期接種の対象となる65歳以上の方は自己負担1,500円。ご予約はLINEから（予約制）。勾当台公園駅徒歩2分。"
 >
   <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbStructuredData)} />
   <Header />
   <main class="page-main">
@@ -132,6 +172,21 @@ const breadcrumbStructuredData = {
         <div class="hero-bottom">
           <div class="hero-price">1回 <strong>3,300</strong>円<span class="hero-price-note">（税込）</span></div>
           <div class="hero-access">勾当台公園駅 徒歩2分 ― <span class="hero-access-sub">市役所となり・アーケード街からすぐ</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">仕事帰りに予防接種を受けられます</h2>
+        <div class="info-box">
+          <p class="info-text">
+            当院は夕方から夜に診療している内科です。インフルエンザの予防接種は<strong>平日（月・水〜金）17時〜19時</strong>に行っていますので、<strong>お仕事を終えてからそのまま</strong>お越しいただけます。<br />
+            勾当台公園駅から<strong>徒歩2分</strong>、市役所のとなりです。平日にお時間が取れない方は、<strong>土日の14時〜17時</strong>も接種しています。
+          </p>
+          <p class="info-note">
+            ※ 予約制です。LINEのメニューから「予防接種」を選んでご予約ください。空きがあれば当日のご予約もできます。
+          </p>
         </div>
       </div>
     </section>
@@ -201,7 +256,7 @@ const breadcrumbStructuredData = {
           </div>
           <div class="spec-row">
             <dt>接種できる時間</dt>
-            <dd><div class="time-grid"><span class="time-day">平日（月・水〜金）</span><span class="time-range">17:00〜19:00</span><span class="time-day">土日</span><span class="time-range">14:00〜17:00</span></div><p class="spec-attention">予防接種は<strong>一般内科外来の時間帯</strong>で行っています。平日19:00以降・土日17:00以降は発熱外来の時間帯のため、接種は行っていません。</p><span class="spec-note">火曜日は休診です。臨時休診は<a href="/#hours" class="ref-link">診療日カレンダー</a>でご確認ください。</span></dd>
+            <dd><div class="time-grid"><span class="time-day">平日（月・水〜金）</span><span class="time-range">17:00〜19:00</span><span class="time-day">土日</span><span class="time-range">14:00〜17:00</span></div><p class="spec-attention">仕事帰りにも受けられるよう、予防接種は<strong>一般内科外来の時間帯（平日17:00〜19:00・土日14:00〜17:00）</strong>に行っています。その後の時間帯は発熱外来のため、接種は行っていません。</p><span class="spec-note">火曜日は休診です。臨時休診は<a href="/#hours" class="ref-link">診療日カレンダー</a>でご確認ください。</span></dd>
           </div>
           <div class="spec-row">
             <dt>ご予約</dt>
@@ -437,6 +492,20 @@ const breadcrumbStructuredData = {
             </div>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <section class="page-section bg-coral">
+      <div class="container">
+        <h2 class="page-section-title">よくあるご質問</h2>
+        <dl class="faq-list">
+          {faqStructuredData.mainEntity.map((q) => (
+            <div class="faq-item">
+              <dt class="faq-q">{q.name}</dt>
+              <dd class="faq-a">{q.acceptedAnswer.text}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
 
@@ -910,6 +979,45 @@ const breadcrumbStructuredData = {
 
   .bg-coral .info-box {
     background: white;
+  }
+
+  .faq-list {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .faq-item {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--color-coral);
+    padding: 20px 24px;
+  }
+
+  .faq-q {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: 1.7;
+    padding-left: 1.6em;
+    text-indent: -1.6em;
+  }
+
+  .faq-q::before {
+    content: "Q.";
+    display: inline-block;
+    width: 1.6em;
+    text-indent: 0;
+    color: var(--color-coral);
+  }
+
+  .faq-a {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 1.8;
   }
 
   .info-text {

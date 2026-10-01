@@ -93,6 +93,17 @@ const steps: Step[] =
 const showFamilyNote = variant !== "afterpill";
 ---
 
+{showFamilyNote && (
+  <div class="family-note">
+    <p class="family-note-title"><span class="nowrap">LINEをお使いでない方も、</span><span class="nowrap">ご家族のLINEからご予約いただけます</span></p>
+    <ul class="family-note-list">
+      <li>ご家族のLINEから、<strong>LINEをお使いでない方のご予約</strong>が取れます</li>
+      <li>1つのLINEアカウントで、<strong>ご家族何人分でも</strong>ご予約いただけます</li>
+    </ul>
+    <p class="family-note-text">ご予約の際は、<strong>実際に受診される方</strong>のお名前などのご本人情報と問診をご入力ください。ご家族それぞれ、おひとりずつご予約をお願いします。</p>
+  </div>
+)}
+
 <ol class="guide-steps" style={`--guide-columns:${steps.filter((s) => !s.wide).length};`}>
   {steps.map((step, i) => (
     <li class:list={["guide-step", { "guide-step-wide": step.wide }]}>
@@ -120,17 +131,6 @@ const showFamilyNote = variant !== "afterpill";
     </li>
   ))}
 </ol>
-
-{showFamilyNote && (
-  <div class="family-note">
-    <p class="family-note-title"><span class="nowrap">LINEをお使いでない方も、</span><span class="nowrap">ご家族のLINEからご予約いただけます</span></p>
-    <ul class="family-note-list">
-      <li>ご家族のLINEから、<strong>LINEをお使いでない方のご予約</strong>が取れます</li>
-      <li>1つのLINEアカウントで、<strong>ご家族何人分でも</strong>ご予約いただけます</li>
-    </ul>
-    <p class="family-note-text">ご予約の際は、<strong>実際に受診される方</strong>のお名前などのご本人情報と問診をご入力ください。ご家族それぞれ、おひとりずつご予約をお願いします。</p>
-  </div>
-)}
 
 <style>
   .guide-steps {
@@ -227,7 +227,7 @@ const showFamilyNote = variant !== "afterpill";
   }
 
   .family-note {
-    margin-top: 20px;
+    margin-bottom: 20px;
     padding: 18px 20px;
     background: #f0faf4;
     border: 1px solid #06c755;

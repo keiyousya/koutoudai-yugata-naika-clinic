@@ -336,6 +336,38 @@
 
 
 
+  /* カレンダー読み込み失敗時 */
+  #hours .calendar-side.is-error .month-tabs,
+  #hours .calendar-side.is-error .calendar-nav,
+  #hours .calendar-side.is-error .calendar-legend { display: none; }
+
+  #hours .calendar-error {
+    min-width: 100%;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 40px 24px;
+    background: #fafafa;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    text-align: center;
+  }
+  #hours .calendar-error-title { font-size: 1.05rem; font-weight: 700; color: var(--color-navy); margin-bottom: 12px; }
+  #hours .calendar-error-text { font-size: 0.9rem; line-height: 1.8; color: var(--color-text-muted); margin-bottom: 20px; }
+  #hours .calendar-error-text strong { color: var(--color-navy); }
+  #hours .calendar-error-retry {
+    padding: 10px 28px;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 999px;
+    background: white;
+    color: var(--color-turquoise-dark);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  #hours .calendar-error-retry:hover:not(:disabled) { background: var(--color-turquoise-bg); }
+  #hours .calendar-error-retry:disabled { opacity: 0.6; cursor: default; }
+
   /* カレンダースケルトン */
   #hours .cal-skeleton {
     display: block;
@@ -471,6 +503,7 @@
   const prevBtn = document.getElementById('prevMonth') as HTMLButtonElement | null;
   const nextBtn = document.getElementById('nextMonth') as HTMLButtonElement | null;
   const monthTabsContainer = document.getElementById('monthTabs');
+  const calendarSide = document.querySelector<HTMLElement>('#hours .calendar-side');
 
   function updateSlider() {
     if (track) {
@@ -528,14 +561,23 @@
       if (track) {
         track.innerHTML = data.months.map(renderMonthCalendar).join('');
       }
-    } catch {
+      calendarSide?.classList.remove('is-error');
+    } catch (error) {
+      console.error('Failed to load consultation calendar:', error);
+      calendarSide?.classList.add('is-error');
+      currentMonth = 0;
       if (track) {
-        track.innerHTML = `<div class="monthly-calendar">
-          <div class="monthly-header"><span>読み込みに失敗しました</span></div>
-          <div class="monthly-grid" style="padding: 40px; text-align: center; color: var(--color-text-muted); font-size: 0.9rem;">
-            しばらく経ってから再度お試しください
-          </div>
+        track.innerHTML = `<div class="calendar-error" role="alert">
+          <p class="calendar-error-title">カレンダーを表示できませんでした</p>
+          <p class="calendar-error-text">時間をおいて再読み込みしてください。<br>定休日は<strong>火曜・祝日</strong>です。</p>
+          <button type="button" class="calendar-error-retry" id="calendarRetry">再読み込み</button>
         </div>`;
+        document.getElementById('calendarRetry')?.addEventListener('click', (e) => {
+          const btn = e.currentTarget as HTMLButtonElement;
+          btn.disabled = true;
+          btn.textContent = '読み込み中…';
+          loadCalendar();
+        });
       }
     }
 

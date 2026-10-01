@@ -18,11 +18,6 @@ import LineReservationGuide from "./LineReservationGuide.astro";
         <p class="line-card-note">※ ご予約は原則LINEからお願いしております</p>
       </div>
 
-      <div class="guide-block">
-        <h3 class="guide-block-title">LINEでの予約方法</h3>
-        <LineReservationGuide />
-      </div>
-
       <div class="availability-link-container">
         <AvailabilityLink />
       </div>
@@ -39,6 +34,11 @@ import LineReservationGuide from "./LineReservationGuide.astro";
           ご予約の変更・キャンセルは、LINEのトーク画面下のメニューにある<strong class="cancel-policy-em">「マイページ」</strong>から行えます。<br />
           ご都合が悪くなった際は、お早めにお手続きをお願いいたします。
         </p>
+      </div>
+
+      <div class="guide-block">
+        <h3 class="guide-block-title">LINEでの予約方法</h3>
+        <LineReservationGuide />
       </div>
     </div>
   </div>
@@ -105,7 +105,7 @@ import LineReservationGuide from "./LineReservationGuide.astro";
   }
 
   .guide-block {
-    margin-top: 32px;
+    margin-top: 40px;
   }
 
   .guide-block-title {

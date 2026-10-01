@@ -342,20 +342,23 @@
   #hours .calendar-side.is-error .calendar-legend { display: none; }
 
   #hours .calendar-error {
-    min-width: 100%;
-    flex-shrink: 0;
+    flex: 0 0 100%;
+    min-width: 0;
     box-sizing: border-box;
-    padding: 40px 24px;
+    padding: 40px 16px;
     background: #fafafa;
     border: 1px solid var(--color-border);
     border-radius: 16px;
     text-align: center;
   }
-  #hours .calendar-error-title { font-size: 1.05rem; font-weight: 700; color: var(--color-navy); margin-bottom: 12px; }
+  #hours .calendar-error-title { font-size: 1.05rem; font-weight: 700; color: var(--color-navy); margin-bottom: 12px; text-wrap: balance; }
   #hours .calendar-error-text { font-size: 0.9rem; line-height: 1.8; color: var(--color-text-muted); margin-bottom: 20px; }
   #hours .calendar-error-text strong { color: var(--color-navy); }
   #hours .calendar-error-retry {
-    padding: 10px 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 28px 10px 24px;
     border: 1px solid var(--color-turquoise);
     border-radius: 999px;
     background: white;
@@ -367,6 +370,9 @@
   }
   #hours .calendar-error-retry:hover:not(:disabled) { background: var(--color-turquoise-bg); }
   #hours .calendar-error-retry:disabled { opacity: 0.6; cursor: default; }
+  #hours .calendar-error-retry svg { flex-shrink: 0; width: 1.1em; height: 1.1em; }
+  #hours .calendar-error-retry.is-loading svg { animation: calendar-retry-spin 0.8s linear infinite; }
+  @keyframes calendar-retry-spin { to { transform: rotate(360deg); } }
 
   /* カレンダースケルトン */
   #hours .cal-skeleton {
@@ -570,12 +576,13 @@
         track.innerHTML = `<div class="calendar-error" role="alert">
           <p class="calendar-error-title">カレンダーを表示できませんでした</p>
           <p class="calendar-error-text">時間をおいて再読み込みしてください。<br>定休日は<strong>火曜・祝日</strong>です。</p>
-          <button type="button" class="calendar-error-retry" id="calendarRetry">再読み込み</button>
+          <button type="button" class="calendar-error-retry" id="calendarRetry"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><polyline points="21 3 21 8 16 8"/></svg><span>再読み込み</span></button>
         </div>`;
         document.getElementById('calendarRetry')?.addEventListener('click', (e) => {
           const btn = e.currentTarget as HTMLButtonElement;
           btn.disabled = true;
-          btn.textContent = '読み込み中…';
+          btn.classList.add('is-loading');
+          btn.querySelector('span')!.textContent = '読み込み中…';
           loadCalendar();
         });
       }

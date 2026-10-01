@@ -1187,6 +1187,12 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     [legend, notes, cta, hoursNote].forEach(el => {
       if (el) el.style.display = hidden ? 'none' : '';
     });
+    // 読み込み失敗時は、枠の凡例と時間帯メモ（中身が「--」のまま）も出さない
+    if (dayStates[offsetDays] === 'error') {
+      [legend, hoursNote].forEach(el => {
+        if (el) el.style.display = 'none';
+      });
+    }
 
     // 時間帯メモを表示中の曜日に合わせて更新（土日 14-17/17-21、平日 17-19/19-21）
     if (hoursNote && !hidden && cachedDates) {
@@ -1222,6 +1228,11 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     updateSharedChrome(offsetDays);
   }
 
+  function setLastUpdatedVisible(visible: boolean): void {
+    const el = document.getElementById('lastUpdated')?.parentElement;
+    if (el) el.style.visibility = visible ? '' : 'hidden';
+  }
+
   async function fetchAvailability(): Promise<void> {
     try {
       const response = await fetch(API_URL, { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
@@ -1237,13 +1248,21 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
       DAY_OFFSETS.forEach(renderDay);
       updateSharedChrome(selectedOffset);
       updateLastUpdated();
+      setLastUpdatedVisible(true);
 
     } catch (error) {
       console.error('Error fetching availability:', error);
+      setLastUpdatedVisible(false);
       DAY_OFFSETS.forEach(offset => {
         const panel = getPanel(offset);
         if (panel) {
           dayStates[offset] = 'error';
+          // 日付はAPIが無くても分かるので、スケルトンのまま残さず出しておく
+          const dateValue = panel.querySelector('.date-value');
+          const dateHours = panel.querySelector('.date-hours');
+          if (dateValue) dateValue.textContent = formatDate(getDateStr(offset));
+          if (dateHours) dateHours.textContent = '';
+          renderVaccineRemaining(panel, null);
           showMessage(
             panel,
             '予約状況を読み込めませんでした',

@@ -228,11 +228,11 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
   .compact .hero-lead { font-size: 1.3rem; }
   .compact .hero-title { font-size: 1.9rem; }
   .compact .hero-times { gap: 18px; margin-top: 22px; }
-  .compact .hero-time { width: 144px; height: 144px; }
+  .compact .hero-time { width: 164px; height: 164px; }
   .compact .hero-time-day { font-size: 0.9rem; }
-  .compact .hero-time-big { font-size: 2.8rem; }
+  .compact .hero-time-big { font-size: 3.1rem; }
   .compact .hero-time-big small { font-size: 1.15rem; }
-  .compact .hero-time-big--word { font-size: 2.2rem; }
+  .compact .hero-time-big--word { font-size: 2.45rem; }
   .compact .hero-time-sub { font-size: 0.72rem; }
   .compact .hero-point { font-size: 0.9rem; padding: 6px 14px; }
 
@@ -243,15 +243,16 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
     .compact .hero-title { font-size: 1.8rem; }
     .hero-times { gap: 14px; }
     .hero-time { width: 148px; height: 148px; }
-    .compact .hero-time { width: 134px; height: 134px; }
+    /* 枠の幅が足りない端末では丸を縮める */
+    .compact .hero-time { width: 150px; height: auto; aspect-ratio: 1; flex-shrink: 1; min-width: 0; container-type: inline-size; }
     .hero-time-day,
     .compact .hero-time-day { font-size: 0.88rem; }
     .hero-time-big { font-size: 3rem; }
-    .compact .hero-time-big { font-size: 2.6rem; }
-    .hero-time-big small,
-    .compact .hero-time-big small { font-size: 1.15rem; }
+    .compact .hero-time-big { font-size: min(2.85rem, 30cqi); }
+    .hero-time-big small { font-size: 1.15rem; }
+    .compact .hero-time-big small { font-size: min(1.15rem, 12cqi); }
     .hero-time-big--word { font-size: 2.3rem; }
-    .compact .hero-time-big--word { font-size: 2rem; }
+    .compact .hero-time-big--word { font-size: min(2.2rem, 23.5cqi); }
     .hero-time-sub,
     .compact .hero-time-sub { font-size: 0.72rem; }
     .hero-point { font-size: 0.9rem; padding: 6px 12px; }

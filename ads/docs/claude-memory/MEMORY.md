@@ -30,3 +30,4 @@
 - [返答は常に日本語](respond-in-japanese.md) — 英語で返さない。2026-09-24に明示指示
 - [pushはまとめて指示時のみ](push-only-when-asked.md) — 修正ごとにpushしない。コミットで止めて未push件数を報告
 - [Instagram広告（インフル）初出稿](meta-instagram-ads-flu-2026.md) — 9/28出稿。日1,000円・勾当台3mi・18-64歳・IGのみ。入力欄の追記事故、画像アップロードの回避策、#1357045は再公開で通る。求人広告も出稿、支払いは後払いVisa・JCBはMetaサポート問合せ中
+- [求人のGoogle検索広告](recruit-google-ads-2026-10.md) — 10/2開始。応募CVは副次なので all_conversions で見る。10/7頃にInstagram求人と比較判断

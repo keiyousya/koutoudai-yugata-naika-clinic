@@ -32,3 +32,5 @@ __pycache__/
 
 # wrangler
 .wrangler/
+
+.claude/settings.local.json

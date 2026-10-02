@@ -2,7 +2,7 @@ import { createRoute, Link } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect, useMemo } from "react";
 import { Route as rootRoute } from "../__root";
-import { fetchCalendar } from "@/api/shift";
+import { fetchCalendar, type CalendarDay } from "@/api/shift";
 import {
   fetchAdminStaff,
   fetchAdminAssignments,
@@ -34,11 +34,24 @@ interface SlotAssignment {
 // date -> slot -> assignment
 type LocalAssignments = Record<string, Record<string, SlotAssignment>>;
 
+type ViewMode = "list" | "calendar";
+
+const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
+
 function AdminEditorPage() {
   const queryClient = useQueryClient();
   const [selectedMonth, setSelectedMonth] = useState(getNextMonth());
   const [localAssignments, setLocalAssignments] = useState<LocalAssignments>({});
   const [toast, setToast] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
+  // カレンダーで日付をクリックしたら、リスト表示に切り替えてその日までスクロールする
+  const [scrollToDate, setScrollToDate] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (viewMode !== "list" || !scrollToDate) return;
+    document.getElementById(`row-${scrollToDate}`)?.scrollIntoView({ block: "center" });
+    setScrollToDate(null);
+  }, [viewMode, scrollToDate]);
 
   const { data: calendar, isLoading: calendarLoading } = useQuery({
     queryKey: ["calendar", selectedMonth],
@@ -234,8 +247,34 @@ function AdminEditorPage() {
         </div>
       )}
 
+      {/* 表示切り替え */}
+      <div className="flex justify-end mb-2">
+        <div className="inline-flex rounded border overflow-hidden text-sm">
+          {(["list", "calendar"] as const).map((mode) => (
+            <button
+              key={mode}
+              onClick={() => setViewMode(mode)}
+              className={`px-3 py-1 ${viewMode === mode ? "bg-foreground text-background" : "hover:bg-secondary"}`}
+            >
+              {mode === "list" ? "リスト" : "カレンダー"}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {isLoading ? (
         <div className="text-center py-8">読み込み中...</div>
+      ) : viewMode === "calendar" ? (
+        <ShiftCalendar
+          days={calendar?.days || []}
+          localAssignments={localAssignments}
+          staffName={(id) => staff?.find((s) => s.id === id)?.name ?? "?"}
+          getWarning={getWarning}
+          onSelectDate={(date) => {
+            setScrollToDate(date);
+            setViewMode("list");
+          }}
+        />
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-sm">
@@ -251,8 +290,7 @@ function AdminEditorPage() {
               {openDays.flatMap((day) => {
                 const date = new Date(day.date);
                 const dayNum = date.getDate();
-                const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
-                const weekday = weekdays[date.getDay()];
+                const weekday = WEEKDAYS[date.getDay()];
                 const slots = day.slots || ["evening"];
                 const slotLabels: Record<string, string> = {
                   day: "14-17時",
@@ -265,7 +303,11 @@ function AdminEditorPage() {
                   const clerkWarning = getWarning(day.date, slot, slotAssignment.clerk);
 
                   return (
-                    <tr key={`${day.date}-${slot}`} className={slotIdx === 0 ? "border-t" : ""}>
+                    <tr
+                      key={`${day.date}-${slot}`}
+                      id={slotIdx === 0 ? `row-${day.date}` : undefined}
+                      className={slotIdx === 0 ? "border-t" : ""}
+                    >
                       {slotIdx === 0 && (
                         <td className="p-2 border" rowSpan={slots.length}>
                           {dayNum} ({weekday})
@@ -337,6 +379,107 @@ function AdminEditorPage() {
           {toast}
         </div>
       )}
+    </div>
+  );
+}
+
+interface ShiftCalendarProps {
+  days: CalendarDay[];
+  localAssignments: LocalAssignments;
+  staffName: (id: number) => string;
+  getWarning: (date: string, slot: string, staffId?: number) => string | null;
+  onSelectDate: (date: string) => void;
+}
+
+// 月のカレンダー形式で割当を表示する（編集はリスト側で行う）
+function ShiftCalendar({ days, localAssignments, staffName, getWarning, onSelectDate }: ShiftCalendarProps) {
+  if (days.length === 0) return null;
+
+  const leadingBlanks = new Date(days[0].date).getDay();
+  const cells: (CalendarDay | null)[] = [...Array(leadingBlanks).fill(null), ...days];
+  while (cells.length % 7 !== 0) cells.push(null);
+
+  const slotLabels: Record<string, string> = { day: "14-17", evening: "17-21" };
+
+  const renderPerson = (date: string, slot: string, role: "nurse" | "clerk", staffId?: number) => {
+    const label = role === "nurse" ? "看" : "事";
+    if (!staffId) {
+      return (
+        <div className="flex gap-1 text-red-400">
+          <span>{label}</span>
+          <span>-</span>
+        </div>
+      );
+    }
+    const warning = getWarning(date, slot, staffId);
+    return (
+      <div className={`flex gap-1 ${warning ? "bg-yellow-100 rounded" : ""}`} title={warning ?? undefined}>
+        <span className="text-muted-foreground">{label}</span>
+        <span className="truncate">{staffName(staffId)}</span>
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      <div className="grid grid-cols-7 border-l border-t text-sm">
+        {WEEKDAYS.map((w, i) => (
+          <div
+            key={w}
+            className={`p-1 text-center border-r border-b bg-secondary font-bold ${
+              i === 0 ? "text-red-500" : i === 6 ? "text-blue-500" : ""
+            }`}
+          >
+            {w}
+          </div>
+        ))}
+        {cells.map((day, idx) => {
+          if (!day) {
+            return <div key={`blank-${idx}`} className="border-r border-b bg-gray-50" />;
+          }
+          const dow = new Date(day.date).getDay();
+          const dayNum = new Date(day.date).getDate();
+          const dayColor = dow === 0 ? "text-red-500" : dow === 6 ? "text-blue-500" : "";
+
+          if (!day.is_open) {
+            return (
+              <div key={day.date} className="min-h-24 p-1 border-r border-b bg-gray-100 text-gray-400">
+                <div className="font-bold">{dayNum}</div>
+                <div className="text-xs">休診{day.note ? `（${day.note}）` : ""}</div>
+              </div>
+            );
+          }
+
+          return (
+            <button
+              key={day.date}
+              onClick={() => onSelectDate(day.date)}
+              className="min-h-24 p-1 border-r border-b text-left flex flex-col justify-start min-w-0 hover:bg-secondary/60"
+              title="クリックでこの日を編集"
+            >
+              <div className={`font-bold ${dayColor}`}>{dayNum}</div>
+              <div className="space-y-1 text-xs w-full">
+                {day.slots.map((slot) => {
+                  const a = localAssignments[day.date]?.[slot] || {};
+                  return (
+                    <div key={slot} className="leading-tight min-w-0">
+                      {day.slots.length > 1 && (
+                        <div className="text-[10px] text-muted-foreground">{slotLabels[slot]}</div>
+                      )}
+                      {renderPerson(day.date, slot, "nurse", a.nurse)}
+                      {renderPerson(day.date, slot, "clerk", a.clerk)}
+                    </div>
+                  );
+                })}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+      <div className="mt-2 text-xs text-muted-foreground">
+        看=看護師、事=事務。<span className="text-red-400">赤の「-」</span>は未割当、
+        <span className="bg-yellow-100 px-1 rounded">黄色</span>は「不可」と回答した人の割当。日付をクリックするとリストでその日を編集できます。
+      </div>
     </div>
   );
 }

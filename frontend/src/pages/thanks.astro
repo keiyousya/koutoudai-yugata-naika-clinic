@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { RECRUIT_CONVERSION_SEND_TO } from "../config/line";
 ---
 
 <Layout title="送信完了 | 勾当台夕方内科クリニック" noindex={true}>
@@ -30,6 +31,13 @@ import Footer from "../components/Footer.astro";
     </section>
   </main>
   <Footer />
+  {/* /thanks は求人応募フォーム（web3forms）の送信後にだけ遷移してくるページ。
+      表示を求人応募のコンバージョンとして送る。gtag 本体は Layout が読み込む。 */}
+  <script define:vars={{ sendTo: RECRUIT_CONVERSION_SEND_TO, isDev: import.meta.env.DEV }}>
+    if (!isDev && typeof window.gtag === "function") {
+      window.gtag("event", "conversion", { send_to: sendTo, value: 1.0, currency: "JPY" });
+    }
+  </script>
 </Layout>
 
 <style>

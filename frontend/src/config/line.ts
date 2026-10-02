@@ -30,6 +30,11 @@ export const LINE_ADD_FRIEND_URL_YAHOO_AD = liffUrl("yahoo_ads");
 export const GOOGLE_ADS_TAG_ID = "AW-17984414455";
 export const LINE_CONVERSION_SEND_TO = "AW-17984414455/C3GbCNSDn8ccEPfF0f9C";
 
+// 求人応募フォームの送信完了（/thanks の表示）。求人キャンペーンの成果測定用で、
+// 内科などのCV数に混ざらないよう副次コンバージョン（主要ではない）として作ってある。
+// 実績は Google広告の「すべてのコンバージョン」列に出る。
+export const RECRUIT_CONVERSION_SEND_TO = "AW-17984414455/zAVzCL322o0dEPfF0f9C";
+
 // LINEヤフー広告（検索広告）のコンバージョン計測。
 // Google側と同じLINE友だち追加ボタンのクリックを計測する。
 // サイトジェネラルタグ（ytag.js）はアカウント共通なので値を持たず、

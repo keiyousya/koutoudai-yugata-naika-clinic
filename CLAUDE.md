@@ -60,6 +60,7 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 
 - フロントポート: 5176、ベースパス: `/shift/`
 - 認証: スタッフID + パスコード（SHA-256ハッシュ）
+- 公開済みシフト（田村さつき以外）のGoogleカレンダー「家族」への登録は `/shift-calendar` スキル
 
 ### timecard（タイムカード）
 

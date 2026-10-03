@@ -90,9 +90,8 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 
 ### clinical-guidelines（診療ガイドラインまとめ）
 
-- 医師の診療・生涯学習用の Markdown ドキュメント（ビルド対象外）
-- `clinical-guidelines/<領域>/<資料>/NN-slug.md` の構成。運用ルールは `clinical-guidelines/README.md`
-- 各ファイル冒頭に出典・版・確認日を書き、原文要約と自院運用メモを分ける
+- 他プロジェクトでも使うため、別リポジトリ [keiyousya/clinical-guidelines](https://github.com/keiyousya/clinical-guidelines) に切り出した（2026-10）。このリポジトリには置かない
+- ローカルでは `../clinical-guidelines/` にクローン済み。追記・更新はそちらで行う（運用ルールは同リポジトリの README.md）
 
 ## 外部サービス
 

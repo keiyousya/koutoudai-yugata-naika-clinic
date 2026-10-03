@@ -92,6 +92,7 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 
 - 他プロジェクトでも使うため、別リポジトリ [keiyousya/clinical-guidelines](https://github.com/keiyousya/clinical-guidelines) に切り出した（2026-10）。このリポジトリには置かない
 - ローカルでは `../clinical-guidelines/` にクローン済み。追記・更新はそちらで行う（運用ルールは同リポジトリの README.md）
+- ガイドライン側には当院固有の運用メモを書かない。**自院メモ（外来での使いどころ・在庫・紹介基準など）は `clinical-notes/` にガイドライン側と同じパスで置く**（`clinical-notes/README.md`）
 
 ## 外部サービス
 

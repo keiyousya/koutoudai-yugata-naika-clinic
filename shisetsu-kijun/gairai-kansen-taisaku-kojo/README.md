@@ -57,13 +57,13 @@ OASCIS「抗菌薬適正使用状況・証明書発行機能」令和8年度ス�
 
 ### OASCIS へのレセプト登録手順
 
-2026-09-21 時点で**未登録**（データ登録状況に1件も無い）。
+2026-09-21 時点では未登録だった。**2026-10-05 に R8.4 診療分（社保・国保）を初めて登録した**。毎月の出力〜登録は `/orca-tenken-uke` スキルで行う。
 
 1. **ORCAで院外処方を含む「レセプトチェック用（点検用）UKE」を出す**。社保・国保ごと、月ごと。
    - `Desktop\レセプト\請求用\` の請求用UKEは使わない。院外処方の医薬品が載らず、抗菌薬の集計から抜ける
      （[UKE仕様](https://oascis.jihs.go.jp/manual-and-application-form/oascis_uke_specifications.pdf)）。
    - 請求年月は診療年月の翌月にする。
-   - ORCAでの出力方法は未確認。アルファシステムのサポートに問い合わせる。
+   - ORCAでの出力方法はアルファシステムのマニュアル（2026-09-24受領）で確認済み。手順は `/orca-tenken-uke` スキル。ORCAから出したままだと請求年月が出力月になるので、翌月に直す。
 2. **OASCISの「レセプト匿名化ツール」で匿名化する**（[ダウンロード](https://oascis.jihs.go.jp/manual/anonymize-tool)、
    [使い方](https://oascis.jihs.go.jp/manual-and-application-form/receiptmask_manual.pdf)）。
    - `ReceiptMask.exe` にUKEをドラッグ＆ドロップする。オプションの「ファイル名に年月を付加して単一フォルダーに出力」をオンにする。

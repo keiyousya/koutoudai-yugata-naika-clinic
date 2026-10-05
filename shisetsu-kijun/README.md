@@ -40,16 +40,16 @@ shisetsu-kijun/
 | 時間外対応体制加算3 | （時間外３）第418号 | 令和8年7月1日 | [jikangai-taio-taisei-3](jikangai-taio-taisei-3/) | 2026-07-21 |
 | 外来感染対策向上加算 | （外来感染）第728号 | 令和8年8月1日 | [gairai-kansen-taisaku-kojo](gairai-kansen-taisaku-kojo/) | 2026-08-31 |
 
-**最終確認: 2026年9月18日**（受理状況は令和8年8月31日掲載分まで、名簿は令和8年8月1日現在）
+**最終確認: 2026年10月4日**（受理状況は令和8年9月30日掲載分まで、名簿は令和8年8月1日現在）
 
-- **失効リストへの掲載は無し**（2026年3月23日〜8月31日の全「失効」PDFを確認）
+- **失効リストへの掲載は無し**（2026年3月23日〜9月30日の全「失効」PDFを確認）
 - 上記4件は名簿（令和8年8月1日現在）にも全て載っている
 
 ### 未届出・未掲載
 
 | 施設基準 | ディレクトリ | 状況 |
 |---|---|---|
-| サーベイランス強化加算（外来感染対策向上加算の上乗せ） | [gairai-kansen-taisaku-kojo](gairai-kansen-taisaku-kojo/) | 2026-09 に届出（10/1算定開始希望）。控えは `filings/kouseikyoku/2026-09-surveillance-kyoka/` |
+| サーベイランス強化加算（外来感染対策向上加算の上乗せ） | [gairai-kansen-taisaku-kojo](gairai-kansen-taisaku-kojo/) | 2026-09-21 郵送（10/1算定開始希望）。9/24・9/30掲載分には未掲載（10/4確認）。10/20・10/31掲載分を確認する。控えは `filings/kouseikyoku/2026-09-surveillance-kyoka/` |
 | 情報通信機器を用いた診療 | [jouhou-tsushin-kiki-shinryo](jouhou-tsushin-kiki-shinryo/) | 受理状況・名簿のいずれにも無し。掲示ページは作成済みだが非公開。届出したか要確認 |
 
 > 受理番号・算定開始日は東北厚生局HPの掲載が一次情報。`/shisetsu-kijun` スキルで確認し、

@@ -36,11 +36,14 @@
 | 短期（4週以内）に限ってすぐ効かせたい | マイスリー・ルネスタ | ESRS: 4週以内（A）。**長期で始めない**。高齢者は避ける |
 | 出さない | BZ（ハルシオンなど）の新規処方、トラゾドン・クエチアピン（不眠目的）、抗ヒスタミン薬 | トラゾドンは AASM が反対、抗精神病薬・抗ヒスタミン薬は ESRS が反対（A）。**クエチアピンは糖尿病に禁忌** |
 
+- **定期の採血・心電図は不要**（求める GL・添付文書の記載なし）。肝機能は定期採血の結果で確認する。**トラゾドンを定期で使うときだけ心電図**（添付文書に定期的な心電図検査の記載あり）。詳しくは [zolpidem-handover.md](zolpidem-handover.md) の「定期の採血・心電図」
 - 処方時に、**3ヵ月を目安に見直す**ことを合意しておく。**翌朝の運転**、**飲酒と併用しない**ことを伝える
 - 国内の DORA は**4剤**: デエビゴ（半減期約50時間）、ベルソムラ（10〜12.5時間）、クービビック（6〜10時間）、ボルズィ（ボルノレキサント、約2時間）（[今日の治療指針 02](https://github.com/keiyousya/clinical-guidelines/blob/main/insomnia/konnichi-chiryo-2026/02-hypnotics-comparison.md)）
 - **CYP3A 阻害薬**（クラリスロマイシン、イトラコナゾール・ボリコナゾール、ジルチアゼム・ベラパミルなど）に注意する。**ベルソムラ・クービビック・ボルズィは強い阻害薬と併用禁忌**、**デエビゴは中程度以上の阻害薬との併用で 2.5 mg に減量**。ロゼレムは**フルボキサミン禁忌**、キノロン系で濃度が上がる。夕方外来で抗菌薬を出すときに睡眠薬を確認する
 
 ### 4. 減薬・切替え（前医の BZ・Z薬を引き継いだときなど）
+
+- **前医のゾルピデム（ほかの Z 薬・BZ も同じ）を継続希望で来たとき**の手順（初診の確認項目・方針の分け方・漸減表・デエビゴへの切替え・患者さんへの説明）: [zolpidem-handover.md](zolpidem-handover.md)
 
 - **改善して1〜2か月たったら減量・中止を検討する**（[今日の治療指針 01](https://github.com/keiyousya/clinical-guidelines/blob/main/insomnia/konnichi-chiryo-2026/01-insomnia.md)）。始めるときに「良くなればやめられる」と説明しておく
 - **急にやめない**。BZ・Z薬は、外来では **2〜4週ごとに1/4ずつ**（今日の治療指針）を標準にする。本人の希望が強く短期使用なら **1〜2週ごとに25%減**まで速めてよい。年単位・高用量・高齢なら **2〜4週ごとに5〜10%減**（[Hajak 2026](https://github.com/keiyousya/clinical-guidelines/blob/main/insomnia/hajak-deprescribing-2026/summary.md)、[Palagini 2025](https://github.com/keiyousya/clinical-guidelines/blob/main/insomnia/palagini-switching-2025/summary.md)、[2013 05](https://github.com/keiyousya/clinical-guidelines/blob/main/insomnia/jssr-hypnotics-gl2013/05-goal-tapering.md)）

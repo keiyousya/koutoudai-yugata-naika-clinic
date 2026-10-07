@@ -2,7 +2,8 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
 const articles = defineCollection({
-  loader: glob({ pattern: "**/*.mdx", base: "./src/content/articles" }),
+  // 先頭が _ のファイルは下書き（公開しない）
+  loader: glob({ pattern: ["**/*.mdx", "!**/_*.mdx"], base: "./src/content/articles" }),
   schema: z.object({
     title: z.string(),
     // 検索結果に出す title。未指定なら「{title} | クリニック名」

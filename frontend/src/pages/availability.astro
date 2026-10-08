@@ -25,15 +25,15 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
     <section class="section availability">
       <div class="container">
         <div class="availability-topbar">
-          <div class="day-tabs" id="dayTabs">
-            <span class="day-tab-indicator" aria-hidden="true"></span>
+          <div class="day-picker" id="dayPicker">
             {DAY_OFFSETS.map((offset) => (
               <button
-                class={`day-tab${offset === 0 ? " active" : ""}`}
+                class={`day-pill${offset === 0 ? " active today" : ""}`}
                 type="button"
                 data-offset={offset}
               >
-                {DAY_LABELS[offset]}
+                <span class="day-pill-dow">-</span>
+                <span class="day-pill-date">-</span>
               </button>
             ))}
           </div>
@@ -56,7 +56,7 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
                         <line x1="16" y1="2" x2="16" y2="6"></line>
                       </svg>
                     </span>
-                    {`${DAY_LABELS[offset]}の診療`}
+                    <span class="date-label-text">{`${DAY_LABELS[offset]}の診療`}</span>
                   </span>
                   <div class="date-row">
                     <span class="date-value">
@@ -170,66 +170,93 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
 
   .availability-topbar {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
     margin-bottom: 24px;
   }
 
-  .day-tabs {
-    position: relative;
+  .day-picker {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+
+  .day-pill {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 4px;
-    padding: 6px;
-    background: #f2f4f5;
-    border-radius: 12px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .day-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* インジケーターの位置・幅は JS (positionIndicator) で設定 */
-  .day-tab-indicator {
-    position: absolute;
-    top: 6px;
-    bottom: 6px;
-    left: 0;
-    width: 0;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: 0;
-  }
-
-  .day-tab {
-    position: relative;
-    z-index: 1;
-    flex: 1;
-    min-width: 0;
-    padding: 10px 10px;
-    border: none;
-    border-radius: 8px;
-    background: transparent;
-    color: var(--color-text-muted);
-    font-size: 0.82rem;
-    font-weight: 700;
+    padding: 10px 4px;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    background: #f6f7f8;
     cursor: pointer;
-    transition: color 0.25s;
-    white-space: nowrap;
+    transition: all 0.2s;
   }
 
-  .day-tab:hover {
+  .day-pill:hover {
+    background: #eef0f2;
+  }
+
+  .day-pill.active {
+    background: white;
+    border-color: var(--color-navy);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .day-pill.today .day-pill-date {
+    background: var(--color-turquoise);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .day-pill.active.today .day-pill-date {
+    background: var(--color-navy);
+  }
+
+  .day-pill-dow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    line-height: 1;
+  }
+
+  .day-pill.active .day-pill-dow {
     color: var(--color-navy);
   }
 
-  .day-tab.active {
+  .day-pill.is-sun .day-pill-dow {
+    color: #d44;
+  }
+
+  .day-pill.is-sat .day-pill-dow {
+    color: #48c;
+  }
+
+  .day-pill-date {
+    font-size: 1.05rem;
+    font-weight: 700;
     color: var(--color-navy);
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .day-pill.active .day-pill-date {
+    color: var(--color-navy);
+  }
+
+  .day-pill.today.active .day-pill-date {
+    color: white;
   }
 
   .day-panel {
@@ -752,19 +779,32 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
   }
 
   @media (max-width: 768px) {
-    .availability-topbar {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 12px;
+    .day-picker {
+      gap: 4px;
+    }
+
+    .day-pill {
+      padding: 8px 2px;
+      border-radius: 12px;
+    }
+
+    .day-pill-dow {
+      font-size: 0.65rem;
+    }
+
+    .day-pill-date {
+      font-size: 0.95rem;
+      width: 28px;
+      height: 28px;
+    }
+
+    .day-pill.today .day-pill-date {
+      width: 28px;
+      height: 28px;
     }
 
     .last-updated {
       text-align: right;
-    }
-
-    .day-tab {
-      padding: 10px 8px;
-      font-size: 0.78rem;
     }
 
     .availability-header {
@@ -831,7 +871,7 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
 <script>
   const PROCYON_BASE = import.meta.env.PUBLIC_PROCYON_BASE_URL || 'https://api.procyon.helix.keiyousya.com';
   const PROCYON_TENANT = import.meta.env.PUBLIC_PROCYON_TENANT || 'koutoudai-yugata-naika';
-  const API_URL = `${PROCYON_BASE}/${PROCYON_TENANT}/v1/availability?days=7`;
+  const API_URL = `${PROCYON_BASE}/${PROCYON_TENANT}/v1/availability`;
   // APIが応答しないときにスケルトンを出し続けないよう、5秒で打ち切ってエラー表示にする
   const FETCH_TIMEOUT_MS = 5000;
   const UPDATE_INTERVAL = 5 * 60 * 1000; // 5 minutes
@@ -840,18 +880,6 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
   const DAY_COUNT = 7;
   const DAY_OFFSETS = Array.from({ length: DAY_COUNT }, (_, i) => i);
   const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
-
-  // タブ用の短いラベルを生成（今日/明日 + 日付形式）
-  function buildDayLabel(offsetDays: number): string {
-    const d = new Date();
-    d.setDate(d.getDate() + offsetDays);
-    const m = d.getMonth() + 1;
-    const day = d.getDate();
-    const dow = dayNames[d.getDay()];
-    if (offsetDays === 0) return `今日 ${m}/${day}`;
-    if (offsetDays === 1) return `明日 ${m}/${day}`;
-    return `${m}/${day}(${dow})`;
-  }
 
   // パネルヘッダ用のラベル（「本日の診療」等）
   function buildPanelLabel(offsetDays: number): string {
@@ -1174,16 +1202,19 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
     const dayLabel = DAY_LABELS[offsetDays];
     const apiData = findDateData(cachedDates, offsetDays);
 
-    // ラベル（本日/明日/明後日の診療）はサーバ描画のまま（アイコンを保持）
+    // ラベル（「本日の診療」等）を日付ベースに差し替え
+    const labelText = panel.querySelector('.date-label-text');
+    if (labelText) labelText.textContent = `${dayLabel}の診療`;
+
     const dateValue = panel.querySelector('.date-value');
     const dateHours = panel.querySelector('.date-hours');
 
     if (!apiData) {
-      if (dateValue) dateValue.textContent = '--';
+      if (dateValue) dateValue.textContent = formatDate(getDateStr(offsetDays));
       if (dateHours) dateHours.textContent = '';
       renderVaccineRemaining(panel, null);
-      dayStates[offsetDays] = 'error';
-      showMessage(panel, `${dayLabel}のデータが見つかりませんでした`, 'error');
+      dayStates[offsetDays] = 'closed';
+      showMessage(panel, `${dayLabel}の予約状況はまだ公開されていません`, 'closed');
       return;
     }
 
@@ -1250,33 +1281,16 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
     }
   }
 
-  // インジケーターの位置をアクティブなタブに合わせる
-  function positionIndicator(offsetDays: number): void {
-    const dayTabs = document.getElementById('dayTabs');
-    if (!dayTabs) return;
-    const indicator = dayTabs.querySelector<HTMLElement>('.day-tab-indicator');
-    const activeTab = dayTabs.querySelector<HTMLElement>(`.day-tab[data-offset="${offsetDays}"]`);
-    if (!indicator || !activeTab) return;
-    indicator.style.width = `${activeTab.offsetWidth}px`;
-    indicator.style.transform = `translateX(${activeTab.offsetLeft - 6}px)`;
-  }
-
   // 表示日の切替 — データはキャッシュ済みなので再取得不要
   function selectDay(offsetDays: number): void {
     selectedOffset = offsetDays;
 
-    const dayTabs = document.getElementById('dayTabs');
-    if (dayTabs) {
-      dayTabs.querySelectorAll('.day-tab').forEach(t => {
-        t.classList.toggle('active', Number((t as HTMLElement).dataset.offset) === offsetDays);
+    const picker = document.getElementById('dayPicker');
+    if (picker) {
+      picker.querySelectorAll('.day-pill').forEach(p => {
+        p.classList.toggle('active', Number((p as HTMLElement).dataset.offset) === offsetDays);
       });
     }
-
-    positionIndicator(offsetDays);
-
-    // アクティブなタブが見えるようにスクロール
-    const activeTab = dayTabs?.querySelector<HTMLElement>(`.day-tab[data-offset="${offsetDays}"]`);
-    activeTab?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
 
     // 本体はスライドせず、アクティブな日のパネルだけ表示する
     document.querySelectorAll<HTMLElement>('.day-panel').forEach(panel => {
@@ -1333,22 +1347,34 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
     }
   }
 
-  // タブのラベルを実際の日付に差し替え
-  const dayTabsEl = document.getElementById('dayTabs');
-  if (dayTabsEl) {
-    dayTabsEl.querySelectorAll<HTMLButtonElement>('.day-tab').forEach(tab => {
-      const offset = Number(tab.dataset.offset);
-      tab.textContent = buildDayLabel(offset);
+  // ピルに日付・曜日を設定
+  const dayPickerEl = document.getElementById('dayPicker');
+  if (dayPickerEl) {
+    dayPickerEl.querySelectorAll<HTMLButtonElement>('.day-pill').forEach(pill => {
+      const offset = Number(pill.dataset.offset);
+      const d = new Date();
+      d.setDate(d.getDate() + offset);
+      const dow = dayNames[d.getDay()];
+      const date = d.getDate();
+      const dayOfWeek = d.getDay();
 
-      tab.addEventListener('click', () => {
+      const dowEl = pill.querySelector('.day-pill-dow');
+      const dateEl = pill.querySelector('.day-pill-date');
+      if (dowEl) dowEl.textContent = dow;
+      if (dateEl) dateEl.textContent = String(date);
+
+      // 今日マーク
+      if (offset === 0) pill.classList.add('today');
+      // 土日の曜日色
+      if (dayOfWeek === 0) pill.classList.add('is-sun');
+      if (dayOfWeek === 6) pill.classList.add('is-sat');
+
+      pill.addEventListener('click', () => {
         if (offset === selectedOffset) return;
         selectDay(offset);
       });
     });
   }
-
-  // 初期状態のインジケーター位置を設定
-  positionIndicator(selectedOffset);
 
   // Initial fetch
   fetchAvailability();

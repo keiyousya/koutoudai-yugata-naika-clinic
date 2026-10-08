@@ -7,14 +7,16 @@ import Footer from "../components/Footer.astro";
 import LineReservationGuide from "../components/LineReservationGuide.astro";
 import { LINE_ADD_FRIEND_URL } from "../config/line";
 
-// 表示する日数。0 = 本日, 1 = 明日, 2 = 明後日（スクリプト側の DAY_LABELS と対応）
-const DAY_LABELS = ["本日", "明日", "明後日"];
-const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
+// 表示する日数（スクリプト側の DAY_COUNT と対応）
+const DAY_COUNT = 7;
+const DAY_OFFSETS = Array.from({ length: DAY_COUNT }, (_, i) => i);
+// サーバ側のラベルはフォールバック用。クライアントJSが実際の日付に差し替える
+const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日後", "6日後"];
 ---
 
 <Layout
   title="予約状況 | 勾当台夕方内科クリニック"
-  description="本日・明日・明後日の予約空き状況をリアルタイムで確認できます。仙台で夜21時まで診療、勾当台公園駅徒歩2分。"
+  description="今日から7日間の予約空き状況をリアルタイムで確認できます。仙台で夜21時まで診療、勾当台公園駅徒歩2分。"
 >
   <Header />
   <main class="page-main">
@@ -177,49 +179,49 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
   .day-tabs {
     position: relative;
     display: flex;
-    gap: 8px;
+    gap: 4px;
     padding: 6px;
     background: #f2f4f5;
     border-radius: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
 
-  /* タブ3つぶん: 左右パディング 6px×2 + タブ間 gap 8px×2 = 28px を差し引く */
+  .day-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* インジケーターの位置・幅は JS (positionIndicator) で設定 */
   .day-tab-indicator {
     position: absolute;
     top: 6px;
     bottom: 6px;
-    left: 6px;
-    width: calc((100% - 28px) / 3);
+    left: 0;
+    width: 0;
     background: white;
     border-radius: 8px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    transform: translateX(0);
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     z-index: 0;
-  }
-
-  .day-tabs[data-active="1"] .day-tab-indicator {
-    transform: translateX(calc(100% + 8px));
-  }
-
-  .day-tabs[data-active="2"] .day-tab-indicator {
-    transform: translateX(calc((100% + 8px) * 2));
   }
 
   .day-tab {
     position: relative;
     z-index: 1;
     flex: 1;
-    min-width: 96px;
-    padding: 12px 16px;
+    min-width: 0;
+    padding: 10px 10px;
     border: none;
     border-radius: 8px;
     background: transparent;
     color: var(--color-text-muted);
-    font-size: 0.95rem;
+    font-size: 0.82rem;
     font-weight: 700;
     cursor: pointer;
     transition: color 0.25s;
+    white-space: nowrap;
   }
 
   .day-tab:hover {
@@ -760,11 +762,9 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
       text-align: right;
     }
 
-    /* タブ3つでも横幅に収まるよう最小幅を外す */
     .day-tab {
-      min-width: 0;
-      padding: 12px 8px;
-      font-size: 0.9rem;
+      padding: 10px 8px;
+      font-size: 0.78rem;
     }
 
     .availability-header {
@@ -831,14 +831,39 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
 <script>
   const PROCYON_BASE = import.meta.env.PUBLIC_PROCYON_BASE_URL || 'https://api.procyon.helix.keiyousya.com';
   const PROCYON_TENANT = import.meta.env.PUBLIC_PROCYON_TENANT || 'koutoudai-yugata-naika';
-  const API_URL = `${PROCYON_BASE}/${PROCYON_TENANT}/v1/availability`;
+  const API_URL = `${PROCYON_BASE}/${PROCYON_TENANT}/v1/availability?days=7`;
   // APIが応答しないときにスケルトンを出し続けないよう、5秒で打ち切ってエラー表示にする
   const FETCH_TIMEOUT_MS = 5000;
   const UPDATE_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
-  // 表示する日（0 = 本日）。テンプレート側の DAY_LABELS と対応させる
-  const DAY_LABELS = ['本日', '明日', '明後日'];
-  const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
+  // 表示する日数。テンプレート側の DAY_COUNT と対応させる
+  const DAY_COUNT = 7;
+  const DAY_OFFSETS = Array.from({ length: DAY_COUNT }, (_, i) => i);
+  const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
+
+  // タブ用の短いラベルを生成（今日/明日 + 日付形式）
+  function buildDayLabel(offsetDays: number): string {
+    const d = new Date();
+    d.setDate(d.getDate() + offsetDays);
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    const dow = dayNames[d.getDay()];
+    if (offsetDays === 0) return `今日 ${m}/${day}`;
+    if (offsetDays === 1) return `明日 ${m}/${day}`;
+    return `${m}/${day}(${dow})`;
+  }
+
+  // パネルヘッダ用のラベル（「本日の診療」等）
+  function buildPanelLabel(offsetDays: number): string {
+    if (offsetDays === 0) return '本日';
+    if (offsetDays === 1) return '明日';
+    if (offsetDays === 2) return '明後日';
+    const d = new Date();
+    d.setDate(d.getDate() + offsetDays);
+    return `${d.getMonth() + 1}/${d.getDate()}(${dayNames[d.getDay()]})`;
+  }
+
+  const DAY_LABELS = DAY_OFFSETS.map(buildPanelLabel);
 
   interface ApiSlot {
     time: string;
@@ -937,8 +962,6 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
       slotGroups: buildSlotGroups(apiData),
     };
   }
-
-  const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
 
   function formatDate(dateStr: string): string {
     const date = new Date(dateStr);
@@ -1227,20 +1250,35 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     }
   }
 
+  // インジケーターの位置をアクティブなタブに合わせる
+  function positionIndicator(offsetDays: number): void {
+    const dayTabs = document.getElementById('dayTabs');
+    if (!dayTabs) return;
+    const indicator = dayTabs.querySelector<HTMLElement>('.day-tab-indicator');
+    const activeTab = dayTabs.querySelector<HTMLElement>(`.day-tab[data-offset="${offsetDays}"]`);
+    if (!indicator || !activeTab) return;
+    indicator.style.width = `${activeTab.offsetWidth}px`;
+    indicator.style.transform = `translateX(${activeTab.offsetLeft - 6}px)`;
+  }
+
   // 表示日の切替 — データはキャッシュ済みなので再取得不要
   function selectDay(offsetDays: number): void {
     selectedOffset = offsetDays;
 
     const dayTabs = document.getElementById('dayTabs');
     if (dayTabs) {
-      dayTabs.setAttribute('data-active', String(offsetDays));
       dayTabs.querySelectorAll('.day-tab').forEach(t => {
         t.classList.toggle('active', Number((t as HTMLElement).dataset.offset) === offsetDays);
       });
     }
 
+    positionIndicator(offsetDays);
+
+    // アクティブなタブが見えるようにスクロール
+    const activeTab = dayTabs?.querySelector<HTMLElement>(`.day-tab[data-offset="${offsetDays}"]`);
+    activeTab?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+
     // 本体はスライドせず、アクティブな日のパネルだけ表示する
-    // （両日の枠数が違っても余白が生まれないよう、高さは表示中パネルに追従）
     document.querySelectorAll<HTMLElement>('.day-panel').forEach(panel => {
       panel.classList.toggle('active', Number(panel.dataset.offset) === offsetDays);
     });
@@ -1295,17 +1333,22 @@ const DAY_OFFSETS = DAY_LABELS.map((_, i) => i);
     }
   }
 
-  // タブのクリックで日付を切替
+  // タブのラベルを実際の日付に差し替え
   const dayTabsEl = document.getElementById('dayTabs');
   if (dayTabsEl) {
     dayTabsEl.querySelectorAll<HTMLButtonElement>('.day-tab').forEach(tab => {
+      const offset = Number(tab.dataset.offset);
+      tab.textContent = buildDayLabel(offset);
+
       tab.addEventListener('click', () => {
-        const offset = Number(tab.dataset.offset);
         if (offset === selectedOffset) return;
         selectDay(offset);
       });
     });
   }
+
+  // 初期状態のインジケーター位置を設定
+  positionIndicator(selectedOffset);
 
   // Initial fetch
   fetchAvailability();

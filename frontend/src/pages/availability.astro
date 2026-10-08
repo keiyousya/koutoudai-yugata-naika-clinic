@@ -780,27 +780,22 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
 
   @media (max-width: 768px) {
     .day-picker {
-      gap: 4px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    .day-picker::-webkit-scrollbar {
+      display: none;
     }
 
     .day-pill {
-      padding: 8px 2px;
-      border-radius: 12px;
-    }
-
-    .day-pill-dow {
-      font-size: 0.65rem;
-    }
-
-    .day-pill-date {
-      font-size: 0.95rem;
-      width: 28px;
-      height: 28px;
-    }
-
-    .day-pill.today .day-pill-date {
-      width: 28px;
-      height: 28px;
+      flex: 0 0 auto;
+      min-width: 56px;
+      padding: 10px 8px;
     }
 
     .last-updated {
@@ -1290,6 +1285,9 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
       picker.querySelectorAll('.day-pill').forEach(p => {
         p.classList.toggle('active', Number((p as HTMLElement).dataset.offset) === offsetDays);
       });
+      // モバイルの横スクロール時、選択ピルが見えるようにする
+      const activePill = picker.querySelector<HTMLElement>(`.day-pill[data-offset="${offsetDays}"]`);
+      activePill?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
 
     // 本体はスライドせず、アクティブな日のパネルだけ表示する

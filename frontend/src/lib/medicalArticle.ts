@@ -6,7 +6,7 @@ export const SITE_URL = "https://koutoudai-yugata-naika.clinic";
 
 export const SUPERVISOR = {
   name: "田村 慧人",
-  jobTitle: "院長",
+  jobTitle: "医師",
   url: `${SITE_URL}/doctor`,
 };
 

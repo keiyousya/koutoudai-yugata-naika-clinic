@@ -12,6 +12,26 @@ import CauseGrid from '../../components/CauseGrid.astro';
 import CauseCard from '../../components/CauseCard.astro';
 import ArticleTable from '../../components/ArticleTable.astro';
 import Callout from '../../components/Callout.astro';
+import featureWheal from '../../assets/articles/urticaria/feature-wheal.png';
+import featureIn24h from '../../assets/articles/urticaria/feature-24h.png';
+import featureRecurrence from '../../assets/articles/urticaria/feature-recurrence.png';
+import mechanismVessel from '../../assets/articles/urticaria/mechanism-vessel.png';
+import mechanismSkin from '../../assets/articles/urticaria/mechanism-skin.png';
+import mechanismItch from '../../assets/articles/urticaria/mechanism-itch.png';
+import triggerStress from '../../assets/articles/urticaria/trigger-stress.png';
+import triggerInfection from '../../assets/articles/urticaria/trigger-infection.png';
+import painkiller from '../../assets/articles/urticaria/painkiller.png';
+import triggerNight from '../../assets/articles/urticaria/trigger-night.png';
+import bathAlcohol from '../../assets/articles/urticaria/bath-alcohol.png';
+import triggerFood from '../../assets/articles/urticaria/trigger-food.png';
+import emergencyBreath from '../../assets/articles/urticaria/emergency-breath.png';
+import emergencySwelling from '../../assets/articles/urticaria/emergency-swelling.png';
+import emergencyShock from '../../assets/articles/urticaria/emergency-shock.png';
+import emergencyAbdomen from '../../assets/articles/urticaria/emergency-abdomen.png';
+import careCool from '../../assets/articles/urticaria/care-cool.png';
+import careSleep from '../../assets/articles/urticaria/care-sleep.png';
+import careDiary from '../../assets/articles/urticaria/care-diary.png';
+import careConsult from '../../assets/articles/urticaria/care-consult.png';
 
 じんま疹（<ruby>蕁麻疹<rp>（</rp><rt>じんましん</rt><rp>）</rp></ruby>）は、かゆみを伴う赤い膨らみ（<ruby>膨疹<rp>（</rp><rt>ぼうしん</rt><rp>）</rp></ruby>）が突然あらわれ、しばらくすると跡形もなく消えていく病気です。**世界の人口の最大20%が生涯に一度は経験する**とされる、とてもありふれた病気です。
 
@@ -22,9 +42,9 @@ import Callout from '../../components/Callout.astro';
 次の3つがそろえば、じんま疹の可能性が高いと考えられます。
 
 <CauseGrid variant="positive">
-  <CauseCard icon="conditions/allergies" title="かゆみを伴う赤い膨らみ">蚊に刺されたような盛り上がりが、数ミリのものから手のひらより大きい地図のような形まで、さまざまな大きさで出ます</CauseCard>
-  <CauseCard icon="symbols/i_schedule_school_date_time" title="24時間以内に消える">ひとつひとつの<ruby>皮疹<rp>（</rp><rt>ひしん</rt><rp>）</rp></ruby>は数十分〜数時間で、遅くとも24時間以内に消え、あとに跡を残しません</CauseCard>
-  <CauseCard icon="graphs/chart_line" title="出たり消えたりを繰り返す">場所を変えながら、消えては別のところに出る、という経過をたどります</CauseCard>
+  <CauseCard image={featureWheal} title="かゆみを伴う赤い膨らみ">蚊に刺されたような盛り上がりが、数ミリのものから手のひらより大きい地図のような形まで、さまざまな大きさで出ます</CauseCard>
+  <CauseCard image={featureIn24h} title="24時間以内に消える">ひとつひとつの<ruby>皮疹<rp>（</rp><rt>ひしん</rt><rp>）</rp></ruby>は数十分〜数時間で、遅くとも24時間以内に消え、あとに跡を残しません</CauseCard>
+  <CauseCard image={featureRecurrence} title="出たり消えたりを繰り返す">場所を変えながら、消えては別のところに出る、という経過をたどります</CauseCard>
 </CauseGrid>
 
 逆に、**ひとつの皮疹が24時間以上同じ場所に残る**、**消えたあとに茶色い色素沈着が残る**、**かゆみより痛みが強い**、**発熱や関節痛を伴う**といった場合は、じんま疹に似た別の病気（<ruby>蕁麻疹様血管炎<rp>（</rp><rt>じんましんようけっかんえん</rt><rp>）</rp></ruby>など）の可能性があり、皮膚の<ruby>生検<rp>（</rp><rt>せいけん</rt><rp>）</rp></ruby>が必要になることがあります。
@@ -38,9 +58,9 @@ import Callout from '../../components/Callout.astro';
 皮膚の中には**マスト細胞**（<ruby>肥満細胞<rp>（</rp><rt>ひまんさいぼう</rt><rp>）</rp></ruby>）という細胞があり、ここから**ヒスタミン**などの物質が放出されることでじんま疹が起こります。
 
 <CauseGrid variant="negative">
-  <CauseCard icon="body/blood_vessel" title="血管が広がる">皮膚の細い血管が拡張し、赤みが出ます</CauseCard>
-  <CauseCard icon="objects/running_water" title="血液の水分がしみ出す">血管から血<ruby>漿<rp>（</rp><rt>しょう</rt><rp>）</rp></ruby>成分が漏れ出し、皮膚が膨らみます（膨疹）</CauseCard>
-  <CauseCard icon="body/nerve" title="かゆみの神経が刺激される">知覚神経が刺激され、強いかゆみが生じます</CauseCard>
+  <CauseCard image={mechanismVessel} title="血管が広がる">皮膚の細い血管が拡張し、赤みが出ます</CauseCard>
+  <CauseCard image={mechanismSkin} title="血液の水分がしみ出す">血管から血<ruby>漿<rp>（</rp><rt>しょう</rt><rp>）</rp></ruby>成分が漏れ出し、皮膚が膨らみます（膨疹）</CauseCard>
+  <CauseCard image={mechanismItch} title="かゆみの神経が刺激される">知覚神経が刺激され、強いかゆみが生じます</CauseCard>
 </CauseGrid>
 
 つまりじんま疹は「皮膚の炎症」というより、**ヒスタミンによる一時的な血管の反応**です。だからこそ、ヒスタミンの働きを抑える抗ヒスタミン薬が治療の中心になります。
@@ -86,12 +106,12 @@ import Callout from '../../components/Callout.astro';
 ### 悪化させる要因
 
 <CauseGrid variant="negative">
-  <CauseCard icon="emotions/sleepy" title="疲労・ストレス・睡眠不足">もっとも多い悪化因子のひとつです</CauseCard>
-  <CauseCard icon="body/bacteria" title="感染症">かぜなどの感染が引き金になることがよくあります。特に急性のじんま疹で多くみられます</CauseCard>
-  <CauseCard icon="medications/pill_1" title="痛み止め（NSAIDs）">ロキソプロフェンなどの解熱鎮痛薬は、それ自体が原因にも、他のじんま疹の悪化因子にもなります</CauseCard>
-  <CauseCard icon="symbols/i_schedule_school_date_time" title="時間帯（夕方〜夜間、明け方）">特発性のじんま疹は<strong>夕方から夜にかけて悪化しやすい</strong>という日内変動があります</CauseCard>
-  <CauseCard icon="nutrition/alcohol" title="飲酒・入浴・締めつけ">体が温まる、こすれる、圧迫されるといった刺激で出やすくなることがあります</CauseCard>
-  <CauseCard icon="nutrition/unhealthy_food" title="食品成分">食物アレルギーとは別に、食品中のヒスタミンや添加物、香辛料などが背景因子になることがあります</CauseCard>
+  <CauseCard image={triggerStress} title="疲労・ストレス・睡眠不足">もっとも多い悪化因子のひとつです</CauseCard>
+  <CauseCard image={triggerInfection} title="感染症">かぜなどの感染が引き金になることがよくあります。特に急性のじんま疹で多くみられます</CauseCard>
+  <CauseCard image={painkiller} title="痛み止め（NSAIDs）">ロキソプロフェンなどの解熱鎮痛薬は、それ自体が原因にも、他のじんま疹の悪化因子にもなります</CauseCard>
+  <CauseCard image={triggerNight} title="時間帯（夕方〜夜間、明け方）">特発性のじんま疹は<strong>夕方から夜にかけて悪化しやすい</strong>という日内変動があります</CauseCard>
+  <CauseCard image={bathAlcohol} title="飲酒・入浴・締めつけ">体が温まる、こすれる、圧迫されるといった刺激で出やすくなることがあります</CauseCard>
+  <CauseCard image={triggerFood} title="食品成分">食物アレルギーとは別に、食品中のヒスタミンや添加物、香辛料などが背景因子になることがあります</CauseCard>
 </CauseGrid>
 
 <Callout label="夕方に悪化する方へ">
@@ -218,10 +238,10 @@ import Callout from '../../components/Callout.astro';
 じんま疹そのもので命に関わることはほとんどありませんが、**アナフィラキシー**や**気道の腫れ**を伴う場合は緊急です。次の症状があれば、ためらわず**119番**してください。
 
 <CauseGrid variant="negative">
-  <CauseCard icon="body/lungs" title="息が苦しい・のどが締まる">声がかすれる、飲み込みにくい、ゼーゼーする。<strong>気道の腫れは窒息の危険</strong>があります</CauseCard>
-  <CauseCard icon="body/mouth" title="唇・まぶた・舌の強い腫れ">血管性浮腫が口やのどに及ぶと、急速に呼吸ができなくなることがあります</CauseCard>
-  <CauseCard icon="emotions/dizzy" title="血圧低下・意識がもうろう">立っていられない、真っ青になる、冷や汗が出る</CauseCard>
-  <CauseCard icon="conditions/vomiting" title="強い腹痛・嘔吐・下痢">皮膚以外の症状を伴うときはアナフィラキシーを疑います</CauseCard>
+  <CauseCard image={emergencyBreath} title="息が苦しい・のどが締まる">声がかすれる、飲み込みにくい、ゼーゼーする。<strong>気道の腫れは窒息の危険</strong>があります</CauseCard>
+  <CauseCard image={emergencySwelling} title="唇・まぶた・舌の強い腫れ">血管性浮腫が口やのどに及ぶと、急速に呼吸ができなくなることがあります</CauseCard>
+  <CauseCard image={emergencyShock} title="血圧低下・意識がもうろう">立っていられない、真っ青になる、冷や汗が出る</CauseCard>
+  <CauseCard image={emergencyAbdomen} title="強い腹痛・嘔吐・下痢">皮膚以外の症状を伴うときはアナフィラキシーを疑います</CauseCard>
 </CauseGrid>
 
 食物や薬を摂ったあと数分〜2時間以内に、じんま疹が全身に急速に広がる場合も要注意です。エピペン®をお持ちの方は、迷わず使用してから救急要請してください。
@@ -250,12 +270,12 @@ import Callout from '../../components/Callout.astro';
 ## 日常生活で気をつけること
 
 <CauseGrid variant="positive">
-  <CauseCard icon="objects/running_water" title="かかずに冷やす">かくと悪化します。保冷剤をタオルで包んで冷やすとかゆみが和らぎます</CauseCard>
-  <CauseCard icon="emotions/sleepy" title="睡眠と休養をとる">疲労・ストレス・睡眠不足は、特発性じんま疹のもっとも一般的な悪化因子です</CauseCard>
-  <CauseCard icon="medications/pill_1" title="痛み止めの選び方">NSAIDsが悪化因子になる方は、アセトアミノフェンなど別の系統を選びます。医師にご相談ください</CauseCard>
-  <CauseCard icon="nutrition/alcohol_cessation" title="飲酒・長風呂を控えめに">体が温まると出やすい方は、症状が強い時期だけでも控えると楽になります</CauseCard>
-  <CauseCard icon="objects/register_book" title="記録をつける">出た時間帯・場所・直前に食べたものや行動をメモしておくと、誘因の絞り込みに役立ちます</CauseCard>
-  <CauseCard icon="nutrition/nutrition" title="自己判断で食事を制限しない">原因が確認されていない食品を広く除くことは推奨されません。心配な場合は相談してください</CauseCard>
+  <CauseCard image={careCool} title="かかずに冷やす">かくと悪化します。保冷剤をタオルで包んで冷やすとかゆみが和らぎます</CauseCard>
+  <CauseCard image={careSleep} title="睡眠と休養をとる">疲労・ストレス・睡眠不足は、特発性じんま疹のもっとも一般的な悪化因子です</CauseCard>
+  <CauseCard image={painkiller} title="痛み止めの選び方">NSAIDsが悪化因子になる方は、アセトアミノフェンなど別の系統を選びます。医師にご相談ください</CauseCard>
+  <CauseCard image={bathAlcohol} title="飲酒・長風呂を控えめに">体が温まると出やすい方は、症状が強い時期だけでも控えると楽になります</CauseCard>
+  <CauseCard image={careDiary} title="記録をつける">出た時間帯・場所・直前に食べたものや行動をメモしておくと、誘因の絞り込みに役立ちます</CauseCard>
+  <CauseCard image={careConsult} title="自己判断で食事を制限しない">原因が確認されていない食品を広く除くことは推奨されません。心配な場合は相談してください</CauseCard>
 </CauseGrid>
 
 ## 当院でできること

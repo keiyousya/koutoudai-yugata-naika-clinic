@@ -7,6 +7,16 @@ description: "2型糖尿病の治療薬（メトホルミン・DPP-4阻害薬・
 import CauseGrid from '../../../components/CauseGrid.astro';
 import CauseCard from '../../../components/CauseCard.astro';
 import ArticleTable from '../../../components/ArticleTable.astro';
+import obeseImage from '../../../assets/articles/diabetes-medication/obese.png';
+import leanImage from '../../../assets/articles/diabetes-medication/lean.png';
+import cardiovascularImage from '../../../assets/articles/diabetes-medication/cardiovascular.png';
+import heartFailureImage from '../../../assets/articles/diabetes-medication/heart-failure.png';
+import kidneyImage from '../../../assets/articles/diabetes-medication/kidney.png';
+import elderlyImage from '../../../assets/articles/diabetes-medication/elderly.png';
+import fattyLiverImage from '../../../assets/articles/diabetes-medication/fatty-liver.png';
+import eyeImage from '../../../assets/articles/diabetes-medication/eye.png';
+import pancreasImage from '../../../assets/articles/diabetes-medication/pancreas.png';
+import thirstImage from '../../../assets/articles/diabetes-medication/thirst.png';
 
 ## 治療薬の選び方
 
@@ -102,25 +112,25 @@ import ArticleTable from '../../../components/ArticleTable.astro';
 ### 体のタイプからみた選択
 
 <CauseGrid variant="navy">
-  <CauseCard icon="conditions/overweight" title="肥満・内臓脂肪型">インスリンの効きが悪いタイプ。メトホルミンに加え、体重を減らす効果のあるSGLT2阻害薬・GLP-1受容体作動薬が候補になります</CauseCard>
-  <CauseCard icon="body/pancreas" title="やせ型・インスリン分泌低下型">インスリンの出る量が少ないタイプ。DPP-4阻害薬の効果が出やすく、メトホルミンも候補になります</CauseCard>
+  <CauseCard image={obeseImage} title="肥満・内臓脂肪型">インスリンの効きが悪いタイプ。メトホルミンに加え、体重を減らす効果のあるSGLT2阻害薬・GLP-1受容体作動薬が候補になります</CauseCard>
+  <CauseCard image={leanImage} title="やせ型・インスリン分泌低下型">インスリンの出る量が少ないタイプ。DPP-4阻害薬の効果が出やすく、メトホルミンも候補になります</CauseCard>
 </CauseGrid>
 
 ### 合併症からみた選択
 
 <CauseGrid variant="navy">
-  <CauseCard icon="body/heart_organ" title="心筋梗塞・脳卒中の既往">心血管の病気を減らす効果が示されている、SGLT2阻害薬・GLP-1受容体作動薬の使用を検討します</CauseCard>
-  <CauseCard icon="symbols/heart_cardiogram" title="心不全・心不全の予備群">心不全による入院を減らす効果が示されている、SGLT2阻害薬の使用を検討します</CauseCard>
+  <CauseCard image={cardiovascularImage} title="心筋梗塞・脳卒中の既往">心血管の病気を減らす効果が示されている、SGLT2阻害薬・GLP-1受容体作動薬の使用を検討します</CauseCard>
+  <CauseCard image={heartFailureImage} title="心不全・心不全の予備群">心不全による入院を減らす効果が示されている、SGLT2阻害薬の使用を検討します</CauseCard>
 </CauseGrid>
 
 <CauseGrid variant="navy">
-  <CauseCard icon="body/kidneys" title="腎臓病（アルブミン尿・尿たんぱく）">腎臓の働きの低下を遅らせる効果が示されている、SGLT2阻害薬の使用を検討します。血圧の薬（ARB・ACE阻害薬）との併用も検討します</CauseCard>
-  <CauseCard icon="people/elderly" title="ご高齢の方">低血糖や脱水を避けることを最優先に。DPP-4阻害薬など低血糖を起こしにくい薬を中心に、量を控えめにして使います</CauseCard>
+  <CauseCard image={kidneyImage} title="腎臓病（アルブミン尿・尿たんぱく）">腎臓の働きの低下を遅らせる効果が示されている、SGLT2阻害薬の使用を検討します。血圧の薬（ARB・ACE阻害薬）との併用も検討します</CauseCard>
+  <CauseCard image={elderlyImage} title="ご高齢の方">低血糖や脱水を避けることを最優先に。DPP-4阻害薬など低血糖を起こしにくい薬を中心に、量を控えめにして使います</CauseCard>
 </CauseGrid>
 
 <CauseGrid variant="navy">
-  <CauseCard icon="body/liver" title="脂肪肝（MASLD）">肝臓に脂肪がたまっている方。体重と肝臓の脂肪を減らす効果が期待できる、SGLT2阻害薬・GLP-1受容体作動薬が候補になります</CauseCard>
-  <CauseCard icon="body/eye" title="長く血糖が高かった方">急に血糖を下げると、網膜症の悪化や神経の痛みが出ることがあります。眼科と連携しながら、時間をかけてゆっくり下げます</CauseCard>
+  <CauseCard image={fattyLiverImage} title="脂肪肝（MASLD）">肝臓に脂肪がたまっている方。体重と肝臓の脂肪を減らす効果が期待できる、SGLT2阻害薬・GLP-1受容体作動薬が候補になります</CauseCard>
+  <CauseCard image={eyeImage} title="長く血糖が高かった方">急に血糖を下げると、網膜症の悪化や神経の痛みが出ることがあります。眼科と連携しながら、時間をかけてゆっくり下げます</CauseCard>
 </CauseGrid>
 
 ## インスリン治療を検討するとき
@@ -130,8 +140,8 @@ import ArticleTable from '../../../components/ArticleTable.astro';
 ### すぐにインスリンが必要な場合
 
 <CauseGrid variant="navy">
-  <CauseCard icon="body/pancreas" title="インスリンがほとんど出ていない">1型糖尿病や、2型でも膵臓の働きが大きく低下している場合。血液検査（Cペプチド）でインスリンがどれだけ出ているかを確認します</CauseCard>
-  <CauseCard icon="symbols/alert_triangle" title="急激な高血糖・ケトン体陽性">強いのどの渇き・多尿・急な体重減少・だるさ・吐き気がある場合。入院が必要なこともあるため、専門医療機関へ速やかにご紹介します</CauseCard>
+  <CauseCard image={pancreasImage} title="インスリンがほとんど出ていない">1型糖尿病や、2型でも膵臓の働きが大きく低下している場合。血液検査（Cペプチド）でインスリンがどれだけ出ているかを確認します</CauseCard>
+  <CauseCard image={thirstImage} title="急激な高血糖・ケトン体陽性">強いのどの渇き・多尿・急な体重減少・だるさ・吐き気がある場合。入院が必要なこともあるため、専門医療機関へ速やかにご紹介します</CauseCard>
 </CauseGrid>
 
 このほか、重い感染症や大きな手術のとき、妊娠中（妊娠を計画しているときを含む）も、インスリンで血糖を管理します。

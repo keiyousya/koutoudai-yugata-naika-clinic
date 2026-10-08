@@ -14,6 +14,26 @@ import CauseCard from '../../components/CauseCard.astro';
 import ArticleTable from '../../components/ArticleTable.astro';
 import Callout from '../../components/Callout.astro';
 import Toggle from '../../components/Toggle.astro';
+import causeOvereating from '../../assets/articles/obesity/cause-overeating.png';
+import causeFastEating from '../../assets/articles/obesity/cause-fast-eating.png';
+import causeSitting from '../../assets/articles/obesity/cause-sitting.png';
+import causeSleep from '../../assets/articles/obesity/cause-sleep.png';
+import causeLateMeal from '../../assets/articles/obesity/cause-late-meal.png';
+import causeStress from '../../assets/articles/obesity/cause-stress.png';
+import causeAlcohol from '../../assets/articles/obesity/cause-alcohol.png';
+import causeSmoking from '../../assets/articles/obesity/cause-smoking.png';
+import causeHeredity from '../../assets/articles/obesity/cause-heredity.png';
+import causeAging from '../../assets/articles/obesity/cause-aging.png';
+import dietEnergy from '../../assets/articles/obesity/diet-energy.png';
+import dietBalance from '../../assets/articles/obesity/diet-balance.png';
+import dietFiber from '../../assets/articles/obesity/diet-fiber.png';
+import dietProtein from '../../assets/articles/obesity/diet-protein.png';
+import exerciseAerobic from '../../assets/articles/obesity/exercise-aerobic.png';
+import exerciseStrength from '../../assets/articles/obesity/exercise-strength.png';
+import exerciseStandUp from '../../assets/articles/obesity/exercise-stand-up.png';
+import behaviorWeigh from '../../assets/articles/obesity/behavior-weigh.png';
+import behaviorRhythm from '../../assets/articles/obesity/behavior-rhythm.png';
+import behaviorApp from '../../assets/articles/obesity/behavior-app.png';
 
 <ruby>肥満症<rp>（</rp><rt>ひまんしょう</rt><rp>）</rp></ruby>とは、ただ体重が多いだけでなく、**肥満が原因で健康障害を合併しているか、その合併が予測される状態**をいい、医学的に減量を必要とする**病気**です。
 
@@ -77,16 +97,16 @@ import Toggle from '../../components/Toggle.astro';
 肥満の多くは、もともとの体質にさまざまな生活習慣が重なって起こります（<ruby>原発性肥満<rp>（</rp><rt>げんぱつせいひまん</rt><rp>）</rp></ruby>）。日本では成人男性の肥満者割合がすべての年代で長期的に増加しており、特に40〜50歳代でもっとも多くなっています。
 
 <CauseGrid variant="negative">
-  <CauseCard icon="nutrition/unhealthy_food" title="食べすぎ・偏った食事">エネルギー摂取量の過多は体重増加に直結します。脂質の多い食事や糖質の摂りすぎに注意が必要です</CauseCard>
-  <CauseCard icon="nutrition/hot_meal" title="早食い">早食いは満腹感を感じる前に食べすぎてしまい、エネルギー摂取量の過多につながります。食べる速さと肥満度には関連があることが報告されています</CauseCard>
-  <CauseCard icon="exercise/walking" title="運動不足・座りすぎ">身体活動量の増加は肥満を抑制します。デスクワークやテレビ視聴など座っている時間が長いことも、独立して肥満と関連しています</CauseCard>
-  <CauseCard icon="emotions/sleepy" title="睡眠不足">睡眠時間が短い（5時間以下）と肥満の発症と関連することが報告されています。食欲を増すホルモン（グレリン）が増え、満腹を感じるホルモン（レプチン）が減るため、体重が増えやすくなります</CauseCard>
-  <CauseCard icon="nutrition/hot_meal_2" title="朝食の欠食・夜遅い食事">朝食を抜く習慣は肥満やメタボリックシンドロームと関連しています。また、夜間遅くの食事は動脈硬化性疾患や2型糖尿病のリスクを高めることが報告されています</CauseCard>
-  <CauseCard icon="emotions/nervous" title="ストレス">慢性的なストレスは過食に陥りやすくし、内臓脂肪の蓄積にもつながります</CauseCard>
-  <CauseCard icon="nutrition/alcohol" title="多量飲酒">お酒の飲みすぎはエネルギー過多を招き、体重増加のリスクを上げます。少〜中等量であれば大きな影響はないとされています</CauseCard>
-  <CauseCard icon="symbols/smoking" title="喫煙">喫煙者はやせている方が多い一方で、重度の喫煙者は肥満度やウエスト周囲長が大きいことが報告されています。また、禁煙後には一時的に体重が増えやすくなります</CauseCard>
-  <CauseCard icon="body/dna" title="体質・遺伝">ご家族に肥満の方がいる場合、体質的に太りやすい傾向があります</CauseCard>
-  <CauseCard icon="people/elderly" title="加齢・ホルモンの変化">女性は閉経後にエストロゲンが減少し、男性は加齢に伴いテストステロンが低下することで、内臓脂肪がつきやすくなります</CauseCard>
+  <CauseCard image={causeOvereating} title="食べすぎ・偏った食事">エネルギー摂取量の過多は体重増加に直結します。脂質の多い食事や糖質の摂りすぎに注意が必要です</CauseCard>
+  <CauseCard image={causeFastEating} title="早食い">早食いは満腹感を感じる前に食べすぎてしまい、エネルギー摂取量の過多につながります。食べる速さと肥満度には関連があることが報告されています</CauseCard>
+  <CauseCard image={causeSitting} title="運動不足・座りすぎ">身体活動量の増加は肥満を抑制します。デスクワークやテレビ視聴など座っている時間が長いことも、独立して肥満と関連しています</CauseCard>
+  <CauseCard image={causeSleep} title="睡眠不足">睡眠時間が短い（5時間以下）と肥満の発症と関連することが報告されています。食欲を増すホルモン（グレリン）が増え、満腹を感じるホルモン（レプチン）が減るため、体重が増えやすくなります</CauseCard>
+  <CauseCard image={causeLateMeal} title="朝食の欠食・夜遅い食事">朝食を抜く習慣は肥満やメタボリックシンドロームと関連しています。また、夜間遅くの食事は動脈硬化性疾患や2型糖尿病のリスクを高めることが報告されています</CauseCard>
+  <CauseCard image={causeStress} title="ストレス">慢性的なストレスは過食に陥りやすくし、内臓脂肪の蓄積にもつながります</CauseCard>
+  <CauseCard image={causeAlcohol} title="多量飲酒">お酒の飲みすぎはエネルギー過多を招き、体重増加のリスクを上げます。少〜中等量であれば大きな影響はないとされています</CauseCard>
+  <CauseCard image={causeSmoking} title="喫煙">喫煙者はやせている方が多い一方で、重度の喫煙者は肥満度やウエスト周囲長が大きいことが報告されています。また、禁煙後には一時的に体重が増えやすくなります</CauseCard>
+  <CauseCard image={causeHeredity} title="体質・遺伝">ご家族に肥満の方がいる場合、体質的に太りやすい傾向があります</CauseCard>
+  <CauseCard image={causeAging} title="加齢・ホルモンの変化">女性は閉経後にエストロゲンが減少し、男性は加齢に伴いテストステロンが低下することで、内臓脂肪がつきやすくなります</CauseCard>
 </CauseGrid>
 
 <Callout label="少し専門的な内容" variant="navy">肥満のなかには、ホルモンの病気や薬の影響など**別の原因**があって太りやすくなっている場合（<ruby>二次性肥満<rp>（</rp><rt>にじせいひまん</rt><rp>）</rp></ruby>）があります。<ruby>甲状腺機能低下症<rp>（</rp><rt>こうじょうせんきのうていかしょう</rt><rp>）</rp></ruby>・クッシング症候群・<ruby>多嚢胞性卵巣症候群<rp>（</rp><rt>たのうほうせいらんそうしょうこうぐん</rt><rp>）</rp></ruby>（PCOS）などが代表的です。また、ステロイドや一部の向精神薬など、**薬の影響**で体重が増えることもあります（薬剤性肥満）。食事や運動を頑張っても体重が減りにくい場合には、こうした病気が隠れていないか検査することがあります。</Callout>
@@ -156,10 +176,10 @@ import Toggle from '../../components/Toggle.astro';
 肥満症治療の基本は食事療法です。食事療法により内臓脂肪を減少させ、健康障害の改善を目指します。
 
 <CauseGrid variant="positive">
-  <CauseCard icon="nutrition/nutrition" title="適切なエネルギー量">目標体重に基づいて1日の摂取エネルギー量を設定します。無理な食事制限（全飢餓療法）は危険です</CauseCard>
-  <CauseCard icon="nutrition/fruits" title="バランスのよい食事">炭水化物50〜65%、蛋白質13〜20%、脂肪20〜30%を目安に、必須アミノ酸を含む蛋白質、ビタミン、ミネラルを十分に摂取します</CauseCard>
-  <CauseCard icon="nutrition/dairy" title="食物繊維を増やす">野菜・海藻・きのこ・全粒穀物などの食物繊維は、体重・血圧・コレステロール・中性脂肪の改善に効果が示されています。1日25〜29gが目標です</CauseCard>
-  <CauseCard icon="nutrition/hot_meal" title="蛋白質をしっかり摂る">蛋白質摂取割合が少ないことは肥満と関連しています。蛋白質は満腹感を得やすく、長期の体重維持にも効果的です</CauseCard>
+  <CauseCard image={dietEnergy} title="適切なエネルギー量">目標体重に基づいて1日の摂取エネルギー量を設定します。無理な食事制限（全飢餓療法）は危険です</CauseCard>
+  <CauseCard image={dietBalance} title="バランスのよい食事">炭水化物50〜65%、蛋白質13〜20%、脂肪20〜30%を目安に、必須アミノ酸を含む蛋白質、ビタミン、ミネラルを十分に摂取します</CauseCard>
+  <CauseCard image={dietFiber} title="食物繊維を増やす">野菜・海藻・きのこ・全粒穀物などの食物繊維は、体重・血圧・コレステロール・中性脂肪の改善に効果が示されています。1日25〜29gが目標です</CauseCard>
+  <CauseCard image={dietProtein} title="蛋白質をしっかり摂る">蛋白質摂取割合が少ないことは肥満と関連しています。蛋白質は満腹感を得やすく、長期の体重維持にも効果的です</CauseCard>
 </CauseGrid>
 
 #### 1日の摂取エネルギー量の目安
@@ -191,9 +211,9 @@ import Toggle from '../../components/Toggle.astro';
 運動は体重減少そのものよりも、**死亡・心血管疾患のリスク低下**や**減量後の体重維持**に大きな効果があります。
 
 <CauseGrid variant="positive">
-  <CauseCard icon="exercise/walking" title="有酸素運動">ウォーキング・水泳・サイクリングなどを1日30分以上、週5日以上（週150分以上）が目標です。短時間に分けても合計30分でOKです</CauseCard>
-  <CauseCard icon="exercise/dumbbell" title="筋力トレーニング">レジスタンス運動を併用すると、サルコペニア（筋肉の減少）を防ぎながら体脂肪を減らせます。週2〜3回を目安に取り入れましょう</CauseCard>
-  <CauseCard icon="exercise/walking" title="座りすぎを減らす">座っている時間が長いこと自体が、運動量とは独立して死亡リスクや心血管疾患リスクを高めます。「今より10分多く体を動かす」ことから始めましょう</CauseCard>
+  <CauseCard image={exerciseAerobic} title="有酸素運動">ウォーキング・水泳・サイクリングなどを1日30分以上、週5日以上（週150分以上）が目標です。短時間に分けても合計30分でOKです</CauseCard>
+  <CauseCard image={exerciseStrength} title="筋力トレーニング">レジスタンス運動を併用すると、サルコペニア（筋肉の減少）を防ぎながら体脂肪を減らせます。週2〜3回を目安に取り入れましょう</CauseCard>
+  <CauseCard image={exerciseStandUp} title="座りすぎを減らす">座っている時間が長いこと自体が、運動量とは独立して死亡リスクや心血管疾患リスクを高めます。「今より10分多く体を動かす」ことから始めましょう</CauseCard>
 </CauseGrid>
 
 <Callout>週150分未満の運動でも、中性脂肪・HDLコレステロール・血糖の改善が報告されています。まずは少しずつ始めて、できる範囲で続けることが大切です。</Callout>
@@ -203,10 +223,10 @@ import Toggle from '../../components/Toggle.astro';
 行動療法は、食事や運動の効果を高め、**リバウンドを防ぐ**ために欠かせない治療法です。
 
 <CauseGrid variant="positive">
-  <CauseCard icon="symbols/clipboard" title="体重を毎日記録する">毎日体重を測ってグラフにすることで、生活リズムの乱れに早く気づけます。減量に成功した方に共通する習慣です</CauseCard>
-  <CauseCard icon="nutrition/hot_meal" title="よく噛んで食べる">早食いは肥満のリスクを高めます。ひと口30回を目安にゆっくり噛むことで、満腹感が得られやすくなり、内臓脂肪の減少にもつながります</CauseCard>
-  <CauseCard icon="emotions/happy" title="生活リズムを整える">朝食の欠食、夜食、不規則な食事時間は肥満の原因になります。生活リズムの修正は過食や運動不足の改善と同じくらい大切です</CauseCard>
-  <CauseCard icon="devices/smartphone" title="アプリでセルフモニタリング">スマートフォンのアプリで食事内容や体重を記録すると、継続率が高まり、少なくとも6か月間の減量に有効です</CauseCard>
+  <CauseCard image={behaviorWeigh} title="体重を毎日記録する">毎日体重を測ってグラフにすることで、生活リズムの乱れに早く気づけます。減量に成功した方に共通する習慣です</CauseCard>
+  <CauseCard image={dietEnergy} title="よく噛んで食べる">早食いは肥満のリスクを高めます。ひと口30回を目安にゆっくり噛むことで、満腹感が得られやすくなり、内臓脂肪の減少にもつながります</CauseCard>
+  <CauseCard image={behaviorRhythm} title="生活リズムを整える">朝食の欠食、夜食、不規則な食事時間は肥満の原因になります。生活リズムの修正は過食や運動不足の改善と同じくらい大切です</CauseCard>
+  <CauseCard image={behaviorApp} title="アプリでセルフモニタリング">スマートフォンのアプリで食事内容や体重を記録すると、継続率が高まり、少なくとも6か月間の減量に有効です</CauseCard>
 </CauseGrid>
 
 ### 生活リズムと肥満
@@ -214,9 +234,9 @@ import Toggle from '../../components/Toggle.astro';
 肥満の予防・治療には、食事量や運動だけでなく、**1日24時間の生活リズム全体**を整えることが重要です。
 
 <CauseGrid variant="positive">
-  <CauseCard icon="nutrition/hot_meal" title="朝食をしっかり摂る">朝食の欠食は肥満・メタボリックシンドローム・2型糖尿病の発症と関連しています。適正な総エネルギー摂取量のもとで、朝食を摂る習慣を心がけましょう</CauseCard>
-  <CauseCard icon="symbols/clock" title="夜遅い食事を避ける">夜間遅くに食事を摂る習慣は、朝食欠食と合わさるとメタボリックシンドロームの合併率が高まることが報告されています。夕食はできるだけ早い時間に済ませましょう</CauseCard>
-  <CauseCard icon="emotions/sleepy" title="適切な睡眠時間をとる">睡眠時間と全死亡率はU字型の関係にあり、短すぎても長すぎても健康リスクが上がります。心血管疾患予防も含め、**5〜8時間**の睡眠を目安にしましょう</CauseCard>
+  <CauseCard image={dietBalance} title="朝食をしっかり摂る">朝食の欠食は肥満・メタボリックシンドローム・2型糖尿病の発症と関連しています。適正な総エネルギー摂取量のもとで、朝食を摂る習慣を心がけましょう</CauseCard>
+  <CauseCard image={causeLateMeal} title="夜遅い食事を避ける">夜間遅くに食事を摂る習慣は、朝食欠食と合わさるとメタボリックシンドロームの合併率が高まることが報告されています。夕食はできるだけ早い時間に済ませましょう</CauseCard>
+  <CauseCard image={behaviorRhythm} title="適切な睡眠時間をとる">睡眠時間と全死亡率はU字型の関係にあり、短すぎても長すぎても健康リスクが上がります。心血管疾患予防も含め、**5〜8時間**の睡眠を目安にしましょう</CauseCard>
 </CauseGrid>
 
 <Callout>近年話題の「間欠的絶食（ファスティング）」は、短期間では減量や血圧・血清脂質の改善に効果がある可能性がありますが、中期間以上の効果についてはまだ科学的根拠が十分ではありません。極端な方法よりも、まず生活リズムを整えることが大切です。</Callout>

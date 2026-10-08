@@ -14,6 +14,19 @@ import CauseGrid from '../../components/CauseGrid.astro';
 import CauseCard from '../../components/CauseCard.astro';
 import ArticleTable from '../../components/ArticleTable.astro';
 import DetailLink from '../../components/DetailLink.astro';
+import type1Diabetes from '../../assets/articles/diabetes/type1-pancreas.png';
+import type2Diabetes from '../../assets/articles/diabetes/type2-lifestyle.png';
+import causeOvereating from '../../assets/articles/diabetes/cause-overeating.png';
+import causeInactivity from '../../assets/articles/diabetes/cause-inactivity.png';
+import causeObesity from '../../assets/articles/diabetes/cause-obesity.png';
+import causeStress from '../../assets/articles/diabetes/cause-stress.png';
+import causeHeredity from '../../assets/articles/diabetes/cause-heredity.png';
+import complicationEye from '../../assets/articles/diabetes/complication-eye.png';
+import complicationKidney from '../../assets/articles/diabetes/complication-kidney.png';
+import complicationNerve from '../../assets/articles/diabetes/complication-nerve.png';
+import habitEnergy from '../../assets/articles/diabetes/habit-energy.png';
+import habitBalance from '../../assets/articles/diabetes/habit-balance.png';
+import habitSugar from '../../assets/articles/diabetes/habit-sugar.png';
 
 糖尿病とは、<ruby>膵臓<rp>（</rp><rt>すいぞう</rt><rp>）</rp></ruby>から分泌される**インスリン**というホルモンの働きが不足し、血液中のブドウ糖（血糖）が慢性的に高くなる病気です。
 
@@ -75,8 +88,8 @@ HbA1cは過去1〜2か月間の血糖の平均を反映する指標で、日々�
 ## 糖尿病のタイプ
 
 <CauseGrid>
-  <CauseCard icon="body/pancreas" title="1型糖尿病">膵臓のβ細胞が壊れ、インスリンがほとんど分泌されなくなるタイプです。年齢を問わず発症し、インスリン注射が必要になります</CauseCard>
-  <CauseCard icon="people/diabetes" title="2型糖尿病">インスリンの分泌が減ったり、効きが悪くなったりするタイプです。糖尿病の約90%を占め、遺伝的な体質に生活習慣が重なって発症します</CauseCard>
+  <CauseCard image={type1Diabetes} title="1型糖尿病">膵臓のβ細胞が壊れ、インスリンがほとんど分泌されなくなるタイプです。年齢を問わず発症し、インスリン注射が必要になります</CauseCard>
+  <CauseCard image={type2Diabetes} title="2型糖尿病">インスリンの分泌が減ったり、効きが悪くなったりするタイプです。糖尿病の約90%を占め、遺伝的な体質に生活習慣が重なって発症します</CauseCard>
 </CauseGrid>
 
 このほか、他の病気や薬の影響で発症するタイプや、妊娠中に血糖値が高くなる**妊娠糖尿病**もあります。
@@ -86,11 +99,11 @@ HbA1cは過去1〜2か月間の血糖の平均を反映する指標で、日々�
 2型糖尿病は、遺伝的な体質に以下のような生活習慣が重なることで発症します。
 
 <CauseGrid variant="negative">
-  <CauseCard icon="nutrition/unhealthy_food" title="食べすぎ・偏った食事">糖質や脂質の多い食事が続くと、膵臓に負担がかかります</CauseCard>
-  <CauseCard icon="exercise/walking" title="運動不足">筋肉でのブドウ糖消費が減り、インスリンの効きも悪くなります</CauseCard>
-  <CauseCard icon="conditions/overweight" title="肥満（特に内臓脂肪型）">内臓脂肪が増えるとインスリンの効きが低下します（インスリン抵抗性）</CauseCard>
-  <CauseCard icon="emotions/nervous" title="ストレス・睡眠不足">血糖値を上げるホルモンが増え、血糖コントロールが乱れやすくなります</CauseCard>
-  <CauseCard icon="body/dna" title="遺伝的な体質">ご家族に糖尿病の方がいる場合、発症リスクが高まります</CauseCard>
+  <CauseCard image={causeOvereating} title="食べすぎ・偏った食事">糖質や脂質の多い食事が続くと、膵臓に負担がかかります</CauseCard>
+  <CauseCard image={causeInactivity} title="運動不足">筋肉でのブドウ糖消費が減り、インスリンの効きも悪くなります</CauseCard>
+  <CauseCard image={causeObesity} title="肥満（特に内臓脂肪型）">内臓脂肪が増えるとインスリンの効きが低下します（インスリン抵抗性）</CauseCard>
+  <CauseCard image={causeStress} title="ストレス・睡眠不足">血糖値を上げるホルモンが増え、血糖コントロールが乱れやすくなります</CauseCard>
+  <CauseCard image={causeHeredity} title="遺伝的な体質">ご家族に糖尿病の方がいる場合、発症リスクが高まります</CauseCard>
 </CauseGrid>
 
 ## 糖尿病の症状
@@ -112,9 +125,9 @@ HbA1cは過去1〜2か月間の血糖の平均を反映する指標で、日々�
 高血糖の状態が続くと、全身の血管が少しずつ傷つきます。特に細い血管がダメージを受けやすく、以下のような**三大合併症**が起こることがあります。
 
 <CauseGrid variant="negative">
-  <CauseCard icon="body/eye" title="糖尿病網膜症（目）">網膜の血管が傷つき、進行すると視力低下や失明の原因になります。自覚症状がないまま進行するため、定期的な眼底検査が大切です</CauseCard>
-  <CauseCard icon="body/kidneys" title="糖尿病性腎症（腎臓）">腎臓の細い血管が障害され、進行すると腎不全や人工透析が必要になることがあります</CauseCard>
-  <CauseCard icon="body/nerve" title="糖尿病性神経障害（神経）">手足のしびれ・ピリピリ感、足の感覚低下などが起こります。足の傷に気づきにくくなり、<ruby>壊疽<rp>（</rp><rt>えそ</rt><rp>）</rp></ruby>の原因になることもあります</CauseCard>
+  <CauseCard image={complicationEye} title="糖尿病網膜症（目）">網膜の血管が傷つき、進行すると視力低下や失明の原因になります。自覚症状がないまま進行するため、定期的な眼底検査が大切です</CauseCard>
+  <CauseCard image={complicationKidney} title="糖尿病性腎症（腎臓）">腎臓の細い血管が障害され、進行すると腎不全や人工透析が必要になることがあります</CauseCard>
+  <CauseCard image={complicationNerve} title="糖尿病性神経障害（神経）">手足のしびれ・ピリピリ感、足の感覚低下などが起こります。足の傷に気づきにくくなり、<ruby>壊疽<rp>（</rp><rt>えそ</rt><rp>）</rp></ruby>の原因になることもあります</CauseCard>
 </CauseGrid>
 
 さらに、太い血管の動脈硬化も進行し、<strong>心筋梗塞</strong>・<strong>脳卒中</strong>・<strong><ruby>末梢動脈疾患<rp>（</rp><rt>まっしょうどうみゃくしっかん</rt><rp>）</rp></ruby></strong>のリスクも高まります。
@@ -126,9 +139,9 @@ HbA1cは過去1〜2か月間の血糖の平均を反映する指標で、日々�
 治療の基本は食事の見直しです。「特別な食事」ではなく、バランスのよい食事を適切な量で摂ることが大切です。
 
 <CauseGrid variant="positive">
-  <CauseCard icon="nutrition/nutrition" title="適切なエネルギー量">年齢・体格・活動量に合わせた摂取カロリーを守りましょう</CauseCard>
-  <CauseCard icon="nutrition/fruits" title="バランスのよい食事">主食・主菜・副菜をそろえ、野菜を多めに摂りましょう</CauseCard>
-  <CauseCard icon="nutrition/sugar" title="糖質の摂りすぎに注意">清涼飲料水や菓子パンなど、血糖値が急上昇しやすい食品は控えめに</CauseCard>
+  <CauseCard image={habitEnergy} title="適切なエネルギー量">年齢・体格・活動量に合わせた摂取カロリーを守りましょう</CauseCard>
+  <CauseCard image={habitBalance} title="バランスのよい食事">主食・主菜・副菜をそろえ、野菜を多めに摂りましょう</CauseCard>
+  <CauseCard image={habitSugar} title="糖質の摂りすぎに注意">清涼飲料水や菓子パンなど、血糖値が急上昇しやすい食品は控えめに</CauseCard>
 </CauseGrid>
 
 ### 運動療法

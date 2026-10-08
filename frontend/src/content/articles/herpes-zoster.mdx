@@ -12,6 +12,13 @@ import CauseGrid from '../../components/CauseGrid.astro';
 import CauseCard from '../../components/CauseCard.astro';
 import ArticleTable from '../../components/ArticleTable.astro';
 import Callout from '../../components/Callout.astro';
+import symptomPain from '../../assets/articles/herpes-zoster/symptom-pain.png';
+import symptomBlister from '../../assets/articles/herpes-zoster/symptom-blister.png';
+import symptomNerve from '../../assets/articles/herpes-zoster/symptom-nerve.png';
+import complicationEye from '../../assets/articles/herpes-zoster/complication-eye.png';
+import complicationEar from '../../assets/articles/herpes-zoster/complication-ear.png';
+import complicationBladder from '../../assets/articles/herpes-zoster/complication-bladder.png';
+import complicationBrain from '../../assets/articles/herpes-zoster/complication-brain.png';
 
 <ruby>帯状疱疹<rp>（</rp><rt>たいじょうほうしん</rt><rp>）</rp></ruby>は、体の片側に、神経の通り道に沿って帯のように痛みと水ぶくれがあらわれる病気です。50歳を過ぎると急に増え、**80歳までに約3人に1人が経験する**とされる、とても身近な病気です。
 
@@ -30,9 +37,9 @@ import Callout from '../../components/Callout.astro';
 ### 典型的な症状と経過
 
 <CauseGrid variant="negative">
-  <CauseCard icon="conditions/pain" title="まず痛みから始まる">7〜8割の方で、皮膚に何か出る数日前（長いと2週間以上前）から、ピリピリ・チクチク・ズキズキした痛みや違和感が先に出ます</CauseCard>
-  <CauseCard icon="conditions/allergies" title="赤み→水ぶくれ→かさぶた">痛む場所に赤い発疹が出て、その上に小さな水ぶくれが集まってできます。水ぶくれは中央が少しへこむのが特徴で、やがてかさぶたになって治っていきます</CauseCard>
-  <CauseCard icon="body/nerve" title="体の片側だけに出る">神経の通り道に沿って、体の<strong>右か左の片側だけ</strong>に帯状に出ます。胸・背中・おなかが最も多く、顔や首、腕、脚、お尻にも出ます</CauseCard>
+  <CauseCard image={symptomPain} title="まず痛みから始まる">7〜8割の方で、皮膚に何か出る数日前（長いと2週間以上前）から、ピリピリ・チクチク・ズキズキした痛みや違和感が先に出ます</CauseCard>
+  <CauseCard image={symptomBlister} title="赤み→水ぶくれ→かさぶた">痛む場所に赤い発疹が出て、その上に小さな水ぶくれが集まってできます。水ぶくれは中央が少しへこむのが特徴で、やがてかさぶたになって治っていきます</CauseCard>
+  <CauseCard image={symptomNerve} title="体の片側だけに出る">神経の通り道に沿って、体の<strong>右か左の片側だけ</strong>に帯状に出ます。胸・背中・おなかが最も多く、顔や首、腕、脚、お尻にも出ます</CauseCard>
 </CauseGrid>
 
 <Callout label="皮膚に何も出ていない痛みにご注意">
@@ -119,10 +126,10 @@ PHNには、ロキソプロフェンなどの一般的な痛み止めはあま�
 帯状疱疹の合併症は、**発疹が出た場所の近くの臓器**に起こりやすいのが特徴です。
 
 <CauseGrid variant="negative">
-  <CauseCard icon="body/eye" title="おでこ・まぶた・鼻→目の合併症">結膜炎、角膜炎、ぶどう膜炎などを起こし、視力に影響することがあります。<strong>鼻の頭や鼻の横に発疹がある場合は特に注意</strong>が必要です。目の症状がなくても眼科の受診をおすすめします</CauseCard>
-  <CauseCard icon="body/ear" title="耳→顔面神経麻痺（ラムゼイ・ハント症候群）">耳の帯状疱疹に、顔の片側が動かなくなる顔面神経麻痺や、めまい・難聴・耳鳴りを伴うものです。後遺症を残しやすく、<strong>早急な耳鼻咽喉科での治療</strong>が必要です</CauseCard>
-  <CauseCard icon="body/bladder" title="お尻・陰部→排尿・排便の障害">おしっこが出にくい、出ない（尿閉）、便秘などが起こることがあります。尿が出ない状態を放置すると腎臓を傷めるため、泌尿器科での対応が必要です</CauseCard>
-  <CauseCard icon="body/neurology" title="頭→髄膜炎・脳炎">強い頭痛・発熱・吐き気、意識がおかしいといった症状は、ウイルスが脳や髄膜に及んだサインです。入院での治療が必要です</CauseCard>
+  <CauseCard image={complicationEye} title="おでこ・まぶた・鼻→目の合併症">結膜炎、角膜炎、ぶどう膜炎などを起こし、視力に影響することがあります。<strong>鼻の頭や鼻の横に発疹がある場合は特に注意</strong>が必要です。目の症状がなくても眼科の受診をおすすめします</CauseCard>
+  <CauseCard image={complicationEar} title="耳→顔面神経麻痺（ラムゼイ・ハント症候群）">耳の帯状疱疹に、顔の片側が動かなくなる顔面神経麻痺や、めまい・難聴・耳鳴りを伴うものです。後遺症を残しやすく、<strong>早急な耳鼻咽喉科での治療</strong>が必要です</CauseCard>
+  <CauseCard image={complicationBladder} title="お尻・陰部→排尿・排便の障害">おしっこが出にくい、出ない（尿閉）、便秘などが起こることがあります。尿が出ない状態を放置すると腎臓を傷めるため、泌尿器科での対応が必要です</CauseCard>
+  <CauseCard image={complicationBrain} title="頭→髄膜炎・脳炎">強い頭痛・発熱・吐き気、意識がおかしいといった症状は、ウイルスが脳や髄膜に及んだサインです。入院での治療が必要です</CauseCard>
 </CauseGrid>
 
 <Callout label="すぐに受診・相談してほしい症状">

@@ -13,6 +13,25 @@ import CauseGrid from '../../components/CauseGrid.astro';
 import CauseCard from '../../components/CauseCard.astro';
 import ArticleTable from '../../components/ArticleTable.astro';
 import Callout from '../../components/Callout.astro';
+import causeFattyFood from '../../assets/articles/dyslipidemia/cause-fatty-food.png';
+import causeBelly from '../../assets/articles/dyslipidemia/cause-belly.png';
+import causeInactivity from '../../assets/articles/dyslipidemia/cause-inactivity.png';
+import causeAlcohol from '../../assets/articles/dyslipidemia/cause-alcohol.png';
+import causeSmoking from '../../assets/articles/dyslipidemia/cause-smoking.png';
+import causeHeredity from '../../assets/articles/dyslipidemia/cause-heredity.png';
+import causeOtherDisease from '../../assets/articles/dyslipidemia/cause-other-disease.png';
+import complicationHeart from '../../assets/articles/dyslipidemia/complication-heart.png';
+import complicationBrain from '../../assets/articles/dyslipidemia/complication-brain.png';
+import complicationVessel from '../../assets/articles/dyslipidemia/complication-vessel.png';
+import complicationKidney from '../../assets/articles/dyslipidemia/complication-kidney.png';
+import habitLessFat from '../../assets/articles/dyslipidemia/habit-less-fat.png';
+import habitEgg from '../../assets/articles/dyslipidemia/habit-egg.jpg';
+import habitFiber from '../../assets/articles/dyslipidemia/habit-fiber.png';
+import habitFish from '../../assets/articles/dyslipidemia/habit-fish.png';
+import habitWeight from '../../assets/articles/dyslipidemia/habit-weight.png';
+import habitWalking from '../../assets/articles/dyslipidemia/habit-walking.png';
+import habitQuitSmoking from '../../assets/articles/dyslipidemia/habit-quit-smoking.png';
+import habitAlcohol from '../../assets/articles/dyslipidemia/habit-alcohol.png';
 
 <ruby>脂質異常症<rp>（</rp><rt>ししついじょうしょう</rt><rp>）</rp></ruby>とは、血液中のコレステロールや中性脂肪が多すぎる（または善玉コレステロールが少なすぎる）状態をいいます。以前は「高脂血症」と呼ばれていた病気です。
 
@@ -44,13 +63,13 @@ import Callout from '../../components/Callout.astro';
 脂質異常症の多くは、もともとの体質に日々の生活習慣が重なって起こります。
 
 <CauseGrid variant="negative">
-  <CauseCard icon="nutrition/unhealthy_food" title="脂っこい食事の摂りすぎ">肉の脂身・バター・揚げ物・加工肉など、動物性の脂肪が多い食事は悪玉コレステロールを増やします</CauseCard>
-  <CauseCard icon="conditions/overweight" title="肥満・お腹まわりの脂肪">内臓脂肪がたまると中性脂肪が増え、善玉コレステロールが減りやすくなります</CauseCard>
-  <CauseCard icon="exercise/walking" title="運動不足">体を動かす習慣は善玉コレステロールを増やし、中性脂肪を下げる効果があります</CauseCard>
-  <CauseCard icon="nutrition/alcohol" title="お酒の飲みすぎ">アルコールを多く飲む習慣があると、中性脂肪が高くなりやすいです</CauseCard>
-  <CauseCard icon="symbols/smoking" title="喫煙">たばこは善玉コレステロールを減らし、悪玉コレステロールや中性脂肪を増やします</CauseCard>
-  <CauseCard icon="body/dna" title="体質・遺伝">ご家族にコレステロールが高い方がいる場合、生活習慣に関係なく高くなることがあります（<ruby>家族性高コレステロール血症<rp>（</rp><rt>かぞくせいこうコレステロールけっしょう</rt><rp>）</rp></ruby>）</CauseCard>
-  <CauseCard icon="symbols/diabetes" title="他の病気の影響">糖尿病・甲状腺の病気・腎臓病などがあると、脂質の値が崩れることがあります</CauseCard>
+  <CauseCard image={causeFattyFood} title="脂っこい食事の摂りすぎ">肉の脂身・バター・揚げ物・加工肉など、動物性の脂肪が多い食事は悪玉コレステロールを増やします</CauseCard>
+  <CauseCard image={causeBelly} title="肥満・お腹まわりの脂肪">内臓脂肪がたまると中性脂肪が増え、善玉コレステロールが減りやすくなります</CauseCard>
+  <CauseCard image={causeInactivity} title="運動不足">体を動かす習慣は善玉コレステロールを増やし、中性脂肪を下げる効果があります</CauseCard>
+  <CauseCard image={causeAlcohol} title="お酒の飲みすぎ">アルコールを多く飲む習慣があると、中性脂肪が高くなりやすいです</CauseCard>
+  <CauseCard image={causeSmoking} title="喫煙">たばこは善玉コレステロールを減らし、悪玉コレステロールや中性脂肪を増やします</CauseCard>
+  <CauseCard image={causeHeredity} title="体質・遺伝">ご家族にコレステロールが高い方がいる場合、生活習慣に関係なく高くなることがあります（<ruby>家族性高コレステロール血症<rp>（</rp><rt>かぞくせいこうコレステロールけっしょう</rt><rp>）</rp></ruby>）</CauseCard>
+  <CauseCard image={causeOtherDisease} title="他の病気の影響">糖尿病・甲状腺の病気・腎臓病などがあると、脂質の値が崩れることがあります</CauseCard>
 </CauseGrid>
 
 ## 脂質異常症の症状
@@ -66,10 +85,10 @@ import Callout from '../../components/Callout.astro';
 コレステロールや中性脂肪が高い状態が続くと、血管の内側に脂肪がたまって壁が硬く厚くなる**動脈硬化**が進みます。その結果、以下のような重大な病気を引き起こすリスクが高まります。
 
 <CauseGrid variant="negative">
-  <CauseCard icon="body/heart_organ" title="心臓の病気">心筋梗塞・<ruby>狭心症<rp>（</rp><rt>きょうしんしょう</rt><rp>）</rp></ruby>など</CauseCard>
-  <CauseCard icon="body/neurology" title="脳の病気">脳梗塞など</CauseCard>
-  <CauseCard icon="body/blood_vessel" title="血管の病気">大動脈瘤・足の血管が詰まる<ruby>末梢動脈疾患<rp>（</rp><rt>まっしょうどうみゃくしっかん</rt><rp>）</rp></ruby>など</CauseCard>
-  <CauseCard icon="body/kidneys" title="腎臓の病気">慢性腎臓病（CKD）の悪化につながることがあります</CauseCard>
+  <CauseCard image={complicationHeart} title="心臓の病気">心筋梗塞・<ruby>狭心症<rp>（</rp><rt>きょうしんしょう</rt><rp>）</rp></ruby>など</CauseCard>
+  <CauseCard image={complicationBrain} title="脳の病気">脳梗塞など</CauseCard>
+  <CauseCard image={complicationVessel} title="血管の病気">大動脈瘤・足の血管が詰まる<ruby>末梢動脈疾患<rp>（</rp><rt>まっしょうどうみゃくしっかん</rt><rp>）</rp></ruby>など</CauseCard>
+  <CauseCard image={complicationKidney} title="腎臓の病気">慢性腎臓病（CKD）の悪化につながることがあります</CauseCard>
 </CauseGrid>
 
 ## 治療の目標値
@@ -117,14 +136,14 @@ import Callout from '../../components/Callout.astro';
 治療の第一歩は、毎日の食事と運動の見直しです。まずは**3〜6か月間**取り組み、数値の変化を見ていきます。
 
 <CauseGrid variant="positive">
-  <CauseCard icon="nutrition/dairy" title="脂っこい食事を控える">肉の脂身・バター・加工肉を減らし、そのぶん魚や大豆製品を取り入れましょう</CauseCard>
-  <CauseCard icon="nutrition/nutrition" title="コレステロールを摂りすぎない">卵や<ruby>臓物<rp>（</rp><rt>もつ</rt><rp>）</rp></ruby>は1日の量を意識して、食べすぎに気をつけましょう</CauseCard>
-  <CauseCard icon="nutrition/fruits" title="食物繊維を増やす">野菜・海藻・きのこ・大麦・オーツ麦などに含まれる食物繊維は、コレステロールの排泄を助けます</CauseCard>
-  <CauseCard icon="nutrition/hot_meal" title="魚を積極的に食べる">青魚に多く含まれるEPA・DHAは中性脂肪を下げる効果があります</CauseCard>
-  <CauseCard icon="symbols/body_mass_index" title="体重を適正に保つ">BMI 25未満が目安です。今より3%体重を落とすだけでも脂質の改善が期待できます</CauseCard>
-  <CauseCard icon="exercise/walking" title="体を動かす習慣をつける">ウォーキングなどを1日30分以上、できれば毎日続けるのが効果的です</CauseCard>
-  <CauseCard icon="symbols/smoking_cessation" title="禁煙">たばこをやめると善玉コレステロールが増え、血管へのダメージも減ります</CauseCard>
-  <CauseCard icon="nutrition/alcohol_cessation" title="お酒は適量に">飲みすぎは中性脂肪を上げる原因です。まずはご自身の飲酒量を見直してみましょう</CauseCard>
+  <CauseCard image={habitLessFat} title="脂っこい食事を控える">肉の脂身・バター・加工肉を減らし、そのぶん魚や大豆製品を取り入れましょう</CauseCard>
+  <CauseCard image={habitEgg} title="コレステロールを摂りすぎない">卵や<ruby>臓物<rp>（</rp><rt>もつ</rt><rp>）</rp></ruby>は1日の量を意識して、食べすぎに気をつけましょう</CauseCard>
+  <CauseCard image={habitFiber} title="食物繊維を増やす">野菜・海藻・きのこ・大麦・オーツ麦などに含まれる食物繊維は、コレステロールの排泄を助けます</CauseCard>
+  <CauseCard image={habitFish} title="魚を積極的に食べる">青魚に多く含まれるEPA・DHAは中性脂肪を下げる効果があります</CauseCard>
+  <CauseCard image={habitWeight} title="体重を適正に保つ">BMI 25未満が目安です。今より3%体重を落とすだけでも脂質の改善が期待できます</CauseCard>
+  <CauseCard image={habitWalking} title="体を動かす習慣をつける">ウォーキングなどを1日30分以上、できれば毎日続けるのが効果的です</CauseCard>
+  <CauseCard image={habitQuitSmoking} title="禁煙">たばこをやめると善玉コレステロールが増え、血管へのダメージも減ります</CauseCard>
+  <CauseCard image={habitAlcohol} title="お酒は適量に">飲みすぎは中性脂肪を上げる原因です。まずはご自身の飲酒量を見直してみましょう</CauseCard>
 </CauseGrid>
 
 <Callout>大豆・魚・野菜・海藻・きのこ・果物・未精製の穀物を中心とした**和食スタイルの食事**が、コレステロールの改善と動脈硬化の予防に役立つとされています。</Callout>

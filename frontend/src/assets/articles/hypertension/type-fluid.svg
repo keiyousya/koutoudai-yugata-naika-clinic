@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140">
+  <!-- 血液（体液）が増えてふくらんだ血管 -->
+  <path d="M20 52 C62 52 58 24 100 24 C142 24 138 52 180 52 L180 92 C138 92 142 120 100 120 C58 120 62 92 20 92 Z" fill="#f6b3b0" stroke="#d9685e" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M20 60 C64 60 62 34 100 34 C138 34 136 60 180 60 L180 84 C136 84 138 110 100 110 C62 110 64 84 20 84 Z" fill="#fbe3e1"/>
+  <g fill="#e05a5a">
+    <ellipse cx="40" cy="72" rx="7" ry="4"/><ellipse cx="160" cy="70" rx="7" ry="4"/>
+    <ellipse cx="78" cy="56" rx="7" ry="4"/><ellipse cx="96" cy="46" rx="7" ry="4"/><ellipse cx="120" cy="54" rx="7" ry="4"/>
+    <ellipse cx="84" cy="90" rx="7" ry="4"/><ellipse cx="106" cy="98" rx="7" ry="4"/><ellipse cx="126" cy="86" rx="7" ry="4"/>
+    <ellipse cx="100" cy="72" rx="7" ry="4"/><ellipse cx="62" cy="76" rx="7" ry="4"/><ellipse cx="140" cy="72" rx="7" ry="4"/>
+  </g>
+  <g fill="#8fd0ee">
+    <path d="M110 64 q6 7 0 11 q-6 -4 0 -11 Z"/><path d="M76 68 q6 7 0 11 q-6 -4 0 -11 Z"/>
+    <path d="M118 96 q5 6 0 10 q-5 -4 0 -10 Z"/><path d="M90 76 q5 6 0 10 q-5 -4 0 -10 Z"/>
+  </g>
+  <g fill="none" stroke="#c55a50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 18 V4 M94 10 L100 4 L106 10"/>
+    <path d="M100 126 V138 M94 132 L100 138 L106 132" transform="translate(0 -2)"/>
+  </g>
+  <text x="44" y="22" font-size="18" fill="#c55a50" font-family="Hiragino Maru Gothic ProN, Hiragino Sans, Noto Sans JP, sans-serif" font-weight="bold" text-anchor="middle">パンパン</text>
+</svg>

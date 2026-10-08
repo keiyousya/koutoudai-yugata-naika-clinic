@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140">
+  <!-- 真ん中でぎゅっと縮んだ血管 -->
+  <path d="M20 46 C70 46 78 64 100 64 C122 64 130 46 180 46 L180 98 C130 98 122 80 100 80 C78 80 70 98 20 98 Z" fill="#f6b3b0" stroke="#d9685e" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M20 58 C66 58 80 69 100 69 C120 69 134 58 180 58 L180 86 C134 86 120 75 100 75 C80 75 66 86 20 86 Z" fill="#e86a63"/>
+  <g fill="none" stroke="#c55a50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 18 V50 M91 41 L100 50 L109 41"/>
+    <path d="M100 126 V94 M91 103 L100 94 L109 103"/>
+  </g>
+  <g fill="none" stroke="#c55a50" stroke-width="3" stroke-linecap="round">
+    <path d="M74 26 L82 38 M126 26 L118 38 M74 118 L82 106 M126 118 L118 106"/>
+  </g>
+  <text x="160" y="30" font-size="20" fill="#c55a50" font-family="Hiragino Maru Gothic ProN, Hiragino Sans, Noto Sans JP, sans-serif" font-weight="bold" text-anchor="middle">ギュッ</text>
+</svg>

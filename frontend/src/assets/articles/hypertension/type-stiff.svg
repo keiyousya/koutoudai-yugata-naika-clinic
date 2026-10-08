@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140">
+  <!-- 硬く厚くなった血管の壁と、プラークで狭くなった内腔 -->
+  <rect x="24" y="42" width="152" height="64" rx="6" fill="#e6dccf" stroke="#a8998a" stroke-width="3"/>
+  <rect x="24" y="62" width="152" height="24" fill="#f7c6c1"/>
+  <path d="M60 62 q12 10 24 0 Z M118 86 q14 -11 28 0 Z" fill="#f1dfa0" stroke="#c9b26a" stroke-width="2" stroke-linejoin="round"/>
+  <ellipse cx="44" cy="74" rx="7" ry="4" fill="#e05a5a"/>
+  <ellipse cx="100" cy="76" rx="7" ry="4" fill="#e05a5a"/>
+  <ellipse cx="160" cy="72" rx="7" ry="4" fill="#e05a5a"/>
+  <ellipse cx="24" cy="74" rx="8" ry="32" fill="#ddd0c2" stroke="#a8998a" stroke-width="3"/>
+  <ellipse cx="24" cy="74" rx="4" ry="12" fill="#e05a5a"/>
+  <polyline points="70,46 76,53 71,58" fill="none" stroke="#a8998a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="132,102 138,96 133,90" fill="none" stroke="#a8998a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="112" y="30" font-size="20" fill="#8a7a6a" font-family="Hiragino Maru Gothic ProN, Hiragino Sans, Noto Sans JP, sans-serif" font-weight="bold" text-anchor="middle">カチカチ</text>
+</svg>

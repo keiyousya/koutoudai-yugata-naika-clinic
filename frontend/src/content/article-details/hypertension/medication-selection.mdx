@@ -7,6 +7,14 @@ description: "高血圧の病態分類と、それに適した降圧薬（ARNI�
 import CauseGrid from '../../../components/CauseGrid.astro';
 import CauseCard from '../../../components/CauseCard.astro';
 import ArticleTable from '../../../components/ArticleTable.astro';
+import nightMorning from '../../../assets/articles/hypertension-medication/night-morning.svg';
+import resistant from '../../../assets/articles/hypertension-medication/resistant.png';
+import fluid from '../../../assets/articles/hypertension/type-fluid.svg';
+import ckd from '../../../assets/articles/hypertension-medication/ckd.png';
+import preHeartFailure from '../../../assets/articles/hypertension-medication/pre-heart-failure.png';
+import mrMetabolic from '../../../assets/articles/hypertension-medication/mr-metabolic.png';
+import gout from '../../../assets/articles/hypertension-medication/gout.png';
+import edema from '../../../assets/articles/hypertension-medication/edema.png';
 
 ## 降圧薬の選び方
 
@@ -51,27 +59,27 @@ JSH2025で新たに位置づけられた薬剤群です。基本薬だけでは�
 ### 表現型からみた適応
 
 <CauseGrid variant="navy">
-  <CauseCard icon="emotions/sleepy" title="早朝・夜間高血圧">夜間や早朝に血圧が下がりにくいタイプ。ARNIとMR拮抗薬の両方が有効です</CauseCard>
-  <CauseCard icon="body/heart_organ" title="治療抵抗性高血圧">3剤以上使っても血圧が目標に達しない場合。特にMR拮抗薬の追加が有効とされています</CauseCard>
+  <CauseCard image={nightMorning} title="早朝・夜間高血圧">夜間や早朝に血圧が下がりにくいタイプ。ARNIとMR拮抗薬の両方が有効です</CauseCard>
+  <CauseCard image={resistant} title="治療抵抗性高血圧">3剤以上使っても血圧が目標に達しない場合。特にMR拮抗薬の追加が有効とされています</CauseCard>
 </CauseGrid>
 
 ### 病態からみた適応
 
 <CauseGrid variant="navy">
-  <CauseCard icon="body/kidneys" title="体液貯留型高血圧">食塩摂取過剰・食塩感受性が高い方に。水分過剰の是正にARNI、塩分貯留の是正にMR拮抗薬が適しています</CauseCard>
-  <CauseCard icon="body/kidneys" title="CKD合併高血圧">eGFR低下や尿蛋白陽性の方に。腎保護効果も期待できます</CauseCard>
+  <CauseCard image={fluid} title="体液貯留型高血圧">食塩摂取過剰・食塩感受性が高い方に。水分過剰の是正にARNI、塩分貯留の是正にMR拮抗薬が適しています</CauseCard>
+  <CauseCard image={ckd} title="CKD合併高血圧">eGFR低下や尿蛋白陽性の方に。腎保護効果も期待できます</CauseCard>
 </CauseGrid>
 
 <CauseGrid variant="navy">
-  <CauseCard icon="body/heart_organ" title="前心不全合併高血圧">無症候性の弁膜症や心機能低下がある場合。ARNIは心不全の進行予防にも効果があります</CauseCard>
-  <CauseCard icon="body/body" title="MR関連高血圧">肥満・メタボ・糖尿病、原発性アルドステロン症、睡眠時無呼吸症候群など。MR拮抗薬が特に有効です</CauseCard>
+  <CauseCard image={preHeartFailure} title="前心不全合併高血圧">無症候性の弁膜症や心機能低下がある場合。ARNIは心不全の進行予防にも効果があります</CauseCard>
+  <CauseCard image={mrMetabolic} title="MR関連高血圧">肥満・メタボ・糖尿病、原発性アルドステロン症、睡眠時無呼吸症候群など。MR拮抗薬が特に有効です</CauseCard>
 </CauseGrid>
 
 ### その他の合併症
 
 <CauseGrid variant="navy">
-  <CauseCard icon="body/blood_vessel" title="痛風・高尿酸血症合併">尿酸値が高い方の高血圧。利尿薬は尿酸を上げやすいため、ARNIやMR拮抗薬への切り替えが検討されます</CauseCard>
-  <CauseCard icon="body/blood_vessel" title="Ca拮抗薬による浮腫">Ca拮抗薬でむくみが出た場合の代替薬としても活用されます</CauseCard>
+  <CauseCard image={gout} title="痛風・高尿酸血症合併">尿酸値が高い方の高血圧。利尿薬は尿酸を上げやすいため、ARNIやMR拮抗薬への切り替えが検討されます</CauseCard>
+  <CauseCard image={edema} title="Ca拮抗薬による浮腫">Ca拮抗薬でむくみが出た場合の代替薬としても活用されます</CauseCard>
 </CauseGrid>
 
 ## 当院での治療方針

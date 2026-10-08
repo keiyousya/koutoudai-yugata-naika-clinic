@@ -34,3 +34,6 @@ __pycache__/
 .wrangler/
 
 .claude/settings.local.json
+
+# 個人情報を含む提出書類（ローカルのみ）
+filings/kouseikyoku/2026-09-surveillance-kyoka/tsuika-2026-10/

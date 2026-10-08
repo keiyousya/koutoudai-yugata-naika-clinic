@@ -881,9 +881,7 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
     if (offsetDays === 0) return '本日';
     if (offsetDays === 1) return '明日';
     if (offsetDays === 2) return '明後日';
-    const d = new Date();
-    d.setDate(d.getDate() + offsetDays);
-    return `${d.getMonth() + 1}/${d.getDate()}(${dayNames[d.getDay()]})`;
+    return `${offsetDays}日後`;
   }
 
   const DAY_LABELS = DAY_OFFSETS.map(buildPanelLabel);

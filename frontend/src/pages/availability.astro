@@ -891,13 +891,27 @@ const DAY_LABELS = ["本日", "明日", "明後日", "3日後", "4日後", "5日
       padding: 16px 18px;
     }
 
+    /* SPは日付タブとスワイプで切り替えられるので矢印は出さない */
+    .day-nav-arrow {
+      display: none;
+    }
+
+    .date-row {
+      flex-wrap: wrap;
+    }
+
+    .vaccine-remaining {
+      flex-wrap: wrap;
+      row-gap: 0;
+    }
+
     .date-hours {
-      padding: 6px 12px;
-      font-size: 0.85rem;
+      padding: 5px 10px;
+      font-size: 0.8rem;
     }
 
     .date-value {
-      font-size: 1.1rem;
+      font-size: clamp(1rem, 4.6vw, 1.1rem);
     }
 
     /* 3列は維持したまま、カードだけ詰める */

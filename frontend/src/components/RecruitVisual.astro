@@ -15,7 +15,7 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
 <div class:list={["hero-deco hero-deco--mint", { compact }]}></div>
 <div class:list={["hero-content", { compact }]}>
   <p class="hero-lead">夕方から働ける！</p>
-  <Title class="hero-title"><span class="hero-marker">クリニック事務</span><br />スタッフ募集中</Title>
+  <Title class="hero-title"><span class="hero-marker">看護師・事務</span><br />スタッフ募集中</Title>
   <div class="hero-times">
     <div class="hero-time hero-time--weekday">
       <svg class="hero-time-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 6.5V12l-3.5 3"/></svg>
@@ -27,18 +27,26 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
       <svg class="hero-time-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M3 10h18M8 2.5v4M16 2.5v4"/><circle cx="15.5" cy="15.5" r="1.6" fill="#fff" stroke="none"/></svg>
       <div class="hero-time-day">週1回</div>
       <div class="hero-time-big hero-time-big--word">OK</div>
-      <div class="hero-time-sub">受付事務</div>
+      <div class="hero-time-sub">看護師・事務</div>
     </div>
   </div>
   <div class="hero-points">
-    <span class="hero-point">医療事務の<em>経験者</em>・<em>学生</em>さん歓迎</span>
+    <span class="hero-point">看護師・医療事務の<em>経験者</em>歓迎</span>
     <span class="hero-point"><em>Wワーク</em>も歓迎</span>
   </div>
   <div class="hero-bottom">
-    <div class="hero-price">時給 <strong>1,300</strong>円<span class="hero-price-note">（交通費支給）</span></div>
+    <div class="hero-price">
+      <div class="hero-price-label">時給</div>
+      <div class="hero-price-items">
+        <div class="hero-price-item"><span class="hero-price-role">看護師</span><span class="hero-price-amount"><strong>1,900</strong>円<span class="hero-price-mark">※</span></span></div>
+        <div class="hero-price-item"><span class="hero-price-role">事務</span><span class="hero-price-amount"><strong>1,300</strong>円</span></div>
+      </div>
+      <div class="hero-price-note">（交通費支給）</div>
+    </div>
     {showAccess && <div class="hero-access">勾当台公園駅 徒歩2分 ― <span class="hero-access-sub">市役所となり・アーケード街からすぐ</span></div>}
   </div>
   <slot />
+  <p class="hero-footnote">※看護師の時給は正看護師の場合です</p>
 </div>
 
 <style>
@@ -87,7 +95,8 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
   .hero-title,
   .hero-times,
   .hero-points,
-  .hero-bottom {
+  .hero-bottom,
+  .hero-footnote {
     font-family: "M PLUS Rounded Hero", "M PLUS 1p", sans-serif;
   }
 
@@ -207,15 +216,53 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
     font-weight: 800;
     color: var(--color-navy);
   }
+  /* 職種ごとに横並びにする。狭い枠でも1段に収まるよう、金額は枠の幅に合わせて縮める */
+  .hero-price-items {
+    display: flex;
+    justify-content: center;
+    container-type: inline-size;
+    margin-top: 2px;
+  }
+  .hero-price-item {
+    flex: 0 1 190px;
+    padding: 2px min(10px, 2cqi);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.25;
+  }
+  .hero-price-item + .hero-price-item {
+    border-left: 2px dotted rgba(30, 58, 95, 0.25);
+  }
+  .hero-price-mark {
+    font-size: 0.7em;
+    vertical-align: super;
+    margin-left: 1px;
+  }
+  .hero-price-amount,
+  .hero-price-role {
+    white-space: nowrap;
+  }
+  .hero-price-role {
+    font-size: min(0.9em, 5.2cqi);
+  }
   .hero-price strong {
-    font-size: 1.8rem;
+    font-size: min(1.8rem, 10cqi);
     font-weight: 900;
     color: var(--color-coral);
   }
   .hero-price-note {
+    margin-top: 4px;
     font-size: 0.85rem;
     font-weight: 700;
     opacity: 0.7;
+  }
+  .hero-footnote {
+    margin-top: 18px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    opacity: 0.6;
   }
   .hero-access {
     margin-top: 8px;
@@ -237,7 +284,7 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
   .compact .hero-time-sub { font-size: 0.72rem; }
   .compact .hero-point { font-size: 0.9rem; padding: 6px 14px; }
   .compact .hero-price { font-size: 1.15rem; }
-  .compact .hero-price strong { font-size: 2rem; }
+  .compact .hero-price strong { font-size: min(2rem, 10cqi); }
   .compact .hero-price-note { font-size: 0.9rem; }
 
   @media (max-width: 768px) {
@@ -264,5 +311,7 @@ const { titleTag: Title = "h2", compact = false, showAccess = false } = Astro.pr
     /* トップページの枠は幅が狭いので、タグ2つが1段に収まるよう詰める */
     .compact .hero-points { gap: 6px; }
     .compact .hero-point { font-size: 0.68rem; padding: 4px 8px; }
+    .hero-price-note,
+    .compact .hero-price-note { font-size: 0.78rem; }
   }
 </style>

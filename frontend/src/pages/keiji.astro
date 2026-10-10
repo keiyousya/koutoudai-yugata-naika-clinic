@@ -1,0 +1,232 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="院内掲示事項 | 勾当台夕方内科クリニック" description="勾当台夕方内科クリニックの院内掲示事項です。届け出ている施設基準、明細書の発行、一般名処方、長期処方・リフィル処方箋、院内感染対策、保険適用外（自費）の料金について。">
+  <Header />
+  <SubPageHeader label="Notices" title="院内掲示事項" />
+  <main class="legal-page">
+    <div class="container">
+
+      <p class="legal-lead">
+        保険医療機関として院内に掲示している事項を、こちらにも掲載しています。
+      </p>
+
+      <h2 class="keiji-heading">東北厚生局に届け出ている施設基準</h2>
+      <p class="keiji-text">当院は、厚生労働大臣が定める以下の施設基準に適合している旨を東北厚生局長に届け出ています。</p>
+      <div class="legal-table">
+        <dl>
+          <div class="legal-row">
+            <dt>電子的診療情報連携体制整備加算3</dt>
+            <dd>令和8年6月1日から算定（<a href="/medical-dx">医療DX推進体制について</a>）</dd>
+          </div>
+          <div class="legal-row">
+            <dt>外来・在宅ベースアップ評価料（Ⅰ）</dt>
+            <dd>令和8年6月1日から算定</dd>
+          </div>
+          <div class="legal-row">
+            <dt>時間外対応体制加算3</dt>
+            <dd>令和8年7月1日から算定（<a href="/after-hours">時間外対応体制加算について</a>）</dd>
+          </div>
+          <div class="legal-row">
+            <dt>外来感染対策向上加算</dt>
+            <dd>令和8年8月1日から算定（下記「院内感染対策について」）</dd>
+          </div>
+        </dl>
+      </div>
+
+      <h2 class="keiji-heading">明細書の発行について</h2>
+      <p class="keiji-text">
+        医療の透明化や患者様への情報提供を推進する観点から、領収証の発行の際に、個別の診療報酬の算定項目がわかる明細書を無料で発行しています。公費負担医療の受給者で医療費の自己負担がない方についても、明細書を無料で発行しています。<br />
+        明細書には使用した薬剤の名称や行われた検査の名称が記載されます。明細書の発行を希望されない方は、受付にお申し出ください。
+      </p>
+
+      <h2 class="keiji-heading">一般名処方について</h2>
+      <p class="keiji-text">
+        当院では、後発医薬品（ジェネリック医薬品）の使用促進や、医薬品の安定供給に向けた取り組みとして、薬の商品名ではなく有効成分の名称で処方箋を発行する「一般名処方」を行っています。<br />
+        一般名処方により、特定の医薬品が不足している場合でも、薬局で有効成分が同じ医薬品を選んでお渡しすることができます。医薬品の供給状況等を踏まえ、ご不明な点は医師または薬剤師にお尋ねください。
+      </p>
+
+      <h2 class="keiji-heading">長期処方・リフィル処方箋について</h2>
+      <p class="keiji-text">
+        当院では、患者様の状態に応じて、28日以上の長期の投薬や、リフィル処方箋（一定期間内に最大3回まで繰り返し使用できる処方箋）の発行に対応しています。<br />
+        なお、長期処方やリフィル処方箋の交付が対応可能かは、病状に応じて医師が判断いたします。ご希望の方は診察時にご相談ください。
+      </p>
+
+      <h2 class="keiji-heading">院内感染対策について</h2>
+      <div class="legal-table">
+        <dl>
+          <div class="legal-row">
+            <dt>基本的な考え方</dt>
+            <dd>院内感染の防止に留意し、感染症の発生時には速やかに対応することで、患者様・ご家族・職員の安全を守ることを基本方針とします。標準予防策（手指衛生・マスク着用・環境消毒・感染性廃棄物の適切な処理）を全職員で徹底します。</dd>
+          </div>
+          <div class="legal-row">
+            <dt>組織体制と業務内容</dt>
+            <dd>院長（医師　田村　慧人）を院内感染管理者とし、感染対策の手順書の整備と職員への周知、院内の感染症の発生状況の把握、職員への研修を行います。</dd>
+          </div>
+          <div class="legal-row">
+            <dt>抗菌薬の適正使用</dt>
+            <dd>厚生労働省「抗微生物薬適正使用の手引き」に沿って、抗菌薬は必要な場合に限り、適切な種類・量・期間で処方します。サーベイランス（J-SIPHE〔OASCIS〕）に参加し、当院の抗菌薬の使用状況を継続的に確認しています。</dd>
+          </div>
+          <div class="legal-row">
+            <dt>他の医療機関等との連携</dt>
+            <dd>仙台市医師会と連携し、同会が主催する院内感染対策に関するカンファレンス・訓練に参加しています。新興感染症の発生時等には、行政・医師会と連携して発熱患者の診療等に対応します。</dd>
+          </div>
+          <div class="legal-row">
+            <dt>発熱患者の受け入れ</dt>
+            <dd>当院では、<strong>受診歴の有無に関わらず</strong>、発熱その他感染症を疑わせる症状のある患者様を受け入れています。一般の患者様と診療時間帯・診療スペースを分け、平日19:00〜21:00、土日17:00〜21:00に発熱外来として診療しています。</dd>
+          </div>
+        </dl>
+      </div>
+
+      <h2 class="keiji-heading">保険適用外（自費）の料金</h2>
+      <p class="keiji-text">以下は健康保険が適用されないため、全額自己負担となります。金額はすべて税込です。</p>
+      <div class="legal-table">
+        <dl>
+          <div class="legal-row"><dt>診断書</dt><dd>5,500円</dd></div>
+          <div class="legal-row"><dt>罹患証明書</dt><dd>1,100円（インフルエンザ・新型コロナウイルス感染症等）</dd></div>
+          <div class="legal-row"><dt>処方箋の再発行</dt><dd>660円</dd></div>
+          <div class="legal-row"><dt>インフルエンザ予防接種</dt><dd>3,300円（13歳以上・1回）。仙台市の高齢者定期接種の対象の方は自己負担1,500円</dd></div>
+          <div class="legal-row"><dt>新型コロナウイルス予防接種</dt><dd>16,500円（1回）。仙台市の高齢者定期接種の対象の方は自己負担8,000円</dd></div>
+          <div class="legal-row"><dt>緊急避妊薬</dt><dd>11,000円（レボノルゲストレル1.5mg・診察料込）</dd></div>
+          <div class="legal-row"><dt>インフルエンザ予防投与</dt><dd>5,500円（オセルタミビル10日分・診察料込）</dd></div>
+        </dl>
+      </div>
+
+      <div class="detail-back">
+        <a href="/" class="back-button">ホームに戻る</a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .legal-page {
+    padding: 0 0 80px;
+    min-height: 100vh;
+  }
+
+  .legal-lead {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  .legal-table {
+    max-width: 800px;
+    margin: 0 auto 48px;
+  }
+
+  .legal-table dl {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .legal-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .legal-row dt {
+    padding: 20px 24px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-navy);
+    background: var(--color-bg-blue);
+  }
+
+  .legal-row dd {
+    padding: 20px 24px;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+  }
+
+  .keiji-heading {
+    max-width: 800px;
+    margin: 0 auto 16px;
+    padding-left: 12px;
+    border-left: 4px solid var(--color-turquoise);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .keiji-text {
+    max-width: 800px;
+    margin: 0 auto 48px;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+  }
+
+  .keiji-text + .legal-table {
+    margin-top: -32px;
+  }
+
+  .legal-row dd a {
+    color: var(--color-navy);
+    text-decoration: underline;
+  }
+
+  .legal-notice {
+    max-width: 800px;
+    margin: 0 auto 48px;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 1px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .legal-page {
+      padding: 0 0 60px;
+    }
+
+    .legal-row {
+      grid-template-columns: 1fr;
+    }
+
+    .legal-row dt {
+      padding: 14px 16px 8px;
+    }
+
+    .legal-row dd {
+      padding: 8px 16px 14px;
+    }
+  }
+</style>

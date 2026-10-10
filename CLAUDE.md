@@ -77,7 +77,7 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 ### notices（院内掲示物）
 
 - 院内に貼る掲示物のHTMLは `notices/` に置く（ビルド対象外）
-- 施設基準で義務になっている掲示は、どこに何を掲示するかを `shisetsu-kijun/` 側で管理する
+- 施設基準・療担規則で義務になっている掲示の一覧は `shisetsu-kijun/keiji.md`。掲示物を足したり、基準を届け出たりしたらそこも直す
 
 ### forms（予診票などの帳票）
 

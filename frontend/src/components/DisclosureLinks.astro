@@ -25,6 +25,21 @@ import HealthIcon from "./HealthIcon.astro";
         </span>
       </a>
 
+      <a href="/keiji" class="disclosure-card is-keiji">
+        <span class="disclosure-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="4" width="14" height="17" rx="2"/>
+            <path d="M9 4V3h6v1"/>
+            <line x1="9" y1="10" x2="15" y2="10"/>
+            <line x1="9" y1="14" x2="15" y2="14"/>
+          </svg>
+        </span>
+        <span class="disclosure-body">
+          <span class="disclosure-title">院内掲示事項</span>
+          <span class="disclosure-arrow" aria-hidden="true">→</span>
+        </span>
+      </a>
+
       {/* TODO(2026-08): オンライン診療ページを8月に公開する際、下記カードのコメントアウトを解除する */}
       {/*
       <a href="/online-medical" class="disclosure-card is-online">
@@ -55,8 +70,8 @@ import HealthIcon from "./HealthIcon.astro";
     max-width: 900px;
     margin: 0 auto;
     display: grid;
-    /* TODO(2026-08): オンライン診療カード公開時に repeat(3, 1fr) に戻す */
-    grid-template-columns: 1fr 1fr;
+    /* TODO(2026-08): オンライン診療カード公開時（4枚）は 1fr 1fr に戻す */
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
   }
 
@@ -74,6 +89,7 @@ import HealthIcon from "./HealthIcon.astro";
 
   .disclosure-card.is-dx,
   .disclosure-card.is-afterhours,
+  .disclosure-card.is-keiji,
   .disclosure-card.is-online {
     --accent: var(--color-turquoise);
     --accent-bg: var(--color-turquoise-bg);

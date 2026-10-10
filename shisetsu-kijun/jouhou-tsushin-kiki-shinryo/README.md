@@ -23,7 +23,7 @@
   （`online-medical.astro` の `#om-gate` ブロック・末尾 `<script>`・`Layout` の `noindex`、
   `astro.config.mjs` の sitemap filter）。
   経緯は `ads/docs/claude-memory/online-medical-page-gated-until-aug.md`。
-- 院内掲示: 要確認
+- 院内掲示: 規定なし（通知第1 1(1)エ はウェブサイトへの掲示のみを求めている。2026-10-10 確認）
 
 ## 届出の記録
 

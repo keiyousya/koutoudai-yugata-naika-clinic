@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>保険診療に関する掲示 - 院内掲示用</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      font-size: 11pt;
+      line-height: 1.6;
+      color: #333;
+      background: white;
+      padding: 10mm;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 14pt;
+      padding-bottom: 10pt;
+      border-bottom: 2pt solid #1e3a5f;
+    }
+
+    .title {
+      font-size: 20pt;
+      font-weight: bold;
+      color: #1e3a5f;
+    }
+
+    .section {
+      margin-bottom: 14pt;
+      page-break-inside: avoid;
+    }
+
+    .section-title {
+      font-size: 12pt;
+      font-weight: bold;
+      color: #1e3a5f;
+      background: #f0f4f8;
+      padding: 6pt 10pt;
+      margin-bottom: 6pt;
+      border-left: 3pt solid #1e3a5f;
+    }
+
+    .section-content {
+      padding: 0 10pt;
+      font-size: 10.5pt;
+      line-height: 1.8;
+    }
+
+    .section-content p + p {
+      margin-top: 4pt;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10.5pt;
+      margin-top: 4pt;
+    }
+
+    th, td {
+      border: 1pt solid #c8d3df;
+      padding: 5pt 8pt;
+      text-align: left;
+    }
+
+    th {
+      background: #f0f4f8;
+      color: #1e3a5f;
+      font-weight: bold;
+    }
+
+    .footer {
+      margin-top: 16pt;
+      padding-top: 10pt;
+      border-top: 1pt solid #ccc;
+      text-align: center;
+    }
+
+    .clinic-name {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1e3a5f;
+    }
+
+    .clinic-director {
+      font-size: 10pt;
+      margin-top: 4pt;
+    }
+
+    .print-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 24px;
+      background: #1e3a5f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .print-button:hover {
+      background: #2a4a6e;
+    }
+
+    @media print {
+      .print-button {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1 class="title">保険診療に関するお知らせ</h1>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">東北厚生局に届け出ている施設基準</h2>
+    <div class="section-content">
+      <p>当院は、厚生労働大臣が定める以下の施設基準に適合している旨を東北厚生局長に届け出ています。</p>
+      <table>
+        <thead>
+          <tr><th>施設基準</th><th>算定開始</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>電子的診療情報連携体制整備加算3</td><td>令和8年6月1日</td></tr>
+          <tr><td>外来・在宅ベースアップ評価料（Ⅰ）</td><td>令和8年6月1日</td></tr>
+          <tr><td>時間外対応体制加算3</td><td>令和8年7月1日</td></tr>
+          <tr><td>外来感染対策向上加算</td><td>令和8年8月1日</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">明細書の発行について</h2>
+    <div class="section-content">
+      <p>医療の透明化や患者様への情報提供を推進する観点から、領収証の発行の際に、個別の診療報酬の算定項目がわかる明細書を<strong>無料で発行</strong>しています。公費負担医療の受給者で医療費の自己負担がない方についても、明細書を無料で発行しています。</p>
+      <p>明細書には使用した薬剤の名称や行われた検査の名称が記載されます。明細書の発行を希望されない方は、受付にお申し出ください。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">一般名処方について</h2>
+    <div class="section-content">
+      <p>当院では、後発医薬品（ジェネリック医薬品）の使用促進や、医薬品の安定供給に向けた取り組みとして、薬の商品名ではなく有効成分の名称で処方箋を発行する「一般名処方」を行っています。</p>
+      <p>一般名処方により、特定の医薬品が不足している場合でも、薬局で有効成分が同じ医薬品を選んでお渡しすることができます。医薬品の供給状況等を踏まえ、ご不明な点は医師または薬剤師にお尋ねください。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">長期処方・リフィル処方箋について</h2>
+    <div class="section-content">
+      <p>当院では、患者様の状態に応じて、<strong>28日以上の長期の投薬</strong>や、<strong>リフィル処方箋</strong>（一定期間内に最大3回まで繰り返し使用できる処方箋）の発行に対応しています。</p>
+      <p>なお、長期処方やリフィル処方箋の交付が対応可能かは、病状に応じて医師が判断いたします。ご希望の方は診察時にご相談ください。</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p class="clinic-name">勾当台夕方内科クリニック</p>
+    <p class="clinic-director">院長　田村　慧人</p>
+  </footer>
+
+  <button class="print-button" onclick="window.print()">印刷する</button>
+</body>
+</html>

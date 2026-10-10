@@ -28,7 +28,8 @@ Tel: 022-275-1111（代表）
 
 - ウェブサイト: `frontend/src/pages/after-hours.astro`
   （https://koutoudai-yugata-naika.clinic/after-hours/ ）
-- 院内掲示: 要確認（掲示物の所在をここに記録する）
+- 院内掲示: `notices/after-hours.html`。通知第2 1(2) は「対応者・緊急時の対応体制・連絡先」を院内掲示・文書配布・診察券への記載などで周知することを求めている（ウェブサイト掲載の規定はない）。
+- 掲示の横断一覧は [../keiji.md](../keiji.md)
 
 ## 届出の記録
 

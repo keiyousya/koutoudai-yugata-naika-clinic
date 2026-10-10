@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>院内感染対策について - 院内掲示用</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      font-size: 11pt;
+      line-height: 1.6;
+      color: #333;
+      background: white;
+      padding: 10mm;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 14pt;
+      padding-bottom: 10pt;
+      border-bottom: 2pt solid #1e3a5f;
+    }
+
+    .title {
+      font-size: 20pt;
+      font-weight: bold;
+      color: #1e3a5f;
+    }
+
+    .section {
+      margin-bottom: 14pt;
+      page-break-inside: avoid;
+    }
+
+    .section-title {
+      font-size: 12pt;
+      font-weight: bold;
+      color: #1e3a5f;
+      background: #f0f4f8;
+      padding: 6pt 10pt;
+      margin-bottom: 6pt;
+      border-left: 3pt solid #1e3a5f;
+    }
+
+    .section-content {
+      padding: 0 10pt;
+      font-size: 10.5pt;
+      line-height: 1.8;
+    }
+
+    .section-content p + p {
+      margin-top: 4pt;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10.5pt;
+      margin-top: 4pt;
+    }
+
+    th, td {
+      border: 1pt solid #c8d3df;
+      padding: 5pt 8pt;
+      text-align: left;
+    }
+
+    th {
+      background: #f0f4f8;
+      color: #1e3a5f;
+      font-weight: bold;
+    }
+
+    .footer {
+      margin-top: 16pt;
+      padding-top: 10pt;
+      border-top: 1pt solid #ccc;
+      text-align: center;
+    }
+
+    .clinic-name {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1e3a5f;
+    }
+
+    .clinic-director {
+      font-size: 10pt;
+      margin-top: 4pt;
+    }
+
+    .print-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 24px;
+      background: #1e3a5f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .print-button:hover {
+      background: #2a4a6e;
+    }
+
+    @media print {
+      .print-button {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1 class="title">院内感染対策について</h1>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">院内感染対策に関する基本的な考え方</h2>
+    <div class="section-content">
+      <p>当院は、院内感染の防止に留意し、感染症の発生時には速やかに対応することで、患者様・ご家族・職員の安全を守ることを基本方針とします。標準予防策（手指衛生・マスク着用・環境消毒・感染性廃棄物の適切な処理）を全職員で徹底します。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">院内感染対策の組織体制と業務内容</h2>
+    <div class="section-content">
+      <p>院長（医師　田村　慧人）を院内感染管理者とし、院内感染対策を実施する体制を整えています。院内感染管理者は、感染対策の手順書の整備と職員への周知、院内の感染症の発生状況の把握、職員への研修を行います。</p>
+      <p>発熱等の症状がある患者様は、一般の患者様と診療時間帯・診療スペースを分けて診療しています。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">抗菌薬の適正使用について</h2>
+    <div class="section-content">
+      <p>薬剤耐性菌の発生を防ぐため、厚生労働省「抗微生物薬適正使用の手引き」に沿って、抗菌薬（抗生物質）は必要な場合に限り、適切な種類・量・期間で処方します。</p>
+      <p>感染対策に関するサーベイランス（診療所における抗菌薬適正使用支援システム J-SIPHE〔OASCIS〕）に参加し、当院の抗菌薬の使用状況を継続的に確認しています。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">他の医療機関等との連携体制</h2>
+    <div class="section-content">
+      <p>仙台市医師会と連携し、同会が主催する院内感染対策に関するカンファレンス・訓練に参加しています。新興感染症の発生時等には、行政・医師会と連携して発熱患者の診療等に対応します。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">患者様へのお願い</h2>
+    <div class="section-content">
+      <p>院内では<strong>マスクの着用</strong>と、来院時の<strong>手指消毒</strong>にご協力ください。マスクをお持ちでない方は受付にお申し出ください。</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p class="clinic-name">勾当台夕方内科クリニック</p>
+    <p class="clinic-director">院長　田村　慧人</p>
+  </footer>
+
+  <button class="print-button" onclick="window.print()">印刷する</button>
+</body>
+</html>

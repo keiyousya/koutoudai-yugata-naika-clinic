@@ -62,7 +62,9 @@ shisetsu-kijun/
   → 確認は `.claude/skills/shisetsu-kijun/`（`/shisetsu-kijun`）で行う。
 - **毎年7月に定例報告**（施設基準の届出状況の報告）がある。対象基準と様式は年度ごとに変わる。
 - **掲示要件**のある基準は、院内掲示とウェブサイト掲示の両方が必要なことが多い。
-  掲示ページは `frontend/src/pages/` にあり、基準ごとの README に掲示先を明記する。
+  院内掲示物は `notices/`、掲示ページは `frontend/src/pages/` にあり、基準ごとの README に掲示先を明記する。
+  届出不要の加算（一般名処方加算・明細書発行体制等加算・生活習慣病管理料）や療担規則の掲示も含めた
+  **横断の一覧は [keiji.md](keiji.md)**。基準を届け出たら、`notices/hoken-shinryo.html` と HP `/keiji` の施設基準一覧にも足す。
 - **体制が変わったら届出をやり直す**（連携医療機関の変更、診療時間の変更など）。
   変更・辞退は `filings/kouseikyoku/` に案件を立てる。
 

@@ -43,7 +43,7 @@
 | frontend/public/forms/ | 患者向けの予診票など、印刷して使うHTML。HPで公開される（例: `/forms/flu-vaccine-yoshinhyo.html`） |
 | instagram/ | 求人投稿画像HTML（`recruit.html`） |
 | line/ | LINEリッチメニュー画像HTML（`rich-menu.html`） |
-| notices/ | 院内掲示用の施設情報（`clinic-info.html`） |
+| notices/ | 院内掲示物のHTML。施設情報（`clinic-info.html`）、医療DX推進体制（`medical-dx.html`） |
 | slides/ | 面接用クリニック紹介スライド（Slidev） |
 
 ## セットアップ

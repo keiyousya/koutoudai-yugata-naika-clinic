@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スリッパへの履き替え - 院内掲示用</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      background: white;
+      color: #1e3a5f;
+    }
+
+    .sheet {
+      width: 297mm;
+      height: 210mm;
+      padding: 12mm;
+      overflow: hidden;
+    }
+
+    .frame {
+      height: 100%;
+      border: 4mm solid #1e3a5f;
+      border-radius: 8mm;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5mm;
+    }
+
+    .icon {
+      width: 32mm;
+      height: 32mm;
+    }
+
+    .main {
+      font-size: 76pt;
+      font-weight: 900;
+      line-height: 1.2;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    .main .em {
+      color: #c0392b;
+    }
+
+    .sub {
+      font-size: 22pt;
+      font-weight: 700;
+      color: #555;
+      letter-spacing: 0.04em;
+    }
+
+    .print-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 24px;
+      background: #1e3a5f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    @media print {
+      .print-button {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sheet">
+    <div class="frame">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <!-- スリッパ（左右一足を上から見た形） -->
+        <path d="M14 10c-5 0-8 5-8 12v26c0 4 3 7 8 7s8-3 8-7V22c0-7-3-12-8-12z"/>
+        <path d="M6 24c3-3 13-3 16 0"/>
+        <path d="M6 30c3-3 13-3 16 0"/>
+        <path d="M50 10c-5 0-8 5-8 12v26c0 4 3 7 8 7s8-3 8-7V22c0-7-3-12-8-12z"/>
+        <path d="M42 24c3-3 13-3 16 0"/>
+        <path d="M42 30c3-3 13-3 16 0"/>
+      </svg>
+      <p class="main">ここで靴をぬいで<br><span class="em">スリッパ</span>に<br>お履き替えください</p>
+      <p class="sub">Please take off your shoes and change into slippers.</p>
+    </div>
+  </div>
+
+  <button class="print-button" onclick="window.print()">印刷する</button>
+</body>
+</html>

@@ -62,7 +62,9 @@ document.addEventListener("DOMContentLoaded", function() {
       var headingHtml = r.heading !== r.docTitle
         ? '<span class="result-section">' + highlight(r.heading, terms) + '</span>'
         : '';
-      html += '<a class="result" href="./' + r.slug + '.html" style="display:block;text-decoration:none;color:inherit;">' +
+      var href = "./" + r.slug + ".html?q=" + encodeURIComponent(terms.join(" "));
+      if (r.headingId) href += "#" + encodeURIComponent(r.headingId);
+      html += '<a class="result" href="' + href + '" style="display:block;text-decoration:none;color:inherit;">' +
         '<div class="result-header"><span class="result-doc">' + highlight(r.docTitle, terms) + '</span>' + headingHtml + '</div>' +
         '<div class="result-text">' + snip + '</div></a>';
     }

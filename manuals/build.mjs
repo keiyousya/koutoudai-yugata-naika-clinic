@@ -129,6 +129,44 @@ p { margin-bottom: 0.3rem; }
 // 掲示用ページの目印
 const POSTER_MARKER = "<!-- layout: poster -->";
 
+// 検索結果から飛んだとき、URLの ?q= パラメータで検索語をハイライトする
+const HIGHLIGHT_SCRIPT = `
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const q = params.get("q");
+  if (!q) return;
+  const terms = q.split(/\\s+/).filter(Boolean);
+  if (terms.length === 0) return;
+
+  const re = new RegExp("(" + terms.map(t => t.replace(/[.*+?^\${}()|[\\]\\\\]/g, "\\\\$&")).join("|") + ")", "gi");
+
+  function walk(node) {
+    if (node.nodeType === 3) {
+      const text = node.textContent;
+      if (!re.test(text)) return;
+      re.lastIndex = 0;
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      let m;
+      while ((m = re.exec(text)) !== null) {
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        const mark = document.createElement("mark");
+        mark.style.cssText = "background:#ffeaa7;color:#333;padding:0.05rem 0.15rem;border-radius:2px;";
+        mark.textContent = m[1];
+        frag.appendChild(mark);
+        last = re.lastIndex;
+      }
+      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === 1 && !/^(script|style|mark)$/i.test(node.tagName)) {
+      Array.from(node.childNodes).forEach(walk);
+    }
+  }
+  walk(document.body);
+})();
+</script>`;
+
 // dev サーバのSSEを購読して、再ビルドされたらリロードする
 const LIVE_RELOAD_SCRIPT = `
 <script>
@@ -173,6 +211,7 @@ ${robots}<title>${title} - ${suffix}</title>
 </head>
 <body>
 ${backLink}${printBtn}${bodyHtml}
+${isIndex ? "" : HIGHLIGHT_SCRIPT}
 ${liveReload ? LIVE_RELOAD_SCRIPT : ""}
 </body>
 </html>`;
@@ -181,6 +220,24 @@ ${liveReload ? LIVE_RELOAD_SCRIPT : ""}
 // 外部リンク（PMDA添付文書など）は別タブで開く。マニュアル本体を見失わないようにするため
 function openExternalInNewTab(html) {
   return html.replace(/<a href="(https?:\/\/)/g, '<a target="_blank" rel="noopener" href="$1');
+}
+
+// 見出しテキストからアンカーIDを生成する
+function headingToId(text) {
+  return text
+    .replace(/[`*~_]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/[<>]/g, "")
+    .toLowerCase();
+}
+
+// marked の HTML 出力に見出し ID を付与する
+function addHeadingIds(html) {
+  return html.replace(/<(h[1-6])>(.*?)<\/\1>/g, (_match, tag, content) => {
+    const plainText = content.replace(/<[^>]+>/g, "");
+    const id = headingToId(plainText);
+    return `<${tag} id="${id}">${content}</${tag}>`;
+  });
 }
 
 // Extract first H1 from markdown as title, fallback to filename
@@ -209,7 +266,7 @@ function parseSections(md, slug, docTitle) {
       .replace(/\n{2,}/g, "\n")
       .trim();
     if (text.length > 0) {
-      sections.push({ slug, docTitle, heading: currentHeading, text });
+      sections.push({ slug, docTitle, heading: currentHeading, headingId: headingToId(currentHeading), text });
     }
     buf = [];
   }
@@ -271,7 +328,7 @@ async function buildEmergency() {
     const slug = parse(file).name;
     const title = extractTitle(md, slug);
     const poster = md.includes(POSTER_MARKER);
-    const htmlBody = openExternalInNewTab(await marked(md));
+    const htmlBody = addHeadingIds(openExternalInNewTab(await marked(md)));
     const html = wrapHtml(title, htmlBody, {
       emergency: true,
       poster,
@@ -346,7 +403,7 @@ export async function build(options = {}) {
     const md = await readFile(join(fileURLToPath(DOCS_DIR), file), "utf-8");
     const slug = parse(file).name;
     const title = extractTitle(md, slug);
-    const htmlBody = openExternalInNewTab(await marked(md));
+    const htmlBody = addHeadingIds(openExternalInNewTab(await marked(md)));
     const html = wrapHtml(title, htmlBody, {});
     const outPath = join(fileURLToPath(DIST_DIR), `${slug}.html`);
     await writeFile(outPath, html);

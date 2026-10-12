@@ -64,6 +64,17 @@ h2 { font-size: 1.1rem; color: #5b4a3f; margin-top: 1.5rem; margin-bottom: 0.8re
 .emergency-banner a { display: block; padding: 1.3rem 1.2rem; background: #a32b2b; color: #fff; border-radius: 8px; text-decoration: none; font-size: 1.3rem; font-weight: 700; text-align: center; line-height: 1.4; transition: background 0.15s; }
 .emergency-banner a:hover { background: #872323; }
 .emergency-banner span { display: block; font-size: 0.85rem; font-weight: 400; opacity: 0.9; margin-top: 0.2rem; }
+.search-box { width: 100%; padding: 0.8rem 1rem; font-size: 1rem; border: 2px solid #c9b99a; border-radius: 8px; outline: none; font-family: inherit; margin-bottom: 1.5rem; }
+.search-box:focus { border-color: #8b6d4f; box-shadow: 0 0 0 3px rgba(139,109,79,0.15); }
+.result-count { color: #8b7d6b; font-size: 0.9rem; margin-bottom: 1rem; }
+.result { background: #fff; border: 1px solid #d0c8b8; border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.8rem; }
+.result-header { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
+.result-doc { font-weight: 600; color: #5b4a3f; font-size: 0.95rem; }
+.result-section { color: #8b7d6b; font-size: 0.85rem; }
+.result-section::before { content: "›"; margin-right: 0.3rem; }
+.result-text { font-size: 0.9rem; color: #555; line-height: 1.6; }
+.result-text mark { background: #ffeaa7; color: #333; padding: 0.05rem 0.15rem; border-radius: 2px; }
+.no-results { color: #8b7d6b; text-align: center; padding: 2rem 1rem; font-size: 1rem; }
 `;
 
 // 緊急時マニュアル用。通常マニュアルより文字を大きく、赤系のアクセントにする
@@ -178,6 +189,57 @@ function extractTitle(md, filename) {
   return match ? match[1].trim() : filename;
 }
 
+// マニュアルを見出し単位のセクションに分割して検索データを作る
+function parseSections(md, slug, docTitle) {
+  const lines = md.split("\n");
+  const sections = [];
+  let currentHeading = docTitle;
+  let currentLevel = 1;
+  let buf = [];
+
+  function flush() {
+    const text = buf
+      .join("\n")
+      .replace(/!\[.*?\]\(.*?\)/g, "")     // 画像を除去
+      .replace(/\[([^\]]*)\]\(.*?\)/g, "$1") // リンクのテキストだけ残す
+      .replace(/^>\s?/gm, "")               // blockquote記号を除去
+      .replace(/[`*~_]/g, "")               // インライン装飾を除去
+      .replace(/^#{1,6}\s+.*$/gm, "")       // 見出し行自体は除去（テキストに入れない）
+      .replace(/<!--.*?-->/gs, "")           // HTMLコメントを除去
+      .replace(/\n{2,}/g, "\n")
+      .trim();
+    if (text.length > 0) {
+      sections.push({ slug, docTitle, heading: currentHeading, text });
+    }
+    buf = [];
+  }
+
+  for (const line of lines) {
+    const m = line.match(/^(#{1,3})\s+(.+)$/);
+    if (m) {
+      flush();
+      currentLevel = m[1].length;
+      currentHeading = m[2].trim();
+    }
+    buf.push(line);
+  }
+  flush();
+  return sections;
+}
+
+// トップページに埋め込む検索UIのHTMLを生成し、JSは別ファイルに出力する
+const SEARCH_TEMPLATE_PATH = new URL("./search-template.js", import.meta.url);
+
+async function buildSearchWidget(sections, distDir) {
+  const template = await readFile(SEARCH_TEMPLATE_PATH, "utf-8");
+  const jsContent = "var DATA = " + JSON.stringify(sections) + ";\n" + template;
+  await writeFile(join(fileURLToPath(distDir), "search.js"), jsContent);
+
+  return `<input class="search-box" type="text" placeholder="マニュアル内を検索…">
+<div id="search-results"></div>
+<script src="./search.js"></script>`;
+}
+
 // 緊急時マニュアルは dist/emergency/ に別サイトとして出力する。
 // 急変時にパスワード入力で足止めされないよう、Staticryptの対象には含めない。
 async function buildEmergency() {
@@ -277,6 +339,7 @@ export async function build(options = {}) {
   }
 
   const manuals = [];
+  const allSections = [];
 
   // Convert each MD to HTML
   for (const file of files) {
@@ -288,20 +351,44 @@ export async function build(options = {}) {
     const outPath = join(fileURLToPath(DIST_DIR), `${slug}.html`);
     await writeFile(outPath, html);
     manuals.push({ slug, title });
+    allSections.push(...parseSections(md, slug, title));
     console.log(`  ${file} → ${slug}.html`);
   }
 
-  // Generate index page
+  await buildEmergency();
+
+  // 緊急時マニュアルも検索対象に含める
+  const emergencyFiles = (await readdir(EMERGENCY_DOCS_DIR)).filter((f) => f.endsWith(".md")).sort();
+  for (const file of emergencyFiles) {
+    const md = await readFile(join(fileURLToPath(EMERGENCY_DOCS_DIR), file), "utf-8");
+    const slug = "emergency/" + parse(file).name;
+    const title = extractTitle(md, parse(file).name);
+    allSections.push(...parseSections(md, slug, title));
+  }
+
+  // Generate index page with inline search
+  const searchWidget = await buildSearchWidget(allSections, DIST_DIR);
+  console.log(`  search.js (${allSections.length} sections indexed)`);
   const listItems = manuals.map((m) => `<li><a href="./${m.slug}.html">${m.title}</a></li>`).join("\n");
-  const indexHtml = wrapHtml(
-    "院内マニュアル",
-    `<h1>院内マニュアル</h1>\n<p class="subtitle">勾当台夕方内科クリニック</p>\n<div class="emergency-banner">\n<a href="./emergency/index.html">🚨 緊急時マニュアル<span>急変・救急セットはこちら</span></a>\n</div>\n<h2>操作マニュアル</h2>\n<div class="external-links">\n<a href="https://www.notion.so/3356e8ba85c58016818ed588fda40651?source=copy_link" target="_blank">📋 電子カルテ・レセコン操作マニュアル</a>\n</div>\n<h2>院内マニュアル</h2>\n<ul class="manual-list">\n${listItems}\n</ul>`,
-    { isIndex: true },
-  );
+  const indexBody = `<h1>院内マニュアル</h1>
+<p class="subtitle">勾当台夕方内科クリニック</p>
+${searchWidget}
+<div id="main-content">
+<div class="emergency-banner">
+<a href="./emergency/index.html">🚨 緊急時マニュアル<span>急変・救急セットはこちら</span></a>
+</div>
+<h2>操作マニュアル</h2>
+<div class="external-links">
+<a href="https://www.notion.so/3356e8ba85c58016818ed588fda40651?source=copy_link" target="_blank">📋 電子カルテ・レセコン操作マニュアル</a>
+</div>
+<h2>院内マニュアル</h2>
+<ul class="manual-list">
+${listItems}
+</ul>
+</div>`;
+  const indexHtml = wrapHtml("院内マニュアル", indexBody, { isIndex: true });
   await writeFile(join(fileURLToPath(DIST_DIR), "index.html"), indexHtml);
   console.log(`  index.html (${manuals.length} manuals listed)`);
-
-  await buildEmergency();
 
   // Encrypt with Staticrypt
   if (encrypt) {

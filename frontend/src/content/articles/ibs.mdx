@@ -13,6 +13,16 @@ import CauseGrid from '../../components/CauseGrid.astro';
 import CauseCard from '../../components/CauseCard.astro';
 import ArticleTable from '../../components/ArticleTable.astro';
 import Callout from '../../components/Callout.astro';
+import symptomPain from '../../assets/articles/ibs/symptom-pain.png';
+import symptomBowel from '../../assets/articles/ibs/symptom-bowel.png';
+import symptomStress from '../../assets/articles/ibs/symptom-stress.png';
+import triggerStress from '../../assets/articles/ibs/trigger-stress.png';
+import triggerInfection from '../../assets/articles/ibs/trigger-infection.png';
+import triggerFood from '../../assets/articles/ibs/trigger-food.png';
+import habitMeal from '../../assets/articles/ibs/habit-meal.png';
+import habitFood from '../../assets/articles/ibs/habit-food.png';
+import habitExercise from '../../assets/articles/ibs/habit-exercise.png';
+import habitSleep from '../../assets/articles/ibs/habit-sleep.png';
 
 <ruby>過敏性腸症候群<rp>（</rp><rt>かびんせいちょうしょうこうぐん</rt><rp>）</rp></ruby>（IBS）は、**おなかの痛みや不快感と、下痢や便秘などの便通の異常が長く続く**病気です。大腸の検査をしても、がんや炎症などの目に見える異常は見つかりません。日本では**およそ10人に1人**がこの病気を持っているとされ、とくに20〜40歳代に多い、とても身近な病気です。
 
@@ -23,9 +33,9 @@ import Callout from '../../components/Callout.astro';
 ### 主な症状
 
 <CauseGrid variant="negative">
-  <CauseCard icon="conditions/intestinal-pain" title="おなかの痛み・不快感">下腹部を中心とした痛みや張り、不快感がくり返し起こります。<strong>トイレに行って便が出ると楽になる</strong>ことが多いのが特徴です</CauseCard>
-  <CauseCard icon="conditions/diarrhea" title="下痢や便秘">急に便意をもよおして我慢しにくい下痢、出にくく硬い便秘、あるいはその両方を行ったり来たりします</CauseCard>
-  <CauseCard icon="emotions/nervous" title="緊張やストレスで悪くなる">通勤・試験・会議の前など、<strong>緊張やストレスがかかる場面で症状が出やすい</strong>のもよくあるパターンです</CauseCard>
+  <CauseCard image={symptomPain} title="おなかの痛み・不快感">下腹部を中心とした痛みや張り、不快感がくり返し起こります。<strong>トイレに行って便が出ると楽になる</strong>ことが多いのが特徴です</CauseCard>
+  <CauseCard image={symptomBowel} title="下痢や便秘">急に便意をもよおして我慢しにくい下痢、出にくく硬い便秘、あるいはその両方を行ったり来たりします</CauseCard>
+  <CauseCard image={symptomStress} title="緊張やストレスで悪くなる">通勤・試験・会議の前など、<strong>緊張やストレスがかかる場面で症状が出やすい</strong>のもよくあるパターンです</CauseCard>
 </CauseGrid>
 
 ほかにも、おなかの張り（ガスがたまる感じ）、残便感、便に粘液が混じる、といった症状を伴うこともあります。胃もたれや胸やけ（機能性ディスペプシア・逆流性食道炎）、頭痛、肩こり、不眠、気分の落ち込みや不安を一緒に抱えている方も少なくありません。
@@ -65,9 +75,9 @@ import Callout from '../../components/Callout.astro';
 ### きっかけになるもの
 
 <CauseGrid variant="negative">
-  <CauseCard icon="specialties/psychology" title="ストレス・疲れ">仕事や人間関係のストレス、睡眠不足、疲れがたまると症状が出やすくなります</CauseCard>
-  <CauseCard icon="body/bacteria" title="感染性腸炎のあと">食中毒などの<strong>感染性腸炎にかかった人の約1割</strong>が、その後に過敏性腸症候群を発症するとされています</CauseCard>
-  <CauseCard icon="nutrition/unhealthy_food" title="食事">脂っこい食事、カフェイン、香辛料、牛乳・乳製品、アルコールなどで症状が悪くなる方がいます</CauseCard>
+  <CauseCard image={triggerStress} title="ストレス・疲れ">仕事や人間関係のストレス、睡眠不足、疲れがたまると症状が出やすくなります</CauseCard>
+  <CauseCard image={triggerInfection} title="感染性腸炎のあと">食中毒などの<strong>感染性腸炎にかかった人の約1割</strong>が、その後に過敏性腸症候群を発症するとされています</CauseCard>
+  <CauseCard image={triggerFood} title="食事">脂っこい食事、カフェイン、香辛料、牛乳・乳製品、アルコールなどで症状が悪くなる方がいます</CauseCard>
 </CauseGrid>
 
 腸内細菌のバランスの変化や、腸の粘膜のごく軽い炎症、体質（遺伝）が関わっていることも分かってきています。「気のせい」や「気持ちが弱いから」起こる病気ではありません。
@@ -132,10 +142,10 @@ import Callout from '../../components/Callout.astro';
 まずは、どのタイプにも共通する食事と生活の工夫から始めます。
 
 <CauseGrid variant="positive">
-  <CauseCard icon="objects/calendar" title="規則正しい食事">1日3食をなるべく決まった時間に。朝食をとると、腸のリズムが整いやすくなります。食べすぎや欠食は避けましょう</CauseCard>
-  <CauseCard icon="nutrition/dairy" title="症状を起こしやすい食品を控える">脂っこいもの、カフェイン、香辛料、牛乳・乳製品、アルコールなどで悪くなる方は、量を控えてみてください</CauseCard>
-  <CauseCard icon="exercise/walking" title="適度な運動">ウォーキングやヨガなど、無理のない運動を続けることで症状が改善することが分かっています</CauseCard>
-  <CauseCard icon="emotions/sleepy" title="睡眠と休養">睡眠不足や疲れは症状を悪くします。しっかり休む時間をつくりましょう</CauseCard>
+  <CauseCard image={habitMeal} title="規則正しい食事">1日3食をなるべく決まった時間に。朝食をとると、腸のリズムが整いやすくなります。食べすぎや欠食は避けましょう</CauseCard>
+  <CauseCard image={habitFood} title="症状を起こしやすい食品を控える">脂っこいもの、カフェイン、香辛料、牛乳・乳製品、アルコールなどで悪くなる方は、量を控えてみてください</CauseCard>
+  <CauseCard image={habitExercise} title="適度な運動">ウォーキングやヨガなど、無理のない運動を続けることで症状が改善することが分かっています</CauseCard>
+  <CauseCard image={habitSleep} title="睡眠と休養">睡眠不足や疲れは症状を悪くします。しっかり休む時間をつくりましょう</CauseCard>
 </CauseGrid>
 
 <Callout label="低FODMAP（フォドマップ）食について">

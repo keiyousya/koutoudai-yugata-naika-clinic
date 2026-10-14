@@ -105,6 +105,7 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 - **helix（電子カルテ）**: https://koutoudai-yugata-naika.helix.keiyousya.com 。Chrome操作で扱う（ログイン済み前提）。診察前準備（問診・検査結果の確認と下書きカルテ作成）は `/shinsatsu-junbi` スキル、カルテ記載・傷病名登録は `/karte` スキル、患者向けお知らせは `/announcement` スキル
 - **WebORCA（レセコン）**: https://weborca.cloud.orcamo.jp/ 。Chrome操作で扱う（ログインはユーザーが手動）。OASCIS登録用の点検用UKEファイルの出力〜匿名化〜OASCIS登録は `/orca-tenken-uke` スキル
 - **TKC（給与計算）**: https://cloud.tkc.co.jp/px/sqru5tu443/tma/gen 。Chrome操作で扱う（ログイン済み前提）。毎月15日支給の給与の入力〜支給確定〜振込依頼書の印刷は `/tkc-kyuyo` スキル
+- **毎月の印刷物**: カード売上の振込明細（JCB Link・七十七カード Vpass）は `/card-meisai`、税理士（オルタス税理士法人）の請求書は `/ortus-seikyusho`。どちらも HL（`Brother_HL_L8430CDW`）に `lpr` で出す
 - **GitHub Pages**: https://keiyousya.github.io/ 配下に各アプリをサブディレクトリでデプロイ
 - **カスタムドメイン**: https://koutoudai-yugata-naika.clinic
 

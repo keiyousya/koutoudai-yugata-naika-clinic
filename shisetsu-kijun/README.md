@@ -50,6 +50,7 @@ shisetsu-kijun/
 | 施設基準 | ディレクトリ | 状況 |
 |---|---|---|
 | サーベイランス強化加算（外来感染対策向上加算の上乗せ） | [gairai-kansen-taisaku-kojo](gairai-kansen-taisaku-kojo/) | 2026-09-21 郵送（10/1算定開始希望）。9/24・9/30掲載分には未掲載（10/4確認）。10/20・10/31掲載分を確認する。控えは `filings/kouseikyoku/2026-09-surveillance-kyoka/` |
+| 電子的診療情報連携体制整備加算2（加算3からの区分変更） | [denshiteki-shinryo-joho-renkei-3](denshiteki-shinryo-joho-renkei-3/) | 2026-10-15 届出書作成（11/1算定開始希望）。電子処方箋の運用開始日登録・厚労省HPでの公表を確認してから郵送。`filings/kouseikyoku/2026-10-dx2/` |
 | 情報通信機器を用いた診療 | [jouhou-tsushin-kiki-shinryo](jouhou-tsushin-kiki-shinryo/) | 受理状況・名簿のいずれにも無し。掲示ページは作成済みだが非公開。届出したか要確認 |
 
 > 受理番号・算定開始日は東北厚生局HPの掲載が一次情報。`/shisetsu-kijun` スキルで確認し、

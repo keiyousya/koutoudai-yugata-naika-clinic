@@ -46,4 +46,13 @@
   - 点数に関係なく検査しない: 咳・鼻汁・嗄声・口内炎などウイルス性がはっきりしている
   - 根拠: 2点以上で検査するのは [感染症学会 提言2022](https://github.com/keiyousya/clinical-guidelines/blob/main/respiratory-infections/jsid-rti-teigen-2022/02-pharyngotonsillitis.md) と米国家庭医学会（[今日の治療指針 付録1](https://github.com/keiyousya/clinical-guidelines/blob/main/respiratory-infections/konnichi-chiryo-2026/06-appendix-outpatient-antibiotics.md)）。検査陽性に限って治療するのは [厚労省 手引き](https://github.com/keiyousya/clinical-guidelines/blob/main/respiratory-infections/mhlw-amr-tebiki-2026/04-acute-pharyngitis.md)・[IDSA](https://github.com/keiyousya/clinical-guidelines/blob/main/respiratory-infections/idsa-gas-pharyngitis-2025/summary.md)。ACP/CDC は3点以上で検査とする（検査数はさらに減るが、当院は迅速キットがあるので2点からにした）。4点でも陽性は約半分なので、検査なしで出すと半分が不要な処方になる
 - 伝染性単核球症（後頸部・耳介後部のリンパ節腫脹、脾腫、異型リンパ球）を疑えば、AMPC は出さない（皮疹）
-- **すぐ紹介**（扁桃周囲膿瘍・喉頭蓋炎・深頸部膿瘍）: 唾が飲めない、開口障害、含み声、片側の強い痛みと口蓋垂の偏位、吸気性喘鳴、前傾姿勢、頸部の腫れ（[今日の治療指針 04](https://github.com/keiyousya/clinical-guidelines/blob/main/respiratory-infections/konnichi-chiryo-2026/04-peritonsillar-deep-neck-abscess.md)）
+- **白苔・膿栓があっても（いわゆる化膿性扁桃炎）、見た目だけでは細菌性と判断しない**。ウイルス（特に EBV・アデノウイルス）でも出る。方針は溶連菌の検査結果で決める。高熱・白苔で溶連菌陰性なら、伝染性単核球症を積極的に考える
+
+### 扁桃周囲炎・扁桃周囲膿瘍を疑ったら（院長、2026-10-16）
+
+正式な診断基準はない。臨床所見で疑い、穿刺で膿が引ければ膿瘍と確定、広がりは造影 CT で見る（[今日の治療指針 04](https://github.com/keiyousya/clinical-guidelines/blob/main/respiratory-infections/konnichi-chiryo-2026/04-peritonsillar-deep-neck-abscess.md)）。当院は穿刺も造影 CT もできないので、**疑うかどうか**で動く。
+
+- **疑うサイン**: **片側性**（片側の扁桃・軟口蓋の腫れ、片側の下顎角直下の圧痛）、唾が飲み込めないほどの咽頭痛、**開口障害**、**含み声**、**口蓋垂の健側への偏位**、腫脹部の波動
+- **どれかがあれば当日中に耳鼻咽喉科へ紹介**。扁桃周囲炎か膿瘍かの区別（穿刺・造影 CT）と排膿は耳鼻科で行う
+- 扁桃周囲炎・膿瘍は細菌感染（溶連菌＋口腔内の嫌気性菌。全国サーベイランスでは嫌気性菌が約7割）なので、**溶連菌の検査結果に関係なく抗菌薬が必要**。院内にセフトリアキソン 1 g と点滴セットはあるが、膿瘍を除外しないまま点滴でつなぐより評価できる施設へ送るのを優先する
+- **救急へ**（喉頭浮腫・急性喉頭蓋炎・深頸部膿瘍・レミエール症候群）: 呼吸困難、吸気性喘鳴、前傾姿勢、流涎、頸部の腫れ、片側の頸部の痛み・腫れと高熱・敗血症の徴候

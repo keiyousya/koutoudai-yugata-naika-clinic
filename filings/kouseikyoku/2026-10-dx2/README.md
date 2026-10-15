@@ -9,7 +9,7 @@
 | 点数 | 初診時 加算3 4点 → 加算2 9点（再診時の2点は区分なしで変わらない） |
 | 算定開始希望 | 令和8年11月1日（10月中に受理されれば翌月1日から） |
 | 提出方法 | 郵送または窓口持参 |
-| 状態 | **作成済み・提出前**（提出前の確認が残っている。下記） |
+| 状態 | **印刷済み・投函前**（2026-10-15 HL-L8430CDW で3点印刷。提出前の確認が残っている。下記） |
 | 施設基準の台帳 | [shisetsu-kijun/denshiteki-shinryo-joho-renkei-3](../../../shisetsu-kijun/denshiteki-shinryo-joho-renkei-3/) |
 
 ## 要件の整理（2026-10-15）
@@ -33,7 +33,7 @@
 |---|---|
 | `別添7_外医DX2.docx` / `.pdf` | 届出書（記入済み）。**PDFを印刷して提出** |
 | `様式1の6_外医DX2.xlsx` / `.pdf` | 添付書類（記入済み）。**PDFを印刷して提出** |
-| `送付状.html` | 添え状。ブラウザで開いて印刷 |
+| `送付状.html` / `.pdf` | 添え状（PDFはChromeで書き出したもの） |
 | `original/` | 厚生局からダウンロードした空の様式（令和8年度版、`r8-1-007-2` / `r8-k01-6`） |
 
 様式の入手元：https://kouseikyoku.mhlw.go.jp/tohoku/shinsei/shido_kansa/shitei_kijun/kihon_r08.html

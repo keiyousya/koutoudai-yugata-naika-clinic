@@ -6,7 +6,7 @@
 
 - ガイドライン側と**同じパス**にメモを置く（例: `insomnia/esrs-european-gl2023/02-cbt-i.md` ⇔ ガイドライン側の同名ファイル）
 - 各ファイル冒頭に、対応するガイドライン要約へのリンクを書く
-- 領域ごとの早見（不眠・TSH異常・喘息）は `insomnia/README.md`・`thyroid/README.md`・`asthma/README.md`
+- 領域ごとの早見（不眠・TSH異常・喘息・急性気道感染症）は `insomnia/README.md`・`thyroid/README.md`・`asthma/README.md`・`respiratory-infections/README.md`
 
 ## 運用ルール
 

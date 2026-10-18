@@ -81,8 +81,9 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 
 ### forms（予診票などの帳票）
 
-- 実体は `frontend/public/forms/`。**院内印刷用とWeb公開用を1ファイルで兼ねる**（コピーを作らない）
-- Astro の `public/` なのでビルドでそのまま配信される。例: `https://koutoudai-yugata-naika.clinic/forms/flu-vaccine-yoshinhyo.html`
+- 実体は `frontend/public/forms/`。**HTMLが原本で、院内印刷用とWeb公開用を兼ねる**（手でコピーを作らない）
+- 患者向けには同名の **PDF を公開する**（HTMLは端末によってスタイルが崩れるため。2026-10）。PDFはHTMLから `pnpm --filter frontend forms:pdf`（ローカルのChromeで印刷）で作り、コミットする。**HTMLを直したら必ずPDFも作り直す**
+- Astro の `public/` なのでビルドでそのまま配信される。例: `https://koutoudai-yugata-naika.clinic/forms/flu-vaccine-yoshinhyo.pdf`
 - A4印刷前提（`@page` 指定）。画面上部の印刷ボタンは `@media print` で非表示にする
 - インフル予診票は**任意接種用**。65歳以上の定期接種は仙台市の様式を使う（`tasks/2026-09-sendai-elderly-flu-vaccine.md`）
 - **院内専用の帳票（罹患証明書・指導用紙など）は公開しない**。リポジトリ直下の `internal-forms/` に置き、Worker `koutoudai-internal-forms` がパスワード認証の後に配信する（https://koutoudai-internal-forms.kit-tamtam.workers.dev）。帳票を足したら `internal-forms/index.html` の一覧にも1行足す

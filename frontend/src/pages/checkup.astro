@@ -1,21 +1,1033 @@
 ---
-/**
- * 旧 /checkup → /#articles へのリダイレクト
- * 健康診断再検査ページは削除済み。トップページの「病気について知る」セクションに誘導。
- */
-const destination = "/#articles";
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
+import LineCta from "../components/LineCta.astro";
+import Footer from "../components/Footer.astro";
+
+const pageUrl = "https://koutoudai-yugata-naika.clinic/checkup";
+
+const tokuteiUrl = "https://www.city.sendai.jp/hokennenkin-kanri/kurashi/kenkotofukushi/kenkoiryo/kenshin/kisokenshin/kenko.html";
+const kisoUrl = "https://www.city.sendai.jp/kenkosesaku-zoshin/kurashi/kenkotofukushi/kenkoiryo/kenshin/kisokenshin/shinsa.html";
+
+// 健診（特定健診・基礎健診）ページ専用の構造化データ
+const pageStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "name": "特定健診・基礎健診（仙台市）｜仙台市青葉区｜勾当台夕方内科クリニック",
+  "description": "仙台市の特定健診（仙台市国保・40〜74歳）と基礎健康診査を、平日（月・水・木・金）17時から受けられます。仕事帰りに受診できる、勾当台公園駅徒歩2分の内科です。ご予約はLINEから（予約制）。",
+  "keywords": "特定健診 仙台, 特定健診 仙台市 夕方, 特定健診 仕事帰り, 基礎健診 仙台, 基礎健康診査 仙台市, 特定健診 仙台市青葉区, 特定健診 勾当台, 市民健診 仙台 夕方, 健診 夜 仙台, 仙台市国保 特定健診",
+  "url": pageUrl,
+  "inLanguage": "ja",
+  "medicalAudience": {
+    "@type": "MedicalAudience",
+    "audienceType": "Patient"
+  },
+  "specialty": {
+    "@type": "MedicalSpecialty",
+    "name": "内科"
+  }
+};
+
+const serviceStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  "name": "特定健診・基礎健康診査（仙台市）",
+  "alternateName": ["特定健康診査", "基礎健診", "市民健診"],
+  "description": "仙台市の特定健診（仙台市国民健康保険の40〜74歳の方）と基礎健康診査を行います。",
+  "procedureType": "https://schema.org/NoninvasiveProcedure",
+  "availableService": [
+    {
+      "@type": "Offer",
+      "name": "特定健診（仙台市国保）",
+      "price": "0",
+      "priceCurrency": "JPY"
+    },
+    {
+      "@type": "Offer",
+      "name": "基礎健康診査（35〜39歳・仙台市国保）",
+      "price": "2110",
+      "priceCurrency": "JPY"
+    },
+    {
+      "@type": "Offer",
+      "name": "基礎健康診査（35〜39歳・仙台市国保以外）",
+      "price": "3580",
+      "priceCurrency": "JPY"
+    }
+  ],
+  "provider": {
+    "@type": "MedicalClinic",
+    "name": "勾当台夕方内科クリニック",
+    "url": "https://koutoudai-yugata-naika.clinic",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "仙台市青葉区",
+      "addressRegion": "宮城県",
+      "streetAddress": "国分町3丁目8-1 勾当台ビル4階"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday"],
+        "opens": "17:00",
+        "closes": "18:50"
+      }
+    ]
+  }
+};
+
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "仕事帰りに特定健診を受けられますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、受けられます。当院の健診は平日（月・水・木・金）の17時〜18時50分に受け付けています。勾当台公園駅から徒歩2分のため、お仕事を終えてからそのままお越しいただけます。火曜日と土日は健診を行っていません。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "朝から何も食べずに行く必要はありますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "いいえ、絶食の必要はありません。当院の健診は夕方のため、中性脂肪は「随時（食後）」の値として測定します。国の特定健診の基準で認められた方法です。昼食はご来院の3時間半以上前に食べ始め、その後は間食や糖分を含む飲み物を控えてください。水やお茶は飲んでいただいて構いません。血糖はHbA1c（ヘモグロビンA1c）で調べるため、食事の影響を受けません。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "眼底検査も受けられますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "当院では眼底検査を行っていません。当院で健診を受けたあと、仙台市の眼底検査登録医療機関（眼科など）で受けてください。特定健診の場合は、健診を受けた日から1週間以内に受ける必要があります。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "結果は郵送されますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "いいえ、ご自宅への郵送はありません。結果は受診から3週間ほどで当院に届きますので、届きましたら当院からLINEでご連絡します。ご連絡のあとにお越しいただき、結果通知書をお渡しし、医師から結果をご説明します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "予約なしで受けられますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "予約制のため、ご予約なしでの健診は承っておりません。LINEからご予約ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "受診券をなくしてしまいました。",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "受診券がないと健診を受けられません。特定健診は仙台市 保険年金課（022-214-5392）、基礎健康診査は仙台市 健康政策課（022-214-8198）にお問い合わせください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "胸部レントゲンやがん検診も受けられますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "当院にはレントゲンの設備がないため、胸部レントゲン（肺がん・結核検診）は行っていません。また、がん検診も行っていません。当院で受けられるのは、特定健診と基礎健康診査です。"
+      }
+    }
+  ]
+};
+
+const breadcrumbStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "勾当台夕方内科クリニック",
+      "item": "https://koutoudai-yugata-naika.clinic/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "特定健診・基礎健診",
+      "item": pageUrl
+    }
+  ]
+};
 ---
 
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="robots" content="noindex, follow" />
-    <link rel="canonical" href="https://koutoudai-yugata-naika.clinic/" />
-    <meta http-equiv="refresh" content={`0;url=${destination}`} />
-    <title>リダイレクト中...</title>
-  </head>
-  <body>
-    <p><a href={destination}>こちらのページに移動しました</a></p>
-  </body>
-</html>
+<Layout
+  title="特定健診・基礎健診（仙台市）｜仕事帰りに 平日17時から受診｜仙台市青葉区 勾当台夕方内科クリニック"
+  description="仙台市の特定健診（仙台市国保・40〜74歳・無料）と基礎健康診査を、平日（月・水・木・金）17時〜18時50分に受け付けています。夕方の健診のため絶食は不要です。ご予約はLINEから（予約制）。勾当台公園駅徒歩2分。"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbStructuredData)} />
+  <Header />
+  <main class="page-main">
+    <SubPageHeader label="Health Checkup" title="特定健診・基礎健診" variant="turquoise" />
+
+    <section class="page-intro">
+      <div class="container">
+        <p class="intro-text">
+          仙台市の<strong>特定健診</strong>と<strong>基礎健康診査</strong>を、<br class="pc-only" />
+          <strong>平日（月・水・木・金）17時から</strong>受けられます。<br class="pc-only" />
+          お仕事帰りに、そのままお越しください。
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">当院で受けられる健診</h2>
+        <div class="price-cards">
+          <div class="price-card">
+            <div class="price-card-header">
+              <span class="price-card-badge">40〜74歳 仙台市国保の方</span>
+              <h3 class="price-card-title">特定健診</h3>
+              <p class="price-card-lead">仙台市国民健康保険の加入者が受ける健診</p>
+            </div>
+            <p class="price-card-price"><span class="price-number">無料</span></p>
+            <p class="price-card-note">※ 仙台市から届いた受診券が必要です</p>
+            <a href="#tokutei" class="price-card-link">特定健診の詳しいご案内 →</a>
+          </div>
+          <div class="price-card price-card-kiso">
+            <div class="price-card-header">
+              <span class="price-card-badge badge-turquoise">35〜39歳・75歳以上の方など</span>
+              <h3 class="price-card-title">基礎健康診査</h3>
+              <p class="price-card-lead">仙台市の市民健診として受ける健診</p>
+            </div>
+            <dl class="price-rows">
+              <div class="price-row">
+                <dt>35〜39歳<br />仙台市国保の方</dt>
+                <dd><span class="price-number">2,110</span>円</dd>
+              </div>
+              <div class="price-row">
+                <dt>35〜39歳<br />それ以外の方</dt>
+                <dd><span class="price-number">3,580</span>円</dd>
+              </div>
+              <div class="price-row">
+                <dt>75歳以上の方など</dt>
+                <dd><span class="price-number">無料</span></dd>
+              </div>
+            </dl>
+            <p class="price-card-note">※ 金額は自己負担額です</p>
+            <p class="price-card-note">※ 生活保護世帯・市民税非課税世帯の方なども無料です（確認書類が必要です）</p>
+            <a href="#kiso" class="price-card-link">基礎健康診査の詳しいご案内 →</a>
+          </div>
+        </div>
+        <p class="section-note">
+          ※ 当院にはレントゲンの設備がないため、胸部レントゲン（肺がん・結核検診）は行っていません。がん検診も行っていません。
+        </p>
+        <div class="price-cta">
+          <LineCta lines={[
+            "健診は予約制です。LINEからご予約ください。"
+          ]} />
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise">
+      <div class="container">
+        <h2 class="page-section-title">共通のご案内</h2>
+        <p class="section-lead">特定健診・基礎健康診査のどちらにも共通する内容です。</p>
+        <dl class="spec-list">
+          <div class="spec-row">
+            <dt>受付時間</dt>
+            <dd>平日（月・水・木・金）17:00〜18:50<span class="spec-note">火曜日・土日は健診を行っていません。臨時休診は<a href="/#hours" class="ref-link">診療日カレンダー</a>でご確認ください。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>ご予約</dt>
+            <dd>LINEからご予約ください<span class="spec-note">予約制です。ご予約なしでの健診は承っておりません。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>持ち物</dt>
+            <dd>
+              <ul class="attention-sublist">
+                <li>仙台市から届いた受診券</li>
+                <li>記入済みの問診票</li>
+                <li>マイナ保険証、または資格確認書</li>
+                <li>お薬手帳（お持ちの方）</li>
+              </ul>
+              <span class="spec-note">基礎健康診査を無料で受ける方は、確認書類もお持ちください（<a href="#kiso-free" class="ref-link">無料になる方</a>）。</span>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>検査項目</dt>
+            <dd>問診、身体計測（身長・体重・腹囲）、診察、血圧、尿検査（蛋白・糖・潜血）、血液検査（脂質・肝機能・腎機能・尿酸・貧血・血糖〔HbA1c〕）、心電図<span class="spec-note">眼底検査は当院では行っていません。下の「眼底検査について」をご覧ください。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>結果</dt>
+            <dd>結果が届きましたら、当院からLINEでご連絡します<span class="spec-note">結果は受診から3週間ほどで当院に届きます。ご自宅への郵送はありませんので、ご連絡のあとに当院へお越しください。結果通知書をお渡しし、医師から結果をご説明します。</span></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">お食事について</h2>
+        <div class="info-box">
+          <p class="info-text">
+            当院の健診は夕方に行うため、<strong>絶食の必要はありません</strong>。中性脂肪は<strong>「随時（食後）」の値</strong>として測定します。これは<a href="https://www.mhlw.go.jp/content/001131776.pdf" class="ref-link" target="_blank" rel="noopener noreferrer">国の特定健診の基準で認められた方法</a>です。<br />
+            正しく測定するため、<strong>昼食はご来院の3時間半以上前に食べ始めて</strong>ください。その後は、間食や糖分を含む飲み物を控えてください。水やお茶は飲んでいただいて構いません。
+          </p>
+          <p class="info-note">
+            ※ 血糖は<strong>HbA1c（ヘモグロビンA1c）</strong>で調べます。過去1〜2か月の血糖の平均を反映する検査のため、当日の食事の影響を受けません。<br />
+            ※ 食事を始めてから3時間半未満で採血すると、中性脂肪を正しく評価できないことがあります。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-coral">
+      <div class="container">
+        <h2 class="page-section-title">尿検査について</h2>
+        <div class="info-box">
+          <p class="info-text">
+            月経（生理）中は尿に血液が混じり、尿検査を正しく評価できないことがあります。月経と重なりそうな方は、<strong>日程の変更</strong>をおすすめします。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">眼底検査について</h2>
+        <div class="info-box">
+          <p class="info-text">
+            眼底検査は、仙台市の健診の項目に含まれていますが、<strong>当院では行っていません</strong>。当院で健診を受けたあと、<strong>仙台市の眼底検査登録医療機関（眼科など）</strong>で受けてください。
+          </p>
+          <p class="info-note">
+            ※ 特定健診の場合は、<strong>健診を受けた日から1週間以内</strong>に受ける必要があります。<br />
+            ※ 眼底検査を受けられる医療機関は、受診券に同封の案内や<a href={tokuteiUrl} class="ref-link" target="_blank" rel="noopener noreferrer">仙台市ホームページ</a>でご確認ください。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-coral" id="tokutei">
+      <div class="container">
+        <h2 class="page-section-title">特定健診（仙台市国保の方）</h2>
+        <p class="section-lead">仙台市国民健康保険の加入者を対象とした健診です。</p>
+        <dl class="spec-list">
+          <div class="spec-row">
+            <dt>対象となる方</dt>
+            <dd>仙台市国民健康保険に加入している40〜74歳の方<span class="spec-note">社会保険・共済組合など、ほかの健康保険に加入している方は、ご加入の健康保険の案内をご確認ください。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>自己負担額</dt>
+            <dd>無料</dd>
+          </div>
+          <div class="spec-row">
+            <dt>実施期間</dt>
+            <dd>6月〜10月、1月<span class="spec-note">11月・12月は実施していません。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>受診券</dt>
+            <dd>対象の方に仙台市から郵送されます<span class="spec-note">申し込みは不要です。受診券が届かない方・なくした方は、仙台市 保険年金課（022-214-5392）にお問い合わせください。</span></dd>
+          </div>
+        </dl>
+        <p class="source-note">
+          出典：<a href={tokuteiUrl} class="ref-link" target="_blank" rel="noopener noreferrer">国保加入者に対する特定健康診査（仙台市）</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise" id="kiso">
+      <div class="container">
+        <h2 class="page-section-title">基礎健康診査</h2>
+        <p class="section-lead">仙台市の市民健診として行う健診です。</p>
+        <dl class="spec-list">
+          <div class="spec-row">
+            <dt>対象となる方</dt>
+            <dd>
+              仙台市に住民票のある、次のいずれかに当てはまる方
+              <ul class="attention-sublist">
+                <li>35〜39歳の方</li>
+                <li>75歳以上の方</li>
+                <li>65〜74歳で、障害により後期高齢者医療制度に加入している方</li>
+                <li>35歳以上で、生活保護を受給している方</li>
+                <li>35歳以上で、中国残留邦人等支援給付を受給している方</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>自己負担額</dt>
+            <dd>
+              <div class="time-grid"><span class="time-day">35〜39歳で仙台市国保の方</span><span class="time-range">2,110円</span><span class="time-day">35〜39歳でそれ以外の方</span><span class="time-range">3,580円</span></div>
+              <span class="spec-note">70歳以上の方などは無料です。下の「自己負担金が無料になる方」をご覧ください。</span>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>実施期間</dt>
+            <dd>7月〜10月、1月<span class="spec-note">11月・12月は実施していません。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>受診券</dt>
+            <dd>市民健診にお申し込みのあと、仙台市から届きます<span class="spec-note">お問い合わせは仙台市 健康政策課（022-214-8198）へ。</span></dd>
+          </div>
+        </dl>
+
+        <h3 class="sub-heading" id="kiso-free">自己負担金が無料になる方</h3>
+        <div class="info-box">
+          <p class="info-text">
+            次に当てはまる方は、<strong>確認書類を受付でご提示いただくと無料</strong>になります。
+          </p>
+          <ul class="attention-sublist">
+            <li><strong>70歳以上の方</strong> … 書類は不要です</li>
+            <li><strong>障害により後期高齢者医療制度に加入している方</strong> … マイナ保険証、または資格確認書</li>
+            <li><strong>生活保護を受給している方</strong> … 生活保護費支給票</li>
+            <li><strong>中国残留邦人等支援給付を受給している方</strong> … 同制度の本人確認証</li>
+            <li><strong>市民税非課税世帯の方</strong> … 自己負担金免除決定通知書（65〜69歳の方は、所得段階が1〜4の介護保険料決定通知書でも可）</li>
+          </ul>
+          <p class="info-note">
+            ※ 確認書類のご提示がない場合は、無料の扱いにできません。<br />
+            ※ 自己負担金免除決定通知書は、仙台市への事前の申請が必要です（届くまで10日ほどかかります）。詳しくは<a href={kisoUrl} class="ref-link" target="_blank" rel="noopener noreferrer">仙台市ホームページ</a>をご覧ください。
+          </p>
+        </div>
+        <p class="source-note">
+          出典：<a href={kisoUrl} class="ref-link" target="_blank" rel="noopener noreferrer">基礎健康診査（仙台市）</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">健診の流れ</h2>
+        <ol class="flow-list">
+          <li class="flow-item">
+            <span class="flow-number">1</span>
+            <div>
+              <strong>LINEでご予約</strong>
+              <p>ご希望の日時を選び、お名前などのご本人情報と問診（食事の時刻・月経の有無）を入力してください。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">2</span>
+            <div>
+              <strong>受付（17:00〜18:50）</strong>
+              <p>受診券・記入済みの問診票・マイナ保険証または資格確認書をお出しください。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">3</span>
+            <div>
+              <strong>検査・診察</strong>
+              <p>身体計測・血圧・尿検査・採血・心電図のあと、医師が診察します。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">4</span>
+            <div>
+              <strong>眼底検査（眼科などで）</strong>
+              <p>当院では行っていないため、仙台市の眼底検査登録医療機関で受けてください。特定健診の場合は、<strong>1週間以内</strong>に受ける必要があります。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">5</span>
+            <div>
+              <strong>結果のお渡し</strong>
+              <p>結果が届きましたら（受診から3週間ほど）、<strong>当院からLINEでご連絡</strong>します。ご連絡のあとにお越しいただき、結果通知書のお渡しと、医師から結果のご説明をします。</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise">
+      <div class="container">
+        <h2 class="page-section-title">健診で異常を指摘されたら</h2>
+        <div class="related-box">
+          <p class="related-text">
+            血圧・脂質・血糖・尿酸などで再検査や受診をすすめられた方は、当院の<strong>一般内科</strong>でご相談いただけます。他院の健診結果でも構いません。健診結果をお持ちのうえ、ご予約ください。
+          </p>
+          <a href="/#about" class="related-link">診療内容について →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-coral">
+      <div class="container">
+        <h2 class="page-section-title">よくあるご質問</h2>
+        <dl class="faq-list">
+          {faqStructuredData.mainEntity.map((q) => (
+            <div class="faq-item">
+              <dt class="faq-q">{q.name}</dt>
+              <dd class="faq-a">{q.acceptedAnswer.text}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <section class="page-section back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-intro {
+    padding: 36px 0 !important;
+    background: var(--color-turquoise-bg);
+  }
+
+  .intro-text {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 2;
+    text-align: center;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+
+  .pc-only {
+    display: inline;
+  }
+
+  .page-section {
+    padding: 80px 0;
+  }
+
+  .page-section.bg-turquoise {
+    background: var(--color-turquoise-bg);
+  }
+
+  .page-section.bg-coral {
+    background: var(--color-coral-bg);
+  }
+
+  .price-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    max-width: 880px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .price-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: left;
+    border: 1px solid var(--color-coral);
+  }
+
+  .price-card-kiso {
+    border-color: var(--color-turquoise);
+  }
+
+  .price-card-link {
+    display: block;
+    margin-top: 16px;
+    text-align: right;
+    color: var(--color-coral);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .price-card-kiso .price-card-link {
+    color: var(--color-turquoise);
+  }
+
+  .price-card-link:hover {
+    opacity: 0.8;
+  }
+
+  .price-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .price-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    padding-left: 4px;
+  }
+
+  .price-card-lead {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    padding-left: 4px;
+  }
+
+  .price-card-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--color-coral);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 12px;
+  }
+
+  .price-card-badge.badge-turquoise {
+    background: var(--color-turquoise);
+  }
+
+  .price-card-price {
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+
+  .price-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+
+  .price-rows {
+    margin-bottom: 12px;
+  }
+
+  .price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 4px;
+    color: var(--color-navy);
+    border-bottom: 1px dashed var(--color-border);
+  }
+
+  .price-row:first-child {
+    padding-top: 0;
+  }
+
+  .price-row dt {
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .price-row dd {
+    font-size: 1rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .price-row .price-number {
+    font-size: 1.9rem;
+  }
+
+  .price-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .price-card-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    padding-left: calc(1.2em + 4px);
+    text-indent: -1.2em;
+  }
+
+  .section-note {
+    max-width: 880px;
+    margin: 20px auto 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    padding-left: 1.2em;
+    text-indent: -1.2em;
+  }
+
+  .price-cta {
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  .sub-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    max-width: 720px;
+    margin: 56px auto 24px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    text-align: center;
+  }
+
+  .sub-heading::before,
+  .sub-heading::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-turquoise);
+    opacity: 0.5;
+  }
+
+  .section-lead {
+    max-width: 720px;
+    margin: -12px auto 28px;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  .page-section.bg-turquoise .info-box,
+  .page-section.bg-turquoise .spec-list {
+    background: white;
+    border-color: var(--color-turquoise);
+  }
+
+  .page-section.bg-turquoise .ref-link {
+    color: var(--color-turquoise);
+  }
+
+  .page-section.bg-turquoise .spec-row dt {
+    background: var(--color-turquoise-bg);
+  }
+
+  .page-section.bg-turquoise .info-box .attention-sublist {
+    margin-top: 8px;
+  }
+
+  .spec-list {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--color-coral);
+    overflow: hidden;
+  }
+
+  .spec-row {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .spec-row:last-child {
+    border-bottom: none;
+  }
+
+  .spec-row dt {
+    width: 9em;
+    white-space: nowrap;
+    padding: 18px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    background: var(--color-coral-bg);
+  }
+
+  .spec-row dd {
+    padding: 18px 24px;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 1.8;
+  }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 12px;
+    row-gap: 2px;
+  }
+
+  .spec-note {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .info-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--color-coral-bg);
+    border-radius: 16px;
+    padding: 32px;
+    border: 1px solid var(--color-coral);
+  }
+
+  .bg-coral .info-box {
+    background: white;
+  }
+
+  .info-text {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 16px;
+  }
+
+  .info-box > .info-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .info-note {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .attention-sublist {
+    padding-left: 1.2em;
+    list-style: disc;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.9;
+  }
+
+  .info-box .attention-sublist {
+    margin-bottom: 16px;
+  }
+
+  .faq-list {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .faq-item {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--color-coral);
+    padding: 20px 24px;
+  }
+
+  .faq-q {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: 1.7;
+    padding-left: 1.6em;
+    text-indent: -1.6em;
+  }
+
+  .faq-q::before {
+    content: "Q.";
+    display: inline-block;
+    width: 1.6em;
+    text-indent: 0;
+    color: var(--color-coral);
+  }
+
+  .faq-a {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 1.8;
+  }
+
+  .related-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    padding: 28px 32px;
+    text-align: center;
+  }
+
+  .related-text {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 2;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .related-link {
+    color: var(--color-turquoise);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .related-link:hover {
+    opacity: 0.8;
+  }
+
+  .source-note {
+    max-width: 720px;
+    margin: 16px auto 0;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    text-align: right;
+  }
+
+  .ref-link {
+    color: var(--color-coral);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .flow-list {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .flow-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-coral);
+  }
+
+  .flow-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--color-coral);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .flow-item strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 6px;
+  }
+
+  .flow-item p strong {
+    display: inline;
+    font-size: inherit;
+    margin: 0;
+  }
+
+  .flow-item p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .back-section {
+    background: white;
+    padding: 20px 0 40px !important;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 1px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .pc-only {
+      display: none;
+    }
+
+    .intro-text {
+      padding: 20px;
+      text-align: left;
+    }
+
+    .page-section {
+      padding: 60px 0;
+    }
+
+    .price-cards {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .price-card {
+      padding: 24px 20px;
+    }
+
+    .sub-heading {
+      margin: 36px auto 16px;
+      font-size: 1rem;
+    }
+
+    .price-number {
+      font-size: 1.8rem;
+    }
+
+    .spec-row {
+      grid-template-columns: 1fr;
+    }
+
+    .spec-row dt {
+      width: auto;
+      padding: 10px 16px;
+    }
+
+    .spec-row dd {
+      padding: 12px 16px;
+    }
+
+    .time-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .flow-item {
+      padding: 20px;
+    }
+
+    .info-box,
+    .related-box {
+      padding: 20px;
+    }
+  }
+</style>

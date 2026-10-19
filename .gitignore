@@ -37,3 +37,6 @@ __pycache__/
 
 # 個人情報を含む提出書類（ローカルのみ）
 filings/kouseikyoku/2026-09-surveillance-kyoka/tsuika-2026-10/
+
+# 年賀状の写真（個人の写真なので公開リポジトリに入れない）
+nengajo/photos/

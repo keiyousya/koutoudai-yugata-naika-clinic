@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>年賀状 2027</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Noto+Sans+JP:wght@800&display=swap" rel="stylesheet">
+  <style>
+    /* 官製はがき（縦）。レーザーは縁なし印刷できないので、外周5mmは白のまま残す */
+    @page {
+      size: 100mm 148mm;
+      margin: 0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #e5e5e5;
+      font-family: "Shippori Mincho", "Hiragino Mincho ProN", serif;
+      color: #2b2b2b;
+    }
+
+    .print-button {
+      display: block;
+      margin: 16px auto;
+      padding: 8px 24px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .card {
+      width: 100mm;
+      height: 148mm;
+      margin: 0 auto 24px;
+      padding: 5mm;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .photo {
+      position: relative;
+      height: 78mm;
+      background: url("../frontend/src/assets/interior02.jpeg") center 60% / cover no-repeat;
+    }
+
+    /* サイトのヘッダーと同じ組み方（マーク + Noto Sans JP 800・紺） */
+    .logo {
+      position: absolute;
+      top: 3mm;
+      right: 3mm;
+      display: flex;
+      align-items: center;
+      gap: 1.5mm;
+      padding: 1.5mm 2.5mm 1.5mm 1.5mm;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 1.5mm;
+    }
+
+    .logo img {
+      width: 7mm;
+      height: 7mm;
+    }
+
+    .logo span {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 8pt;
+      font-weight: 800;
+      color: #1e3a5f;
+      letter-spacing: -0.02em;
+    }
+
+    /* 二人の写真。白フチを付けてメイン写真の左上に重ねる */
+    .inset {
+      position: absolute;
+      top: 3mm;
+      left: 3mm;
+      width: 18mm;
+      padding: 0.8mm;
+      background: white;
+      box-shadow: 0 0.5mm 1.5mm rgba(0, 0, 0, 0.3);
+      transform: rotate(-3deg);
+    }
+
+    .inset img {
+      display: block;
+      width: 100%;
+    }
+
+    .photo-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10mm 0 3mm;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.45));
+      color: white;
+      text-align: center;
+      font-size: 22pt;
+      font-weight: 800;
+      letter-spacing: 0.35em;
+      text-indent: 0.35em;
+    }
+
+    .body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 5mm 3mm 0;
+    }
+
+    .greeting {
+      font-size: 8.5pt;
+      line-height: 1.9;
+      text-align: center;
+    }
+
+    .date {
+      margin-top: 2mm;
+      font-size: 8pt;
+      text-align: center;
+      color: #555;
+    }
+
+    /* 一言添え書き用の余白 */
+    .memo {
+      flex: 1;
+    }
+
+    /* 文字サイズが違っても見た目の行間が揃うよう、行の高さを文字に合わせて gap で空ける */
+    .sender {
+      border-top: 0.3mm solid #b8a06a;
+      padding-top: 3mm;
+      display: flex;
+      flex-direction: column;
+      gap: 2mm;
+      text-align: center;
+    }
+
+    .sender > div {
+      line-height: 1;
+    }
+
+    .clinic-name {
+      font-size: 11pt;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+
+    .names {
+      font-size: 9pt;
+      letter-spacing: 0.05em;
+    }
+
+    .address {
+      font-size: 6.5pt;
+      color: #555;
+    }
+
+    @media print {
+      body {
+        background: none;
+      }
+
+      .print-button {
+        display: none;
+      }
+
+      .card {
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="print-button" onclick="window.print()">印刷する</button>
+
+  <div class="card">
+    <div class="photo">
+      <div class="logo">
+        <img src="../frontend/src/assets/logo.svg" alt="">
+        <span>勾当台夕方内科クリニック</span>
+      </div>
+      <div class="inset"><img src="photos/two-shot.jpeg" alt=""></div>
+      <div class="photo-title">謹賀新年</div>
+    </div>
+
+    <div class="body">
+      <p class="greeting">
+        旧年中は格別のご厚情を賜り<br>
+        厚く御礼申し上げます<br>
+        本年もどうぞよろしくお願い申し上げます
+      </p>
+      <p class="date">令和九年　元旦</p>
+
+      <div class="memo"></div>
+
+      <div class="sender">
+        <div class="clinic-name">勾当台夕方内科クリニック</div>
+        <div class="names">院長　田村　慧人</div>
+        <div class="address">〒980-0803　仙台市青葉区国分町3-8-1 勾当台ビル4F　TEL 022-393-8689</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

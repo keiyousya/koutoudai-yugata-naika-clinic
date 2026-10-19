@@ -13,6 +13,7 @@ import CauseGrid from '../../components/CauseGrid.astro';
 import CauseCard from '../../components/CauseCard.astro';
 import ArticleTable from '../../components/ArticleTable.astro';
 import ArticleFigure from '../../components/ArticleFigure.astro';
+import Callout from '../../components/Callout.astro';
 import symptomInfluenza from '../../assets/articles/influenza-covid/symptom-influenza.png';
 import symptomCovid from '../../assets/articles/influenza-covid/symptom-covid.png';
 import rapidTest from '../../assets/articles/influenza-covid/rapid-test.png';
@@ -26,7 +27,7 @@ import rapidTest from '../../assets/articles/influenza-covid/rapid-test.png';
   <CauseCard image={symptomCovid} title="新型コロナ">のどの痛み、鼻水、咳、熱など、かぜに似た症状が中心。<a href="https://www.kansensho.or.jp/uploads/files/topics/2019ncov/covid_251017.pdf" target="_blank" rel="noopener noreferrer">においや味がわからなくなることは、今ではまれ</a></CauseCard>
 </CauseGrid>
 
-症状だけではどちらか見分けられないため、迅速検査で調べます。どちらでもなければ、かぜなどほかの原因を考えます（<a href="/articles/common-cold">かぜ</a>のページもご覧ください）。
+症状だけではどちらか見分けられないため、迅速検査で調べます。どちらでもなければ、<a href="/articles/common-cold">かぜ</a>などほかの原因を考えます。
 
 ## 検査を受けるタイミング
 
@@ -36,7 +37,10 @@ import rapidTest from '../../assets/articles/influenza-covid/rapid-test.png';
 
 - **熱が出てすぐ（特に半日以内）は、かかっていても陰性に出やすい**検査です。検査は、熱が出てから半日〜1日ほどたってからのほうが正確です
 - 陰性でも、かかっていないとは言い切れません。流行状況や症状と合わせて判断します
-- 「陰性証明書」や「治ったことの証明書」のための検査は必要ありません。厚生労働省も、<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/kekkaku-kansenshou/infulenza/QA2026.html" target="_blank" rel="noopener noreferrer">学校や職場がこうした証明書の提出を求める必要はない</a>としています
+
+<Callout label="陰性証明書について">
+「陰性証明書」や「治ったことの証明書」のための検査は必要ありません。厚生労働省も、<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/kekkaku-kansenshou/infulenza/QA2026.html" target="_blank" rel="noopener noreferrer">学校や職場がこうした証明書の提出を求める必要はない</a>としています。
+</Callout>
 
 ## 抗ウイルス薬
 

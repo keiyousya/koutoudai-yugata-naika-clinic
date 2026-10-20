@@ -4,25 +4,45 @@ import HealthIcon from "./HealthIcon.astro";
 interface Props {
   icon?: string;
   title: string;
-  variant?: "turquoise" | "outlined" | "coral";
+  variant?: "turquoise" | "outlined" | "coral" | "outlined-coral";
+  collapsible?: boolean;
 }
 
-const { icon, title, variant = "turquoise" } = Astro.props;
+const { icon, title, variant = "turquoise", collapsible = false } = Astro.props;
 ---
 
-<div class:list={["info-card", `info-card--${variant}`]}>
-  <div class="info-card__header">
-    {icon && (
-      <span class="info-card__icon">
-        <HealthIcon name={icon} size={28} />
-      </span>
-    )}
-    <h4 class="info-card__title">{title}</h4>
+{collapsible ? (
+  <div class:list={["info-card", "info-card--collapsible", `info-card--${variant}`]}>
+    <button type="button" class="info-card__header info-card__toggle" aria-expanded="false">
+      {icon && (
+        <span class="info-card__icon">
+          <HealthIcon name={icon} size={28} />
+        </span>
+      )}
+      <h4 class="info-card__title">{title}</h4>
+      <span class="info-card__chevron" />
+    </button>
+    <div class="info-card__collapse">
+      <div class="info-card__body">
+        <slot />
+      </div>
+    </div>
   </div>
-  <div class="info-card__body">
-    <slot />
+) : (
+  <div class:list={["info-card", `info-card--${variant}`]}>
+    <div class="info-card__header">
+      {icon && (
+        <span class="info-card__icon">
+          <HealthIcon name={icon} size={28} />
+        </span>
+      )}
+      <h4 class="info-card__title">{title}</h4>
+    </div>
+    <div class="info-card__body">
+      <slot />
+    </div>
   </div>
-</div>
+)}
 
 <style>
   .info-card {
@@ -40,6 +60,11 @@ const { icon, title, variant = "turquoise" } = Astro.props;
     border: 1px solid var(--color-turquoise);
   }
 
+  .info-card--outlined-coral {
+    background: white;
+    border: 1px solid var(--color-coral);
+  }
+
   .info-card--coral {
     background: var(--color-coral-bg);
     border: 1px solid var(--color-coral);
@@ -50,6 +75,85 @@ const { icon, title, variant = "turquoise" } = Astro.props;
     align-items: center;
     gap: 12px;
     margin-bottom: 12px;
+  }
+
+  /* collapsible */
+  .info-card__toggle {
+    all: unset;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .info-card--collapsible {
+    padding: 16px 20px;
+  }
+
+  .info-card--collapsible .info-card__header {
+    margin-bottom: 0;
+  }
+
+  .info-card__chevron {
+    margin-left: auto;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
+
+  .info-card--coral .info-card__chevron,
+  .info-card--outlined-coral .info-card__chevron {
+    background: white;
+  }
+
+  .info-card--turquoise .info-card__chevron,
+  .info-card--outlined .info-card__chevron {
+    background: white;
+  }
+
+  .info-card__chevron::after {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--color-coral);
+    border-bottom: 2px solid var(--color-coral);
+    transform: rotate(45deg);
+    margin-top: -3px;
+  }
+
+  .info-card--turquoise .info-card__chevron::after,
+  .info-card--outlined .info-card__chevron::after {
+    border-color: var(--color-turquoise);
+  }
+
+  .info-card--collapsible.is-open .info-card__chevron {
+    transform: rotate(180deg);
+  }
+
+  .info-card__collapse {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .info-card--collapsible.is-open .info-card__collapse {
+    grid-template-rows: 1fr;
+  }
+
+  .info-card__collapse > .info-card__body {
+    overflow: hidden;
+  }
+
+  .info-card--collapsible.is-open .info-card__collapse > .info-card__body {
+    padding-top: 12px;
   }
 
   .info-card__icon {
@@ -70,6 +174,11 @@ const { icon, title, variant = "turquoise" } = Astro.props;
   .info-card--outlined .info-card__icon {
     background: var(--color-turquoise-bg);
     color: var(--color-turquoise);
+  }
+
+  .info-card--outlined-coral .info-card__icon {
+    background: var(--color-coral-bg);
+    color: var(--color-coral);
   }
 
   .info-card--coral .info-card__icon {
@@ -116,7 +225,8 @@ const { icon, title, variant = "turquoise" } = Astro.props;
     border: 1px solid var(--color-turquoise);
   }
 
-  .info-card--coral .info-card__body :global(.condition-tag) {
+  .info-card--coral .info-card__body :global(.condition-tag),
+  .info-card--outlined-coral .info-card__body :global(.condition-tag) {
     color: var(--color-coral);
     border: 1px solid var(--color-coral);
   }
@@ -180,6 +290,10 @@ const { icon, title, variant = "turquoise" } = Astro.props;
       padding: 22px 18px;
     }
 
+    .info-card--collapsible {
+      padding: 14px 16px;
+    }
+
     .info-card__title {
       font-size: 0.9rem;
     }
@@ -190,3 +304,13 @@ const { icon, title, variant = "turquoise" } = Astro.props;
     }
   }
 </style>
+
+<script>
+  document.querySelectorAll('.info-card__toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.info-card--collapsible')!;
+      const isOpen = card.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(isOpen));
+    });
+  });
+</script>

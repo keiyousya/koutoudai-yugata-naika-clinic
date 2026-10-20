@@ -99,7 +99,7 @@ import InfoCard from "./InfoCard.astro";
           </div>
 
           <div id="fever">
-          <InfoCard icon="devices/thermometer" title="発熱外来・発熱患者等の受入れについて" variant="outlined">
+          <InfoCard icon="devices/thermometer" title="発熱外来について" variant="outlined-coral" collapsible>
             <p>
               <strong>発熱外来は平日（月・水〜金）19:00〜21:00、土日17:00〜21:00</strong>です。発熱・咳・喉の痛みなどの症状がある方は、発熱外来の時間帯にご予約ください。インフルエンザ・新型コロナウイルスなどの迅速検査を行っています。
             </p>
@@ -114,33 +114,46 @@ import InfoCard from "./InfoCard.astro";
           </div>
         </div>
 
+        <div class="specialty-area">
+          <div class="specialty-grid">
+            <a href="/allergen-immunotherapy" class="specialty-card-compact">
+              <h4 class="specialty-compact-title">アレルゲン免疫療法</h4>
+              <div class="specialty-compact-icon">
+                <HealthIcon name="symbols/cardiogram" size={48} />
+              </div>
+              <span class="specialty-compact-link">詳しく見る →</span>
+            </a>
+            <a href="/afterpill" class="specialty-card-compact">
+              <h4 class="specialty-compact-title">緊急避妊薬<br />（アフターピル）</h4>
+              <div class="specialty-compact-icon">
+                <HealthIcon name="devices/medicine_bottle" size={48} />
+              </div>
+              <span class="specialty-compact-link">詳しく見る →</span>
+            </a>
+            <a href="/flu-prevention" class="specialty-card-compact">
+              <h4 class="specialty-compact-title">インフルエンザ<br />予防投与</h4>
+              <div class="specialty-compact-icon">
+                <HealthIcon name="medications/pills_2" size={48} />
+              </div>
+              <span class="specialty-compact-link">詳しく見る →</span>
+            </a>
+            <a href="/checkup" class="specialty-card-compact">
+              <h4 class="specialty-compact-title">特定健診・基礎健診</h4>
+              <div class="specialty-compact-icon">
+                <HealthIcon name="objects/health_worker_form" size={48} />
+              </div>
+              <span class="specialty-compact-link">詳しく見る →</span>
+            </a>
+          </div>
+        </div>
+
         <div class="exam-area">
           <h3 class="medical-heading">検査・設備</h3>
           <p class="medical-note">
             院内で実施できる検査のご案内です。
           </p>
           <div class="exam-grid">
-            <InfoCard icon="devices/ultrasound_scanner" title="超音波検査（エコー）" variant="coral">
-              <p class="info-card__description">
-                腹部・腎臓・頸動脈・甲状腺などの検査を行います。
-              </p>
-              <div class="info-card__image-frame media-skeleton">
-                <Image src={echoImage} alt="超音波検査装置" width={320} loading="lazy" class="info-card__image" />
-              </div>
-              <span class="info-card__device">キャノンメディカルシステムズ Aplio go / LE</span>
-            </InfoCard>
-
-            <InfoCard icon="symbols/cardiogram_e" title="12誘導心電図" variant="coral">
-              <p class="info-card__description">
-                不整脈や狭心症など、心臓に関わる症状の評価に用います。
-              </p>
-              <div class="info-card__image-frame media-skeleton">
-                <Image src={ecgImage} alt="12誘導心電図" width={320} loading="lazy" class="info-card__image" />
-              </div>
-              <span class="info-card__device">日本光電 ECG-3250</span>
-            </InfoCard>
-
-            <InfoCard icon="symbols/virus" title="迅速抗原検査" variant="coral">
+            <InfoCard icon="symbols/virus" title="迅速抗原検査" variant="coral" collapsible>
               <p class="info-card__description">
                 院内で短時間に結果が得られる検査です。
               </p>
@@ -152,7 +165,7 @@ import InfoCard from "./InfoCard.astro";
               <p class="info-card__note">※ インフルエンザ予防投与については<a href="/flu-prevention" class="info-card__link--inline">こちら</a></p>
             </InfoCard>
 
-            <InfoCard icon="devices/syringe" title="検体検査" variant="coral">
+            <InfoCard icon="devices/syringe" title="検体検査" variant="coral" collapsible>
               <p class="info-card__description">
                 血液検査・尿検査などは外部検査機関に委託して実施します。<a href="#blood-test" class="info-card__link--inline">結果は後日お伝えいたします。</a>
               </p>
@@ -169,69 +182,29 @@ import InfoCard from "./InfoCard.astro";
               <p class="info-card__note">※ 性感染症はクラミジア・淋菌・梅毒・HIV・B型肝炎の検査が可能です。</p>
               <p class="info-card__note">※ その他、症状に応じて必要な検査を行います。</p>
             </InfoCard>
+
+            <InfoCard icon="symbols/cardiogram_e" title="12誘導心電図" variant="coral" collapsible>
+              <p class="info-card__description">
+                不整脈や狭心症など、心臓に関わる症状の評価に用います。
+              </p>
+              <div class="info-card__image-frame media-skeleton">
+                <Image src={ecgImage} alt="12誘導心電図" width={320} loading="lazy" class="info-card__image" />
+              </div>
+              <span class="info-card__device">日本光電 ECG-3250</span>
+            </InfoCard>
+
+            <InfoCard icon="devices/ultrasound_scanner" title="超音波検査（エコー）" variant="coral" collapsible>
+              <p class="info-card__description">
+                腹部・腎臓・頸動脈・甲状腺などの検査を行います。
+              </p>
+              <div class="info-card__image-frame media-skeleton">
+                <Image src={echoImage} alt="超音波検査装置" width={320} loading="lazy" class="info-card__image" />
+              </div>
+              <span class="info-card__device">キャノンメディカルシステムズ Aplio go / LE</span>
+            </InfoCard>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="section specialty-section specialty-section--turquoise">
-  <div class="container">
-    <div class="about-content">
-      <a href="/allergen-immunotherapy" class="specialty-card">
-        <div class="specialty-icon specialty-icon--turquoise">
-          <HealthIcon name="symbols/cardiogram" size={28} />
-        </div>
-        <h4 class="specialty-title">アレルゲン免疫療法</h4>
-        <p class="specialty-description">スギ花粉症・ダニアレルギーの根本的な体質改善を目指す治療を行っています。</p>
-        <span class="specialty-link specialty-link--turquoise">詳しくはこちら →</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="section specialty-section specialty-section--coral">
-  <div class="container">
-    <div class="about-content">
-      <a href="/afterpill" class="specialty-card">
-        <div class="specialty-icon">
-          <HealthIcon name="devices/medicine_bottle" size={28} />
-        </div>
-        <h4 class="specialty-title">緊急避妊薬（アフターピル）</h4>
-        <p class="specialty-description">避妊に失敗した場合の緊急避妊薬を処方しています。性交後72時間以内の服用が必要です。</p>
-        <span class="specialty-link">詳しくはこちら →</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="section specialty-section specialty-section--turquoise">
-  <div class="container">
-    <div class="about-content">
-      <a href="/flu-prevention" class="specialty-card">
-        <div class="specialty-icon specialty-icon--turquoise">
-          <HealthIcon name="medications/pills_2" size={28} />
-        </div>
-        <h4 class="specialty-title">インフルエンザ予防投与</h4>
-        <p class="specialty-description">ご家族がインフルエンザを発症した、重症化リスクの高い方にオセルタミビルを処方しています。</p>
-        <span class="specialty-link specialty-link--turquoise">詳しくはこちら →</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="section specialty-section specialty-section--coral">
-  <div class="container">
-    <div class="about-content">
-      <a href="/checkup" class="specialty-card">
-        <div class="specialty-icon">
-          <HealthIcon name="objects/health_worker_form" size={28} />
-        </div>
-        <h4 class="specialty-title">特定健診・基礎健診</h4>
-        <p class="specialty-description">仙台市の特定健診（仙台市国保）と基礎健康診査を、平日（月・水・木・金）17時から受けられます。</p>
-        <span class="specialty-link">詳しくはこちら →</span>
-      </a>
     </div>
   </div>
 </section>
@@ -539,76 +512,51 @@ import InfoCard from "./InfoCard.astro";
   }
 
 
-  .specialty-section--turquoise {
-    background: var(--color-turquoise-bg);
+  .specialty-area {
+    margin-top: 48px;
   }
 
-  .specialty-section--coral {
-    background: var(--color-coral-bg);
+  .specialty-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
   }
 
-  .specialty-card {
-    display: block;
-    max-width: 640px;
-    margin: 0 auto;
+  .specialty-card-compact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
     background: white;
+    border: 1px solid var(--color-turquoise);
     border-radius: 16px;
-    padding: 32px 24px;
     text-align: center;
     text-decoration: none;
     transition: box-shadow 0.2s;
   }
 
-  .specialty-section--turquoise .specialty-card {
-    border: 1px solid var(--color-turquoise);
-  }
-
-  .specialty-section--coral .specialty-card {
-    border: 1px solid var(--color-coral);
-  }
-
-  .specialty-card:hover {
+  .specialty-card-compact:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
 
-  .specialty-icon {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 16px;
-    background: var(--color-coral-bg);
-    border-radius: 50%;
+  .specialty-compact-title {
+    flex-grow: 1;
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: var(--color-coral);
-  }
-
-  .specialty-icon--turquoise {
-    background: var(--color-turquoise-bg);
-    color: var(--color-turquoise);
-  }
-
-  .specialty-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--color-navy);
-    margin-bottom: 10px;
+    line-height: 1.4;
   }
 
-  .specialty-description {
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-    line-height: 1.8;
-    margin-bottom: 16px;
+  .specialty-compact-icon {
+    color: var(--color-turquoise);
+    margin: 12px 0 20px;
   }
 
-  .specialty-link {
-    font-size: 0.88rem;
+  .specialty-compact-link {
+    font-size: 0.82rem;
     font-weight: 600;
-    color: var(--color-coral);
-  }
-
-  .specialty-link--turquoise {
     color: var(--color-turquoise);
   }
 
@@ -805,6 +753,7 @@ import InfoCard from "./InfoCard.astro";
   .exam-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    align-items: start;
     gap: 28px;
   }
 
@@ -864,15 +813,20 @@ import InfoCard from "./InfoCard.astro";
     }
 
 
-    .specialty-card {
-      padding: 24px 18px;
+    .specialty-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
-    .specialty-title {
-      font-size: 0.92rem;
+    .specialty-area {
+      margin-top: 32px;
     }
 
-    .specialty-description {
+    .specialty-card-compact {
+      padding: 18px 12px;
+    }
+
+    .specialty-compact-title {
       font-size: 0.82rem;
     }
 

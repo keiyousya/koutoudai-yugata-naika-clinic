@@ -69,11 +69,12 @@ import InfoCard from "./InfoCard.astro";
               </p>
               <ul class="condition-list">
                 <li class="condition-tag"><a href="/articles/hypertension" class="condition-link">高血圧</a></li>
+                <li class="condition-tag"><a href="/articles/dyslipidemia" class="condition-link">コレステロール</a></li>
+                <li class="condition-tag"><a href="/articles/dyslipidemia" class="condition-link">中性脂肪</a></li>
+                <li class="condition-tag">尿酸・痛風</li>
                 <li class="condition-tag"><a href="/articles/diabetes" class="condition-link">糖尿病</a></li>
-                <li class="condition-tag"><a href="/articles/dyslipidemia" class="condition-link">脂質異常症</a></li>
-                <li class="condition-tag">高尿酸血症・痛風</li>
-                <li class="condition-tag">甲状腺疾患</li>
                 <li class="condition-tag">貧血</li>
+                <li class="condition-tag">甲状腺</li>
                 <li class="condition-tag">不眠</li>
                 <li class="condition-tag">睡眠時無呼吸症候群</li>
               </ul>
@@ -84,10 +85,12 @@ import InfoCard from "./InfoCard.astro";
                 夕方以降の急な発熱や体調不良に対応します。
               </p>
               <ul class="condition-list">
-                <li class="condition-tag">発熱・感冒症状</li>
-                <li class="condition-tag">咳・喉の痛み</li>
+                <li class="condition-tag">発熱</li>
+                <li class="condition-tag"><a href="/articles/common-cold" class="condition-link">かぜ症状</a></li>
+                <li class="condition-tag"><a href="/articles/sore-throat" class="condition-link">のど</a></li>
+                <li class="condition-tag"><a href="/articles/cough" class="condition-link">咳</a></li>
                 <li class="condition-tag">腹痛・下痢</li>
-                <li class="condition-tag">花粉症・アレルギー</li>
+                <li class="condition-tag"><a href="/articles/allergic-rhinitis" class="condition-link">花粉症・アレルギー</a></li>
                 <li class="condition-tag">頻尿・排尿時痛</li>
                 <li class="condition-tag">倦怠感・だるさ</li>
                 <li class="condition-tag">動悸</li>
@@ -418,8 +421,7 @@ import InfoCard from "./InfoCard.astro";
 <style>
   .condition-link {
     color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    text-decoration: none;
   }
 
   .condition-link:hover {

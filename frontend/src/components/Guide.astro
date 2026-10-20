@@ -1,0 +1,366 @@
+---
+import HealthIcon from "./HealthIcon.astro";
+---
+
+<section class="section guide-links-section">
+  <div class="container">
+    <div class="about-content">
+      <h3 class="medical-heading">ご利用案内</h3>
+      <div class="guide-accordion">
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="people/person" size={22} />
+            </span>
+            <span class="guide-accordion-label">対象年齢について</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                当院は内科のクリニックのため、<strong>原則として16歳以上</strong>の方を診療の対象としております。
+              </p>
+              <p class="guide-accordion-note">※ 15歳以下の方は、小児科を標榜する医療機関へのご受診をご検討ください。</p>
+              <p class="guide-accordion-note">※ 予防接種（インフルエンザ・新型コロナ）は13歳以上の方から承っております。</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="objects/prescription_document" size={22} />
+            </span>
+            <span class="guide-accordion-label">お薬の処方について</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                当院では原則として<strong>院外処方</strong>となります。<br />
+                近隣の調剤薬局が閉まっている時間帯に限り、急性疾患に対する一部のお薬を<strong>院内でお渡し</strong>できる場合があります。
+              </p>
+              <p class="guide-accordion-note">※ 降圧薬・糖尿病治療薬などの慢性疾患のお薬は院外処方のみとなります。</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="objects/prescription_document" size={22} />
+            </span>
+            <span class="guide-accordion-label">処方箋の再発行について</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                処方箋の再発行は自費にて<strong>660円（税込）</strong>となります。
+              </p>
+              <p class="guide-accordion-note">※ 療養担当規則および診療報酬点数表の通則に基づき、患者様の事由による処方箋の再発行は保険適用外となります。</p>
+              <p class="guide-accordion-note">※ 医師による処方内容の確認が必要なため、お待ちいただく場合がございます。</p>
+              <p class="guide-accordion-note">※ 症状に変化があるなど再診が必要と判断された場合は、保険診療での再診となります。</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="guide-accordion-item" id="blood-test">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="devices/test_tubes" size={22} />
+            </span>
+            <span class="guide-accordion-label">採血検査について</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                当院では採血検体検査をすべて外部検査機関に委託しているため、<strong>検査結果は即日には出ません</strong>。
+              </p>
+              <p class="guide-accordion-note">※ 基本的な項目は翌日以降に結果が出ますが、項目によっては数日かかる場合があります。</p>
+              <p class="guide-accordion-note">※ 検体の回収時間は平日19時・土曜17時です。回収後の検体は次回の回収となるため、結果のお届けまでお時間をいただく場合があります。</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="objects/i_certificate_paper" size={22} />
+            </span>
+            <span class="guide-accordion-label">診断書の発行について</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                診断書は自費にて<strong>一律 5,500円（税込）</strong>で発行いたします。
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="symbols/virus" size={22} />
+            </span>
+            <span class="guide-accordion-label">罹患証明書の発行について</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                インフルエンザ・新型コロナウイルス感染症等にかかったことを証明する<strong>罹患証明書</strong>は、自費にて<strong>1,100円（税込）</strong>で発行いたします。
+              </p>
+              <p class="guide-accordion-note">※ 治癒証明書・陰性証明書は発行しておりません。厚生労働省は企業・学校等に対し、これらの提出を求めないよう要請しています（<a href="https://www.mhlw.go.jp/content/001008879.pdf" target="_blank" rel="noopener noreferrer">厚生労働省 事務連絡 令和4年11月4日・PDF</a>）。</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="objects/credit_card" size={22} />
+            </span>
+            <span class="guide-accordion-label">お支払いについて</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                現金・クレジットカード等キャッシュレス決済に対応しています。
+              </p>
+              <p class="guide-accordion-note">※ マイナ保険証または資格確認書をお忘れの場合は10割負担での現金払いとなります。後日お持ちいただければ差額を返金いたします。</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="guide-accordion-item">
+          <summary class="guide-accordion-summary">
+            <span class="guide-accordion-icon">
+              <HealthIcon name="places/hospital" size={22} />
+            </span>
+            <span class="guide-accordion-label">地域連携</span>
+            <span class="guide-accordion-chevron"></span>
+          </summary>
+          <div class="guide-accordion-body">
+            <div class="guide-accordion-body-inner">
+              <p>
+                当院は地域の基幹病院と連携し、より専門的な検査や治療が必要な場合にスムーズにご紹介できる体制を整えています。
+              </p>
+              <p class="guide-accordion-sub-label">連携医療機関</p>
+              <ul class="guide-accordion-list">
+                <li><a href="https://www.hosp.tohoku.ac.jp/" target="_blank" rel="noopener noreferrer">東北大学病院</a></li>
+                <li><a href="https://nsmc.hosp.go.jp/" target="_blank" rel="noopener noreferrer">仙台医療センター</a></li>
+                <li><a href="https://hospital.city.sendai.jp/" target="_blank" rel="noopener noreferrer">仙台市立病院</a></li>
+                <li><a href="https://www.hosp.tohoku-mpu.ac.jp/" target="_blank" rel="noopener noreferrer">東北医科薬科大学病院</a></li>
+                <li><a href="https://www.openhp.or.jp/" target="_blank" rel="noopener noreferrer">仙台オープン病院</a></li>
+                <li><a href="https://www.tohokuh.johas.go.jp/" target="_blank" rel="noopener noreferrer">東北労災病院</a></li>
+                <li><a href="https://tohokukosai.kkr.or.jp/" target="_blank" rel="noopener noreferrer">東北公済病院</a></li>
+                <li><a href="https://www.sendai.jrc.or.jp/" target="_blank" rel="noopener noreferrer">仙台赤十字病院</a></li>
+              </ul>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('a[href="#blood-test"]').forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const details = document.getElementById("blood-test");
+      if (details) {
+        (details as HTMLDetailsElement).open = true;
+        setTimeout(() => {
+          details.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 100);
+      }
+    });
+  });
+</script>
+
+<style>
+  .guide-links-section {
+    background: white;
+  }
+
+  .about-content {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .medical-heading {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .guide-accordion {
+    display: flex;
+    flex-direction: column;
+    margin-top: 24px;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .guide-accordion-item {
+    border-bottom: 1px solid var(--color-turquoise);
+  }
+
+  .guide-accordion-item:last-child {
+    border-bottom: none;
+  }
+
+  .guide-accordion-summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.2s;
+  }
+
+  .guide-accordion-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    .guide-accordion-summary:hover {
+      background: var(--color-turquoise-bg);
+    }
+  }
+
+  .guide-accordion-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--color-turquoise-bg);
+    border-radius: 10px;
+    color: var(--color-turquoise);
+  }
+
+  .guide-accordion-label {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: 1.4;
+  }
+
+  .guide-accordion-chevron {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--color-text-muted);
+    border-bottom: 2px solid var(--color-text-muted);
+    transform: rotate(45deg);
+    transition: transform 0.2s;
+  }
+
+  .guide-accordion-item[open] .guide-accordion-chevron {
+    transform: rotate(-135deg);
+  }
+
+  .guide-accordion-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease;
+    padding: 0 24px 0 76px;
+  }
+
+  .guide-accordion-item[open] .guide-accordion-body {
+    grid-template-rows: 1fr;
+  }
+
+  .guide-accordion-body-inner {
+    overflow: hidden;
+  }
+
+  .guide-accordion-item[open] .guide-accordion-body-inner {
+    padding-bottom: 24px;
+  }
+
+  .guide-accordion-body p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .guide-accordion-body p strong {
+    color: var(--color-navy);
+    font-weight: 700;
+  }
+
+  .guide-accordion-note {
+    font-size: 0.78rem !important;
+    margin-top: 10px;
+  }
+
+  .guide-accordion-sub-label {
+    font-size: 0.82rem !important;
+    font-weight: 500;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  .guide-accordion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 1.2em;
+    list-style: disc;
+  }
+
+  .guide-accordion-list li {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  .guide-accordion-note a {
+    color: var(--color-navy);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.2s;
+  }
+
+  .guide-accordion-note a:hover {
+    opacity: 0.7;
+  }
+
+  .guide-accordion-list a {
+    color: var(--color-navy);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .guide-accordion-list a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .guide-accordion-summary {
+      padding: 16px 18px;
+    }
+
+    .guide-accordion-body {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+
+    .guide-accordion-item[open] .guide-accordion-body-inner {
+      padding-bottom: 18px;
+    }
+  }
+</style>

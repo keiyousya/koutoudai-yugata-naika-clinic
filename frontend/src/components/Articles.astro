@@ -2,10 +2,9 @@
 import { getCollection } from "astro:content";
 import ArticleIcon from "./ArticleIcon.astro";
 
-// トップページには生活習慣病の先頭4件だけ出し、残りは一覧ページへの導線にする
+// トップページには先頭4件だけ出し、残りは一覧ページへの導線にする
 const TOP_COUNT = 4;
 const articles = (await getCollection("articles"))
-  .filter((a) => a.data.category === "生活習慣病")
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, TOP_COUNT);
 ---

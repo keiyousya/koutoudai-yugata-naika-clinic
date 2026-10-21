@@ -197,6 +197,11 @@
       cursor: pointer;
     }
 
+    /* 同時接種の但し書きは長く、欄に収まらないので文字を詰める */
+    .proviso select.fill.is-long {
+      font-size: 8.5pt;
+    }
+
     /* .fill の display が hidden 属性より優先されてしまうのを防ぐ */
     .proviso input.fill[hidden] {
       display: none;
@@ -317,7 +322,9 @@
       但し
       <select id="proviso-kind" class="fill" aria-label="但し書き">
         <option value=""></option>
-        <option>予防接種料</option>
+        <option>インフルエンザ予防接種料</option>
+        <option>新型コロナウイルス感染症予防接種料</option>
+        <option>インフルエンザ・新型コロナウイルス感染症予防接種料</option>
         <option>文書料</option>
         <option>処方料</option>
         <option value="free">自由記載</option>
@@ -367,6 +374,7 @@
     provisoKind.addEventListener("change", () => {
       const isFree = provisoKind.value === "free";
       provisoKind.parentElement.classList.toggle("is-free", isFree);
+      provisoKind.classList.toggle("is-long", provisoKind.value.length > 20);
       provisoFree.hidden = !isFree;
       if (isFree) provisoFree.focus();
     });

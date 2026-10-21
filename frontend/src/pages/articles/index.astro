@@ -9,11 +9,22 @@ import { getCollection } from "astro:content";
 const articles = (await getCollection("articles")).sort(
   (a, b) => a.data.order - b.data.order,
 );
+
+const groups = [
+  { label: "急な体調不良", id: "acute" },
+  { label: "くり返す・続く症状", id: "chronic" },
+  { label: "健診の数値が気になる", id: "checkup" },
+] as const;
+
+const grouped = groups.map((g) => ({
+  ...g,
+  articles: articles.filter((a) => a.data.category === g.label),
+}));
 ---
 
 <Layout
   title="病気について知る | 勾当台夕方内科クリニック"
-  description="高血圧・糖尿病・熱中症など、さまざまな病気の原因・症状・治療法について、わかりやすく解説しています。"
+  description="かぜ・インフルエンザから高血圧・糖尿病まで、当院で診ている病気の症状・原因・治療をまとめています。"
 >
   <Header />
   <main class="articles-main">
@@ -21,18 +32,23 @@ const articles = (await getCollection("articles")).sort(
 
     <section class="articles-content">
       <div class="container">
-        <div class="articles-grid">
-          {articles.map((article) => (
-            <a href={`/articles/${article.id}`} class="article-card">
-              <h2 class="card-title">{article.data.title}</h2>
-              <p class="card-title-en">{article.data.titleEn}</p>
-              <div class="card-icon">
-                <ArticleIcon icon={article.data.icon} size={56} />
-              </div>
-              <span class="card-more">詳しく見る →</span>
-            </a>
-          ))}
-        </div>
+        {grouped.map((group) => (
+          <div class="article-group" id={group.id}>
+            <h2 class="group-heading">{group.label}</h2>
+            <div class="articles-grid">
+              {group.articles.map((article) => (
+                <a href={`/articles/${article.id}`} class="article-card">
+                  <h3 class="card-title">{article.data.title}</h3>
+                  <p class="card-title-en">{article.data.titleEn}</p>
+                  <div class="card-icon">
+                    <ArticleIcon icon={article.data.icon} size={56} />
+                  </div>
+                  <span class="card-more">詳しく見る →</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
 
@@ -57,12 +73,29 @@ const articles = (await getCollection("articles")).sort(
     padding: 80px 0;
   }
 
+  .article-group {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .article-group + .article-group {
+    margin-top: 56px;
+  }
+
+  .group-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-bottom: 20px;
+    padding-left: 14px;
+    border-left: 3px solid var(--color-turquoise);
+    line-height: 1.4;
+  }
+
   .articles-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
-    max-width: 800px;
-    margin: 0 auto;
   }
 
   .article-card {
@@ -143,6 +176,15 @@ const articles = (await getCollection("articles")).sort(
   @media (max-width: 768px) {
     .articles-content {
       padding: 60px 0;
+    }
+
+    .article-group + .article-group {
+      margin-top: 40px;
+    }
+
+    .group-heading {
+      font-size: 1rem;
+      margin-bottom: 14px;
     }
 
     .articles-grid {

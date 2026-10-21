@@ -3,10 +3,10 @@ title: "咳"
 seoTitle: "咳が止まらない・長引く咳の原因と抗生物質が必要なとき（気管支炎・咳喘息）｜仙台市青葉区 平日夕方・土日も通える内科｜勾当台夕方内科クリニック"
 titleEn: "Cough"
 catchphrase: "かぜのあとの咳は、2〜3週間続くこともよくあります。3週間を超えて続く咳は、かぜ以外の原因を考えます。"
-description: "咳（急性気管支炎・長引く咳）の原因、かぜの咳が続く期間、抗菌薬（抗生物質）が必要になるとき、百日咳・マイコプラズマ、咳喘息や胃酸の逆流など長引く咳の原因、受診の目安を、厚生労働省「抗微生物薬適正使用の手引き」や日本呼吸器学会「咳嗽・喀痰の診療ガイドライン」に沿ってわかりやすく解説します。"
+description: "咳（急性気管支炎・長引く咳）について、厚生労働省「抗微生物薬適正使用の手引き」や日本呼吸器学会の診療ガイドラインに沿って、かぜの咳が続く期間、抗菌薬が必要になるとき、長引く咳の原因と受診の目安をまとめています。"
 icon: "conditions/coughing_alt"
 order: 4
-category: "呼吸器・感染症"
+category: "急な体調不良"
 date: "2026.10.17"
 ---
 import CauseGrid from '../../components/CauseGrid.astro';
@@ -41,7 +41,7 @@ import causeTuberculosis from '../../assets/articles/cough/cause-tuberculosis.pn
 
 かぜのあとに咳だけが続く状態や、咳が中心のかぜを、<ruby>急性気管支炎<rp>（</rp><rt>きゅうせいきかんしえん</rt><rp>）</rp></ruby>と呼びます。<a href="https://www.mhlw.go.jp/content/10900000/001630903.pdf" target="_blank" rel="noopener noreferrer">原因の9割以上はウイルスで、咳は平均して2〜3週間続きます</a>。熱が下がって元気になっても、咳だけがしばらく残るのはよくあることです。
 
-<ruby>抗菌薬<rp>（</rp><rt>こうきんやく</rt><rp>）</rp></ruby>（<ruby>抗生物質<rp>（</rp><rt>こうせいぶっしつ</rt><rp>）</rp></ruby>）を飲んでも、<a href="https://www.cochrane.org/evidence/CD000245_antibiotic-treatment-people-acute-bronchitis" target="_blank" rel="noopener noreferrer">咳が治まるのは平均で半日ほど早くなるだけで、吐き気や下痢などの副作用は増える</a>ことがわかっています。そのため、持病のない方の気管支炎には、抗菌薬は勧められていません。
+<ruby>抗菌薬<rp>（</rp><rt>こうきんやく</rt><rp>）</rp></ruby>（<ruby>抗生物質<rp>（</rp><rt>こうせいぶっしつ</rt><rp>）</rp></ruby>）を飲んでも、<a href="https://www.cochrane.org/evidence/CD000245_antibiotic-treatment-people-acute-bronchitis" target="_blank" rel="noopener noreferrer">咳が治まるのは平均で半日ほど早くなるだけで、吐き気や下痢などの副作用は増えます</a>。そのため、持病のない方の気管支炎には、抗菌薬は勧められていません。
 
 <Callout label="よくある誤解">
 **黄色や緑色の痰が出ても、細菌が原因とは限りません**。痰の色では、細菌かウイルスかを見分けることはできません。ウイルスによる気管支炎でも、痰に色がつくことはよくあります。
@@ -68,7 +68,7 @@ import causeTuberculosis from '../../assets/articles/cough/cause-tuberculosis.pn
 
 ## 長引く咳（3週間以上）の主な原因
 
-3週間を超えて続く咳は、かぜのあとの咳のほかに、次のような原因を考えます。日本では、<a href="https://www.jstage.jst.go.jp/article/numa/85/2/85_59/_pdf" target="_blank" rel="noopener noreferrer">長引く咳の原因として咳喘息がいちばん多い</a>とされています。原因が2つ以上重なっていることもあります。
+3週間を超えて続く咳は、かぜのあとの咳のほかに、次のような原因を考えます。日本では、<a href="https://www.jstage.jst.go.jp/article/numa/85/2/85_59/_pdf" target="_blank" rel="noopener noreferrer">長引く咳の原因として咳喘息がいちばん多い</a>と報告されています。原因が2つ以上重なっていることもあります。
 
 <CauseGrid variant="positive">
   <CauseCard image={causePostInfectious} title="かぜのあとの咳">かぜが治ったあとも気道が敏感になっていて、咳だけが残る。多くは自然に良くなっていく</CauseCard>
@@ -85,28 +85,13 @@ import causeTuberculosis from '../../assets/articles/cough/cause-tuberculosis.pn
 
 ## 受診の目安
 
-<ArticleTable>
-<table>
-  <thead>
-    <tr><th>こんなとき</th><th>受診の目安</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>息が苦しい、横になれないほど苦しい、唇や顔色が悪い、胸が強く痛む</strong></td><td><strong>すぐに救急外来へ（救急車 119番）</strong></td></tr>
-    <tr><td>高い熱が続く、息が速い・苦しい</td><td>当日中に、胸部X線を撮れる医療機関を受診（肺炎のことがあります）</td></tr>
-    <tr><td>血の混じった痰が出る。咳が2週間以上続き、微熱・体重減少・寝汗がある</td><td>早めに、胸部X線を撮れる医療機関を受診（結核や肺の病気を調べます）</td></tr>
-    <tr><td>激しい咳込みが続く、咳込んだあとに吐く、家族も同じような咳をしている</td><td>受診してください（百日咳のことがあります）</td></tr>
-    <tr><td>咳が3週間以上続く</td><td>受診してください（かぜ以外の原因を考えます）</td></tr>
-  </tbody>
-</table>
-</ArticleTable>
+**息が苦しい、横になれないほど苦しい、唇や顔色が悪い、胸が強く痛む**ときは、すぐに救急車（119番）を呼んでください。
 
-## 当院でできること
+次のようなときは、医療機関を受診してください。
 
-- 咳が続いている期間や症状、診察から、**抗菌薬が必要な咳かどうか**を見極めます
-- 必要に応じて、**インフルエンザ・新型コロナ・マイコプラズマの迅速検査**を行います
-- かぜや気管支炎の咳には、**症状を和らげる薬**を処方し、咳がどのくらい続くかの見通しと、**どうなったら再受診するか**をお伝えします
-- 長引く咳は、問診から咳喘息や胃酸の逆流などの原因を考え、**吸入薬などで治療しながら原因を確かめます**
+- 高い熱が続く、息が速い・苦しい（当日中に、胸部X線を撮れる医療機関を受診。肺炎のことがあります）
+- 血の混じった痰が出る。咳が2週間以上続き、微熱・体重減少・寝汗がある（早めに、胸部X線を撮れる医療機関を受診。結核や肺の病気を調べます）
+- 激しい咳込みが続く、咳込んだあとに吐く、家族も同じような咳をしている（百日咳のことがあります）
+- 咳が3週間以上続く（かぜ以外の原因を考えます）
 
 かぜ全般については<a href="/articles/common-cold">かぜ</a>のページもご覧ください。
-
-当院は**平日は17時から、土日は14時から**診療しています（予約制）。仕事帰りや週末の体調不良も、お気軽にご相談ください。

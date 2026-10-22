@@ -190,7 +190,7 @@ CREATE INDEX IF NOT EXISTS idx_shift_assignments_date ON shift_assignments(date)
 
 | 種別 | 識別ヘッダ | 用途 |
 |------|------------|------|
-| `staffAuth` | `X-Staff-Id` + `X-Staff-Passcode` | スタッフ本人操作（自分の希望提出 / 確定シフト閲覧） |
+| `staffAuth` | `X-Staff-Id` + `X-Staff-Passcode` | スタッフ本人操作（自分の希望提出） |
 | `adminAuth` | `X-Admin-API-Key` | 管理画面 + CLI（既存 `ADMIN_API_KEY` を流用） |
 
 `staffAuth` はリクエスト都度サーバー側で `passcode_hash` と照合。クッキー / セッションは持たず、SPA 側はログイン時にスタッフ ID + パスコード平文を `sessionStorage` に保持して各リクエストで送る方式（タイムカード同様の軽量運用）。
@@ -207,7 +207,6 @@ CREATE INDEX IF NOT EXISTS idx_shift_assignments_date ON shift_assignments(date)
 | `GET` | `/api/shift/periods/:month` | なし | 提出締切ロック状況、公開状況を返す |
 | `GET` | `/api/shift/requests/me?month=YYYY-MM` | staffAuth | 自分の希望一覧 |
 | `PUT` | `/api/shift/requests/me` | staffAuth | 自分の希望を一括上書き（締切後は 423 Locked） |
-| `GET` | `/api/shift/assignments?month=YYYY-MM` | staffAuth | 公開済みの確定シフトを取得（未公開なら 404） |
 
 #### 管理者・CLI 向け
 
@@ -328,9 +327,9 @@ shift-cli assignments unpublish --month 2026-06
 - 一括「全営業日 ○」ボタン
 
 #### 3. 確定シフト閲覧 (`/view`)
-- 月ナビゲーション
-- 公開済みなら全スタッフのカレンダー表示
-- 未公開なら「シフトはまだ公開されていません」と表示
+- 確定シフトは **LINE WORKS のカレンダー（「看護師シフト」「受付事務シフト」）を唯一の正**とする（2026-10）。スタッフにはアプリから確定シフトを返さない（スタッフ向け `GET /api/shift/assignments` は廃止）
+- この画面は「シフトは LINE WORKS のカレンダーから確認してください」という案内だけを出す
+- 管理者は引き続き `/admin/*` から確定シフトをカレンダー形式で閲覧・編集できる
 
 ### 管理者向け（`/admin/*`）
 

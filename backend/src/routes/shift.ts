@@ -511,54 +511,6 @@ shift.get("/requests/me", staffAuth, async (c) => {
   });
 });
 
-// 公開済み確定シフトを取得
-shift.get("/assignments", staffAuth, async (c) => {
-  const db = c.get("db");
-  const month = c.req.query("month");
-
-  if (!month || !/^\d{4}-\d{2}$/.test(month)) {
-    return c.json({ error: "month パラメータ (YYYY-MM) が必要です" }, 400);
-  }
-
-  // 公開状況を確認
-  const periodResult = await db.execute({
-    sql: "SELECT published_at FROM shift_periods WHERE month = ?",
-    args: [month],
-  });
-
-  if (periodResult.rows.length === 0 || !periodResult.rows[0].published_at) {
-    return c.json({ error: "シフトはまだ公開されていません" }, 404);
-  }
-
-  const publishedAt = periodResult.rows[0].published_at;
-
-  // 確定シフトを取得
-  const result = await db.execute({
-    sql: `SELECT a.date, a.slot, a.role, a.staff_id, s.name as staff_name
-          FROM shift_assignments a
-          JOIN shift_staff s ON a.staff_id = s.id
-          WHERE a.date LIKE ?
-          ORDER BY a.date, a.slot, a.role`,
-    args: [`${month}%`],
-  });
-
-  const assignments = result.rows.map((row) => ({
-    date: row.date,
-    slot: row.slot,
-    role: row.role,
-    staff: {
-      id: row.staff_id,
-      name: row.staff_name,
-    },
-  }));
-
-  return c.json({
-    month,
-    published_at: publishedAt,
-    assignments,
-  });
-});
-
 // 自分の希望を月単位で一括上書き
 shift.put("/requests/me", staffAuth, async (c) => {
   const db = c.get("db");

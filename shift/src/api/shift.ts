@@ -52,22 +52,6 @@ interface MyRequestsResponse {
   requests: RequestItem[];
 }
 
-interface AssignmentItem {
-  date: string;
-  slot: "day" | "evening";
-  role: "nurse" | "clerk";
-  staff: {
-    id: number;
-    name: string;
-  };
-}
-
-interface AssignmentsResponse {
-  month: string;
-  published_at: string;
-  assignments: AssignmentItem[];
-}
-
 // 公開API（認証不要）
 export async function fetchStaffList(): Promise<Staff[]> {
   const res = await fetch(`${API_BASE}/api/shift/staff`);
@@ -136,17 +120,6 @@ export async function updateMyRequests(
   return res.json();
 }
 
-export async function fetchAssignments(month: string): Promise<AssignmentsResponse> {
-  const res = await fetch(`${API_BASE}/api/shift/assignments?month=${month}`, {
-    headers: getAuthHeaders(),
-  });
-  if (res.status === 404) {
-    throw new Error("シフトはまだ公開されていません");
-  }
-  if (!res.ok) throw new Error("シフトの取得に失敗しました");
-  return res.json();
-}
-
 interface MyProfileResponse {
   id: number;
   name: string;
@@ -185,7 +158,5 @@ export type {
   PeriodResponse,
   RequestItem,
   MyRequestsResponse,
-  AssignmentItem,
-  AssignmentsResponse,
   MyProfileResponse,
 };

@@ -1,8 +1,6 @@
 import { createRoute, useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Route as rootRoute } from "./__root";
-import { fetchCalendar, fetchAssignments, type AssignmentItem } from "@/api/shift";
 import { useAuthStore } from "@/stores/auth";
 
 export const Route = createRoute({
@@ -11,70 +9,16 @@ export const Route = createRoute({
   component: ViewPage,
 });
 
-function getCurrentMonth(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  return `${year}-${month}`;
-}
-
+// 確定シフトは LINE WORKS のカレンダーを唯一の正とし、スタッフにはアプリから公開しない
 function ViewPage() {
   const navigate = useNavigate();
-  const { isLoggedIn, staffId, staffName, restore } = useAuthStore();
-  const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
+  const { isLoggedIn, staffName, restore } = useAuthStore();
 
   useEffect(() => {
     if (!isLoggedIn && !restore()) {
       navigate({ to: "/" });
     }
   }, [isLoggedIn, restore, navigate]);
-
-  const { data: calendar, isLoading: calendarLoading } = useQuery({
-    queryKey: ["calendar", selectedMonth],
-    queryFn: () => fetchCalendar(selectedMonth),
-    enabled: isLoggedIn,
-  });
-
-  const {
-    data: assignments,
-    isLoading: assignmentsLoading,
-    error: assignmentsError,
-  } = useQuery({
-    queryKey: ["assignments", selectedMonth],
-    queryFn: () => fetchAssignments(selectedMonth),
-    enabled: isLoggedIn,
-    retry: false,
-  });
-
-  // 月送り
-  const navigateMonth = (delta: number) => {
-    const [year, month] = selectedMonth.split("-").map(Number);
-    const newDate = new Date(year, month - 1 + delta, 1);
-    const newYear = newDate.getFullYear();
-    const newMonth = String(newDate.getMonth() + 1).padStart(2, "0");
-    setSelectedMonth(`${newYear}-${newMonth}`);
-  };
-
-  // 日付・スロットごとの割当をマップ化
-  const assignmentsByDateSlot = useMemo(() => {
-    if (!assignments) return new Map<string, Map<string, { nurse?: AssignmentItem; clerk?: AssignmentItem }>>();
-    const map = new Map<string, Map<string, { nurse?: AssignmentItem; clerk?: AssignmentItem }>>();
-    for (const a of assignments.assignments) {
-      if (!map.has(a.date)) {
-        map.set(a.date, new Map());
-      }
-      const dateMap = map.get(a.date)!;
-      if (!dateMap.has(a.slot)) {
-        dateMap.set(a.slot, {});
-      }
-      const entry = dateMap.get(a.slot)!;
-      entry[a.role] = a;
-    }
-    return map;
-  }, [assignments]);
-
-  const isLoading = calendarLoading || assignmentsLoading;
-  const isNotPublished = assignmentsError?.message === "シフトはまだ公開されていません";
 
   if (!isLoggedIn) {
     return null;
@@ -88,129 +32,15 @@ function ViewPage() {
         </span>
       </div>
 
-      {/* 月ナビゲーション */}
-      <div className="flex items-center justify-between mb-4">
-        <button
-          onClick={() => navigateMonth(-1)}
-          className="p-2 hover:bg-secondary rounded-lg"
-        >
-          ◀
-        </button>
-        <h2 className="text-xl font-bold">{selectedMonth} 確定シフト</h2>
-        <button
-          onClick={() => navigateMonth(1)}
-          className="p-2 hover:bg-secondary rounded-lg"
-        >
-          ▶
-        </button>
+      <div className="border rounded-lg p-6 text-center space-y-3">
+        <h2 className="text-xl font-bold">シフトの確認方法</h2>
+        <p>
+          確定したシフトは <span className="font-bold">LINE WORKS のカレンダー</span> から確認してください。
+        </p>
+        <p className="text-sm text-muted-foreground">
+          「看護師シフト」「受付事務シフト」のカレンダーに表示されます。
+        </p>
       </div>
-
-      {isLoading ? (
-        <div className="text-center py-8">読み込み中...</div>
-      ) : isNotPublished ? (
-        <div className="text-center py-12 text-muted-foreground">
-          シフトはまだ公開されていません
-        </div>
-      ) : assignments ? (
-        <>
-          {assignments.published_at && (
-            <div className="text-center text-sm text-muted-foreground mb-4">
-              公開日: {new Date(assignments.published_at).toLocaleDateString("ja-JP")}
-            </div>
-          )}
-
-          {/* シフト表 */}
-          <div className="border rounded-lg overflow-hidden print:border-black">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-secondary">
-                  <th className="p-2 text-left border-r">日付</th>
-                  <th className="p-2 text-center border-r">曜日</th>
-                  <th className="p-2 text-center border-r">時間帯</th>
-                  <th className="p-2 text-center border-r">看護師</th>
-                  <th className="p-2 text-center">事務</th>
-                </tr>
-              </thead>
-              <tbody>
-                {calendar?.days.flatMap((day) => {
-                  const dateSlotMap = assignmentsByDateSlot.get(day.date);
-                  const date = new Date(day.date);
-                  const dayNum = date.getDate();
-                  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
-                  const weekday = weekdays[date.getDay()];
-                  const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-                  const slots = day.slots || ["evening"];
-                  const slotLabels: Record<string, string> = {
-                    day: "14-17時",
-                    evening: "17-21時",
-                  };
-
-                  if (!day.is_open) {
-                    return (
-                      <tr key={day.date} className="bg-gray-100 text-gray-400">
-                        <td className="p-2 border-r border-t">{dayNum}</td>
-                        <td className="p-2 text-center border-r border-t">{weekday}</td>
-                        <td className="p-2 text-center border-r border-t" colSpan={3}>
-                          休診
-                        </td>
-                      </tr>
-                    );
-                  }
-
-                  return slots.map((slot, slotIdx) => {
-                    const assignment = dateSlotMap?.get(slot);
-                    const isMyNurse = assignment?.nurse?.staff.id === staffId;
-                    const isMyClerk = assignment?.clerk?.staff.id === staffId;
-
-                    return (
-                      <tr key={`${day.date}-${slot}`} className={slotIdx === 0 ? "border-t" : ""}>
-                        {slotIdx === 0 && (
-                          <>
-                            <td className="p-2 border-r" rowSpan={slots.length}>
-                              <span className={isWeekend ? (date.getDay() === 0 ? "text-red-500" : "text-blue-500") : ""}>
-                                {dayNum}
-                              </span>
-                            </td>
-                            <td className={`p-2 text-center border-r ${
-                              date.getDay() === 0 ? "text-red-500" : date.getDay() === 6 ? "text-blue-500" : ""
-                            }`} rowSpan={slots.length}>
-                              {weekday}
-                            </td>
-                          </>
-                        )}
-                        <td className="p-2 text-center border-r text-xs">
-                          {slotLabels[slot]}
-                        </td>
-                        <td className={`p-2 text-center border-r ${isMyNurse ? "bg-yellow-100 font-bold" : ""}`}>
-                          {assignment?.nurse?.staff.name || "-"}
-                        </td>
-                        <td className={`p-2 text-center ${isMyClerk ? "bg-yellow-100 font-bold" : ""}`}>
-                          {assignment?.clerk?.staff.name || "-"}
-                        </td>
-                      </tr>
-                    );
-                  });
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          {/* 凡例 */}
-          <div className="mt-4 text-sm text-muted-foreground print:hidden">
-            <span className="inline-block px-2 py-1 bg-yellow-100 rounded mr-2">黄色</span>
-            は自分の担当日です
-          </div>
-        </>
-      ) : null}
-
-      {/* 印刷スタイル */}
-      <style>{`
-        @media print {
-          body { font-size: 12px; }
-          header, .print\\:hidden { display: none !important; }
-          table { page-break-inside: avoid; }
-        }
-      `}</style>
     </div>
   );
 }

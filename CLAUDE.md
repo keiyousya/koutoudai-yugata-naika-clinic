@@ -103,7 +103,7 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 
 ## 外部サービス
 
-- **LINE WORKS**: フリープランのためBot API / Developer Console 利用不可（トーク送信は不可）。公式の **WORKS MCP**（MCPサーバー `works-mcp`、user scope、利用メンバーは田村慧人のみ）でカレンダー・掲示板・メール・タスク（自分あてのみ）などを操作できる。カレンダーの作成・色・共有設定はMCPでは不可なので Chrome（https://calendar.worksmobile.com/）で行う
+- **LINE WORKS**: フリープランのためBot API / Developer Console 利用不可（トーク送信はMCPでは不可、Chrome で https://talk.worksmobile.com/ を操作）。採用者への入職案内（書類・制服・初回出勤日の候補）は `/nyushoku-annai` スキル。公式の **WORKS MCP**（MCPサーバー `works-mcp`、user scope、利用メンバーは田村慧人のみ）でカレンダー・掲示板・メール・タスク（自分あてのみ）などを操作できる。カレンダーの作成・色・共有設定はMCPでは不可なので Chrome（https://calendar.worksmobile.com/）で行う
 - **helix（電子カルテ）**: https://koutoudai-yugata-naika.helix.keiyousya.com 。Chrome操作で扱う（ログイン済み前提）。診察前準備（問診・検査結果の確認と下書きカルテ作成）は `/shinsatsu-junbi` スキル、カルテ記載・傷病名登録は `/karte` スキル、患者向けお知らせは `/announcement` スキル
 - **WebORCA（レセコン）**: https://weborca.cloud.orcamo.jp/ 。Chrome操作で扱う（ログインはユーザーが手動）。OASCIS登録用の点検用UKEファイルの出力〜匿名化〜OASCIS登録は `/orca-tenken-uke` スキル
 - **TKC（給与計算）**: https://cloud.tkc.co.jp/px/sqru5tu443/tma/gen 。Chrome操作で扱う（ログイン済み前提）。毎月15日支給の給与の入力〜支給確定〜振込依頼書の印刷は `/tkc-kyuyo` スキル

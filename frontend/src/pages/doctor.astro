@@ -7,7 +7,7 @@ import Footer from "../components/Footer.astro";
 
 <Layout
   title="院長紹介 | 勾当台夕方内科クリニック"
-  description="勾当台夕方内科クリニック院長 田村慧人のご紹介。経歴・ご挨拶をご覧いただけます。"
+  description="勾当台夕方内科クリニック院長 田村慧人のご紹介。経歴・所属学会・ご挨拶をご覧いただけます。"
 >
   <Header />
   <main class="page-main">
@@ -29,6 +29,13 @@ import Footer from "../components/Footer.astro";
                   <li>東北大学医学部医学科 卒業</li>
                   <li>独立行政法人地域医療機能推進機構仙台病院</li>
                   <li>勾当台夕方内科クリニック 開院</li>
+                </ul>
+              </div>
+
+              <div class="doctor-qualifications">
+                <h4>所属学会</h4>
+                <ul>
+                  <li>日本内科学会</li>
                 </ul>
               </div>
 
@@ -119,7 +126,39 @@ import Footer from "../components/Footer.astro";
     letter-spacing: 0.1em;
   }
 
+  .doctor-qualifications {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .doctor-qualifications ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 16px;
+  }
+
+  .doctor-qualifications li {
+    position: relative;
+    padding-left: 16px;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .doctor-qualifications li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    background: var(--color-navy-medium);
+    border-radius: 50%;
+  }
+
   .doctor-career h4,
+  .doctor-qualifications h4,
   .doctor-message h4 {
     font-size: 0.9rem;
     color: var(--color-navy);

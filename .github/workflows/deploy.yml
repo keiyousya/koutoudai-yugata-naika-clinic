@@ -90,6 +90,14 @@ jobs:
       - name: Copy facility to frontend dist
         run: cp -r ./facility/dist ./frontend/dist/facility
 
+      - name: Build envelope
+        run: pnpm --filter envelope build
+        env:
+          NODE_ENV: production
+
+      - name: Copy envelope to frontend dist
+        run: cp -r ./envelope/dist ./frontend/dist/envelope
+
       - name: Build slides
         run: pnpm --filter slides build
 

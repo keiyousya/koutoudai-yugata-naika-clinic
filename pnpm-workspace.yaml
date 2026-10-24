@@ -10,6 +10,7 @@ packages:
   - mixer
   - inventory
   - facility
+  - envelope
 allowBuilds:
   esbuild: false
   playwright-chromium: false

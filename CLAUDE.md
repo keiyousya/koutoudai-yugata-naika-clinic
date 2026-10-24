@@ -68,6 +68,13 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 - フロントポート: 5175、ベースパス: `/timecard/`
 - PWA対応、WebUSB NFC読み取り（Sony PaSoRi）
 
+### envelope（封筒印刷）
+
+- フロントポート: 5179、ベースパス: `/envelope/`（バックエンドなし）
+- 長形3号・長形4号に宛名を縦書きで印刷する。HL-L8430CDW の多目的トレイから、ブラウザの印刷ダイアログで出す（ドライバに長3・長4が定形サイズとしてある。角2は幅がトレイの上限215.9mmを超えるので不可）
+- 宛先帳・差出人・位置調整はブラウザの localStorage にだけ保存する（宛先は個人情報なのでリポジトリ・サーバーに置かない）
+- 郵便番号→住所の補完は zipcloud API
+
 ### shisetsu-kijun（施設基準）
 
 - 当院の施設基準の台帳・要件・掲示先を管理する Markdown ディレクトリ（ビルド対象外）

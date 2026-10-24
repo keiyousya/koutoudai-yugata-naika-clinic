@@ -20,6 +20,8 @@
     "build:inventory": "pnpm --filter inventory build",
     "dev:facility": "concurrently \"pnpm --filter backend run dev:facility\" \"pnpm --filter facility dev\"",
     "build:facility": "pnpm --filter facility build",
+    "dev:envelope": "pnpm --filter envelope dev",
+    "build:envelope": "pnpm --filter envelope build",
     "deploy:api": "pnpm --filter backend run deploy"
   },
   "devDependencies": {

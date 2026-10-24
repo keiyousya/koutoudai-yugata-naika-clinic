@@ -40,3 +40,6 @@ filings/kouseikyoku/2026-09-surveillance-kyoka/tsuika-2026-10/
 
 # 年賀状の写真（個人の写真なので公開リポジトリに入れない）
 nengajo/photos/
+
+# 患者番号を含む取り下げ対象一覧（ローカルのみ）
+filings/shiharai-kikin/2026-10-sendai-kodomo-torisage/torisage-taisho.md

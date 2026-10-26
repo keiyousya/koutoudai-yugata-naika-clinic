@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import SubPageHeader from "../components/SubPageHeader.astro";
 import LineCta from "../components/LineCta.astro";
+import LineReservationGuide from "../components/LineReservationGuide.astro";
 import Footer from "../components/Footer.astro";
 
 const pageUrl = "https://koutoudai-yugata-naika.clinic/checkup";
@@ -94,7 +95,7 @@ const faqStructuredData = {
       "name": "朝から何も食べずに行く必要はありますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "いいえ、絶食の必要はありません。当院の健診は夕方のため、中性脂肪は「随時（食後）」の値として測定します。国の特定健診の基準で認められた方法です。昼食はご来院の3時間半以上前に食べ始め、その後は間食や糖分を含む飲み物を控えてください。水やお茶は飲んでいただいて構いません。血糖はHbA1c（ヘモグロビンA1c）で調べるため、食事の影響を受けません。"
+        "text": "いいえ、絶食の必要はありません。中性脂肪は、最後の食事から10時間以上空いていれば「空腹時」、食事を始めてから3時間半以上たっていれば「随時」の値として評価します。随時の値で評価することは、厚生労働省の通知で認められています。昼食はご来院の3時間半以上前に食べ始め、その後は間食や糖分を含む飲み物を控えてください。水やお茶は飲んでいただいて構いません。血糖はHbA1c（ヘモグロビンA1c）で調べるため、食事の影響を受けません。"
       }
     },
     {
@@ -118,7 +119,7 @@ const faqStructuredData = {
       "name": "予約なしで受けられますか？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "予約制のため、ご予約なしでの健診は承っておりません。LINEからご予約ください。"
+        "text": "予約制のため、ご予約なしでの健診は承っておりません。LINEのメニューの「その他予約」から「基礎・特定健診」を選んでご予約ください。当日のご予約は16時まで受け付けています。"
       }
     },
     {
@@ -176,7 +177,7 @@ const breadcrumbStructuredData = {
       <div class="container">
         <p class="intro-text">
           仙台市の<strong>特定健診</strong>と<strong>基礎健康診査</strong>を、<br class="pc-only" />
-          <strong>平日（月・水・木・金）17時から</strong>受けられます。<br class="pc-only" />
+          <strong>平日（月・水・木・金）17時から</strong>、一般内科の診療時間内で受けられます。<br class="pc-only" />
           お仕事帰りに、そのままお越しください。
         </p>
       </div>
@@ -226,8 +227,18 @@ const breadcrumbStructuredData = {
         </p>
         <div class="price-cta">
           <LineCta lines={[
-            "健診は予約制です。LINEからご予約ください。"
+            "健診は予約制です。LINEの「その他予約」→「基礎・特定健診」からご予約ください（当日は16時まで）。"
           ]} />
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" id="reserve">
+      <div class="container">
+        <h2 class="page-section-title">LINEでの予約方法</h2>
+        <p class="section-lead">健診は、メニューの<strong>「一般内科」ではなく「その他予約」</strong>からご予約いただけます。</p>
+        <div class="reserve-guide">
+          <LineReservationGuide variant="checkup" />
         </div>
       </div>
     </section>
@@ -239,11 +250,11 @@ const breadcrumbStructuredData = {
         <dl class="spec-list">
           <div class="spec-row">
             <dt>受付時間</dt>
-            <dd>平日（月・水・木・金）17:00〜18:50<span class="spec-note">火曜日・土日は健診を行っていません。臨時休診は<a href="/#hours" class="ref-link">診療日カレンダー</a>でご確認ください。</span></dd>
+            <dd>平日（月・水・木・金）17:00〜18:50<span class="spec-note">平日の一般内科の診療時間内のみ受け付けます。火曜日・土日、発熱外来の時間帯は健診を行っていません。臨時休診は<a href="/#hours" class="ref-link">診療日カレンダー</a>でご確認ください。</span></dd>
           </div>
           <div class="spec-row">
             <dt>ご予約</dt>
-            <dd>LINEからご予約ください<span class="spec-note">予約制です。ご予約なしでの健診は承っておりません。</span></dd>
+            <dd>LINEの「その他予約」→「基礎・特定健診」からご予約ください<span class="spec-note">予約制です。<strong>当日のご予約は16時まで</strong>受け付けています。ご予約なしでの健診は承っておりません。<a href="#reserve" class="ref-link">LINEでの予約方法</a>もご覧ください。</span></dd>
           </div>
           <div class="spec-row">
             <dt>持ち物</dt>
@@ -274,12 +285,20 @@ const breadcrumbStructuredData = {
         <h2 class="page-section-title">お食事について</h2>
         <div class="info-box">
           <p class="info-text">
-            当院の健診は夕方に行うため、<strong>絶食の必要はありません</strong>。中性脂肪は<strong>「随時（食後）」の値</strong>として測定します。これは<a href="https://www.mhlw.go.jp/content/001131776.pdf" class="ref-link" target="_blank" rel="noopener noreferrer">国の特定健診の基準で認められた方法</a>です。<br />
+            当院の健診は夕方に行うため、<strong>絶食の必要はありません</strong>。脂質（中性脂肪）は、最後のお食事からの時間によって、次のように評価します。
+          </p>
+          <ul class="attention-sublist">
+            <li><strong>最後のお食事から10時間以上空いている方</strong> … 「空腹時」の値として評価します</li>
+            <li><strong>お食事を始めてから3時間半以上たっている方</strong> … 「随時（食後）」の値として評価します</li>
+          </ul>
+          <p class="info-text">
+            随時の値で評価することは、<a href="https://www.mhlw.go.jp/content/001131776.pdf" class="ref-link" target="_blank" rel="noopener noreferrer">厚生労働省の通知</a>で特定健診の方法として認められています。<br />
             正しく測定するため、<strong>昼食はご来院の3時間半以上前に食べ始めて</strong>ください。その後は、間食や糖分を含む飲み物を控えてください。水やお茶は飲んでいただいて構いません。
           </p>
           <p class="info-note">
             ※ 血糖は<strong>HbA1c（ヘモグロビンA1c）</strong>で調べます。過去1〜2か月の血糖の平均を反映する検査のため、当日の食事の影響を受けません。<br />
-            ※ 食事を始めてから3時間半未満で採血すると、中性脂肪を正しく評価できないことがあります。
+            ※ 食事を始めてから3時間半未満で採血すると、中性脂肪を正しく評価できないことがあります。<br />
+            ※ 根拠：厚生労働省「令和６年度以降における特定健康診査及び特定保健指導の実施並びに健診実施機関等により作成された記録の取扱いについて」（令和5年7月31日 一部改正）。空腹時は絶食10時間以上、空腹時以外に採血する場合は食後3時間半以降とされています。
           </p>
         </div>
       </div>
@@ -405,7 +424,7 @@ const breadcrumbStructuredData = {
             <span class="flow-number">1</span>
             <div>
               <strong>LINEでご予約</strong>
-              <p>ご希望の日時を選び、お名前などのご本人情報と問診（食事の時刻・月経の有無）を入力してください。</p>
+              <p>LINEのメニューの「その他予約」から「基礎・特定健診」を選び、ご希望の日時を選んで、お名前などのご本人情報と問診（食事の時刻・月経の有無）を入力してください。当日のご予約は16時まで受け付けています。</p>
             </div>
           </li>
           <li class="flow-item">
@@ -889,6 +908,11 @@ const breadcrumbStructuredData = {
     color: var(--color-coral);
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+
+  .reserve-guide {
+    max-width: 880px;
+    margin: 0 auto;
   }
 
   .flow-list {

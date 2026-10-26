@@ -7,8 +7,9 @@ import selectMenuImage from "../assets/line-guide/select-menu.jpg";
 // general: トップの予約欄向け（友だち追加 → メニューから診療を選ぶ）
 // afterpill: アフターピルページ向け（「その他予約」→「緊急避妊薬」）
 // vaccine: 予防接種ページ向け（「予防接種」→ ワクチンを選ぶ）
+// checkup: 健診ページ向け（「その他予約」→「基礎・特定健診」）
 interface Props {
-  variant?: "general" | "afterpill" | "vaccine";
+  variant?: "general" | "afterpill" | "vaccine" | "checkup";
 }
 
 const { variant = "general" } = Astro.props;
@@ -31,7 +32,8 @@ interface Step {
 const WHOLE_MENU: Highlight = { top: 58.5, left: 1.5, width: 97, height: 31 };
 const OTHER_BUTTON: Highlight = { top: 75.5, left: 33.5, width: 33, height: 13.5 };
 const VACCINE_BUTTON: Highlight = { top: 75.5, left: 2, width: 31.5, height: 13.5 };
-const AFTERPILL_CARD: Highlight = { top: 57, left: 3.2, width: 93.6, height: 13.2 };
+const CHECKUP_CARD: Highlight = { top: 58.6, left: 3.2, width: 93.6, height: 11.6 };
+const AFTERPILL_CARD: Highlight = { top: 86.5, left: 3.2, width: 93.6, height: 13 };
 
 const FRIEND_ADD_STEP: Step = {
   title: "LINEで友だち追加",
@@ -45,8 +47,32 @@ const INPUT_STEP: Step = {
   wide: true,
 };
 
+const OTHER_MENU_STEP: Step = {
+  title: "メニューの「その他予約」をタップ",
+  text: "トーク画面の下にあるメニューから「その他予約」を押します。",
+  image: richMenuImage,
+  alt: "LINEのトーク画面下のメニュー。「その他予約」を押す",
+  highlight: OTHER_BUTTON,
+};
+
 const steps: Step[] =
-  variant === "vaccine"
+  variant === "checkup"
+    ? [
+        FRIEND_ADD_STEP,
+        OTHER_MENU_STEP,
+        {
+          title: "「基礎・特定健診」を選ぶ",
+          text: "診療の一覧から「基礎・特定健診」を押します。",
+          image: selectMenuImage,
+          alt: "診療を選択する画面。「基礎・特定健診」を選ぶ",
+          highlight: CHECKUP_CARD,
+        },
+        {
+          ...INPUT_STEP,
+          text: "平日（月・水・木・金）の17:00〜18:50からご希望の日時を選んだあと、お名前などのご本人情報と問診にお答えいただくと予約完了です。当日のご予約は16時まで承っております。",
+        },
+      ]
+    : variant === "vaccine"
     ? [
         FRIEND_ADD_STEP,
         {
@@ -61,13 +87,7 @@ const steps: Step[] =
     : variant === "afterpill"
     ? [
         FRIEND_ADD_STEP,
-        {
-          title: "メニューの「その他予約」をタップ",
-          text: "トーク画面の下にあるメニューから「その他予約」を押します。",
-          image: richMenuImage,
-          alt: "LINEのトーク画面下のメニュー。「その他予約」を押す",
-          highlight: OTHER_BUTTON,
-        },
+        OTHER_MENU_STEP,
         {
           title: "「緊急避妊薬（アフターピル）」を選ぶ",
           text: "診療の一覧から「緊急避妊薬（アフターピル）」を押します。",

@@ -1,0 +1,1073 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import SubPageHeader from "../components/SubPageHeader.astro";
+import LineCta from "../components/LineCta.astro";
+import LineReservationGuide from "../components/LineReservationGuide.astro";
+import Footer from "../components/Footer.astro";
+
+const pageUrl = "https://koutoudai-yugata-naika.clinic/zoster-vaccine";
+
+// 帯状疱疹ワクチンページ専用の構造化データ
+const pageStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "name": "帯状疱疹ワクチン｜仙台市青葉区｜勾当台夕方内科クリニック",
+  "description": "仙台市青葉区で帯状疱疹ワクチン（シングリックス・生ワクチン）の接種を行っています。任意接種はシングリックス1回22,000円、生ワクチン7,700円（税込）。仙台市の定期接種の対象となる方は自己負担でシングリックス1回11,000円、生ワクチン5,000円。平日は夜19時まで、土日も接種できます。",
+  "keywords": "帯状疱疹ワクチン 仙台, 帯状疱疹ワクチン 仙台市青葉区, シングリックス 仙台, シングリックス 料金 仙台, 帯状疱疹 生ワクチン 仙台, 帯状疱疹ワクチン 定期接種 仙台市, 帯状疱疹ワクチン 65歳 仙台市, 帯状疱疹ワクチン 夜間, 帯状疱疹ワクチン 土日, 帯状疱疹ワクチン 勾当台",
+  "url": pageUrl,
+  "inLanguage": "ja",
+  "about": {
+    "@type": "MedicalCondition",
+    "name": "帯状疱疹",
+    "alternateName": "Herpes zoster"
+  },
+  "medicalAudience": {
+    "@type": "MedicalAudience",
+    "audienceType": "Patient"
+  },
+  "specialty": {
+    "@type": "MedicalSpecialty",
+    "name": "感染症"
+  }
+};
+
+const provider = {
+  "@type": "MedicalClinic",
+  "name": "勾当台夕方内科クリニック",
+  "url": "https://koutoudai-yugata-naika.clinic",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "仙台市青葉区",
+    "addressRegion": "宮城県",
+    "streetAddress": "国分町3丁目8-1 勾当台ビル4階"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday"],
+      "opens": "17:00",
+      "closes": "21:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Saturday", "Sunday"],
+      "opens": "14:00",
+      "closes": "21:00"
+    }
+  ]
+};
+
+const serviceStructuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalProcedure",
+    "name": "帯状疱疹ワクチン（シングリックス）",
+    "alternateName": ["乾燥組換え帯状疱疹ワクチン", "帯状疱疹 不活化ワクチン"],
+    "description": "50歳以上の方などを対象に、組換え帯状疱疹ワクチン「シングリックス」を2か月以上あけて2回接種します。",
+    "howPerformed": "問診・診察の上、シングリックス0.5mLを筋肉内注射（2回）",
+    "availableService": {
+      "@type": "Offer",
+      "price": "22000",
+      "priceCurrency": "JPY",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "22000",
+        "priceCurrency": "JPY",
+        "unitText": "1回"
+      }
+    },
+    "provider": provider
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalProcedure",
+    "name": "帯状疱疹ワクチン（生ワクチン）",
+    "alternateName": ["乾燥弱毒生水痘ワクチン", "帯状疱疹 生ワクチン"],
+    "description": "50歳以上の方を対象に、乾燥弱毒生水痘ワクチン（ビケン）を1回接種します。",
+    "howPerformed": "問診・診察の上、乾燥弱毒生水痘ワクチン0.5mLを皮下注射（1回）",
+    "availableService": {
+      "@type": "Offer",
+      "price": "7700",
+      "priceCurrency": "JPY",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "7700",
+        "priceCurrency": "JPY",
+        "unitText": "1回"
+      }
+    },
+    "provider": provider
+  }
+];
+
+const breadcrumbStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "勾当台夕方内科クリニック",
+      "item": "https://koutoudai-yugata-naika.clinic/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "帯状疱疹ワクチン",
+      "item": pageUrl
+    }
+  ]
+};
+---
+
+<Layout
+  title="帯状疱疹ワクチン シングリックス22,000円・生ワクチン7,700円｜仙台市の定期接種対応｜仙台市青葉区 夜19時・土日も接種｜勾当台夕方内科クリニック"
+  description="仙台市青葉区で帯状疱疹ワクチン（シングリックス・生ワクチン）の接種を行っています。任意接種はシングリックス1回22,000円（2回接種）、生ワクチン7,700円（税込）。仙台市の定期接種の対象となる方は、シングリックス1回11,000円、生ワクチン5,000円の自己負担で接種できます。予約制、平日は夜19時まで、土日も接種可能。勾当台公園駅徒歩2分。"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(pageStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceStructuredData)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbStructuredData)} />
+  <Header />
+  <main class="page-main">
+    <SubPageHeader label="Shingles Vaccination" title="帯状疱疹ワクチン" variant="coral" />
+
+    <section class="page-intro">
+      <div class="container">
+        <p class="intro-text">
+          帯状疱疹ワクチン（<strong>シングリックス</strong>・<strong>生ワクチン</strong>）の接種を行っています。平日は<strong>夜19時まで</strong>、<strong>土日も</strong>接種できます。今年度<strong>65・70・75・80歳など</strong>になる方は、仙台市の定期接種として接種いただけます。
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">帯状疱疹ワクチンの料金</h2>
+        <div class="price-cards">
+          <div class="price-card">
+            <div class="price-card-header">
+              <span class="price-card-badge">50歳以上の方など</span>
+              <h3 class="price-card-title">任意接種</h3>
+              <p class="price-card-lead">ご希望の方が自費で受ける接種</p>
+            </div>
+            <dl class="price-rows">
+              <div class="price-row">
+                <dt>シングリックス<span class="price-row-sub">2回接種</span></dt>
+                <dd><span class="price-number">22,000</span>円<span class="price-unit">／1回</span></dd>
+              </div>
+              <div class="price-row">
+                <dt>生ワクチン<span class="price-row-sub">1回接種</span></dt>
+                <dd><span class="price-number">7,700</span>円<span class="price-unit">／1回</span></dd>
+              </div>
+            </dl>
+            <p class="price-card-note">※ 料金はすべて税込です</p>
+            <p class="price-card-note">※ 保険適用外のため、自費診療となります</p>
+            <p class="price-card-note">※ シングリックスは2回で合計44,000円です</p>
+            <a href="#nini" class="price-card-link">任意接種の詳しいご案内 →</a>
+          </div>
+          <div class="price-card price-card-teiki">
+            <div class="price-card-header">
+              <span class="price-card-badge badge-turquoise">今年度65・70・75歳などになる方</span>
+              <h3 class="price-card-title">定期接種</h3>
+              <p class="price-card-lead">仙台市の費用助成を受けて公費で行う接種</p>
+            </div>
+            <dl class="price-rows">
+              <div class="price-row">
+                <dt>シングリックス<span class="price-row-sub">2回接種</span></dt>
+                <dd><span class="price-number">11,000</span>円<span class="price-label">（自己負担）</span><span class="price-unit">／1回</span></dd>
+              </div>
+              <div class="price-row">
+                <dt>生ワクチン<span class="price-row-sub">1回接種</span></dt>
+                <dd><span class="price-number">5,000</span>円<span class="price-label">（自己負担）</span><span class="price-unit">／1回</span></dd>
+              </div>
+            </dl>
+            <p class="price-card-note">※ 令和9年3月31日（水）までの接種が対象です</p>
+            <p class="price-card-note">※ 市民税非課税世帯の方などは無料です（確認書類の提示が必要）</p>
+            <a href="#teiki" class="price-card-link">定期接種の詳しいご案内 →</a>
+          </div>
+        </div>
+        <div class="price-cta">
+          <LineCta lines={[
+            "LINEのメニューから「その他予約」→「帯状疱疹ワクチン」を選んでご予約ください。"
+          ]} />
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">LINEでの予約方法</h2>
+        <p class="section-lead">帯状疱疹ワクチンは、メニューの<strong>「その他予約」</strong>からご予約いただけます。</p>
+        <div class="reserve-guide">
+          <LineReservationGuide variant="zoster-vaccine" />
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">2種類のワクチンの違い</h2>
+        <p class="section-lead">定期接種・任意接種のどちらでも、2種類のうち1つを選んで接種します。</p>
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr><th></th><th>シングリックス<br /><span class="compare-sub">（組換えワクチン）</span></th><th>生ワクチン<br /><span class="compare-sub">（乾燥弱毒生水痘ワクチン）</span></th></tr>
+            </thead>
+            <tbody>
+              <tr><th>接種回数</th><td><strong>2回</strong>（2か月以上あけて、筋肉注射）</td><td>1回（皮下注射）</td></tr>
+              <tr><th>予防効果<br />（接種後5年）</th><td><strong>9割程度</strong></td><td>4割程度</td></tr>
+              <tr><th>免疫が落ちている方</th><td>接種できます</td><td><strong>接種できません</strong></td></tr>
+              <tr><th>主な副反応</th><td>注射した場所の痛み（約8割）・腫れ、筋肉痛、だるさ、頭痛、発熱など。多くは2〜3日で治まります</td><td>注射した場所の赤み・かゆみ・腫れ</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="source-note">
+          予防効果は厚生労働省の資料によるものです。報告ごとに条件が異なるため、単純な比較はできません。<br />
+          ワクチンの選び方や帯状疱疹については、<a href="/articles/herpes-zoster" class="ref-link">帯状疱疹のページ</a>もご覧ください。
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">共通のご案内</h2>
+        <p class="section-lead">任意接種・定期接種のどちらにも共通する内容です。</p>
+        <dl class="spec-list">
+          <div class="spec-row">
+            <dt>使用ワクチン</dt>
+            <dd>
+              シングリックス筋注用（GSK）、または乾燥弱毒生水痘ワクチン「ビケン」（阪大微研）
+              <span class="spec-note">シングリックスは<strong>2か月以上あけて2回</strong>接種します。1回目から6か月後までに2回目を接種してください。2回目も、LINEからご予約ください。</span>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>接種できる時間</dt>
+            <dd><div class="time-grid"><span class="time-day">平日（月・水〜金）</span><span class="time-range">17:00〜19:00</span><span class="time-day">土日</span><span class="time-range">14:00〜17:00</span></div><p class="spec-attention">予防接種は<strong>一般内科外来の時間帯</strong>で行っています。平日19:00以降・土日17:00以降は発熱外来の時間帯のため、接種は行っていません。</p><span class="spec-note">火曜日は休診です。臨時休診は<a href="/#hours" class="ref-link">診療日カレンダー</a>でご確認ください。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>ご予約</dt>
+            <dd>
+              LINEのメニューから「その他予約」→「帯状疱疹ワクチン」を選んでご予約ください
+              <p class="spec-attention">ワクチンはご予約をいただいてから取り寄せます。<strong>ご予約は接種日の3日前の15時まで</strong>です。ご予約の変更・キャンセルも、接種日の3日前の15時までにお願いします（それ以降はお電話でご連絡ください）。</p>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>予診票</dt>
+            <dd>当院にご用意しています</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise" id="teiki">
+      <div class="container">
+        <h2 class="page-section-title">定期接種（仙台市）</h2>
+        <p class="section-lead">
+          仙台市の費用助成を受けて、公費で行う接種です。<br />
+          当院は<a href="https://www.city.sendai.jp/kenkoanzen-kansen/kurashi/kenkotofukushi/kenkoiryo/kansensho/yobosesshu/teki/taijyouhousinn.html" class="ref-link" target="_blank" rel="noopener noreferrer">仙台市の高齢者帯状疱疹予防接種 登録医療機関</a>です。
+        </p>
+        <dl class="spec-list spec-list-teiki">
+          <div class="spec-row">
+            <dt>対象となる方</dt>
+            <dd>
+              仙台市に住民票のある、次のいずれかに当てはまる方
+              <ul class="attention-sublist">
+                <li>令和8年度中（令和9年3月31日まで）に<strong>65歳・70歳・75歳・80歳・85歳・90歳・95歳・100歳</strong>になる方</li>
+                <li>60〜64歳の方で、ヒト免疫不全ウイルスによる免疫機能に障害のある方（身体障害者手帳1級相当）</li>
+              </ul>
+              <span class="spec-note">70歳以上の方は、令和7〜11年度の5年間に限った経過措置です。<strong>対象の年度を逃すと、その後は定期接種の対象になりません</strong>（任意接種となります）。以前に帯状疱疹にかかったことがある方も対象です。</span>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>自己負担額</dt>
+            <dd>
+              <div class="time-grid"><span class="time-day">シングリックス</span><span class="time-range">1回11,000円（2回で22,000円）</span><span class="time-day">生ワクチン</span><span class="time-range">5,000円</span></div>
+              <span class="spec-note">生活保護世帯の方、市民税非課税世帯の方などは無料です。下の「無料になる方」をご覧ください。</span>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>接種期間</dt>
+            <dd>令和9年3月31日（水）まで
+              <p class="spec-attention">シングリックスで年度内に2回を終えるには、<strong>遅くとも令和9年1月中に1回目</strong>を接種する必要があります。お早めにご予約ください。</p>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>持ち物</dt>
+            <dd>マイナンバーカード・健康保険証などの本人確認書類<span class="spec-note">60〜64歳で障害により対象となる方は、身体障害者手帳もお持ちください。仙台市からの案内ハガキがお手元になくても接種できます。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>接種後</dt>
+            <dd>予防接種済証をお渡しします<span class="spec-note">接種の記録になりますので、大切に保管してください。</span></dd>
+          </div>
+          <div class="spec-row">
+            <dt>健康被害が<br class="pc-only" />生じた場合</dt>
+            <dd>予防接種法に基づく救済制度の対象となることがあります<span class="spec-note">定期接種は予防接種法に基づく接種のため、健康被害が接種によるものと厚生労働大臣が認定したときは、医療費・障害年金等の給付を受けられます。詳しくは<a href="https://www.city.sendai.jp/kenkoanzen-kansen/yobosesshu/images/kenkouhigaikyusaiseido.html" class="ref-link" target="_blank" rel="noopener noreferrer">副反応・予防接種健康被害救済制度について（仙台市）</a>をご覧ください。</span></dd>
+          </div>
+        </dl>
+
+        <h3 class="sub-heading">自己負担金が無料になる方</h3>
+        <div class="info-box">
+          <p class="info-text">
+            次に当てはまる方は、<strong>確認書類を受付でご提示いただくと無料</strong>になります。
+          </p>
+          <ul class="attention-sublist">
+            <li><strong>生活保護世帯の方</strong> … 生活保護費支給票</li>
+            <li><strong>市民税非課税世帯の方</strong> … 令和8年度 仙台市の介護保険料決定通知書（「市町村民税非課税世帯」と記載のあるもの）、または確認通知書（「自己負担金免除対象者です」と記載のあるもの）</li>
+            <li><strong>中国残留邦人等支援給付制度を受給されている方</strong> … 同制度の本人確認証</li>
+          </ul>
+          <p class="info-note">
+            ※ 確認書類のご提示がない場合は、自己負担額をお支払いいただきます。後日ご提示いただいた場合も返金はできませんので、ご注意ください。<br />
+            ※ 介護保険料決定通知書をお持ちでない方は、仙台市への申請で「確認通知書」が届きます（10日程度かかります）。詳しくは<a href="https://www.city.sendai.jp/kenkoanzen-kansen/kurashi/kenkotofukushi/kenkoiryo/kansensho/yobosesshu/yobosesshu/jikohutankinmenjyo.html" class="ref-link" target="_blank" rel="noopener noreferrer">仙台市ホームページ</a>をご覧ください。
+          </p>
+        </div>
+        <p class="source-note">
+          出典：<a href="https://www.city.sendai.jp/kenkoanzen-kansen/kurashi/kenkotofukushi/kenkoiryo/kansensho/yobosesshu/teki/taijyouhousinn.html" class="ref-link" target="_blank" rel="noopener noreferrer">帯状疱疹の予防接種（定期接種）について（仙台市）</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="page-section bg-coral" id="nini">
+      <div class="container">
+        <h2 class="page-section-title">任意接種</h2>
+        <p class="section-lead">定期接種の対象ではない方が、自費で受ける接種です。</p>
+        <dl class="spec-list">
+          <div class="spec-row">
+            <dt>対象となる方</dt>
+            <dd>
+              <ul class="attention-sublist">
+                <li><strong>50歳以上</strong>の方（シングリックス・生ワクチンのどちらも選べます）</li>
+                <li>病気や治療で免疫が落ちていて、帯状疱疹にかかるリスクが高い<strong>18歳以上</strong>の方（シングリックスのみ）</li>
+              </ul>
+              <span class="spec-note">今年度に定期接種の対象となる方は、定期接種で接種いただけます。数年以内に定期接種の対象年齢になる方は、先に任意接種を済ませると原則として定期接種の対象から外れますので、接種の時期に迷う場合はご相談ください。</span>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>料金（税込）</dt>
+            <dd>
+              <div class="time-grid"><span class="time-day">シングリックス</span><span class="time-range">1回22,000円（2回で44,000円）</span><span class="time-day">生ワクチン</span><span class="time-range">7,700円</span></div>
+              <span class="spec-note">保険適用外のため、自費診療となります。</span>
+            </dd>
+          </div>
+          <div class="spec-row">
+            <dt>健康被害が<br class="pc-only" />生じた場合</dt>
+            <dd>医薬品副作用被害救済制度の対象となることがあります<span class="spec-note">任意接種のため、万が一、接種によって入院治療が必要な程度の病気や、日常生活が著しく制限される程度の障害などが生じた場合は、独立行政法人 医薬品医療機器総合機構（PMDA）の<a href="https://www.pmda.go.jp/relief-services/adr-sufferers/0011.html" class="ref-link" target="_blank" rel="noopener noreferrer">医薬品副作用被害救済制度</a>の対象となることがあります。</span></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">接種を受けられない方・ご相談が必要な方</h2>
+        <ul class="attention-list">
+          <li class="attention-item">
+            <span class="attention-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
+            <div>
+              <strong>接種を受けられない方</strong>
+              <ul class="attention-sublist">
+                <li>明らかな発熱がある方</li>
+                <li>重い急性の病気にかかっている方</li>
+                <li>過去にこのワクチンの成分で重いアレルギー反応を起こしたことがある方</li>
+                <li><strong>生ワクチンのみ</strong>：病気や治療（ステロイド・免疫抑制剤・抗がん剤など）で免疫が落ちている方、妊娠している方</li>
+                <li>その他、医師が接種に適さないと判断した方</li>
+              </ul>
+            </div>
+          </li>
+          <li class="attention-item">
+            <span class="attention-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
+            <div>
+              <strong>接種前にご相談ください</strong>
+              <ul class="attention-sublist">
+                <li>血小板減少症や血液が固まりにくい病気のある方、血液をサラサラにするお薬（抗凝固薬）を飲んでいる方</li>
+                <li>心臓・血管、腎臓、肝臓、血液の病気などの持病がある方</li>
+                <li>過去に予防接種後2日以内に発熱した方、または全身の発疹などアレルギーを疑う症状が出たことがある方</li>
+                <li>過去にけいれんを起こしたことがある方</li>
+                <li>ほかのワクチンを最近接種した方、接種する予定のある方</li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise">
+      <div class="container">
+        <h2 class="page-section-title">接種の流れ</h2>
+        <ol class="flow-list">
+          <li class="flow-item">
+            <span class="flow-number">1</span>
+            <div>
+              <strong>LINEでご予約（接種日の3日前の15時まで）</strong>
+              <p>LINEのトーク画面下メニューから<strong>「その他予約」→「帯状疱疹ワクチン」</strong>を選んでご予約ください。ご予約をいただいてから、ワクチンを取り寄せます。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">2</span>
+            <div>
+              <strong>予診票の記入・診察</strong>
+              <p>当日の体調、持病やお飲みのお薬、アレルギーの有無などを確認し、医師が接種できるか判断します。</p>
+            </div>
+          </li>
+          <li class="flow-item">
+            <span class="flow-number">3</span>
+            <div>
+              <strong>接種・お会計</strong>
+              <p>接種後15分間は院内で安静にお過ごしいただき、体調の変化がないか確認します。定期接種の方には、接種後に予防接種済証をお渡しします。シングリックスの方は、2か月後以降に2回目をご予約ください。</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page-section back-section">
+      <div class="container">
+        <div class="detail-back">
+          <a href="/" class="back-button">ホームに戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .price-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+  }
+
+  .price-row dt {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+
+  .price-row-sub {
+    margin-left: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .price-row dd {
+    font-size: 1rem;
+    color: var(--color-navy);
+  }
+
+  .price-row .price-number {
+    font-size: 1.8rem;
+  }
+
+  .compare-table-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    overflow-x: auto;
+    background: white;
+    border: 1px solid var(--color-coral);
+    border-radius: 16px;
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .compare-table th,
+  .compare-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .compare-table tr:last-child th,
+  .compare-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .compare-table thead th {
+    background: var(--color-coral-bg);
+    color: var(--color-navy);
+    font-weight: 700;
+  }
+
+  .compare-table tbody th {
+    white-space: nowrap;
+    color: var(--color-navy);
+    font-weight: 700;
+    background: var(--color-coral-bg);
+  }
+
+  .compare-sub {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .page-intro {
+    padding: 36px 0 !important;
+    background: var(--color-coral-bg);
+  }
+
+  .intro-text {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 2;
+    text-align: center;
+    background: white;
+    border: 1px solid var(--color-coral);
+    border-radius: 16px;
+    padding: 28px 32px;
+  }
+
+  .pc-only {
+    display: inline;
+  }
+
+  .page-section {
+    padding: 80px 0;
+  }
+
+  .page-section.bg-turquoise {
+    background: var(--color-turquoise-bg);
+  }
+
+  .page-section.bg-coral {
+    background: var(--color-coral-bg);
+  }
+
+  .price-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    max-width: 880px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .price-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: left;
+    border: 1px solid var(--color-coral);
+  }
+
+  .price-card-teiki {
+    border-color: var(--color-turquoise);
+  }
+
+  .price-card-link {
+    display: block;
+    margin-top: 16px;
+    text-align: right;
+    color: var(--color-coral);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .price-card-teiki .price-card-link {
+    color: var(--color-turquoise);
+  }
+
+  .price-card-link:hover {
+    opacity: 0.8;
+  }
+
+  .sub-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    max-width: 720px;
+    margin: 56px auto 24px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    text-align: center;
+  }
+
+  .sub-heading::before,
+  .sub-heading::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-turquoise);
+    opacity: 0.5;
+  }
+
+  .reserve-guide {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  .section-lead {
+    max-width: 720px;
+    margin: -12px auto 28px;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  .page-section.bg-turquoise .info-box,
+  .page-section.bg-turquoise .spec-list {
+    background: white;
+    border-color: var(--color-turquoise);
+  }
+
+  .page-section.bg-turquoise .ref-link {
+    color: var(--color-turquoise);
+  }
+
+  .page-section.bg-turquoise .spec-row dt {
+    background: var(--color-turquoise-bg);
+  }
+
+  .page-section.bg-turquoise .info-box .attention-sublist {
+    margin-top: 8px;
+  }
+
+  .price-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .price-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    padding-left: 4px;
+  }
+
+  .price-card-lead {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    padding-left: 4px;
+  }
+
+  .price-tax {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .price-unit {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-left: 4px;
+  }
+
+  .price-card-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--color-coral);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 12px;
+  }
+
+  .price-card-badge.badge-turquoise {
+    background: var(--color-turquoise);
+  }
+
+  .price-card-price {
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+
+  .price-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+
+  .price-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .price-card-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    padding-left: calc(1.2em + 4px);
+    text-indent: -1.2em;
+  }
+
+  .price-cta {
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  .spec-list {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--color-coral);
+    overflow: hidden;
+  }
+
+  .spec-row {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .spec-row:last-child {
+    border-bottom: none;
+  }
+
+  .spec-row dt {
+    width: 9em;
+    white-space: nowrap;
+    padding: 18px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    background: var(--color-coral-bg);
+  }
+
+  .spec-row dd {
+    padding: 18px 24px;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 1.8;
+  }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: 12px;
+    row-gap: 2px;
+  }
+
+  .spec-attention {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-coral);
+    background: var(--color-coral-bg);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+
+  .page-section.bg-turquoise .spec-attention {
+    border-color: var(--color-turquoise);
+    background: var(--color-turquoise-bg);
+  }
+
+  .spec-note {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .info-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--color-coral-bg);
+    border-radius: 16px;
+    padding: 32px;
+    border: 1px solid var(--color-coral);
+  }
+
+  .bg-coral .info-box {
+    background: white;
+  }
+
+  .info-text {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 2;
+    margin-bottom: 16px;
+  }
+
+  .info-note {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .attention-list {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .attention-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-coral);
+  }
+
+  .attention-icon {
+    flex-shrink: 0;
+    color: var(--color-coral);
+    margin-top: 2px;
+  }
+
+  .attention-item strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--color-navy);
+    margin-bottom: 8px;
+  }
+
+  .attention-sublist {
+    padding-left: 1.2em;
+    list-style: disc;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.9;
+  }
+
+  .related-box {
+    max-width: 720px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid var(--color-turquoise);
+    border-radius: 16px;
+    padding: 28px 32px;
+    text-align: center;
+  }
+
+  .related-text {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 2;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .related-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .related-box .ref-link {
+    color: var(--color-turquoise);
+  }
+
+  .related-link {
+    color: var(--color-turquoise);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .related-link:hover {
+    opacity: 0.8;
+  }
+
+  .source-note {
+    max-width: 720px;
+    margin: 16px auto 0;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    text-align: right;
+  }
+
+  .ref-link {
+    color: var(--color-coral);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .flow-list {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .flow-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--color-coral);
+  }
+
+  .flow-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: var(--color-coral);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .page-section.bg-turquoise .flow-item {
+    border-color: var(--color-turquoise);
+  }
+
+  .page-section.bg-turquoise .flow-number {
+    background: var(--color-turquoise);
+  }
+
+  .flow-item strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--color-navy);
+    margin-bottom: 6px;
+  }
+
+  .flow-item p strong {
+    display: inline;
+    font-size: inherit;
+    margin: 0;
+  }
+
+  .flow-item p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+
+  .back-section {
+    background: white;
+    padding: 20px 0 40px !important;
+  }
+
+  .detail-back {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 32px;
+    background: white;
+    border: 1px solid var(--color-navy);
+    border-radius: 24px;
+    color: var(--color-navy);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .back-button:hover {
+    background: var(--color-navy);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .intro-text {
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .pc-only {
+      display: none;
+    }
+
+    .page-section {
+      padding: 60px 0;
+    }
+
+    .price-cards {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .price-card {
+      padding: 24px 20px;
+    }
+
+    .sub-heading {
+      margin: 36px auto 16px;
+      font-size: 1rem;
+    }
+
+    .price-number {
+      font-size: 1.8rem;
+    }
+
+    .spec-row {
+      grid-template-columns: 1fr;
+    }
+
+    .spec-row dt {
+      width: auto;
+      padding: 10px 16px;
+    }
+
+    .spec-row dd {
+      padding: 12px 16px;
+    }
+
+    .attention-item,
+    .flow-item {
+      padding: 20px;
+    }
+
+    .info-box,
+    .related-box {
+      padding: 20px;
+    }
+  }
+</style>

@@ -9,8 +9,9 @@ import selectMenuImage from "../assets/line-guide/select-menu.jpg";
 // vaccine: 予防接種ページ向け（「予防接種」→ ワクチンを選ぶ）
 // checkup: 健診ページ向け（「その他予約」→「基礎・特定健診」）
 // flu-prevention: インフルエンザ予防投与ページ向け（「その他予約」→「インフルエンザ予防投与」）
+// zoster-vaccine / pneumococcal-vaccine: 取り寄せのワクチン向け（「その他予約」→ 各ワクチン）
 interface Props {
-  variant?: "general" | "afterpill" | "vaccine" | "checkup" | "flu-prevention";
+  variant?: "general" | "afterpill" | "vaccine" | "checkup" | "flu-prevention" | "zoster-vaccine" | "pneumococcal-vaccine";
 }
 
 const { variant = "general" } = Astro.props;
@@ -57,8 +58,26 @@ const OTHER_MENU_STEP: Step = {
   highlight: OTHER_BUTTON,
 };
 
+// 取り寄せのワクチンは診療の一覧のスクリーンショットがまだないため、文字だけで案内する
+const orderedVaccineSteps = (name: string): Step[] => [
+  FRIEND_ADD_STEP,
+  OTHER_MENU_STEP,
+  {
+    title: `「${name}」を選ぶ`,
+    text: `診療の一覧から「${name}」を押します。`,
+  },
+  {
+    ...INPUT_STEP,
+    text: "ご希望の日時を選んだあと、お名前などのご本人情報と問診にお答えいただくと予約完了です。ワクチンを取り寄せるため、ご予約は接種日の3日前の15時まで承っております。",
+  },
+];
+
 const steps: Step[] =
-  variant === "flu-prevention"
+  variant === "zoster-vaccine"
+    ? orderedVaccineSteps("帯状疱疹ワクチン")
+    : variant === "pneumococcal-vaccine"
+    ? orderedVaccineSteps("肺炎球菌ワクチン")
+    : variant === "flu-prevention"
     ? [
         FRIEND_ADD_STEP,
         OTHER_MENU_STEP,

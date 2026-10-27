@@ -126,10 +126,24 @@ import InfoCard from "./InfoCard.astro";
               </div>
               <span class="specialty-compact-link">詳しく見る →</span>
             </a>
-            <a href="/afterpill" class="specialty-card-compact">
-              <h4 class="specialty-compact-title">緊急避妊薬<br />（アフターピル）</h4>
+            <a href="/zoster-vaccine" class="specialty-card-compact">
+              <h4 class="specialty-compact-title">帯状疱疹ワクチン</h4>
               <div class="specialty-compact-icon">
-                <HealthIcon name="devices/medicine_bottle" size={48} />
+                <HealthIcon name="devices/syringe-vaccine" size={48} />
+              </div>
+              <span class="specialty-compact-link">詳しく見る →</span>
+            </a>
+            <a href="/pneumococcal-vaccine" class="specialty-card-compact">
+              <h4 class="specialty-compact-title">肺炎球菌ワクチン</h4>
+              <div class="specialty-compact-icon">
+                <HealthIcon name="body/lungs" size={48} />
+              </div>
+              <span class="specialty-compact-link">詳しく見る →</span>
+            </a>
+            <a href="/checkup" class="specialty-card-compact">
+              <h4 class="specialty-compact-title">特定健診・基礎健診</h4>
+              <div class="specialty-compact-icon">
+                <HealthIcon name="objects/health_worker_form" size={48} />
               </div>
               <span class="specialty-compact-link">詳しく見る →</span>
             </a>
@@ -140,10 +154,10 @@ import InfoCard from "./InfoCard.astro";
               </div>
               <span class="specialty-compact-link">詳しく見る →</span>
             </a>
-            <a href="/checkup" class="specialty-card-compact">
-              <h4 class="specialty-compact-title">特定健診・基礎健診</h4>
+            <a href="/afterpill" class="specialty-card-compact">
+              <h4 class="specialty-compact-title">緊急避妊薬<br />（アフターピル）</h4>
               <div class="specialty-compact-icon">
-                <HealthIcon name="objects/health_worker_form" size={48} />
+                <HealthIcon name="devices/medicine_bottle" size={48} />
               </div>
               <span class="specialty-compact-link">詳しく見る →</span>
             </a>
@@ -352,7 +366,7 @@ import InfoCard from "./InfoCard.astro";
 
   .specialty-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
   }
 

@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import SubPageHeader from "../components/SubPageHeader.astro";
 import LineCta from "../components/LineCta.astro";
+import LineReservationGuide from "../components/LineReservationGuide.astro";
 import Footer from "../components/Footer.astro";
 
 const pageUrl = "https://koutoudai-yugata-naika.clinic/flu-prevention";
@@ -134,7 +135,7 @@ const breadcrumbStructuredData = {
       </div>
     </section>
 
-    <section class="page-section bg-turquoise">
+    <section class="page-section">
       <div class="container">
         <h2 class="page-section-title">インフルエンザ予防投与の料金</h2>
         <div class="price-card">
@@ -158,6 +159,16 @@ const breadcrumbStructuredData = {
     </section>
 
     <section class="page-section">
+      <div class="container">
+        <h2 class="page-section-title">LINEでの予約方法</h2>
+        <p class="section-lead">予防投与は、メニューの<strong>「その他予約」</strong>からご予約いただけます。</p>
+        <div class="reserve-guide">
+          <LineReservationGuide variant="flu-prevention" />
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section bg-turquoise">
       <div class="container">
         <h2 class="page-section-title">予防投与の対象となる方（処方の条件）</h2>
         <p class="section-lead">学会の指針に基づき、<strong>以下のすべてを満たす方</strong>に処方しています。</p>
@@ -207,7 +218,7 @@ const breadcrumbStructuredData = {
       </div>
     </section>
 
-    <section class="page-section bg-turquoise">
+    <section class="page-section">
       <div class="container">
         <h2 class="page-section-title">オセルタミビル（タミフル後発品）の飲み方と予防効果</h2>
         <div class="info-box info-box--white">
@@ -302,7 +313,7 @@ const breadcrumbStructuredData = {
             <span class="flow-number">1</span>
             <div>
               <strong>LINEでご予約</strong>
-              <p>LINEのトーク画面下メニューから<strong>「一般内科」</strong>を選んでご予約ください。</p>
+              <p>LINEのトーク画面下メニューの<strong>「その他予約」</strong>から「インフルエンザ予防投与」を選んでご予約ください。</p>
             </div>
           </li>
           <li class="flow-item">
@@ -612,6 +623,11 @@ const breadcrumbStructuredData = {
     font-size: 0.9rem;
     color: var(--color-text-secondary);
     line-height: 1.9;
+  }
+
+  .reserve-guide {
+    max-width: 880px;
+    margin: 0 auto;
   }
 
   .flow-list {

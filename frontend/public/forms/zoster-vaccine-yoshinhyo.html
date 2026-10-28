@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>帯状疱疹ワクチン予診票｜勾当台夕方内科クリニック</title>
+  <!--
+    院内用 予診票（任意接種）。シングリックス・乾燥弱毒生水痘ワクチン「ビケン」共通
+    参考:
+      - 厚生労働省 定期接種実施要領 様式第十一 帯状疱疹予防接種予診票
+      - シングリックス筋注用・乾燥弱毒生水痘ワクチン「ビケン」 電子添文
+    ※ 仙台市の定期接種は市の予診票を使用する
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 8mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      background: #e5e7eb;
+      color: #111;
+      font-size: 8.2pt;
+      line-height: 1.3;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px;
+      background: #2c5f7c;
+      color: white;
+      z-index: 10;
+    }
+
+    .toolbar button {
+      font: inherit;
+      font-size: 11pt;
+      font-weight: 700;
+      padding: 6px 24px;
+      border: none;
+      border-radius: 6px;
+      background: white;
+      color: #2c5f7c;
+      cursor: pointer;
+    }
+
+    .toolbar span {
+      align-self: center;
+      font-size: 9pt;
+    }
+
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 16px auto;
+      padding: 8mm;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2mm;
+    }
+
+    h1 {
+      font-size: 15pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    h1 small {
+      font-size: 9pt;
+      font-weight: 500;
+      letter-spacing: 0;
+      margin-left: 6px;
+    }
+
+    .clinic {
+      text-align: right;
+      font-size: 8pt;
+    }
+
+    .clinic strong {
+      display: block;
+      font-size: 10pt;
+    }
+
+    .lead {
+      font-size: 8pt;
+      margin-bottom: 1.5mm;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td, th {
+      border: 1px solid #111;
+      padding: 0.7mm 2mm;
+      vertical-align: middle;
+    }
+
+    th {
+      font-weight: 500;
+      background: #f1f5f9;
+      white-space: nowrap;
+    }
+
+    .bold-frame {
+      border: 2px solid #111;
+    }
+
+    .profile th {
+      width: 22mm;
+    }
+
+    .profile .temp {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .muted {
+      color: #444;
+      font-size: 7.6pt;
+    }
+
+    .gap {
+      height: 1.5mm;
+    }
+
+    .questions th {
+      text-align: center;
+    }
+
+    .questions td.q {
+      width: 128mm;
+    }
+
+    .questions td.ans {
+      width: 24mm;
+      text-align: center;
+      white-space: nowrap;
+      letter-spacing: 0.1em;
+    }
+
+    .questions td.doc {
+      width: auto;
+    }
+
+    .questions .num {
+      display: inline-block;
+      width: 1.4em;
+    }
+
+    .fill {
+      display: block;
+      padding-left: 1.4em;
+      margin-top: 0.2mm;
+      color: #333;
+    }
+
+    .section-label {
+      writing-mode: vertical-rl;
+      text-align: center;
+      width: 7mm;
+      padding: 1mm;
+      font-weight: 700;
+      background: #f1f5f9;
+      letter-spacing: 0.15em;
+    }
+
+    .consent p {
+      margin-bottom: 1mm;
+    }
+
+    .sign-row {
+      display: flex;
+      gap: 6mm;
+      margin-top: 2mm;
+    }
+
+    .sign {
+      flex: 1;
+      border-bottom: 1px solid #111;
+      padding-top: 3mm;
+      padding-bottom: 0.5mm;
+      white-space: nowrap;
+    }
+
+    .sign.narrow {
+      flex: 0 0 34mm;
+    }
+
+    .vaccine th {
+      text-align: center;
+      font-size: 8pt;
+    }
+
+    .vaccine td {
+      height: 11mm;
+      vertical-align: top;
+    }
+
+    .vaccine .line {
+      display: block;
+      margin-bottom: 0.6mm;
+    }
+
+    .note {
+      margin-top: 1.5mm;
+      font-size: 7.4pt;
+      color: #333;
+    }
+
+    .toolbar-hint {
+      font-size: 9pt;
+    }
+
+    .sheet.back {
+      padding: 6mm 8mm;
+      font-size: 10pt;
+      line-height: 1.52;
+    }
+
+    .back h1 {
+      font-size: 16pt;
+      text-align: center;
+      padding-bottom: 3mm;
+      border-bottom: 2px solid #111;
+      margin-bottom: 5mm;
+    }
+
+    .back h2 {
+      font-size: 11pt;
+      font-weight: 700;
+      margin: 4.5mm 0 1.5mm;
+      padding-left: 2.5mm;
+      border-left: 4px solid #111;
+      line-height: 1.3;
+    }
+
+    .back p {
+      margin-bottom: 1.5mm;
+    }
+
+    .back ul {
+      padding-left: 1.3em;
+    }
+
+    .back li {
+      margin-bottom: 0.8mm;
+    }
+
+    .back strong {
+      font-weight: 700;
+    }
+
+    .back .sources {
+      margin-top: 5mm;
+      padding-top: 2mm;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #999;
+      font-size: 8pt;
+      line-height: 1.5;
+      color: #333;
+    }
+
+    .back a {
+      color: inherit;
+    }
+
+    .qr-box {
+      display: flex;
+      gap: 6mm;
+      margin-top: 5mm;
+    }
+
+    .qr-item {
+      flex: 1;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 3mm;
+      padding: 2.5mm 3mm;
+      border: 1px solid #999;
+      border-radius: 2mm;
+      line-height: 1.45;
+    }
+
+    .qr-item .qr {
+      flex: 0 0 22mm;
+      width: 22mm;
+      height: 22mm;
+    }
+
+    .qr-item strong {
+      display: block;
+      font-size: 9.6pt;
+    }
+
+    .qr-item .url {
+      font-size: 7.4pt;
+      word-break: break-all;
+      color: #333;
+    }
+
+    .back .footer-clinic {
+      font-weight: 700;
+      flex: 0 0 auto;
+      margin-left: 4mm;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .toolbar {
+        display: none;
+      }
+
+      .sheet {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+
+      .sheet + .sheet {
+        break-before: page;
+      }
+
+      th, .section-label {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    /* 裏面を1ページに収める */
+    .back h2 {
+      margin-top: 3.5mm;
+    }
+
+    .back .qr-box {
+      margin-top: 3mm;
+    }
+
+    .back .sources {
+      margin-top: 3mm;
+    }
+
+    .sheet.back {
+      line-height: 1.45;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button type="button" onclick="window.print()">印刷する</button>
+    <span>A4縦・両面印刷（長辺とじ）・倍率100%で印刷してください</span>
+  </div>
+
+  <main class="sheet">
+    <div class="head">
+      <h1>帯状疱疹ワクチン予診票<small>（任意接種）</small></h1>
+      <div class="clinic">
+        <strong>勾当台夕方内科クリニック</strong>
+        太枠内をご記入ください
+      </div>
+    </div>
+
+    <table class="profile bold-frame">
+      <tr>
+        <th>フリガナ</th>
+        <td colspan="2"></td>
+        <th>診察前の体温</th>
+        <td class="temp">度　　　分</td>
+      </tr>
+      <tr>
+        <th>受ける人の<br>氏名</th>
+        <td colspan="2" style="height: 8mm;"></td>
+        <th>性別</th>
+        <td style="text-align: center;">男 ・ 女</td>
+      </tr>
+      <tr>
+        <th>生年月日</th>
+        <td colspan="4">
+          大正・昭和・平成・西暦　　　　　年　　　　月　　　　日生　（満　　　　歳）
+        </td>
+      </tr>
+      <tr>
+        <th>住所</th>
+        <td colspan="2" style="height: 7mm;"></td>
+        <th>電話番号</th>
+        <td style="width: 42mm;"></td>
+      </tr>
+      <tr>
+        <th>ご希望の<br>ワクチン</th>
+        <td colspan="4">
+          □ シングリックス（組換えワクチン・2回接種）　今回は（　1回目　・　2回目　）<br>
+          □ 生ワクチン（乾燥弱毒生水痘ワクチン「ビケン」・1回接種）
+        </td>
+      </tr>
+    </table>
+
+    <div class="gap"></div>
+
+    <table class="questions">
+      <tr>
+        <th class="bold-frame">質問事項</th>
+        <th class="bold-frame">回答欄</th>
+        <th>医師記入欄</th>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">1</span>裏面の説明を読み、ワクチンの効果や副反応などについて理解しましたか。</td>
+        <td class="ans">はい・いいえ</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">2</span>これまでに帯状疱疹の予防接種を受けたことがありますか。
+          <span class="fill">（ シングリックス ・ 生ワクチン ・ 不明 ）　接種日（　　　年　　月　　日）</span></td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">3</span>現在、体に具合の悪いところがありますか。
+          <span class="fill">具体的な症状（　　　　　　　　　　　　　　　　　　　　　　　　　）</span></td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">4</span>現在、何か病気にかかっていますか。
+          <span class="fill">病名（　　　　　　　　　　　　　　　　　　　　　　　　　　　　）</span>
+          <span class="fill">治療（投薬など）を受けていますか。</span>
+          <span class="fill">その病気を診てもらっている医師に、今回の接種を受けてよいと言われましたか。</span></td>
+        <td class="ans">いいえ・はい<br><br>いいえ・はい<br>はい・いいえ</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">5</span>1か月以内に熱が出たり、病気にかかったりしましたか。
+          <span class="fill">病名（　　　　　　　　　　　　　　　　　　　　　　　　　　　　）</span></td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">6</span>心臓・腎臓・肝臓・血液の病気などの慢性の病気がありますか。
+          <span class="fill">病名（　　　　　　　　　　　　　　　　　　　　　　　　　　　　）</span></td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">7</span>免疫不全と診断されたことがありますか。がんの治療中ですか。</td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">8</span>免疫を抑える薬（ステロイド・免疫抑制剤・抗がん剤など）を使っていますか。
+          <span class="fill">薬の名前（　　　　　　　　　　　　　　　　　　　　　　　　　　　）</span></td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">9</span>血小板が少ない、血が止まりにくいなどの病気がありますか。
+          <span class="fill">血をサラサラにする薬（抗凝固薬など）を飲んでいますか。</span></td>
+        <td class="ans">いいえ・はい<br>いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">10</span>ひきつけ（けいれん）を起こしたことがありますか。</td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">11</span>薬や食品で、発疹や体の具合が悪くなったりしたことがありますか。
+          <span class="fill">薬・食品名（　　　　　　　　　　　　　　　　　　　　　　　　　）</span></td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">12</span>これまでに予防接種を受けて、具合が悪くなったことがありますか。
+          <span class="fill">予防接種の種類・症状（　　　　　　　　　　　　　　　　　　　　）</span></td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">13</span>1か月以内に予防接種を受けましたか。
+          <span class="fill">予防接種の種類（　　　　　　　　　　　　）　接種日（　　月　　日）</span></td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">14</span>6か月以内に輸血やガンマグロブリンの注射を受けましたか。</td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">15</span>（女性の方）妊娠している、または妊娠の可能性がありますか。</td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+      <tr>
+        <td class="q"><span class="num">16</span>今回の予防接種について質問がありますか。</td>
+        <td class="ans">いいえ・はい</td>
+        <td class="doc"></td>
+      </tr>
+    </table>
+
+    <div class="gap"></div>
+
+    <table class="consent bold-frame">
+      <tr>
+        <td class="section-label">本人</td>
+        <td>
+          <p>医師の診察・説明を受け、予防接種の効果や目的、重い副反応の可能性、医薬品副作用被害救済制度などについて理解した上で、<br>
+            接種することに（　同意します　・　同意しません　）。<span class="muted">※どちらかを○で囲んでください</span></p>
+          <div class="sign-row">
+            <div class="sign">接種を受ける人の自署</div>
+            <div class="sign narrow">記入日　　　年　　月　　日</div>
+          </div>
+          <p class="note">※自署できない場合は代筆者が署名し、続柄を記入してください。</p>
+        </td>
+      </tr>
+    </table>
+
+    <div class="gap"></div>
+
+    <table class="consent">
+      <tr>
+        <td class="section-label">医師記入欄</td>
+        <td>
+          <p>以上の問診及び診察の結果、今日の予防接種は（　実施できる　・　見合わせた方がよい　）と判断します。</p>
+          <p>接種を受ける人に対して、予防接種の効果、副反応及び医薬品副作用被害救済制度について説明しました。</p>
+          <div class="sign-row">
+            <div class="sign">医師署名</div>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="gap"></div>
+
+    <table class="vaccine">
+      <tr>
+        <th style="width: 34%;">使用ワクチン</th>
+        <th style="width: 30%;">接種方法・接種量・接種部位</th>
+        <th>接種日・実施場所</th>
+      </tr>
+      <tr>
+        <td>
+          <span class="line">□ シングリックス（1回目 ・ 2回目）</span>
+          <span class="line">□ 乾燥弱毒生水痘ワクチン「ビケン」</span>
+          <span class="line">Lot No.</span>
+          <span class="muted">□ 有効期限内であることを確認</span>
+        </td>
+        <td>
+          <span class="line">シングリックス：筋注・0.5mL</span>
+          <span class="line">生ワクチン：皮下注・0.5mL</span>
+          <span class="line">右上腕 ・ 左上腕</span>
+          <span class="muted">□ 接種後15分の院内観察</span>
+        </td>
+        <td>
+          <span class="line">接種日　令和　　　年　　月　　日</span>
+          <span class="line">勾当台夕方内科クリニック</span>
+          <span class="line">医師名　田村 慧人</span>
+        </td>
+      </tr>
+    </table>
+  </main>
+
+  <main class="sheet back">
+    <h1>帯状疱疹ワクチンを受ける方へ</h1>
+
+    <h2>ワクチンの効果</h2>
+    <p>帯状疱疹は、子どもの頃にかかった水ぼうそうのウイルスが体内に残り、加齢や疲れなどで免疫が弱まったときに再び活動して起こる病気です。50歳以上で増え、皮膚が治った後も痛みが続く<strong>帯状疱疹後神経痛</strong>が残ることがあります。ワクチンには、<strong>発症や帯状疱疹後神経痛を防ぐ効果</strong>が期待できます。</p>
+    <ul>
+      <li><strong>シングリックス（組換えワクチン）</strong>：2か月の間隔をあけて2回、筋肉内に接種します。予防効果が高く、長く続くとされています。免疫が低下している方も接種できます。</li>
+      <li><strong>生ワクチン（乾燥弱毒生水痘ワクチン「ビケン」）</strong>：1回、皮下に接種します。シングリックスより予防効果は低く、続く期間も短いとされています。</li>
+    </ul>
+
+    <h2>接種を受けられない方</h2>
+    <ul>
+      <li>明らかな発熱がある方、重い急性の病気にかかっている方</li>
+      <li>過去にこのワクチンの成分で重いアレルギー反応を起こしたことがある方</li>
+      <li><strong>生ワクチンのみ</strong>：病気や治療（ステロイド・免疫抑制剤・抗がん剤など）によって免疫が低下している方、妊娠している方</li>
+      <li>その他、医師が接種に適さないと判断した方</li>
+    </ul>
+
+    <h2>接種前に医師にご相談いただく方</h2>
+    <ul>
+            <li>心臓・腎臓・肝臓・血液の病気などの持病がある方、血が止まりにくい病気のある方、抗凝固薬を飲んでいる方</li>
+      <li>過去に予防接種後2日以内に発熱や全身の発疹が出た方、ワクチンの成分にアレルギーがあるおそれのある方</li>
+      <li>過去にけいれんを起こしたことがある方</li>
+    </ul>
+
+    <h2>主な副反応</h2>
+    <p><strong>シングリックス</strong>：接種した部分の<strong>痛み・赤み・腫れ</strong>が多くの方にみられます。また、<strong>筋肉痛・だるさ・頭痛・寒気・発熱</strong>などがみられることがあります。多くは3日程度で治まります。</p>
+    <p><strong>生ワクチン</strong>：接種した部分の<strong>赤み・かゆみ・腫れ・熱っぽさ</strong>などがみられることがあります。</p>
+    <p>まれに、ショックやアナフィラキシー（じんましん・呼吸困難など）といった<strong>重い副反応</strong>が起こることがあります。</p>
+
+    <h2>接種後の注意</h2>
+    <ul>
+      <li>重い副反応は接種後比較的すぐに起こることが多いため、<strong>接種後15分間は院内で安静に</strong>お過ごしください。お帰り後も30分程度は、すぐに当院へ連絡できるようにしてください。</li>
+      <li>接種当日は激しい運動を避け、接種部位を清潔に保ってください。</li>
+      <li>シングリックスは<strong>2回の接種で十分な効果</strong>が得られます。1回目の2か月後（遅くとも6か月後まで）に2回目を受けてください。</li>
+    </ul>
+
+    <h2>健康被害が生じた場合</h2>
+    <p>任意接種のため、万が一、接種によって入院治療が必要な病気や重い障害などの健康被害が生じた場合は、医薬品医療機器総合機構（PMDA）の<strong>医薬品副作用被害救済制度</strong>の対象となることがあります。</p>
+
+    <div class="qr-box">
+      <a class="qr-item" href="https://koutoudai-yugata-naika.clinic/zoster-vaccine" target="_blank" rel="noopener noreferrer">
+        <svg class="qr" role="img" aria-label="当院の帯状疱疹ワクチン接種のご案内" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges"><path fill="#fff" d="M0 0h33v33h-33z"/><path stroke="#000" d="M0 0.5h7M10 0.5h1M12 0.5h2M16 0.5h5M22 0.5h2M26 0.5h7M0 1.5h1M6 1.5h1M9 1.5h1M12 1.5h6M20 1.5h3M26 1.5h1M32 1.5h1M0 2.5h1M2 2.5h3M6 2.5h1M8 2.5h1M10 2.5h1M12 2.5h2M17 2.5h7M26 2.5h1M28 2.5h3M32 2.5h1M0 3.5h1M2 3.5h3M6 3.5h1M8 3.5h1M10 3.5h1M14 3.5h1M16 3.5h1M22 3.5h3M26 3.5h1M28 3.5h3M32 3.5h1M0 4.5h1M2 4.5h3M6 4.5h1M8 4.5h1M15 4.5h1M18 4.5h1M21 4.5h4M26 4.5h1M28 4.5h3M32 4.5h1M0 5.5h1M6 5.5h1M8 5.5h3M12 5.5h1M15 5.5h2M18 5.5h1M20 5.5h3M24 5.5h1M26 5.5h1M32 5.5h1M0 6.5h7M8 6.5h1M10 6.5h1M12 6.5h1M14 6.5h1M16 6.5h1M18 6.5h1M20 6.5h1M22 6.5h1M24 6.5h1M26 6.5h7M8 7.5h3M14 7.5h2M20 7.5h5M0 8.5h1M2 8.5h5M10 8.5h2M13 8.5h1M15 8.5h1M17 8.5h1M22 8.5h1M24 8.5h1M26 8.5h5M1 9.5h2M7 9.5h1M11 9.5h2M16 9.5h1M19 9.5h3M23 9.5h1M26 9.5h2M29 9.5h2M32 9.5h1M1 10.5h4M6 10.5h1M12 10.5h1M15 10.5h2M18 10.5h1M20 10.5h1M22 10.5h1M24 10.5h1M26 10.5h1M28 10.5h1M30 10.5h2M0 11.5h5M7 11.5h1M9 11.5h1M14 11.5h2M20 11.5h2M26 11.5h1M28 11.5h3M1 12.5h1M3 12.5h1M6 12.5h3M10 12.5h2M18 12.5h1M22 12.5h1M25 12.5h1M28 12.5h2M31 12.5h2M3 13.5h2M7 13.5h4M13 13.5h4M19 13.5h3M23 13.5h1M26 13.5h1M31 13.5h2M1 14.5h1M3 14.5h1M6 14.5h2M11 14.5h1M14 14.5h1M21 14.5h2M25 14.5h2M28 14.5h4M1 15.5h2M4 15.5h2M12 15.5h2M16 15.5h1M18 15.5h4M25 15.5h2M28 15.5h3M1 16.5h4M6 16.5h2M9 16.5h1M11 16.5h1M13 16.5h1M17 16.5h1M19 16.5h2M22 16.5h1M25 16.5h1M27 16.5h2M32 16.5h1M2 17.5h1M4 17.5h2M10 17.5h1M16 17.5h6M23 17.5h1M26 17.5h2M29 17.5h2M32 17.5h1M1 18.5h3M6 18.5h4M11 18.5h3M15 18.5h3M20 18.5h2M25 18.5h4M30 18.5h2M1 19.5h1M3 19.5h1M5 19.5h1M7 19.5h2M10 19.5h2M13 19.5h3M17 19.5h2M21 19.5h2M25 19.5h8M3 20.5h1M6 20.5h2M13 20.5h4M19 20.5h1M22 20.5h1M24 20.5h2M27 20.5h3M0 21.5h2M5 21.5h1M7 21.5h6M15 21.5h1M18 21.5h4M23 21.5h1M25 21.5h3M29 21.5h1M32 21.5h1M0 22.5h1M2 22.5h2M5 22.5h3M9 22.5h3M13 22.5h1M15 22.5h2M18 22.5h1M20 22.5h2M24 22.5h1M26 22.5h1M28 22.5h1M31 22.5h1M0 23.5h1M2 23.5h2M10 23.5h1M12 23.5h1M14 23.5h2M21 23.5h2M25 23.5h3M29 23.5h2M0 24.5h1M2 24.5h1M4 24.5h5M15 24.5h1M17 24.5h4M22 24.5h1M24 24.5h5M31 24.5h1M8 25.5h1M10 25.5h1M12 25.5h1M16 25.5h1M18 25.5h4M23 25.5h2M28 25.5h1M30 25.5h1M32 25.5h1M0 26.5h7M9 26.5h1M11 26.5h2M14 26.5h2M18 26.5h1M20 26.5h1M23 26.5h2M26 26.5h1M28 26.5h1M30 26.5h2M0 27.5h1M6 27.5h1M8 27.5h3M12 27.5h1M16 27.5h1M20 27.5h5M28 27.5h3M32 27.5h1M0 28.5h1M2 28.5h3M6 28.5h1M8 28.5h1M13 28.5h1M18 28.5h2M22 28.5h1M24 28.5h6M31 28.5h2M0 29.5h1M2 29.5h3M6 29.5h1M8 29.5h2M13 29.5h5M19 29.5h2M23 29.5h1M25 29.5h1M28 29.5h1M31 29.5h2M0 30.5h1M2 30.5h3M6 30.5h1M8 30.5h1M11 30.5h2M20 30.5h2M23 30.5h1M26 30.5h2M29 30.5h2M0 31.5h1M6 31.5h1M9 31.5h3M16 31.5h1M19 31.5h1M21 31.5h3M28 31.5h3M0 32.5h7M8 32.5h5M17 32.5h1M23 32.5h5M31 32.5h1"/></svg>
+        <span>
+          <strong>当院のワクチン接種のご案内</strong>
+          <span class="url">https://koutoudai-yugata-naika.clinic/zoster-vaccine</span>
+        </span>
+      </a>
+      <a class="qr-item" href="https://www.pmda.go.jp/relief-services/adr-sufferers/0001.html" target="_blank" rel="noopener noreferrer">
+        <svg class="qr" role="img" aria-label="医薬品副作用被害救済制度（PMDA）" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h33v33H0z"/><path stroke="#000000" d="M0 0.5h7m3 0h1m1 0h2m3 0h1m1 0h3m1 0h1m2 0h7M0 1.5h1m5 0h1m4 0h1m2 0h2m1 0h1m3 0h2m1 0h1m1 0h1m5 0h1M0 2.5h1m1 0h3m1 0h1m1 0h2m1 0h2m1 0h1m1 0h1m2 0h1m1 0h2m1 0h1m1 0h1m1 0h3m1 0h1M0 3.5h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h4m1 0h3m2 0h1m3 0h1m1 0h3m1 0h1M0 4.5h1m1 0h3m1 0h1m1 0h1m4 0h1m2 0h1m2 0h1m3 0h1m2 0h1m1 0h3m1 0h1M0 5.5h1m5 0h1m1 0h2m4 0h2m2 0h1m1 0h3m3 0h1m5 0h1M0 6.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M8 7.5h3m3 0h3m1 0h2m1 0h4M0 8.5h1m1 0h5m2 0h1m1 0h1m1 0h3m1 0h2m3 0h1m3 0h5M0 9.5h3m4 0h2m2 0h1m1 0h2m1 0h1m1 0h4m1 0h1m2 0h2m1 0h4M0 10.5h5m1 0h1m2 0h1m1 0h1m2 0h3m1 0h1m3 0h1m1 0h3m1 0h1m1 0h2M3 11.5h1m1 0h1m1 0h2m1 0h1m1 0h1m2 0h2m1 0h4m1 0h1m1 0h2m1 0h3m1 0h1M0 12.5h2m3 0h6m4 0h6m1 0h2m1 0h1m1 0h3M0 13.5h1m1 0h2m3 0h1m1 0h1m1 0h3m2 0h2m1 0h3m1 0h1m2 0h2m1 0h4M0 14.5h1m2 0h4m1 0h1m6 0h1m1 0h1m3 0h2m2 0h2m1 0h1m2 0h1M0 15.5h4m6 0h1m2 0h1m1 0h1m3 0h1m1 0h1m3 0h3m1 0h2M0 16.5h2m4 0h1m2 0h3m1 0h1m3 0h1m4 0h4m1 0h2m3 0h1M0 17.5h1m4 0h1m2 0h1m1 0h4m2 0h1m2 0h1m1 0h1m1 0h5m1 0h4M1 18.5h1m3 0h2m1 0h1m1 0h2m1 0h4m1 0h1m1 0h1m1 0h1m4 0h2m1 0h2M1 19.5h1m1 0h2m3 0h3m1 0h1m2 0h1m2 0h4m1 0h1m1 0h1m1 0h5M2 20.5h1m1 0h1m1 0h2m1 0h1m1 0h3m3 0h4m1 0h1m1 0h2m2 0h2m1 0h1M0 21.5h2m1 0h1m3 0h4m1 0h3m1 0h1m2 0h3m1 0h2m1 0h1m5 0h1M0 22.5h1m3 0h3m2 0h1m1 0h2m1 0h2m1 0h2m1 0h2m2 0h2m3 0h3M0 23.5h1m4 0h1m1 0h1m3 0h1m1 0h2m1 0h1m1 0h1m1 0h7m2 0h2m1 0h1M0 24.5h1m1 0h1m1 0h7m2 0h1m3 0h1m6 0h5m2 0h2M8 25.5h1m2 0h1m1 0h2m1 0h1m1 0h4m1 0h2m3 0h1m1 0h1m1 0h1M0 26.5h7m5 0h4m2 0h1m1 0h5m1 0h1m1 0h1m1 0h2M0 27.5h1m5 0h1m1 0h3m2 0h1m1 0h2m1 0h7m3 0h5M0 28.5h1m1 0h3m1 0h1m1 0h2m1 0h3m3 0h2m3 0h1m1 0h6M0 29.5h1m1 0h3m1 0h1m1 0h1m1 0h1m8 0h2m1 0h2m1 0h1m2 0h1m1 0h3M0 30.5h1m1 0h3m1 0h1m1 0h3m1 0h1m1 0h3m5 0h6m1 0h1M0 31.5h1m5 0h1m4 0h5m3 0h1m1 0h1m1 0h1m1 0h1m2 0h3M0 32.5h7m1 0h1m3 0h4m1 0h1m4 0h3m2 0h1m3 0h1"/></svg>
+        <span>
+          <strong>医薬品副作用被害救済制度（PMDA）</strong>
+          <span class="url">https://www.pmda.go.jp/relief-services/adr-sufferers/0001.html</span>
+        </span>
+      </a>
+    </div>
+
+    <div class="sources">
+      出典：シングリックス筋注用・乾燥弱毒生水痘ワクチン「ビケン」 電子添文
+      <span class="footer-clinic">勾当台夕方内科クリニック</span>
+    </div>
+  </main>
+</body>
+</html>

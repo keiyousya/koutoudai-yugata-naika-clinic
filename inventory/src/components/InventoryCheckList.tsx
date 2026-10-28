@@ -312,6 +312,10 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
             const status = saveStatus[item.id];
             const expiry = expiryMap.get(item.id);
             const expiryStatus = expiry ? getExpiryStatus(expiry.expiry_date, today) : null;
+            // 定数（規定量）0 は「定数なし」として扱う
+            const threshold = item.order_threshold;
+            const belowThreshold =
+              threshold > 0 && numericValue !== null && numericValue < threshold;
 
             return (
               <div
@@ -323,8 +327,26 @@ export function InventoryCheckList({ title, categoryId, notice, showExpiry = tru
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-sm">{item.name}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {item.dosage || "-"} / {item.unit}
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+                      <span>
+                        {item.dosage || "-"} / {item.unit}
+                      </span>
+                      {threshold > 0 ? (
+                        <span
+                          className={`rounded-full border px-2 py-0.5 text-[11px] font-semibold ${
+                            belowThreshold
+                              ? "border-amber-400 bg-amber-50 text-amber-700"
+                              : "border-primary/40 bg-primary/10 text-primary"
+                          }`}
+                        >
+                          定数 {threshold}
+                          {belowThreshold && "（不足）"}
+                        </span>
+                      ) : (
+                        <span className="rounded-full border border-dashed px-2 py-0.5 text-[11px]">
+                          定数なし
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="shrink-0 text-right">

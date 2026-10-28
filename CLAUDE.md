@@ -50,8 +50,8 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 
 - フロントポート: 5177、ベースパス: `/inventory/`
 - カテゴリ: category_id=1 → 医薬品、category_id=2 → 備品
-- 医薬品: 35品目（2026-09にデエビゴ・ベタヒスチン・ゾコーバ・ダイチロナ・インフルワクチンを追加。インフルワクチンは納入元別に Meiji・東邦 / Meiji・スズケン / デンカ・スズケン の3行。`backend/scripts/migrate-inventory-add-items-2026-09.js`。2026-10にブデホル・フルチカゾン点鼻液・ゲンタマイシン軟膏を追加。`migrate-inventory-add-items-2026-10.js`）、備品: 42品目
-- 発注対象・規定量は品目ごとにDB管理（`inventory_items.is_orderable` / `order_threshold`）。発注管理画面の「発注設定」から変更可能
+- 医薬品: 35品目（2026-09にデエビゴ・ベタヒスチン・ゾコーバ・ダイチロナ・インフルワクチンを追加。インフルワクチンは納入元別に Meiji・東邦 / Meiji・スズケン / デンカ・スズケン の3行。`backend/scripts/migrate-inventory-add-items-2026-09.js`。2026-10にブデホル・フルチカゾン点鼻液・ゲンタマイシン軟膏を追加。`migrate-inventory-add-items-2026-10.js`）、備品: 52品目（2026-10に27G針・サーフロ22G・膿盆・薬袋などを追加。`migrate-inventory-add-supplies-2026-10.js`）
+- 発注対象・規定量（＝定数）は品目ごとにDB管理（`inventory_items.is_orderable` / `order_threshold`）。発注管理画面の「発注設定」から変更可能。`order_threshold = 0` は「定数なし」で、カウント画面にバッジで出る（2026-10に初期値のまま残っていた 5 を 0 に一括リセット）
 - 初期設定は医薬品25品目 + 迅速検査キット3種（flu/cov、strep、myco）が発注対象
 - 発注先: 東邦薬品株式会社 中野様、署名: 田村さつき
 - メール件名: 「薬の注文のお願い（勾当台夕方内科　田村）」

@@ -175,8 +175,9 @@ inventory.post("/items", adminAuth, async (c) => {
   const { category_id, name, dosage, unit, sort_order } = parsed.data;
 
   const result = await db.execute({
-    sql: `INSERT INTO inventory_items (category_id, name, dosage, unit, sort_order)
-          VALUES (?, ?, ?, ?, ?)`,
+    // 定数（order_threshold）は列の既定値 5 ではなく 0（定数なし）で作る
+    sql: `INSERT INTO inventory_items (category_id, name, dosage, unit, sort_order, order_threshold)
+          VALUES (?, ?, ?, ?, ?, 0)`,
     args: [category_id, name, dosage || null, unit, sort_order],
   });
 

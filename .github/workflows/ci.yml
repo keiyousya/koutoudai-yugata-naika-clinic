@@ -1,0 +1,63 @@
+# PR ごとに、デプロイと同じビルドが通るかを確かめる（デプロイはしない）。
+# AI秘書（keiyousya/agent-secretary）は、チェックが全部通った PR だけをマージする
+name: CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - run: pnpm install
+
+      - run: |
+          for app in frontend timecard shift mixer inventory facility envelope slides; do
+            pnpm --filter "$app" build
+          done
+        env:
+          NODE_ENV: production
+
+      - run: pnpm --filter manuals build
+        env:
+          MANUALS_PASSWORD: ${{ secrets.MANUALS_PASSWORD }}
+
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - run: pnpm install
+
+      - working-directory: backend
+        run: |
+          for config in wrangler.toml wrangler.timecard.toml wrangler.shift.toml wrangler.inventory.toml wrangler.facility.toml wrangler.internal-forms.toml; do
+            npx wrangler deploy --dry-run --outdir "dist/$config" --config "$config"
+          done

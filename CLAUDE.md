@@ -115,6 +115,7 @@ echo "値" | npx wrangler secret put KEY --config wrangler.XXX.toml
 - **WebORCA（レセコン）**: https://weborca.cloud.orcamo.jp/ 。Chrome操作で扱う（ログインはユーザーが手動）。OASCIS登録用の点検用UKEファイルの出力〜匿名化〜OASCIS登録は `/orca-tenken-uke` スキル
 - **TKC（給与計算）**: https://cloud.tkc.co.jp/px/sqru5tu443/tma/gen 。Chrome操作で扱う（ログイン済み前提）。毎月15日支給の給与の入力〜支給確定〜振込依頼書の印刷は `/tkc-kyuyo` スキル
 - **毎月の印刷物**: カード売上の振込明細（JCB Link・七十七カード Vpass）は `/card-meisai`、税理士（オルタス税理士法人）の請求書は `/ortus-seikyusho`。どちらも HL（`Brother_HL_L8430CDW`）に `lpr` で出す
+- **GitHub Actions の Claude Code**: Issue・PR の「@claude」で動き（`.github/workflows/claude.yml`、Max プランのトークン）、作業して PR を作る。AI秘書（keiyousya/agent-secretary）からも依頼できる。資料だけの PR（`ads/docs/`・`tasks/`・`shisetsu-kijun/`・`clinical-notes/`・`filings/`・`notices/`）は `claude-automerge.yml` が自動でマージし、それ以外は CI（`ci.yml`）が通った後に田村個人が確認してマージする
 - **GitHub Pages**: https://keiyousya.github.io/ 配下に各アプリをサブディレクトリでデプロイ
 - **カスタムドメイン**: https://koutoudai-yugata-naika.clinic
 

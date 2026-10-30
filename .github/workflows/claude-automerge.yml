@@ -1,0 +1,39 @@
+# Claude Code（claude.yml）が作った PR のうち、資料だけを変えるものを自動でマージする。
+# コードやサイト・Worker に出るファイルを含む PR はマージせず、田村個人の確認を待つ。
+#
+# GITHUB_TOKEN でのマージは push のワークフロー（deploy.yml）を起動しないが、
+# ここで扱うフォルダはどれもビルド・デプロイの対象外なので困らない
+name: Claude Code auto-merge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge:
+    if: |
+      github.event.pull_request.user.login == 'claude[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'claude/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge if only docs changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          files=$(gh pr view "$PR" -R "$GITHUB_REPOSITORY" --json files -q '.files[].path')
+          echo "$files"
+          # 自動でマージしてよいフォルダ（ビルド・デプロイの対象外の資料）
+          allowed='^(ads/docs/|tasks/|shisetsu-kijun/|clinical-notes/|filings/|notices/)'
+          if [ -z "$files" ] || echo "$files" | grep -Ev "$allowed" >/dev/null; then
+            echo "資料以外の変更を含むため、自動マージしない"
+            exit 0
+          fi
+          gh pr merge "$PR" -R "$GITHUB_REPOSITORY" --squash --delete-branch --match-head-commit "$HEAD_SHA"
